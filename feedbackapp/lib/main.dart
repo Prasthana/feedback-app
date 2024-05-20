@@ -1,11 +1,14 @@
+import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+
+  var isLoggedIn = false;
 
   // This widget is the root of your application.
   @override
@@ -31,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: isLoggedIn ? const MyHomePage(title: 'Flutter Demo Home Page') : const LoginView(),
     );
   }
 }
