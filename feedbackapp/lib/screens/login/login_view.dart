@@ -13,69 +13,62 @@ class _LoginViewState extends State<LoginView> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Login',
-            style: TextStyle(
-                fontFamily: 'RobotoMono',
-                fontSize: 22,
-                fontWeight: FontWeight.w500),
-          ),
-          backgroundColor: Colors.green.shade100,
+          title: Text('Login Screen'),
         ),
         body: Padding(
-          padding: EdgeInsets.only(left: 50),
+          padding: const EdgeInsets.symmetric(horizontal: 43),
           child: Column(
-           // mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 100,
-              ),
-              const Text(
-                'Enter Your Work Email',
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700),
-              ),
+
+               const SizedBox(
+                  height: 100,
+                ),
           
-              const Text(
-                'We all send you a confirmation code.',
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
-              ),
-
-              const SizedBox(
-                height: 40,
-              ),
-
-              Form(child: 
-                Padding(
-                  padding: const EdgeInsets.only(right: 43),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        decoration:  const InputDecoration(
-                          labelText: 'Enter Email',
-                          hintText: 'Enter email',
-                          border: OutlineInputBorder(),
+                const Text(
+                  'Enter Your Work Email',
+                  style: TextStyle(
+                    fontFamily: 'RobotoMono',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+                ),
+          
+                const Text(
+                  'We all send you a confirmation code.',
+                  style: TextStyle(
+                    fontFamily: 'RobotoMono',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500),
+                ),
+          
+                const SizedBox(
+                  height: 30,
+                ),
+          
+                  Form(
+                    child: Column(
+                      children: [
+          
+                       TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration:  const InputDecoration(
+                            labelText: 'Enter Email',
+                            hintText: 'Enter email',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (String value) {
+                    
+                          },
+                          validator:  (value) {
+                            return value!.isEmpty ? 'Please enter email' : null;
+                          },
                         ),
-                        onChanged: (String value) {
+          
+                        const SizedBox(
+                          height: 45,
+                        ),
+
                   
-                        },
-                        validator:  (value) {
-                          return value!.isEmpty ? 'Please enter email' : null;
-                        },
-                      ),
-
-                      const SizedBox(
-                        height: 45,
-                      ),
-
                       MaterialButton(
                         minWidth: double.infinity,
                         height: 58.0,
@@ -88,24 +81,14 @@ class _LoginViewState extends State<LoginView> {
                                ),
                         color: Colors.grey,
                         textColor: Colors.white,
-                      ),
-                    ],
+                      )
+                      ],
+                    )
                   ),
-                ),
-
-                
-
-                
-              )
-
             ],
           ),
         ),
       ),
     );
-    // Center(
-    //   child: Text("Email Id")
-    // );
   }
 }
-
