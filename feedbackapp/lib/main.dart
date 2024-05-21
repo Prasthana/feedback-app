@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.white, 
         body: SplashScreenView()
       )
-      // isLoggedIn() ? const MainTabView() : const LoginView(),
     );
   }
 }
