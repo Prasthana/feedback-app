@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenView extends StatefulWidget {
@@ -19,6 +21,15 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
     super.initState();
+      /*
+
+    StorageManager().saveData("A", "B");
+    if (kDebugMode) {
+      print('Key A value is');
+      print(StorageManager().getData('A'));
+    }
+    */
+
     Timer(
         const Duration(seconds: 2),
         () => Navigator.pushReplacement(
