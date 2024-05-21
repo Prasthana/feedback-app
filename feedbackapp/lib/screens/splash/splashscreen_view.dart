@@ -12,33 +12,31 @@ class SplashScreenView extends StatefulWidget {
 }
 
 class _SplashScreenViewState extends State<SplashScreenView> {
-
   bool isLoggedIn() {
     return true;
   }
-  
-  @override 
-    void initState() { 
-    super.initState(); 
-    Timer(const Duration(seconds: 2), 
-          ()=>Navigator.pushReplacement(context, 
-                                        MaterialPageRoute(builder: 
-                                                          (context) =>  
- isLoggedIn() ? const MainTabView() : const LoginView(), fullscreenDialog: true                                                         ) 
-                                       ) 
-         ); 
-  } 
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+        const Duration(seconds: 2),
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    isLoggedIn() ? const MainTabView() : const LoginView(),
+                fullscreenDialog: true)));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        // theme: Theme(scaffoldBackgroundColor: Colors.white),
-        children: [
-          feedbackLogo(),
-          const SizedBox(height: 30), // Add some space between the image and the text
-          const CircularProgressIndicator()
-        ]);
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      feedbackLogo(),
+      const SizedBox(height: 30),
+      // Add some space between the image and loader
+      const CircularProgressIndicator()
+    ]);
   }
 
   Padding feedbackLogo() {
@@ -46,8 +44,6 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         padding: const EdgeInsets.symmetric(horizontal: 60.0),
         child: Image.asset(
           'assets/splash-image.png',
-          // height: 400,
-          // width: 400,
         ) // Image.asset
         );
   }
