@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
    const MyApp({super.key});
 
   bool isLoggedIn() {
-    return true;
+    return false;
   }
 
   // This widget is the root of your application.
