@@ -1,18 +1,19 @@
-/*
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // Check this bug in iOS when using fluttersecurestorage
 // https://dev.to/isurujn/beware-of-fluttersecurestorage-on-ios-m6e
 
+// If unable to build iOS project
+// https://github.com/CocoaPods/CocoaPods/issues/10220#issuecomment-730963835
+
 class StorageManager {
-   final _storage = const FlutterSecureStorage(
+  final _storage = const FlutterSecureStorage(
       aOptions: AndroidOptions(
         encryptedSharedPreferences: true,
       ),
       iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock));
 
-   saveData(String key, String value) async {
+  saveData(String key, String value) async {
     await _storage.write(
         key: key,
         value: value,
@@ -31,4 +32,3 @@ class StorageManager {
     await _storage.delete(key: key);
   }
 }
-*/

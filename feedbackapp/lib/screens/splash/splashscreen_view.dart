@@ -21,14 +21,18 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
     super.initState();
-      /*
 
-    StorageManager().saveData("A", "B");
+    var sm = StorageManager();
+
+    sm.saveData("A", "B");
     if (kDebugMode) {
       print('Key A value is');
-      print(StorageManager().getData('A'));
+      // print(
+      sm.getData('A').then((val) {
+        // do some operation
+        print('val -- $val');
+      });
     }
-    */
 
     Timer(
         const Duration(seconds: 2),
