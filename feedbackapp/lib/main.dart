@@ -1,4 +1,5 @@
 import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
    const MyApp({super.key});
 
   bool isLoggedIn() {
-    return true;
+    return false;
   }
 
   // This widget is the root of your application.
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: isLoggedIn() ? const MainTabView() : const LoginView(),
+      home: isLoggedIn() ? const MainTabView() : const OtpView(),
     );
   }
 }
