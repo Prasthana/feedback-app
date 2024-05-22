@@ -9,23 +9,9 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
- String? _validateEmail(String? email) {
-    // Improved email validation using a regular expression
-    final emailRegExp = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$");
-    if (email == null || email.isEmpty) {
-      return 'Please enter your email address';
-    } else if (!emailRegExp.hasMatch(email)) {
-      return 'Please enter a valid email address';
-    }
-    return null; // No error
-  }
-
 class _LoginViewState extends State<LoginView> {
 
 final _formState = GlobalKey<FormState>();
-final textController = TextEditingController();
-
-  String? get value => null;
 
   @override
   Widget build(BuildContext context) {
@@ -80,16 +66,9 @@ final textController = TextEditingController();
                            // valuee = value1;
             
                           },
-                          
-                        // controller: textController,
                           validator:  (value) {
                             return value!.isEmpty ? 'Please enter email' : null;
                           },
-                          // validator: (value) {
-                          //   if (value == '') {
-                          //     return "Enter valid email";
-                          //   }
-                          // },
                         ),
           
                         const SizedBox(
@@ -101,7 +80,7 @@ final textController = TextEditingController();
                         height: 58.0,
                         onPressed: () {
                           debugPrint('cliked on 1------->>>');
-                      
+
                           if (_formState.currentState!.validate()) {
                             debugPrint('cliked on 2------->>>');
                           }
@@ -110,7 +89,7 @@ final textController = TextEditingController();
                         shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5.0), // Set the corner radius
                                ),
-                        color: Colors.grey,
+                        color: const Color.fromRGBO(173, 173, 173, 1),
                         textColor: Colors.white,
                       )
                       ],
