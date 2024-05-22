@@ -1,6 +1,4 @@
-import 'package:feedbackapp/screens/login/login_view.dart';
-import 'package:feedbackapp/screens/login/otp_view.dart';
-import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
+import 'package:feedbackapp/screens/splash/splashscreen_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,15 +8,12 @@ void main() {
 class MyApp extends StatelessWidget {
    const MyApp({super.key});
 
-  bool isLoggedIn() {
-    return false;
-  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Feedback App',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -36,9 +31,15 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        scaffoldBackgroundColor: Colors.white,
+        
         useMaterial3: true,
       ),
-      home: isLoggedIn() ? const MainTabView() : const OtpView(),
+      home:  
+      const Scaffold(
+        backgroundColor: Colors.white, 
+        body: SplashScreenView()
+      )
     );
   }
 }
