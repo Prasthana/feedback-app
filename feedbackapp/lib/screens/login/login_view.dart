@@ -15,7 +15,7 @@ String? _validateEmail(String? email) {
     // Improved email validation using a regular expression
     final emailRegExp = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$");
     if (email == null || email.isEmpty || !emailRegExp.hasMatch(email)) {
-      return 'Please enter a valid mail';
+      return "Please enter a valid mail";
     }  else {
       return null; // No error  
     }
@@ -45,7 +45,7 @@ final _formState = GlobalKey<FormState>();
                 const Text(
                   'Enter Your Work Email',
                   style: TextStyle(
-                    fontFamily: 'RobotoMono',
+                    fontFamily: 'UberMove',
                     fontSize: 20,
                     fontWeight: FontWeight.w700),
                 ),
@@ -53,7 +53,7 @@ final _formState = GlobalKey<FormState>();
                 const Text(
                   "We'll send you a confirmation code.",
                   style: TextStyle(
-                    fontFamily: 'RobotoMono',
+                    fontFamily: 'UberMove',
                     fontSize: 15,
                     fontWeight: FontWeight.w500),
                 ),
