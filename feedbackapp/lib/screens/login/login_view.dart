@@ -49,8 +49,8 @@ final _formState = GlobalKey<FormState>();
                     fontSize: 20,
                     fontWeight: FontWeight.w700),
                 ),
-          
-                const Text(
+
+                const Text( 
                   "We'll send you a confirmation code.",
                   style: TextStyle(
                     fontFamily: 'UberMove',
@@ -71,8 +71,16 @@ final _formState = GlobalKey<FormState>();
                           keyboardType: TextInputType.emailAddress,
                           decoration:   const InputDecoration(
                             labelText: null,
+                            errorStyle: TextStyle(
+                                fontFamily: 'UberMove', // Set desired font family
+                            ),
                             hintText: 'Enter email',
                             border: OutlineInputBorder(),
+                          ),
+                          style: const TextStyle(
+                            fontFamily: 'UberMove',
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
                           ),
                           onChanged: (value) { },
                           validator: _validateEmail,
