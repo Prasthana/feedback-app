@@ -18,8 +18,7 @@ class _LoginViewState extends State<LoginView> {
   final _formState = GlobalKey<FormState>();
   String? _enteredEmail;
 
-   final TextEditingController _controller = TextEditingController();
-   Future<EmailAuthModel>? _futureAlbum;
+   Future<EmailAuthModel>? _emailModel;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +88,7 @@ class _LoginViewState extends State<LoginView> {
                         height: 58.0,
                         onPressed: () {
                           if (_formState.currentState!.validate()) {
-                           // _futureAlbum = fetchLoginId(_enteredEmail);
+                           // _emailModel = fetchLoginId(_enteredEmail);
                             _genarateOtp(_enteredEmail);
                           }
                         },
