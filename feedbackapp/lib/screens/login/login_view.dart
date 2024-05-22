@@ -24,6 +24,7 @@ String? _validateEmail(String? email) {
 class _LoginViewState extends State<LoginView> {
 
 final _formState = GlobalKey<FormState>();
+String? _enteredEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ final _formState = GlobalKey<FormState>();
                   'Enter Your Work Email',
                   style: TextStyle(
                     fontFamily: 'UberMove',
-                    fontSize: 20,
+                    fontSize: 28,
                     fontWeight: FontWeight.w700),
                 ),
 
@@ -72,17 +73,21 @@ final _formState = GlobalKey<FormState>();
                           decoration:   const InputDecoration(
                             labelText: null,
                             errorStyle: TextStyle(
-                                fontFamily: 'UberMove', // Set desired font family
+                                fontFamily: 'UberMove',
                             ),
                             hintText: 'Enter email',
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.blue, // Set desired border color
+                              ),
+                            ),
                           ),
                           style: const TextStyle(
                             fontFamily: 'UberMove',
                             fontSize: 15,
                             fontWeight: FontWeight.w400,
                           ),
-                          onChanged: (value) { },
+                          onChanged: (value) { _enteredEmail = value; },
                           validator: _validateEmail,
                         ),
           
@@ -94,7 +99,7 @@ final _formState = GlobalKey<FormState>();
                         minWidth: double.infinity,
                         height: 58.0,
                         onPressed: () {
-                          debugPrint('cliked on 1------->>>');
+                          debugPrint('cliked on 1------->>> $_enteredEmail');
                           if (_formState.currentState!.validate()) {
                             debugPrint('cliked on 2------->>>');
                           }
