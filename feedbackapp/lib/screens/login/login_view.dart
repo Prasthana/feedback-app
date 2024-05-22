@@ -14,12 +14,11 @@ class LoginView extends StatefulWidget {
 String? _validateEmail(String? email) {
     // Improved email validation using a regular expression
     final emailRegExp = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$");
-    if (email == null || email.isEmpty) {
-      return 'Please enter your email address';
-    } else if (!emailRegExp.hasMatch(email)) {
-      return 'Please enter a valid email address';
+    if (email == null || email.isEmpty || !emailRegExp.hasMatch(email)) {
+      return 'Please enter a valid mail';
+    }  else {
+      return null; // No error  
     }
-    return null; // No error
   }
 
 class _LoginViewState extends State<LoginView> {
@@ -71,7 +70,7 @@ final _formState = GlobalKey<FormState>();
                        TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           decoration:   const InputDecoration(
-                            labelText: 'Email',
+                            labelText: null,
                             hintText: 'Enter email',
                             border: OutlineInputBorder(),
                           ),
