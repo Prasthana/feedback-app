@@ -1,3 +1,4 @@
+import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -18,7 +19,7 @@ class _OtpViewState extends State<OtpView> {
     return Scaffold(
      appBar: AppBar(
       leading: IconButton(
-        icon: Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
+        icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginView())),
       ), 
       title: const Text("Login",style: TextStyle(
@@ -30,7 +31,7 @@ class _OtpViewState extends State<OtpView> {
       ),
 
       body: Container(
-        padding: new EdgeInsets.all(36.0),
+        padding: const EdgeInsets.all(36.0),
               child: Column( 
                 crossAxisAlignment: CrossAxisAlignment.start, 
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -81,11 +82,11 @@ class _OtpViewState extends State<OtpView> {
                 filled: true,
                 onCodeChanged: (value) => {
                   enteredOTP = "",
-                  print("OTP is => $value"),
+                  logger.d("OTP is => $value"),
                 },
                 onSubmit: (code) =>{
                   enteredOTP = code,
-                  print("OTP is => $code"),
+                  logger.d("OTP is => $code"),
                 },
                 ),
 
@@ -99,7 +100,7 @@ class _OtpViewState extends State<OtpView> {
                   onPressed: () {
                   if (enteredOTP.isEmpty == false) {
                       showDialog(context: context, builder: (context){
-                        return AlertDialog(title: Text("Verification Code"),
+                        return AlertDialog(title: const Text("Verification Code"),
                           content: Text('Code entered is $enteredOTP'),
                       );
                       });

@@ -1,5 +1,11 @@
 import 'package:feedbackapp/screens/splash/splashscreen_view.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/web.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+  level: Level.all
+);
 
 void main() {
   runApp(const MyApp());
