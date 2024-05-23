@@ -1,6 +1,8 @@
 import 'dart:async';
 
-import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:flutter/material.dart';
 
@@ -19,13 +21,25 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
     super.initState();
+
+    var sm = StorageManager();
+
+    sm.saveData("A", "B");
+      logger.d('Key A value is');
+      // print(
+      sm.getData('A').then((val) {
+        // do some operation
+        logger.d('val -- $val');
+      });
+
     Timer(
         const Duration(seconds: 2),
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    isLoggedIn() ? const MainTabView() : const LoginView(),
+                    isLoggedIn() ? const MainTabView() : const OtpView(),
+                    //LoginView(),
                 fullscreenDialog: true)));
   }
 

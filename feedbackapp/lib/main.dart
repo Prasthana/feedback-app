@@ -1,5 +1,14 @@
+import 'package:alice/alice.dart';
 import 'package:feedbackapp/screens/splash/splashscreen_view.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/web.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+  level: Level.all
+);
+
+Alice alice = Alice(showInspectorOnShake: true);
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Feedback App',
       theme: ThemeData(
         // This is the theme of your application.
         //
