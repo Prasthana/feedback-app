@@ -1,0 +1,24 @@
+app_identifier("com.prasthana.feedbackapp") # The bundle identifier of your app
+apple_id("appdev@prasthana.com") # Your Apple Developer Portal username
+
+itc_team_id("121001639") # App Store Connect Team ID
+team_id("94B63VZT32") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
+
+##############################################################################################################
+##############################################################################################################
+
+ENV["MATCH_PASSWORD"] = "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" # GIT_REPOSITORY_ENCRYPTION_PASSPHRASE
+ENV["MATCH_GIT_URL"] = "git@github.com:Prasthana/AppleCertificates.git" # GIT_REPOSITORY_ENCRYPTION_PASSPHRASE
+
+##############################################################################################################
+##############################################################################################################
+
+ENV["APPSTORE_KEY_ID"] = "PYT9X33X3M"
+ENV["APPSTORE_ISSUER_ID"] = "88a787c1-dc44-4bde-8078-fbafbb24b625"
+ENV["APPSTORE_KEY_FILEPATH"] = "./fastlane/AuthKey_PYT9X33X3M.p8"
+
+##############################################################################################################
+##############################################################################################################
