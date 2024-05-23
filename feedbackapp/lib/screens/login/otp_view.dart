@@ -12,6 +12,15 @@ class OtpView extends StatefulWidget {
 }
 
 class _OtpViewState extends State<OtpView> {
+
+    bool _flag = false;
+
+   void setFlag(bool newValue){
+     setState(() {
+      _flag = newValue;
+     });
+  }
+
   @override
   Widget build(BuildContext context) {
    String enteredOTP = "";
@@ -69,9 +78,13 @@ class _OtpViewState extends State<OtpView> {
                 
               const  SizedBox(height: 24.0),
 
-              OtpTextField(
-                mainAxisAlignment: MainAxisAlignment.start,
+              SizedBox(
+              width: double.infinity,
+              child: OtpTextField(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 numberOfFields: 6,
+                fieldHeight: 40.0,
+                fieldWidth: 40.0,
                 borderColor: const Color.fromARGB(255, 18, 17, 17),
                 focusedBorderColor: const Color.fromARGB(255, 18, 17, 17),
                 disabledBorderColor: const Color.fromARGB(255, 18, 17, 17),
@@ -82,19 +95,23 @@ class _OtpViewState extends State<OtpView> {
                 filled: true,
                 onCodeChanged: (value) => {
                   enteredOTP = "",
+                  setFlag(false),
                   logger.d("OTP is => $value"),
                 },
                 onSubmit: (code) =>{
                   enteredOTP = code,
+                  setFlag(true),
                   logger.d("OTP is => $code"),
                 },
                 ),
+              ),
 
               const  SizedBox(height: 24.0),
 
               SizedBox(
               width: double.infinity,
               child: ElevatedButton(style: ElevatedButton.styleFrom(
+              backgroundColor: _flag ? Color.fromRGBO(0, 0, 0, 1) : Color.fromRGBO(173, 173, 173, 1), 
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)))),
                   onPressed: () {
@@ -105,8 +122,43 @@ class _OtpViewState extends State<OtpView> {
                       );
                       });
                   }
-              }, child: const Text("Confirm")),
-              )   
+              }, 
+              child: Text("Confirm",
+              style: TextStyle(
+                  fontSize: 17,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.normal,
+                        color: _flag ? Color.fromRGBO(255, 255, 255, 1) :  Color.fromRGBO(0, 0, 0, 1)
+              )
+              )
+              ),
+              ),
+
+              const  SizedBox(height: 4.0),
+
+              const Center(child:Text(
+                    'Haven\'t received the code yet? ', 
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.normal,
+                        color: Color.fromRGBO(4, 4, 4, 1)),
+                  ),
+                  ),
+               
+              const SizedBox(height: 4.0),
+
+              const Center(child:Text(
+                    'Resend', 
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.normal,
+                        color: Color.fromRGBO(22, 97, 210, 1)),
+                  ),
+                  ),
+
+
               ]
             ),
       ),
