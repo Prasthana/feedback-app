@@ -13,7 +13,7 @@ class _RestClient implements RestClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://jsonplaceholder.typicode.com/posts';
+    baseUrl ??= 'https://pug-stirring-hopefully.ngrok-free.app/';
   }
 
   final Dio _dio;
@@ -21,20 +21,21 @@ class _RestClient implements RestClient {
   String? baseUrl;
 
   @override
-  Future<List<Post>> getPost() async {
+  Future<EmailOTPResponse> sendEmailOTP(EmailOTPRequest request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Post>>(Options(
-      method: 'GET',
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EmailOTPResponse>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '',
+              'users/send_email_auth_code',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -43,9 +44,65 @@ class _RestClient implements RestClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var value = _result.data!
-        .map((dynamic i) => Post.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = EmailOTPResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<VerifyEmailOTPResponse> verifyEmailOTP(
+      VerifyEmailOTPRequest request) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<VerifyEmailOTPResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'users/verify_email_auth_code',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = VerifyEmailOTPResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<LoginTokenResponse> generateLoginToken(
+      LoginTokenRequest request) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<LoginTokenResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'oauth/token',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = LoginTokenResponse.fromJson(_result.data!);
     return value;
   }
 

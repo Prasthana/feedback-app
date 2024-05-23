@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/screens/login/otp_view.dart';
+import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +38,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    isLoggedIn() ? const MainTabView() : const OtpView(),
+                    isLoggedIn() ? const MainTabView() : const LoginView(),
                     //LoginView(),
                 fullscreenDialog: true)));
   }
