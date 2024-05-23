@@ -110,6 +110,7 @@ class _OtpViewState extends State<OtpView> {
 
               SizedBox(
               width: double.infinity,
+              height: 56.0,
               child: ElevatedButton(style: ElevatedButton.styleFrom(
               backgroundColor: _flag ? Color.fromRGBO(0, 0, 0, 1) : Color.fromRGBO(173, 173, 173, 1), 
               shape: const RoundedRectangleBorder(
@@ -134,7 +135,7 @@ class _OtpViewState extends State<OtpView> {
               ),
               ),
 
-              const  SizedBox(height: 4.0),
+              const  SizedBox(height: 8.0),
 
               const Center(child:Text(
                     'Haven\'t received the code yet? ', 
