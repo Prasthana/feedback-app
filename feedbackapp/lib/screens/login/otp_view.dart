@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
@@ -14,9 +15,9 @@ import 'package:feedbackapp/constants.dart' as constants;
 
 
 class OtpView extends StatefulWidget {
-  const OtpView({super.key, required this.emailOTPResponse});
+ OtpView({super.key, required this.emailOTPResponse});
 
-  final EmailOTPResponse emailOTPResponse;
+  EmailOTPResponse emailOTPResponse;
   @override
   State<OtpView> createState() => _OtpViewState();
 }
@@ -184,6 +185,7 @@ class _OtpViewState extends State<OtpView> {
                     onPressed: () { 
                       if(isEnableResendBtn == true) {
                         setEnableResendBtn(false);
+                        _genarateOtp(widget.emailOTPResponse.email, context);
                         Timer.periodic(const Duration(seconds: 1), (timer) {
                           print(timer.tick);
                           counterForResend--;
@@ -213,7 +215,7 @@ class _OtpViewState extends State<OtpView> {
       ),
     );
   }
-}
+
 
 _validateOTP(int id, String authCode, BuildContext context) async {
  
@@ -273,4 +275,39 @@ _getLoginToken(VerifyEmailOTPResponse mVerifyEmailOTPResponse, BuildContext cont
         break;
     }
   });
+}
+
+_genarateOtp(String? email,BuildContext context) async {
+  
+  final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
+
+  var request = EmailOTPRequest(
+      email: email as String,
+      deviceType: Platform.operatingSystem
+    );
+
+  logger.e('email request -- ${request.toJson()}');
+  client.sendEmailOTP(request).then((val) {
+    // do some operation
+    logger.e('email response -- ${val.toJson()}');
+
+    widget.emailOTPResponse = val;
+    
+
+  }).catchError((obj) {
+    // non-200 error goes here.
+    switch (obj.runtimeType) {
+      case const (DioException):
+        // Here's the sample to get the failed response error code and message
+        final res = (obj as DioException).response;
+        logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+        break;
+      default:
+        break;
+    }
+  });
+
+}
+
+
 }
