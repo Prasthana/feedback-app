@@ -63,7 +63,8 @@ class _OtpViewState extends State<OtpView> {
         icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginView())),
       ), 
-      title: const Text(constants.LOGIN,style: TextStyle(
+      title: const Text(constants.txtLogin,style: TextStyle(
+                    fontFamily: 'UberMove',
                     fontSize: 22,
                     fontStyle: FontStyle.normal,
                     color: Color.fromRGBO(0, 0, 0, 1)),
@@ -79,9 +80,9 @@ class _OtpViewState extends State<OtpView> {
                  const Text(
                     constants.VERIFY_YOUR_EMAIL, 
                     style: TextStyle(
+                        fontFamily: 'UberMove',
                         fontSize: 28,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
                         color: Color.fromRGBO(4, 4, 4, 1)),
                   ),
                 
@@ -90,9 +91,9 @@ class _OtpViewState extends State<OtpView> {
                 const Text(
                     constants.ENTER_CODE_SEND_TO, 
                     style: TextStyle(
+                        fontFamily: 'UberMove',
                         fontSize: 17,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.w400,
                         color: Color.fromRGBO(4, 4, 4, 1)),
                   ),
                
@@ -101,9 +102,9 @@ class _OtpViewState extends State<OtpView> {
               Text(
                     widget.emailOTPResponse.email,
                     style: const TextStyle(
+                        fontFamily: 'UberMove',
                         fontSize: 17,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                         color: Color.fromRGBO(22, 97, 210, 1)),
               ),
                 
@@ -137,7 +138,18 @@ class _OtpViewState extends State<OtpView> {
                 ),
               ),
 
-              const  SizedBox(height: 24.0),
+              const SizedBox(height: 8.0),
+
+              const Text(
+                    constants.errorEnterValidOTP, 
+                    style: TextStyle(
+                        fontFamily: 'UberMove',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(255, 69, 69, 1)),
+                  ),
+
+              const SizedBox(height: 24.0),
 
               SizedBox(
               width: double.infinity,
@@ -158,9 +170,9 @@ class _OtpViewState extends State<OtpView> {
               }, 
               child: Text(constants.CONFIRM,
               style: TextStyle(
+                  fontFamily: 'UberMove',
                   fontSize: 17,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.w700,
                   color: isEnableConfirmBtn ? const Color.fromRGBO(255, 255, 255, 1) :  const Color.fromRGBO(0, 0, 0, 1)
               )
               )
@@ -172,15 +184,13 @@ class _OtpViewState extends State<OtpView> {
               const Center(child:Text(
                     constants.HAVE_NOT_RECEIVED_CODE, 
                     style: TextStyle(
-                        fontSize: 17,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
+                        fontFamily: 'UberMove',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
                         color: Color.fromRGBO(4, 4, 4, 1)),
                   ),
                   ),
                
-              const SizedBox(height: 4.0),
-
               Center(child:TextButton(
                     onPressed: () { 
                       if(isEnableResendBtn == true) {
@@ -202,9 +212,9 @@ class _OtpViewState extends State<OtpView> {
                     },
                     child: Text(resendText,
                     style: TextStyle(
+                      fontFamily: 'UberMove',
                       fontSize: 17,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.w400,
                       color: isEnableResendBtn ? const Color.fromRGBO(22, 97, 210, 1) : Color.fromARGB(255, 169, 191, 224)),
                   ),
                   ),
