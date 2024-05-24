@@ -1,5 +1,6 @@
 //import 'dart:nativewrappers/_internal/vm/lib/core_patch.dart';
 
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -22,6 +23,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _formState = GlobalKey<FormState>();
   String? _enteredEmail;
+  var isEmailValidated = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class _LoginViewState extends State<LoginView> {
                   child: Column(
                     children: [
                       TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
                           labelText: null,
@@ -71,7 +74,17 @@ class _LoginViewState extends State<LoginView> {
                           hintText: 'Enter email',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.blue,
+                              color:Color.fromARGB(255, 18, 17, 17),
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(255, 18, 17, 17),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(255, 18, 17, 17),
                             ),
                           ),
                         ),
@@ -81,6 +94,9 @@ class _LoginViewState extends State<LoginView> {
                           fontWeight: FontWeight.w400,
                         ),
                         onChanged: (value) {
+                          setState(() {
+                            isEmailValidated = _isEmailValidated(value);
+                          });
                           _enteredEmail = value;
                         },
                         validator: _validateEmail,
@@ -101,7 +117,8 @@ class _LoginViewState extends State<LoginView> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        color: const Color.fromRGBO(173, 173, 173, 1),
+                        color: isEmailValidated ? const Color.fromRGBO(0, 0, 0, 1) : const Color.fromRGBO(173, 173, 173, 1),
+                        //const Color.fromRGBO(173, 173, 173, 1),
                         textColor: Colors.white,
                       )
                     ],
@@ -111,6 +128,17 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+}
+
+bool _isEmailValidated(String? email) {
+  // Improved email validation using a regular expression
+  final emailRegExp = RegExp(
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$");
+  if (email == null || email.isEmpty || !emailRegExp.hasMatch(email)) {
+    return false;
+  } else {
+    return true; // No error
   }
 }
 
