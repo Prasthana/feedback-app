@@ -5,9 +5,7 @@ const String CLIENT_SECRET = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
 const int RESEND_TIME = 30;
 
 
-/**
- *  This is for Screen level Hard coded strings.
- */ 
+///  This is for Screen level Hard coded strings. 
 
 // This is OTP SCREEN Strings
 const String LOGIN = "Login";

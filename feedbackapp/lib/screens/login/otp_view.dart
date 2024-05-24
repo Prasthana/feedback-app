@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
@@ -186,13 +185,13 @@ class _OtpViewState extends State<OtpView> {
                       if(isEnableResendBtn == true) {
                         setEnableResendBtn(false);
                         Timer.periodic(const Duration(seconds: 1), (timer) {
-                          print(timer.tick);
+                         // print(timer.tick);
                           counterForResend--;
-                          setResendText(constants.RESEND + " in $counterForResend sec");
+                          setResendText("${constants.RESEND} in $counterForResend sec");
                           if (counterForResend == 0) {
                             counterForResend = constants.RESEND_TIME;
                             setResendText(constants.RESEND);
-                            print('Cancel timer');
+                            //print('Cancel timer');
                             setEnableResendBtn(true);
                             timer.cancel();
                           }
@@ -204,7 +203,7 @@ class _OtpViewState extends State<OtpView> {
                       fontSize: 17,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.normal,
-                      color: isEnableResendBtn ? const Color.fromRGBO(22, 97, 210, 1) : Color.fromARGB(255, 169, 191, 224)),
+                      color: isEnableResendBtn ? const Color.fromRGBO(22, 97, 210, 1) : const Color.fromARGB(255, 169, 191, 224)),
                   ),
                   ),
                   ),
