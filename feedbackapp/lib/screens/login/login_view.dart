@@ -9,9 +9,6 @@ import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:flutter/material.dart';
-
-const String baseUrl = 'https://pug-stirring-hopefully.ngrok-free.app';
-const String sendEmailUrl = '/users/send_email_auth_code';
 import 'package:feedbackapp/constants.dart' as constants;
 
 class LoginView extends StatefulWidget {
