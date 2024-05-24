@@ -38,7 +38,6 @@ class _OtpViewState extends State<OtpView> {
                     fontStyle: FontStyle.normal,
                     color: Color.fromRGBO(0, 0, 0, 1)),
               ),
-      centerTitle: false,
       ),
 
       body: Container(
