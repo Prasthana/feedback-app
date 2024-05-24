@@ -1,8 +1,10 @@
 import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
+import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:dio/dio.dart';
@@ -191,9 +193,40 @@ _validateOTP(int id, String authCode, BuildContext context) async {
     // do some operation
     logger.e('email response -- ${val.toJson()}');
 
-
+    _getLoginToken(val, context);
 
     // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
+
+  }).catchError((obj) {
+    // non-200 error goes here.
+    switch (obj.runtimeType) {
+      case const (DioException):
+        // Here's the sample to get the failed response error code and message
+        final res = (obj as DioException).response;
+        logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+        break;
+      default:
+        break;
+    }
+  });
+}
+
+
+_getLoginToken(VerifyEmailOTPResponse mVerifyEmailOTPResponse, BuildContext context) async {
+ 
+  final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
+
+  var request = LoginTokenRequest(
+      grantType: constants.GRANT_TYPE,
+      clientId: constants.CLIENT_ID,
+      clientSecret: constants.CLIENT_SECRET,
+      loginToken: mVerifyEmailOTPResponse.loginToken);
+
+  client.generateLoginToken(request).then((val) {
+    // do some operation
+    logger.e('email response -- ${val.toJson()}');
+
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  const MainTabView()));
 
   }).catchError((obj) {
     // non-200 error goes here.
