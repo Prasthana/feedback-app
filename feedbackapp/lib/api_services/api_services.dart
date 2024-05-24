@@ -10,6 +10,9 @@ part 'api_services.g.dart';
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
+// ************************************************************************
+// *********************** API's for One - On - One ***********************
+
   @POST("users/send_email_auth_code")
   Future<EmailOTPResponse> sendEmailOTP(@Body() EmailOTPRequest request);
 
@@ -18,5 +21,15 @@ abstract class RestClient {
 
   @POST("oauth/token")
   Future<LoginTokenResponse> generateLoginToken(@Body() LoginTokenRequest request);
+
+// ************************************************************************
+// *********************** API's for One - On - One ***********************
+
+  // @POST("employees/2/one_on_ones")
+  // Future<EmailOTPResponse> sendEmailOTP(@Body() EmailOTPRequest request);
+
+// ************************************************************************
+// ************************************************************************
+
 
 }
