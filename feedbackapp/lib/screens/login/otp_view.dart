@@ -17,7 +17,7 @@ class _OtpViewState extends State<OtpView> {
 
     bool isEnableConfirmBtn = false;
 
-   void setFlag(bool newValue){
+   void setEnableConfirmBtn(bool newValue){
      setState(() {
       isEnableConfirmBtn = newValue;
      });
@@ -71,12 +71,12 @@ class _OtpViewState extends State<OtpView> {
 
               Text(
                     widget.emailOTPResponse.email,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 17,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.bold,
                         color: Color.fromRGBO(22, 97, 210, 1)),
-                  ),
+              ),
                 
               const  SizedBox(height: 24.0),
 
@@ -97,12 +97,12 @@ class _OtpViewState extends State<OtpView> {
                 filled: true,
                 onCodeChanged: (value) => {
                   enteredOTP = "",
-                  setFlag(false),
+                  setEnableConfirmBtn(false),
                   logger.d("OTP is => $value"),
                 },
                 onSubmit: (code) =>{
                   enteredOTP = code,
-                  setFlag(true),
+                  setEnableConfirmBtn(true),
                   logger.d("OTP is => $code"),
                 },
                 ),
@@ -114,7 +114,7 @@ class _OtpViewState extends State<OtpView> {
               width: double.infinity,
               height: 56.0,
               child: ElevatedButton(style: ElevatedButton.styleFrom(
-              backgroundColor: isEnableConfirmBtn ? Color.fromRGBO(0, 0, 0, 1) : Color.fromRGBO(173, 173, 173, 1), 
+              backgroundColor: isEnableConfirmBtn ? const Color.fromRGBO(0, 0, 0, 1) : const Color.fromRGBO(173, 173, 173, 1), 
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)))),
                   onPressed: () {
@@ -131,7 +131,7 @@ class _OtpViewState extends State<OtpView> {
                   fontSize: 17,
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.normal,
-                        color: isEnableConfirmBtn ? Color.fromRGBO(255, 255, 255, 1) :  Color.fromRGBO(0, 0, 0, 1)
+                        color: isEnableConfirmBtn ? const Color.fromRGBO(255, 255, 255, 1) :  const Color.fromRGBO(0, 0, 0, 1)
               )
               )
               ),
