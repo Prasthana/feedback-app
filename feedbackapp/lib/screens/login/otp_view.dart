@@ -27,7 +27,7 @@ class _OtpViewState extends State<OtpView> {
    bool isEnableResendBtn = true; 
    String enteredOTP = "";
    String resendText = constants.RESEND;
-   var counter = constants.RESEND_TIME;
+   var counterForResend = constants.RESEND_TIME;
 
    void setEnableConfirmBtn(bool newValue){
      setState(() {
@@ -186,10 +186,10 @@ class _OtpViewState extends State<OtpView> {
                         setEnableResendBtn(false);
                         Timer.periodic(const Duration(seconds: 1), (timer) {
                           print(timer.tick);
-                          counter--;
-                          setResendText(constants.RESEND + " in $counter sec");
-                          if (counter == 0) {
-                            counter = constants.RESEND_TIME;
+                          counterForResend--;
+                          setResendText(constants.RESEND + " in $counterForResend sec");
+                          if (counterForResend == 0) {
+                            counterForResend = constants.RESEND_TIME;
                             setResendText(constants.RESEND);
                             print('Cancel timer');
                             setEnableResendBtn(true);
@@ -274,24 +274,3 @@ _getLoginToken(VerifyEmailOTPResponse mVerifyEmailOTPResponse, BuildContext cont
     }
   });
 }
-
-// late Timer _timer;
-// int _start = 10;
-
-// void startTimer() {
-//   const oneSec = const Duration(seconds: 1);
-//   _timer = new Timer.periodic(
-//     oneSec,
-//     (Timer timer) {
-//       if (_start == 0) {
-//         setState(() {
-//           timer.cancel();
-//         });
-//       } else {
-//         setState(() {
-//           _start--;
-//         });
-//       }
-//     },
-//   );
-// }
