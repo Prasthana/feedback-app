@@ -10,6 +10,7 @@ import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:feedbackapp/constants.dart' as constants;
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -27,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Login Screen'),
+          title: const Text(constants.LOGIN),
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,
@@ -40,14 +41,14 @@ class _LoginViewState extends State<LoginView> {
                 height: 30,
               ),
               const Text(
-                'Enter Your Work Email',
+                constants.enterYourEmailText,
                 style: TextStyle(
                     fontFamily: 'UberMove',
                     fontSize: 28,
                     fontWeight: FontWeight.w700),
               ),
               const Text(
-                "We'll send you a confirmation code.",
+                constants.sendConfirmationCodeText,
                 style: TextStyle(
                     fontFamily: 'UberMove',
                     fontSize: 15,
@@ -96,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                           }
                         },
                         // ignore: sort_child_properties_last
-                        child: const Text('Login'),
+                        child: const Text(constants.LOGIN),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
@@ -118,7 +119,7 @@ String? _validateEmail(String? email) {
   final emailRegExp = RegExp(
       r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$");
   if (email == null || email.isEmpty || !emailRegExp.hasMatch(email)) {
-    return "Please enter a valid mail";
+    return constants.enterValidEmailText;
   } else {
     return null; // No error
   }
