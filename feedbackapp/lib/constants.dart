@@ -4,6 +4,7 @@
 const String GRANT_TYPE = "password";
 const String CLIENT_ID = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";
 const String CLIENT_SECRET = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
+const int RESEND_TIME = 30;
 
 
 /**
