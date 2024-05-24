@@ -28,12 +28,12 @@ class LoginTokenRequest {
 @JsonSerializable()
 
 class LoginTokenResponse {
-    String accessToken;
-    String tokenType;
-    int expiresIn;
-    String refreshToken;
-    int createdAt;
-    User user;
+    String? accessToken;
+    String? tokenType;
+    int? expiresIn;
+    String? refreshToken;
+    int? createdAt;
+    User? user;
 
     LoginTokenResponse({
         required this.accessToken,
@@ -46,18 +46,17 @@ class LoginTokenResponse {
 
   factory LoginTokenResponse.fromJson(Map<String, dynamic> json) => _$LoginTokenResponseFromJson(json);
   Map<String, dynamic> toJson() => _$LoginTokenResponseToJson(this);
-
 }
 
 @JsonSerializable()
 class User {
-    int id;
-    String email;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int employeeId;
-    String role;
-    String mobileNumber;
+    int? id;
+    String? email;
+    DateTime? createdAt;
+    DateTime? updatedAt;
+    int? employeeId;
+    String? role;
+    String? mobileNumber;
 
     User({
         required this.id,
@@ -71,7 +70,6 @@ class User {
 
     factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
-
 }
 
 
