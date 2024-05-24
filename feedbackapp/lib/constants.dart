@@ -21,4 +21,11 @@ const String RESEND = "Resend";
 // End of OTP Screen
 
 
+// Login SCREEN Strings
+const String enterYourEmailText = "Enter Your Work Email";  
+const String sendConfirmationCodeText = "We'll send you a confirmation code.";
+const String enterValidEmailText = "Please enter a valid mail";
+// End of Login Screen
+
+
 
