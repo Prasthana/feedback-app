@@ -43,14 +43,14 @@ class _LoginViewState extends State<LoginView> {
               const Text(
                 constants.enterYourEmailText,
                 style: TextStyle(
-                    fontFamily: 'UberMove',
+                    fontFamily: constants.uberMoveFont,
                     fontSize: 28,
                     fontWeight: FontWeight.w700),
               ),
               const Text(
                 constants.sendConfirmationCodeText,
                 style: TextStyle(
-                    fontFamily: 'UberMove',
+                    fontFamily: constants.uberMoveFont,
                     fontSize: 15,
                     fontWeight: FontWeight.w500),
               ),
@@ -66,7 +66,7 @@ class _LoginViewState extends State<LoginView> {
                         decoration: const InputDecoration(
                           labelText: null,
                           errorStyle: TextStyle(
-                            fontFamily: 'UberMove',
+                            fontFamily: constants.uberMoveFont,
                           ),
                           hintText: 'Enter email',
                           border: OutlineInputBorder(
@@ -76,7 +76,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         style: const TextStyle(
-                          fontFamily: 'UberMove',
+                          fontFamily: constants.uberMoveFont,
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),
@@ -125,6 +125,31 @@ String? _validateEmail(String? email) {
   }
 }
 
+showInvalidUserAlert(BuildContext context) {
+    // set up the button
+  Widget okButton = TextButton(
+    child: const Text("OK"),
+    onPressed: () {
+      Navigator.pop(context); 
+     },
+  );
+
+  AlertDialog alert = AlertDialog(
+    title: const Text(""),
+    content: const Text(constants.inValidUserText),
+    actions: [
+      okButton,
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 _genarateOtp(String? email,BuildContext context) async {
   
   final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
@@ -148,11 +173,15 @@ _genarateOtp(String? email,BuildContext context) async {
         // Here's the sample to get the failed response error code and message
         final res = (obj as DioException).response;
         logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+        // debugPrint('statusMessage ------>>> ${res?.statusMessage}');
+        showInvalidUserAlert(context);
         break;
       default:
         break;
     }
   });
+
+  
 
 }
 

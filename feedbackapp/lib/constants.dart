@@ -25,6 +25,8 @@ const String RESEND = "Resend";
 const String enterYourEmailText = "Enter Your Work Email";  
 const String sendConfirmationCodeText = "We'll send you a confirmation code.";
 const String enterValidEmailText = "Please enter a valid mail";
+const String inValidUserText =  "Invalid user credentials";
+const String uberMoveFont = "UberMove";
 // End of Login Screen
 
 
