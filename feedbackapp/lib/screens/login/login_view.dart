@@ -6,8 +6,6 @@ import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 const String baseUrl = 'https://pug-stirring-hopefully.ngrok-free.app';
 const String sendEmailUrl = '/users/send_email_auth_code';
@@ -180,6 +178,8 @@ _genarateOtp(String? email,BuildContext context) async {
   });
 }
 
+/*
+
 Future<EmailAuthModel> fetchLoginId(String? email) async {
   debugPrint("email ----->>>> $email");
 
@@ -207,7 +207,9 @@ Future<EmailAuthModel> fetchLoginId(String? email) async {
     debugPrint("response error --->>> ${response.reasonPhrase}");
     throw Exception('Failed to create EmailAuthModel.');
   }
+
 }
+  */
 
 class EmailAuthModel {
   final String email;
