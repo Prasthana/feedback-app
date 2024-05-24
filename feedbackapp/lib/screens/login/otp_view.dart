@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
@@ -21,8 +23,11 @@ class OtpView extends StatefulWidget {
 
 class _OtpViewState extends State<OtpView> {
 
-    bool isEnableConfirmBtn = false;
+   bool isEnableConfirmBtn = false;
+   bool isEnableResendBtn = true; 
    String enteredOTP = "";
+   String resendText = constants.RESEND;
+   var counterForResend = constants.RESEND_TIME;
 
    void setEnableConfirmBtn(bool newValue){
      setState(() {
@@ -30,9 +35,21 @@ class _OtpViewState extends State<OtpView> {
      });
    }
 
+   void setEnableResendBtn(bool newValue){
+     setState(() {
+      isEnableResendBtn = newValue;
+     });
+   }
+
    void setEnteredOTP(String newValue){
      setState(() {
       enteredOTP = newValue;
+     });
+   }
+
+   void setResendText(String newValue){
+     setState(() {
+      resendText = newValue;
      });
    }
 
@@ -143,7 +160,7 @@ class _OtpViewState extends State<OtpView> {
                   fontSize: 17,
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.normal,
-                        color: isEnableConfirmBtn ? const Color.fromRGBO(255, 255, 255, 1) :  const Color.fromRGBO(0, 0, 0, 1)
+                  color: isEnableConfirmBtn ? const Color.fromRGBO(255, 255, 255, 1) :  const Color.fromRGBO(0, 0, 0, 1)
               )
               )
               ),
@@ -163,16 +180,33 @@ class _OtpViewState extends State<OtpView> {
                
               const SizedBox(height: 4.0),
 
-              const Center(child:Text(
-                    constants.RESEND, 
+              Center(child:TextButton(
+                    onPressed: () { 
+                      if(isEnableResendBtn == true) {
+                        setEnableResendBtn(false);
+                        Timer.periodic(const Duration(seconds: 1), (timer) {
+                          print(timer.tick);
+                          counterForResend--;
+                          setResendText(constants.RESEND + " in $counterForResend sec");
+                          if (counterForResend == 0) {
+                            counterForResend = constants.RESEND_TIME;
+                            setResendText(constants.RESEND);
+                            print('Cancel timer');
+                            setEnableResendBtn(true);
+                            timer.cancel();
+                          }
+                        });
+                      }
+                    },
+                    child: Text(resendText,
                     style: TextStyle(
-                        fontSize: 17,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
-                        color: Color.fromRGBO(22, 97, 210, 1)),
+                      fontSize: 17,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      color: isEnableResendBtn ? const Color.fromRGBO(22, 97, 210, 1) : Color.fromARGB(255, 169, 191, 224)),
                   ),
                   ),
-
+                  ),
 
               ]
             ),
@@ -210,7 +244,6 @@ _validateOTP(int id, String authCode, BuildContext context) async {
     }
   });
 }
-
 
 _getLoginToken(VerifyEmailOTPResponse mVerifyEmailOTPResponse, BuildContext context) async {
  
