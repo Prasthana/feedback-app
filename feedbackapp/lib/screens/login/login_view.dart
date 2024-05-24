@@ -1,5 +1,7 @@
 //import 'dart:nativewrappers/_internal/vm/lib/core_patch.dart';
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
@@ -22,8 +24,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _formState = GlobalKey<FormState>();
   String? _enteredEmail;
-
-  //  Future<EmailAuthModel>? _emailModel;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,6 @@ class _LoginViewState extends State<LoginView> {
                         height: 58.0,
                         onPressed: () {
                           if (_formState.currentState!.validate()) {
-                            // _emailModel = fetchLoginId(_enteredEmail);
                             _genarateOtp(_enteredEmail,context);
                           }
                         },
@@ -127,38 +126,15 @@ String? _validateEmail(String? email) {
 }
 
 _genarateOtp(String? email,BuildContext context) async {
-  /*
-  debugPrint("email ----->>>> $email");
-
-  final response = await http.post(
-    Uri.parse(baseUrl + sendEmailUrl),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'email': email as String,
-      'device_name': 'Realme Narzo',
-      'device_type': 'android',
-      'mobile_type': 'android',
-      'device_uid': 'avada kadavra'
-    }),
-  );
-  debugPrint("response code ----->>>> ${response.statusCode}");
-  if (response.statusCode == 200) {
-    debugPrint("response body2 ----->>>> ${response.body}");
-  } else {
-    debugPrint("response error --->>> ${response.reasonPhrase}");
-  }
-
-*/
+  
   final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
 
   var request = EmailOTPRequest(
-      email: "admin@prasthana.com",
-      deviceName: "Realme Narzo",
-      deviceType: "android",
-      mobileType: "android",
-      deviceUId: "avada kadavra");
+      email: email as String,
+      deviceType: Platform.operatingSystem
+    );
+
+logger.e('email request -- ${request.toJson()}');
 
   client.sendEmailOTP(request).then((val) {
     // do some operation
@@ -178,43 +154,7 @@ _genarateOtp(String? email,BuildContext context) async {
         break;
     }
   });
+
 }
 
-Future<EmailAuthModel> fetchLoginId(String? email) async {
-  debugPrint("email ----->>>> $email");
 
-  final response = await http.post(
-    Uri.parse(baseUrl + sendEmailUrl),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'email': email as String,
-      'device_name': 'Realme Narzo',
-      'device_type': 'android',
-      'mobile_type': 'android',
-      'device_uid': 'avada kadavra'
-    }),
-  );
-
-  debugPrint("response code ----->>>> ${response.statusCode}");
-
-  if (response.statusCode == 200) {
-    var emailAuthModel = EmailAuthModel.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>);
-    return emailAuthModel;
-  } else {
-    debugPrint("response error --->>> ${response.reasonPhrase}");
-    throw Exception('Failed to create EmailAuthModel.');
-  }
-}
-
-class EmailAuthModel {
-  final String email;
-  final int id;
-
-  EmailAuthModel(this.email, this.id);
-
-  factory EmailAuthModel.fromJson(Map<String, dynamic> json) =>
-      EmailAuthModel(json['email'] as String, json['id'] as int);
-}
