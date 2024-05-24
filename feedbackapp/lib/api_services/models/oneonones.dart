@@ -11,13 +11,13 @@ part 'oneonones.g.dart';
 
 @JsonSerializable()
 class OneOnOne {
-  int id;
-  DateTime scheduledDate;
+  int? id;
+  DateTime? scheduledDate;
   DateTime? startTime;
   DateTime? endTime;
-  String status;
+  String? status;
   dynamic notes;
-  Participant participant;
+  Participant? participant;
 
   OneOnOne({
     required this.id,
@@ -40,9 +40,9 @@ class OneOnOne {
 
 @JsonSerializable()
 class Participant {
-  int id;
-  String name;
-  String email;
+  int? id;
+  String? name;
+  String? email;
 
   Participant({
     required this.id,
