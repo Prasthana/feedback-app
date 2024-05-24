@@ -1,8 +1,14 @@
+import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
+import 'package:feedbackapp/api_services/models/logintoken.dart';
+import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:dio/dio.dart';
+import 'package:feedbackapp/constants.dart' as constants;
 
 
 class OtpView extends StatefulWidget {
@@ -16,16 +22,22 @@ class OtpView extends StatefulWidget {
 class _OtpViewState extends State<OtpView> {
 
     bool isEnableConfirmBtn = false;
+   String enteredOTP = "";
 
    void setEnableConfirmBtn(bool newValue){
      setState(() {
       isEnableConfirmBtn = newValue;
      });
-  }
+   }
+
+   void setEnteredOTP(String newValue){
+     setState(() {
+      enteredOTP = newValue;
+     });
+   }
 
   @override
   Widget build(BuildContext context) {
-   String enteredOTP = "";
 
     return Scaffold(
      appBar: AppBar(
@@ -33,7 +45,7 @@ class _OtpViewState extends State<OtpView> {
         icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginView())),
       ), 
-      title: const Text("Login",style: TextStyle(
+      title: const Text(constants.LOGIN,style: TextStyle(
                     fontSize: 22,
                     fontStyle: FontStyle.normal,
                     color: Color.fromRGBO(0, 0, 0, 1)),
@@ -47,7 +59,7 @@ class _OtpViewState extends State<OtpView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [ 
                  const Text(
-                    'Verify Your Email', 
+                    constants.VERIFY_YOUR_EMAIL, 
                     style: TextStyle(
                         fontSize: 28,
                         fontStyle: FontStyle.normal,
@@ -58,7 +70,7 @@ class _OtpViewState extends State<OtpView> {
                 const SizedBox(height: 16.0),
 
                 const Text(
-                    'Enter the code we sent to ', 
+                    constants.ENTER_CODE_SEND_TO, 
                     style: TextStyle(
                         fontSize: 17,
                         fontStyle: FontStyle.normal,
@@ -95,12 +107,12 @@ class _OtpViewState extends State<OtpView> {
                 fillColor: Colors.white,
                 filled: true,
                 onCodeChanged: (value) => {
-                  enteredOTP = "",
+                  setEnteredOTP(""),
                   setEnableConfirmBtn(false),
                   logger.d("OTP is => $value"),
                 },
                 onSubmit: (code) =>{
-                  enteredOTP = code,
+                  setEnteredOTP(code),
                   setEnableConfirmBtn(true),
                   logger.d("OTP is => $code"),
                 },
@@ -118,14 +130,15 @@ class _OtpViewState extends State<OtpView> {
                   borderRadius: BorderRadius.all(Radius.circular(4)))),
                   onPressed: () {
                   if (enteredOTP.isEmpty == false) {
-                      showDialog(context: context, builder: (context){
-                        return AlertDialog(title: const Text("Verification Code"),
-                          content: Text('Code entered is $enteredOTP'),
-                      );
-                      });
+                      // showDialog(context: context, builder: (context){
+                      //   return AlertDialog(title: const Text("Verification Code"),
+                      //     content: Text('Code entered is $enteredOTP'),
+                      // );
+                      // });
+                      _validateOTP(widget.emailOTPResponse.id, enteredOTP, context);
                   }
               }, 
-              child: Text("Confirm",
+              child: Text(constants.CONFIRM,
               style: TextStyle(
                   fontSize: 17,
                   fontStyle: FontStyle.normal,
@@ -139,7 +152,7 @@ class _OtpViewState extends State<OtpView> {
               const  SizedBox(height: 8.0),
 
               const Center(child:Text(
-                    'Haven\'t received the code yet? ', 
+                    constants.HAVE_NOT_RECEIVED_CODE, 
                     style: TextStyle(
                         fontSize: 17,
                         fontStyle: FontStyle.normal,
@@ -151,7 +164,7 @@ class _OtpViewState extends State<OtpView> {
               const SizedBox(height: 4.0),
 
               const Center(child:Text(
-                    'Resend', 
+                    constants.RESEND, 
                     style: TextStyle(
                         fontSize: 17,
                         fontStyle: FontStyle.normal,
@@ -165,6 +178,66 @@ class _OtpViewState extends State<OtpView> {
             ),
       ),
     );
-
   }
+}
+
+_validateOTP(int id, String authCode, BuildContext context) async {
+ 
+  final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
+
+  var request = VerifyEmailOTPRequest(
+      id: id,
+      emailAuthCode: authCode);
+
+  client.verifyEmailOTP(request).then((val) {
+    // do some operation
+    logger.e('email response -- ${val.toJson()}');
+
+    _getLoginToken(val, context);
+
+    // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
+
+  }).catchError((obj) {
+    // non-200 error goes here.
+    switch (obj.runtimeType) {
+      case const (DioException):
+        // Here's the sample to get the failed response error code and message
+        final res = (obj as DioException).response;
+        logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+        break;
+      default:
+        break;
+    }
+  });
+}
+
+
+_getLoginToken(VerifyEmailOTPResponse mVerifyEmailOTPResponse, BuildContext context) async {
+ 
+  final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
+
+  var request = LoginTokenRequest(
+      grantType: constants.GRANT_TYPE,
+      clientId: constants.CLIENT_ID,
+      clientSecret: constants.CLIENT_SECRET,
+      loginToken: mVerifyEmailOTPResponse.loginToken);
+
+  client.generateLoginToken(request).then((val) {
+    // do some operation
+    logger.e('email response -- ${val.toJson()}');
+
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  const MainTabView()));
+
+  }).catchError((obj) {
+    // non-200 error goes here.
+    switch (obj.runtimeType) {
+      case const (DioException):
+        // Here's the sample to get the failed response error code and message
+        final res = (obj as DioException).response;
+        logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+        break;
+      default:
+        break;
+    }
+  });
 }

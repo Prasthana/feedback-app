@@ -1,12 +1,23 @@
 PODS:
   - alice (0.0.1):
     - Flutter
+  - Bugsnag (6.28.0)
+  - bugsnag_flutter (0.0.1):
+    - Bugsnag (= 6.28.0)
+    - Flutter
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - ReachabilitySwift
+  - device_info (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_local_notifications (0.0.1):
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
   - open_filex (0.0.2):
+    - Flutter
+  - package_info (0.0.1):
     - Flutter
   - package_info_plus (0.4.5):
     - Flutter
@@ -15,6 +26,7 @@ PODS:
     - FlutterMacOS
   - permission_handler_apple (9.3.0):
     - Flutter
+  - ReachabilitySwift (5.0.0)
   - sensors_plus (0.0.1):
     - Flutter
   - share_plus (0.0.1):
@@ -24,10 +36,14 @@ PODS:
 
 DEPENDENCIES:
   - alice (from `.symlinks/plugins/alice/ios`)
+  - bugsnag_flutter (from `.symlinks/plugins/bugsnag_flutter/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - open_filex (from `.symlinks/plugins/open_filex/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
@@ -35,9 +51,20 @@ DEPENDENCIES:
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
+SPEC REPOS:
+  trunk:
+    - Bugsnag
+    - ReachabilitySwift
+
 EXTERNAL SOURCES:
   alice:
     :path: ".symlinks/plugins/alice/ios"
+  bugsnag_flutter:
+    :path: ".symlinks/plugins/bugsnag_flutter/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   Flutter:
     :path: Flutter
   flutter_local_notifications:
@@ -46,6 +73,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   open_filex:
     :path: ".symlinks/plugins/open_filex/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -61,13 +90,19 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   alice: 16ca3b89f5e8395fd585e3a2920b8f4e250e3bf4
+  Bugsnag: dd258f499a0a041e3ffc856c8d0c802e02fe3026
+  bugsnag_flutter: c8874e8a3851c1cb006f4a066e8e5f2eb4687fd1
+  connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   open_filex: 6e26e659846ec990262224a12ef1c528bb4edbe4
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   sensors_plus: 4ee32bc7d61a055f27f88d3215ad6b6fb96a2b8e
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
