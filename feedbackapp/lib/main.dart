@@ -1,7 +1,11 @@
 import 'package:alice/alice.dart';
+import 'package:bugsnag_flutter/bugsnag_flutter.dart';
+import 'package:bugsnag_flutter_performance/bugsnag_flutter_performance.dart';
 import 'package:feedbackapp/screens/splash/splashscreen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/web.dart';
+
+const String bugsnagappid = 'd36c56cbb6e60d544204211d24e9efe8';
 
 var logger = Logger(
   printer: PrettyPrinter(),
@@ -11,7 +15,9 @@ var logger = Logger(
 Alice alice = Alice(showInspectorOnShake: true);
 
 void main() {
-  runApp(const MyApp());
+  bugsnag.start(apiKey: bugsnagappid);
+  bugsnag_performance.start(apiKey: bugsnagappid);
+  bugsnag_performance.measureRunApp(() async => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
