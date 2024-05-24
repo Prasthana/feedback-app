@@ -5,17 +5,11 @@ part 'emailotp.g.dart';
 @JsonSerializable()
 class EmailOTPRequest {
   String email;
-  String deviceName;
   String deviceType;
-  String mobileType;
-  String deviceUId;
 
   EmailOTPRequest({
     required this.email,
-    required this.deviceName,
     required this.deviceType,
-    required this.mobileType,
-    required this.deviceUId,
   });
 
   factory EmailOTPRequest.fromJson(Map<String, dynamic> json) =>
