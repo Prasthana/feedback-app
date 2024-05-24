@@ -11,9 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-const String baseUrl = 'https://pug-stirring-hopefully.ngrok-free.app';
-const String sendEmailUrl = '/users/send_email_auth_code';
-
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -31,7 +28,9 @@ class _LoginViewState extends State<LoginView> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Login Screen'),
+          backgroundColor: Colors.white,
         ),
+        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 43),
           child: Column(
@@ -71,7 +70,7 @@ class _LoginViewState extends State<LoginView> {
                           hintText: 'Enter email',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Colors.blue, // Set desired border color
+                              color: Colors.blue,
                             ),
                           ),
                         ),
@@ -134,8 +133,7 @@ _genarateOtp(String? email,BuildContext context) async {
       deviceType: Platform.operatingSystem
     );
 
-logger.e('email request -- ${request.toJson()}');
-
+  logger.e('email request -- ${request.toJson()}');
   client.sendEmailOTP(request).then((val) {
     // do some operation
     logger.e('email response -- ${val.toJson()}');
