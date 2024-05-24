@@ -10,9 +10,7 @@ part of 'api_services.dart';
 
 class _RestClient implements RestClient {
   _RestClient(
-    this._dio, {
-    this.baseUrl,
-  }) {
+    this._dio) {
     baseUrl ??= 'https://pug-stirring-hopefully.ngrok-free.app/';
   }
 
