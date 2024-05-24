@@ -28,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text(constants.LOGIN),
+          title: const Text(constants.txtLogin),
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,
@@ -97,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                           }
                         },
                         // ignore: sort_child_properties_last
-                        child: const Text(constants.LOGIN),
+                        child: const Text(constants.txtLogin),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
