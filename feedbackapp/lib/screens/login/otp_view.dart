@@ -3,6 +3,7 @@ import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:flutter/material.dart';
@@ -183,13 +184,11 @@ class _OtpViewState extends State<OtpView> {
 
 _validateOTP(int id, String authCode, BuildContext context) async {
  
-  final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
-
   var request = VerifyEmailOTPRequest(
       id: id,
       emailAuthCode: authCode);
 
-  client.verifyEmailOTP(request).then((val) {
+  ApiManager.public.verifyEmailOTP(request).then((val) {
     // do some operation
     logger.e('email response -- ${val.toJson()}');
 
@@ -214,15 +213,13 @@ _validateOTP(int id, String authCode, BuildContext context) async {
 
 _getLoginToken(VerifyEmailOTPResponse mVerifyEmailOTPResponse, BuildContext context) async {
  
-  final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
-
   var request = LoginTokenRequest(
       grantType: constants.GRANT_TYPE,
       clientId: constants.CLIENT_ID,
       clientSecret: constants.CLIENT_SECRET,
       loginToken: mVerifyEmailOTPResponse.loginToken);
 
-  client.generateLoginToken(request).then((val) {
+  ApiManager.public.generateLoginToken(request).then((val) {
     // do some operation
     logger.e('email response -- ${val.toJson()}');
 

@@ -18,20 +18,24 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     return true;
   }
 
+  saveTempToken() {
+    var sm = StorageManager();
+
+    sm.saveData('TOKEN',
+        'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJmZWVkYmFjay1hcGkiLCJpYXQiOjE3MTY1NDg2MTcsImp0aSI6Ijg3ZWVjOTQxLTNkZWUtNDQyYy05NDM3LTNmODIxYzhmMzEzMiJ9.575n34BbSKO75S4ZbYUgB7ucnKbrMhCtewx3k1ke6m4JR7D4T3OhNLJ3ZQvdde6sx3zivWDaXKITazkH2IAVQA');
+    logger.d('Key A value is');
+    // print(
+    sm.getData('A').then((val) {
+      // do some operation
+      logger.d('val -- $val');
+    });
+  }
+
   @override
   void initState() {
     super.initState();
 
-    var sm = StorageManager();
-
-    sm.saveData("A", "B");
-      logger.d('Key A value is');
-      // print(
-      sm.getData('A').then((val) {
-        // do some operation
-        logger.d('val -- $val');
-      });
-
+    saveTempToken();
     Timer(
         const Duration(seconds: 2),
         () => Navigator.pushReplacement(
@@ -39,7 +43,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
             MaterialPageRoute(
                 builder: (context) =>
                     isLoggedIn() ? const MainTabView() : const LoginView(),
-                    //LoginView(),
+                //LoginView(),
                 fullscreenDialog: true)));
   }
 

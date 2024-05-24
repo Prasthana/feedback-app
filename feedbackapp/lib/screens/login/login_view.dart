@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:flutter/material.dart';
 
@@ -149,7 +150,6 @@ _genarateOtp(String? email,BuildContext context) async {
   }
 
 */
-  final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
 
   var request = EmailOTPRequest(
       email: "admin@prasthana.com",
@@ -158,7 +158,7 @@ _genarateOtp(String? email,BuildContext context) async {
       mobileType: "android",
       deviceUId: "avada kadavra");
 
-  client.sendEmailOTP(request).then((val) {
+  ApiManager.public.sendEmailOTP(request).then((val) {
     // do some operation
     logger.e('email response -- ${val.toJson()}');
 
