@@ -1,20 +1,20 @@
 ///  This is API Hard coded strings. 
-const String GRANT_TYPE = "password";
-const String CLIENT_ID = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";
-const String CLIENT_SECRET = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
-const int RESEND_TIME = 30;
+const String grantType = "password";
+const String clientId = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";
+const String clientSecret = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
+const int resendTime = 30;
 
 
 ///  This is for Screen level Hard coded strings. 
 
 // This is OTP SCREEN Strings
 const String txtLogin = "Login";
-const String VERIFY_YOUR_EMAIL = "Verify Your Email";
-const String ENTER_CODE_SEND_TO = "Enter the code we sent to";
+const String verifyYourEmail = "Verify Your Email";
+const String enterCodeSentTo = "Enter the code we sent to";
 const String errorEnterValidOTP= "Please enter a valid OTP";
-const String CONFIRM = "Confirm";
-const String HAVE_NOT_RECEIVED_CODE = "Haven't received the code yet? ";
-const String RESEND = "Resend";
+const String confirm = "Confirm";
+const String haveNotReceivedCodeYet = "Haven't received the code yet? ";
+const String resend = "Resend";
 // End of OTP Screen
 
 
