@@ -1,5 +1,6 @@
 import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 
 class MainHomePageView extends StatefulWidget {
@@ -58,14 +59,14 @@ Widget build(BuildContext context) {
       final oneOnOne = oneOnOnesList[index];
       return Container(
         color: Colors.grey.shade300,
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         height: 100,
         width: double.maxFinite,
         child: Row(
           children: [
             Expanded(flex: 1, child: Image.asset('assets/splash-image.png')),
-            SizedBox(width: 10),
+            addHorizontalSpace(10),
             Expanded(flex: 3, child: Text(oneOnOne.participant?.name ?? "DUMMY")),
           ],
         ),
