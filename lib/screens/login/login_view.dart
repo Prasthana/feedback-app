@@ -1,6 +1,5 @@
 //import 'dart:nativewrappers/_internal/vm/lib/core_patch.dart';
 
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -9,8 +8,6 @@ import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:feedbackapp/constants.dart' as constants;
 
 class LoginView extends StatefulWidget {

@@ -199,7 +199,7 @@ class _OtpViewState extends State<OtpView> {
                         Timer.periodic(const Duration(seconds: 1), (timer) {
                           print(timer.tick);
                           counterForResend--;
-                          setResendText(constants.RESEND + " in $counterForResend sec");
+                          setResendText("${constants.RESEND} in $counterForResend sec");
                           if (counterForResend == 0) {
                             counterForResend = constants.RESEND_TIME;
                             setResendText(constants.RESEND);
@@ -215,7 +215,7 @@ class _OtpViewState extends State<OtpView> {
                       fontFamily: 'UberMove',
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
-                      color: isEnableResendBtn ? const Color.fromRGBO(22, 97, 210, 1) : Color.fromARGB(255, 169, 191, 224)),
+                      color: isEnableResendBtn ? const Color.fromRGBO(22, 97, 210, 1) : const Color.fromARGB(255, 169, 191, 224)),
                   ),
                   ),
                   ),
