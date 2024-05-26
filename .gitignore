@@ -24,6 +24,7 @@
 
 # Flutter/Dart/Pub related
 
+.pub-cache
 .flutter-plugins-dependencies
 **/ios/Flutter/.last_build_id
 .dart_tool/
@@ -57,3 +58,5 @@ ios/Flutter/Release.xcconfig
 ios/Flutter/Debug.xcconfig
 macos/Flutter/Flutter-Debug.xcconfig
 macos/Flutter/Flutter-Release.xcconfig`
+
+
