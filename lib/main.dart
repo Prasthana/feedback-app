@@ -1,4 +1,3 @@
-import 'package:alice/alice.dart';
 import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:bugsnag_flutter_performance/bugsnag_flutter_performance.dart';
 import 'package:feedbackapp/screens/splash/splashscreen_view.dart';
@@ -12,7 +11,6 @@ var logger = Logger(
   level: Level.all
 );
 
-Alice alice = Alice(showInspectorOnShake: true);
 
 void main() {
   bugsnag.start(apiKey: bugsnagappid);
