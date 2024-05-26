@@ -25,6 +25,8 @@
 # Flutter/Dart/Pub related
 
 .pub-cache
+*.plugin_symlinks
+
 .flutter-plugins-dependencies
 **/ios/Flutter/.last_build_id
 .dart_tool/
