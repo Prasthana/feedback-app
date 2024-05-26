@@ -20,10 +20,15 @@ platform :android do
   desc "Submit a new Beta Build to Playstore"
   lane :beta do
     gradle(
-      task: 'assemble',
+      task: 'bundle',
       build_type: 'Release'
     )
-    upload_to_play_store # Uploads the APK built in the gradle step above and releases it to all production users  
+
+    upload_to_play_store(
+      skip_upload_apk: true, 
+      track: "internal",
+      json_key: ENV["JSON_FILE"])
+
   end
 
 end
