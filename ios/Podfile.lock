@@ -1,0 +1,64 @@
+PODS:
+  - Bugsnag (6.28.0)
+  - bugsnag_flutter (0.0.1):
+    - Bugsnag (= 6.28.0)
+    - Flutter
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - ReachabilitySwift
+  - device_info (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - flutter_secure_storage (6.0.0):
+    - Flutter
+  - package_info (0.0.1):
+    - Flutter
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - ReachabilitySwift (5.2.3)
+
+DEPENDENCIES:
+  - bugsnag_flutter (from `.symlinks/plugins/bugsnag_flutter/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
+  - Flutter (from `Flutter`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+
+SPEC REPOS:
+  trunk:
+    - Bugsnag
+    - ReachabilitySwift
+
+EXTERNAL SOURCES:
+  bugsnag_flutter:
+    :path: ".symlinks/plugins/bugsnag_flutter/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
+  Flutter:
+    :path: Flutter
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+
+SPEC CHECKSUMS:
+  Bugsnag: dd258f499a0a041e3ffc856c8d0c802e02fe3026
+  bugsnag_flutter: c8874e8a3851c1cb006f4a066e8e5f2eb4687fd1
+  connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  ReachabilitySwift: 7f151ff156cea1481a8411701195ac6a984f4979
+
+PODFILE CHECKSUM: 4c438addb11b6da45ed7ae408823d68256222460
+
+COCOAPODS: 1.15.2
