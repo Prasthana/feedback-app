@@ -6,7 +6,9 @@ import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/screens/login/otp_view.dart';
+import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/constants.dart' as constants;
 
@@ -25,10 +27,12 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: Scaffold(
         appBar: AppBar(
           title: const Text(constants.txtLogin),
-          backgroundColor: Colors.white,
+          // backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,
         body: Padding(
@@ -36,9 +40,7 @@ class _LoginViewState extends State<LoginView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 30,
-              ),
+              addVerticalSpace(30),
               const Text(
                 constants.enterYourEmailText,
                 style: TextStyle(
@@ -53,9 +55,7 @@ class _LoginViewState extends State<LoginView> {
                     fontSize: 15,
                     fontWeight: FontWeight.w500),
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              addVerticalSpace(30),
               Form(
                   key: _formState,
                   child: Column(
@@ -98,9 +98,7 @@ class _LoginViewState extends State<LoginView> {
                         },
                         validator: _validateEmail,
                       ),
-                      const SizedBox(
-                        height: 45,
-                      ),
+                      addVerticalSpace(45),
                       MaterialButton(
                         minWidth: double.infinity,
                         height: 58.0,

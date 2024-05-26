@@ -4,6 +4,7 @@ import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
+import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenView extends StatefulWidget {
@@ -25,12 +26,12 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     var sm = StorageManager();
 
     sm.saveData("A", "B");
-      logger.d('Key A value is');
-      // print(
-      sm.getData('A').then((val) {
-        // do some operation
-        logger.d('val -- $val');
-      });
+    logger.d('Key A value is');
+    // print(
+    sm.getData('A').then((val) {
+      // do some operation
+      logger.d('val -- $val');
+    });
 
     Timer(
         const Duration(seconds: 2),
@@ -39,7 +40,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
             MaterialPageRoute(
                 builder: (context) =>
                     isLoggedIn() ? const MainTabView() : const LoginView(),
-                    //LoginView(),
+                //LoginView(),
                 fullscreenDialog: true)));
   }
 
@@ -47,7 +48,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       feedbackLogo(),
-      const SizedBox(height: 30),
+      addVerticalSpace(30),
       // Add some space between the image and loader
       const CircularProgressIndicator()
     ]);

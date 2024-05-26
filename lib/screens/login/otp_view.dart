@@ -8,6 +8,7 @@ import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
+import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:dio/dio.dart';
@@ -27,8 +28,8 @@ class _OtpViewState extends State<OtpView> {
    bool isEnableConfirmBtn = false;
    bool isEnableResendBtn = true; 
    String enteredOTP = "";
-   String resendText = constants.RESEND;
-   var counterForResend = constants.RESEND_TIME;
+   String resendText = constants.resend;
+   var counterForResend = constants.resendTime;
 
    void setEnableConfirmBtn(bool newValue){
      setState(() {
@@ -78,7 +79,7 @@ class _OtpViewState extends State<OtpView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [ 
                  const Text(
-                    constants.VERIFY_YOUR_EMAIL, 
+                    constants.verifyYourEmail, 
                     style: TextStyle(
                         fontFamily: 'UberMove',
                         fontSize: 28,
@@ -86,10 +87,10 @@ class _OtpViewState extends State<OtpView> {
                         color: Color.fromRGBO(4, 4, 4, 1)),
                   ),
                 
-                const SizedBox(height: 16.0),
+              addVerticalSpace(16),
 
                 const Text(
-                    constants.ENTER_CODE_SEND_TO, 
+                    constants.enterCodeSentTo, 
                     style: TextStyle(
                         fontFamily: 'UberMove',
                         fontSize: 17,
@@ -97,7 +98,7 @@ class _OtpViewState extends State<OtpView> {
                         color: Color.fromRGBO(4, 4, 4, 1)),
                   ),
                
-              const SizedBox(height: 4.0),
+              addVerticalSpace(4),
 
               Text(
                     widget.emailOTPResponse.email,
@@ -108,7 +109,7 @@ class _OtpViewState extends State<OtpView> {
                         color: Color.fromRGBO(22, 97, 210, 1)),
               ),
                 
-              const  SizedBox(height: 24.0),
+              addVerticalSpace(24),
 
               SizedBox(
               width: double.infinity,
@@ -138,7 +139,7 @@ class _OtpViewState extends State<OtpView> {
                 ),
               ),
 
-              const SizedBox(height: 8.0),
+              addVerticalSpace(8),
 
               const Text(
                     constants.errorEnterValidOTP, 
@@ -149,7 +150,7 @@ class _OtpViewState extends State<OtpView> {
                         color: Color.fromRGBO(255, 69, 69, 1)),
                   ),
 
-              const SizedBox(height: 24.0),
+              addVerticalSpace(24),
 
               SizedBox(
               width: double.infinity,
@@ -168,7 +169,7 @@ class _OtpViewState extends State<OtpView> {
                       _validateOTP(widget.emailOTPResponse.id, enteredOTP, context);
                   }
               }, 
-              child: Text(constants.CONFIRM,
+              child: Text(constants.confirm,
               style: TextStyle(
                   fontFamily: 'UberMove',
                   fontSize: 17,
@@ -179,10 +180,10 @@ class _OtpViewState extends State<OtpView> {
               ),
               ),
 
-              const  SizedBox(height: 8.0),
+              addVerticalSpace(8),
 
               const Center(child:Text(
-                    constants.HAVE_NOT_RECEIVED_CODE, 
+                    constants.haveNotReceivedCodeYet, 
                     style: TextStyle(
                         fontFamily: 'UberMove',
                         fontSize: 15,
@@ -197,13 +198,13 @@ class _OtpViewState extends State<OtpView> {
                         setEnableResendBtn(false);
                         _genarateOtp(widget.emailOTPResponse.email, context);
                         Timer.periodic(const Duration(seconds: 1), (timer) {
-                          print(timer.tick);
+                          // print(timer.tick);
                           counterForResend--;
-                          setResendText("${constants.RESEND} in $counterForResend sec");
+                          setResendText("${constants.resend} in $counterForResend sec");
                           if (counterForResend == 0) {
-                            counterForResend = constants.RESEND_TIME;
-                            setResendText(constants.RESEND);
-                            print('Cancel timer');
+                            counterForResend = constants.resendTime;
+                            setResendText(constants.resend);
+                            // print('Cancel timer');
                             setEnableResendBtn(true);
                             timer.cancel();
                           }
@@ -262,9 +263,9 @@ _getLoginToken(VerifyEmailOTPResponse mVerifyEmailOTPResponse, BuildContext cont
   final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
 
   var request = LoginTokenRequest(
-      grantType: constants.GRANT_TYPE,
-      clientId: constants.CLIENT_ID,
-      clientSecret: constants.CLIENT_SECRET,
+      grantType: constants.grantType,
+      clientId: constants.clientId,
+      clientSecret: constants.clientSecret,
       loginToken: mVerifyEmailOTPResponse.loginToken);
 
   client.generateLoginToken(request).then((val) {
