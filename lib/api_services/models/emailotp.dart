@@ -1,24 +1,20 @@
-
 import 'package:json_annotation/json_annotation.dart';
+
+part 'emailotp.g.dart';
 
 @JsonSerializable()
 class EmailOTPRequest {
   String email;
   String deviceType;
 
-  EmailOTPRequest({required this.email, 
-                          required this.deviceType, 
-                          });
+  EmailOTPRequest({
+    required this.email,
+    required this.deviceType,
+  });
 
-  factory EmailOTPRequest.fromJson(Map<String, dynamic> json) => EmailOTPRequest(
-    email: json["email"],
-    deviceType: json["device_type"],
-  );
-  
-  Map<String, dynamic> toJson() => {
-    "email": email,
-    "device_type": deviceType,
-  };
+  factory EmailOTPRequest.fromJson(Map<String, dynamic> json) =>
+      _$EmailOTPRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$EmailOTPRequestToJson(this);
 }
 
 // ########----########----########----########----########----########----########----########----########----########
@@ -30,21 +26,12 @@ class EmailOTPResponse {
   int id;
   String email;
 
-  EmailOTPResponse({required this.id,
-                    required this.email
-                   });
+  EmailOTPResponse({required this.id, required this.email});
 
-  factory EmailOTPResponse.fromJson(Map<String, dynamic> json) => EmailOTPResponse(
-    id: json["id"],
-    email: json["email"]
-  );
-  
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "email": email
-  };
+  factory EmailOTPResponse.fromJson(Map<String, dynamic> json) =>
+      _$EmailOTPResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$EmailOTPResponseToJson(this);
 }
-
 
 // ########----########----########----########----########----########----########----########----########----########
 // ########----########----########----########----########----########----########----########----########----########

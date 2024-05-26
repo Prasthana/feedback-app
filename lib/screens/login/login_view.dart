@@ -3,9 +3,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -175,15 +175,12 @@ showInvalidUserAlert(BuildContext context) {
 
 _genarateOtp(String? email,BuildContext context) async {
   
-  final client = RestClient(Dio(BaseOptions(contentType: "application/json")));
-
   var request = EmailOTPRequest(
       email: email as String,
       deviceType: Platform.operatingSystem
     );
 
-  logger.e('email request -- ${request.toJson()}');
-  client.sendEmailOTP(request).then((val) {
+  ApiManager.public.sendEmailOTP(request).then((val) {
     // do some operation
     logger.e('email response -- ${val.toJson()}');
 
@@ -207,5 +204,3 @@ _genarateOtp(String? email,BuildContext context) async {
   
 
 }
-
-

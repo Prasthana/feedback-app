@@ -1,5 +1,6 @@
-
 import 'package:json_annotation/json_annotation.dart';
+
+part 'verifyotp.g.dart';
 
 @JsonSerializable()
 class VerifyEmailOTPRequest {
@@ -10,15 +11,9 @@ class VerifyEmailOTPRequest {
                           required this.emailAuthCode, 
                           });
 
-  factory VerifyEmailOTPRequest.fromJson(Map<String, dynamic> json) => VerifyEmailOTPRequest(
-    id: json["id"],
-    emailAuthCode: json["email_auth_code"],
-  );
-  
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "email_auth_code": emailAuthCode,
-  };
+  factory VerifyEmailOTPRequest.fromJson(Map<String, dynamic> json) => _$VerifyEmailOTPRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$VerifyEmailOTPRequestToJson(this);
+
 }
 
 // ########----########----########----########----########----########----########----########----########----########
@@ -36,17 +31,9 @@ class VerifyEmailOTPResponse {
                     required this.email
                    });
 
-  factory VerifyEmailOTPResponse.fromJson(Map<String, dynamic> json) => VerifyEmailOTPResponse(
-    id: json["id"],
-    loginToken: json["login_token"],
-    email: json["email"]
-  );
-  
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "login_token": loginToken,
-    "email": email
-  };
+   factory VerifyEmailOTPResponse.fromJson(Map<String, dynamic> json) => _$VerifyEmailOTPResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$VerifyEmailOTPResponseToJson(this);
+
 }
 
 

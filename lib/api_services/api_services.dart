@@ -2,13 +2,20 @@
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
+import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:retrofit/http.dart';
+
 part 'api_services.g.dart';
  
 @RestApi(baseUrl: "https://pug-stirring-hopefully.ngrok-free.app/")
 abstract class RestClient {
-  factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
+  // factory RestClient(Dio dio, {String baseUrl, required String buildDioClient}) = _RestClient;
+
+  factory RestClient(Dio dio) = _RestClient;
+
+// ************************************************************************
+// *********************** API's for One - On - One ***********************
 
   @POST("users/send_email_auth_code")
   Future<EmailOTPResponse> sendEmailOTP(@Body() EmailOTPRequest request);
@@ -18,5 +25,24 @@ abstract class RestClient {
 
   @POST("oauth/token")
   Future<LoginTokenResponse> generateLoginToken(@Body() LoginTokenRequest request);
+
+// ************************************************************************
+// *********************** API's for One - On - One ***********************
+
+  @GET("/one_on_ones")
+  Future<List<OneOnOne>> fetchOneOnOnesList();
+
+  @GET("/one_on_ones")
+  Future<OneOnOne> fetchOneOnOneDetails(@Query("param1") String oneononeid);
+
+  @PUT("/one_on_ones")
+  Future<OneOnOne> updateOneOnOneDetails(@Query("param1") String oneononeid);
+
+  @POST("/one_on_ones")
+  Future<OneOnOne> createOneOnOne(@Body() OneOnOne request);
+
+// ************************************************************************
+// ************************************************************************
+
 
 }
