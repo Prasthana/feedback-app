@@ -5,6 +5,7 @@ import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:network_logger/network_logger.dart';
 
 class MainHomePageView extends StatefulWidget {
   const MainHomePageView({super.key});
@@ -17,6 +18,12 @@ class _MainHomePageViewState extends State<MainHomePageView> {
   // variable to call and store future list of posts
   Future<List<OneOnOne>> oneOnOnesFuture =
       ApiManager.authenticated.fetchOneOnOnesList();
+
+  @override
+  void initState() {
+    NetworkLoggerOverlay.attachTo(context);
+    super.initState();
+  }
 
 /*
   // function to fetch data from api and return future list of posts
@@ -51,6 +58,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
           },
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('clickeed on calender ------>>>');

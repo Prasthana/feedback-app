@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:network_logger/network_logger.dart';
 
 Dio dio = Dio(
   BaseOptions(
@@ -17,6 +18,7 @@ class ApiManager {
   static Dio buildDioClient(String base) {
     final dio = Dio()..options = BaseOptions(baseUrl: baseURL);
 
+
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -28,10 +30,12 @@ class ApiManager {
         },
       ),
     );
+    
+    dio.interceptors.add(DioNetworkLogger());
 
     return dio;
   }
 
-  static final authenticated = RestClient(buildDioClient("application/json"));
-  static final public = RestClient(buildDioClient("application/json"));
+  static final authenticated = RestClient(buildDioClient(baseURL));
+  static final public = RestClient(buildDioClient(baseURL));
 }
