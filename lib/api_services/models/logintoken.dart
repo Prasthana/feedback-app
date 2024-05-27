@@ -4,9 +4,13 @@ part 'logintoken.g.dart';
 
 @JsonSerializable()
 class LoginTokenRequest {
+  @JsonKey(name: 'grant_type')
   String grantType;
+  @JsonKey(name: 'client_id')
   String clientId;
+  @JsonKey(name: 'client_secret')
   String clientSecret;
+  @JsonKey(name: 'login_token')
   String loginToken;
 
   LoginTokenRequest({required this.grantType, 
@@ -28,10 +32,15 @@ class LoginTokenRequest {
 @JsonSerializable()
 
 class LoginTokenResponse {
+    @JsonKey(name: 'access_token')
     String? accessToken;
+    @JsonKey(name: 'token_type')
     String? tokenType;
+    @JsonKey(name: 'expires_in')
     int? expiresIn;
+    @JsonKey(name: 'refresh_token')
     String? refreshToken;
+    @JsonKey(name: 'created_at')
     int? createdAt;
     User? user;
 
@@ -52,10 +61,14 @@ class LoginTokenResponse {
 class User {
     int? id;
     String? email;
+    @JsonKey(name: 'created_at')
     DateTime? createdAt;
+    @JsonKey(name: 'updated_at')
     DateTime? updatedAt;
+    @JsonKey(name: 'employee_id')
     int? employeeId;
     String? role;
+    @JsonKey(name: 'mobile_number')
     String? mobileNumber;
 
     User({
