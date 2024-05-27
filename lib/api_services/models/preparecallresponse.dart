@@ -36,6 +36,7 @@ class Permission {
 @JsonEnum(fieldRename: FieldRename.snake)
 enum Access {
     enabled,
+    // Dont remove this - ita false warning - Janakiram
     @JsonKey(name: 'not_available')
     notAvailable
 }
