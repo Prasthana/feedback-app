@@ -10,7 +10,6 @@ part 'api_services.g.dart';
  
 @RestApi(baseUrl: "https://pug-stirring-hopefully.ngrok-free.app/")
 abstract class RestClient {
-  // factory RestClient(Dio dio, {String baseUrl, required String buildDioClient}) = _RestClient;
 
   factory RestClient(Dio dio) = _RestClient;
 

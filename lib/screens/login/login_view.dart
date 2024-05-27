@@ -11,6 +11,7 @@ import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/constants.dart' as constants;
+import 'package:network_logger/network_logger.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -23,6 +24,12 @@ class _LoginViewState extends State<LoginView> {
   final _formState = GlobalKey<FormState>();
   String? _enteredEmail;
   var isEmailValidated = false;
+
+   @override
+  void initState() {
+    NetworkLoggerOverlay.attachTo(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
