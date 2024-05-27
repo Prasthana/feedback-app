@@ -4,6 +4,7 @@ import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneonones.dart';
+import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:retrofit/http.dart';
 
@@ -25,6 +26,10 @@ abstract class RestClient {
 
   @POST("oauth/token")
   Future<LoginTokenResponse> generateLoginToken(@Body() LoginTokenRequest request);
+
+
+  @GET("users/prepare")
+  Future<PrepareCallResponse> performPrepareCall();
 
 // ************************************************************************
 // *********************** API's for One - On - One ***********************

@@ -17,7 +17,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
   Future<List<Employee>> employeesFuture = ApiManager.authenticated.fetchEmployeesList();
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +62,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
             children: [
               Expanded(flex: 1, child: Image.asset('assets/splash-image.png')),
               addHorizontalSpace(10),
-              Expanded(flex: 3, child: Text(employee?.name ?? "DUMMY")),
+              Expanded(flex: 3, child: Text(employee.name)),
             ],
           ),
         );

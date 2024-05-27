@@ -45,6 +45,7 @@ void setLoginStatus(bool newValue) {
         });
   }
 
+/*
   saveTempToken() {
     var sm = StorageManager();
     sm.saveData('TOKEN',
@@ -56,6 +57,7 @@ void setLoginStatus(bool newValue) {
       logger.d('val -- $val');
     });
   }
+  */
 
   @override
   void initState() {
