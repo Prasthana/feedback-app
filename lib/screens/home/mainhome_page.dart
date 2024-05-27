@@ -2,7 +2,9 @@ import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/oneOnOne/oneonone_from_date_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class MainHomePageView extends StatefulWidget {
   const MainHomePageView({super.key});
@@ -56,21 +58,19 @@ class _MainHomePageViewState extends State<MainHomePageView> {
           //     builder: (context) => const OneOnOneDateView()));
           // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  const MainTabView()));
 
-    Navigator.push(
-      context, // BuildContext of the current screen
-      MaterialPageRoute(builder: (context) => const OneOnOneDateView(), fullscreenDialog: true),
-    );
+    // Navigator.push(
+    //   context, // BuildContext of the current screen
+    //   MaterialPageRoute(builder: (context) => const OneOnOneDateView(), fullscreenDialog: true),
+    // );
 
-  // showCupertinoModalBottomSheet(
-  //   context: context,
-  //   builder: (context) => OneOnOneDateView(),
-  // );  
+      // used modal_bottom_sheet - to model present
+      showCupertinoModalBottomSheet(
+        context: context,
+        builder: (context) => const OneOnOneDateView(),
+        enableDrag: true,
+        bounce: false,
+      );  
 
-
-      //     showModalBottomSheet(
-      // context: context,
-      // builder: (context) => const OneOnOneDateView(),
-    //);
 
         },
         shape: const CircleBorder(),

@@ -9,7 +9,7 @@ class OneOnOneDateView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("1-on-1's"),
+        title: const Text("1-on-1's"),
       ),
     );
   }
