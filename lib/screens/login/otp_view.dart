@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:feedbackapp/api_services/api_services.dart';
@@ -29,6 +30,7 @@ class _OtpViewState extends State<OtpView> {
 
    bool isEnableConfirmBtn = false;
    bool isEnableResendBtn = true; 
+   bool isNotValidOTP = false;
    String enteredOTP = "";
    String resendText = constants.resend;
    var counterForResend = constants.resendTime;
@@ -36,6 +38,12 @@ class _OtpViewState extends State<OtpView> {
    void setEnableConfirmBtn(bool newValue){
      setState(() {
       isEnableConfirmBtn = newValue;
+     });
+   }
+
+   void setValidOTPStatus(bool newValue){
+     setState(() {
+      isNotValidOTP = newValue;
      });
    }
 
@@ -67,7 +75,7 @@ class _OtpViewState extends State<OtpView> {
         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginView())),
       ), 
       title: const Text(constants.txtLogin,style: TextStyle(
-                    fontFamily: 'UberMove',
+                    fontFamily: constants.uberMoveFont,
                     fontSize: 22,
                     fontStyle: FontStyle.normal,
                     color: Color.fromRGBO(0, 0, 0, 1)),
@@ -83,7 +91,7 @@ class _OtpViewState extends State<OtpView> {
                  const Text(
                     constants.verifyYourEmail, 
                     style: TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 28,
                         fontWeight: FontWeight.w700,
                         color: Color.fromRGBO(4, 4, 4, 1)),
@@ -94,7 +102,7 @@ class _OtpViewState extends State<OtpView> {
                 const Text(
                     constants.enterCodeSentTo, 
                     style: TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
                         color: Color.fromRGBO(4, 4, 4, 1)),
@@ -105,7 +113,7 @@ class _OtpViewState extends State<OtpView> {
               Text(
                     widget.emailOTPResponse.email,
                     style: const TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
                         color: Color.fromRGBO(22, 97, 210, 1)),
@@ -143,14 +151,17 @@ class _OtpViewState extends State<OtpView> {
 
               addVerticalSpace(8),
 
-              const Text(
+              Visibility(
+                  visible: isNotValidOTP, 
+                  child: const Text(
                     constants.errorEnterValidOTP, 
                     style: TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(255, 69, 69, 1)),
                   ),
+                ),
 
               addVerticalSpace(24),
 
@@ -173,7 +184,7 @@ class _OtpViewState extends State<OtpView> {
               }, 
               child: Text(constants.confirm,
               style: TextStyle(
-                  fontFamily: 'UberMove',
+                  fontFamily: constants.uberMoveFont,
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
                   color: isEnableConfirmBtn ? const Color.fromRGBO(255, 255, 255, 1) :  const Color.fromRGBO(0, 0, 0, 1)
@@ -187,7 +198,7 @@ class _OtpViewState extends State<OtpView> {
               const Center(child:Text(
                     constants.haveNotReceivedCodeYet, 
                     style: TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
                         color: Color.fromRGBO(4, 4, 4, 1)),
@@ -215,7 +226,7 @@ class _OtpViewState extends State<OtpView> {
                     },
                     child: Text(resendText,
                     style: TextStyle(
-                      fontFamily: 'UberMove',
+                      fontFamily: constants.uberMoveFont,
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
                       color: isEnableResendBtn ? const Color.fromRGBO(22, 97, 210, 1) : const Color.fromARGB(255, 169, 191, 224)),
@@ -239,7 +250,7 @@ _validateOTP(int id, String authCode, BuildContext context) async {
   ApiManager.public.verifyEmailOTP(request).then((val) {
     // do some operation
     logger.e('email response -- ${val.toJson()}');
-
+    setValidOTPStatus(false);
     _getLoginToken(val, context);
 
     // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
@@ -251,6 +262,7 @@ _validateOTP(int id, String authCode, BuildContext context) async {
         // Here's the sample to get the failed response error code and message
         final res = (obj as DioException).response;
         logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+        setValidOTPStatus(true);
         break;
       default:
         break;
