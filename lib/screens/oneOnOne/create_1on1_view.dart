@@ -7,19 +7,6 @@ import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 
-/*
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
-
-  @override
-  State<LoginView> createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
-   @override
-  Widget build(BuildContext context) {
-*/
-
 class CreateOneOnOneView extends StatefulWidget {
   const CreateOneOnOneView({super.key});
 
@@ -28,9 +15,9 @@ class CreateOneOnOneView extends StatefulWidget {
 }
 
 class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
-  //const CreateOneOnOneView({super.key});
 
  DateTime selectedDate = DateTime.now();
+ TimeOfDay selectedTime = TimeOfDay.now();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -41,6 +28,19 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
+      });
+    }
+  }
+
+    Future<void> _selectTime() async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(), // Optional initial time to display
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        selectedTime = pickedTime;
       });
     }
   }
@@ -149,7 +149,6 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            //selectedDate.toIso8601String(),
                             DateFormat('dd-MM-yyyy').format(selectedDate),
                             textAlign: TextAlign.left,
                             style: const TextStyle(
@@ -185,6 +184,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                       child: TextButton(
                         onPressed: () {
                           debugPrint("select time ------>>>>");
+                          _selectTime();
                         },
                         style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -192,10 +192,10 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                           ),
                           side: const BorderSide(color: textColor, width: 1.0),
                         ),
-                        child: const Align(
+                        child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "9:45 AM - 10:45 AM",
+                            selectedTime.hour.toString() + " : " + selectedTime.minute.toString(),
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: textColor,
