@@ -6,8 +6,43 @@ import 'package:feedbackapp/constants.dart' as constants;
 import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class CreateOneOnOneView extends StatelessWidget {
+/*
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+   @override
+  Widget build(BuildContext context) {
+*/
+
+class CreateOneOnOneView extends StatefulWidget {
   const CreateOneOnOneView({super.key});
+
+@override
+  State<CreateOneOnOneView> createState() => _CreateOneOnOneViewState();
+}
+
+class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
+  //const CreateOneOnOneView({super.key});
+
+ DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +137,7 @@ class CreateOneOnOneView extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           debugPrint("select date ------>>>>");
+                          _selectDate(context);
                         },
                         style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -109,12 +145,12 @@ class CreateOneOnOneView extends StatelessWidget {
                           ),
                           side: const BorderSide(color: textColor, width: 1.0),
                         ),
-                        child: const Align(
+                        child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "27/05/2024",
+                            selectedDate.toIso8601String(),
                             textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: textColor,
                               fontFamily: constants.uberMoveFont,
                               fontSize: 14,
