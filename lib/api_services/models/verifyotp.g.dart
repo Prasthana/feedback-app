@@ -10,21 +10,21 @@ VerifyEmailOTPRequest _$VerifyEmailOTPRequestFromJson(
         Map<String, dynamic> json) =>
     VerifyEmailOTPRequest(
       id: (json['id'] as num).toInt(),
-      emailAuthCode: json['emailAuthCode'] as String,
+      emailAuthCode: json['email_auth_code'] as String,
     );
 
 Map<String, dynamic> _$VerifyEmailOTPRequestToJson(
         VerifyEmailOTPRequest instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'emailAuthCode': instance.emailAuthCode,
+      'email_auth_code': instance.emailAuthCode,
     };
 
 VerifyEmailOTPResponse _$VerifyEmailOTPResponseFromJson(
         Map<String, dynamic> json) =>
     VerifyEmailOTPResponse(
       id: (json['id'] as num).toInt(),
-      loginToken: json['loginToken'] as String,
+      loginToken: json['login_token'] as String,
       email: json['email'] as String,
     );
 
@@ -32,6 +32,6 @@ Map<String, dynamic> _$VerifyEmailOTPResponseToJson(
         VerifyEmailOTPResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'loginToken': instance.loginToken,
+      'login_token': instance.loginToken,
       'email': instance.email,
     };
