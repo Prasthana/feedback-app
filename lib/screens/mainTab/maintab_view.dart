@@ -82,32 +82,8 @@ class _MainTabViewState extends State<MainTabView> {
   Widget build(BuildContext context) {
     var bottomNavigationItems = bottomNavItems();
     var numberOfItems = bottomNavigationItems.length;
-    /*
-    if (numberOfItems >= 2) {
-      return Scaffold(
-        appBar: AppBar(title: const Text("Home")),
-        bottomNavigationBar: BottomNavigationBar(
-          items: bottomNavigationItems,
-          currentIndex: currentPageIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-        ),
-        body: bottomWidgets(),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(title: const Text("Home")),
-        body:  const MainHomePageView()
-      );
-    }
-    */
-    // _isLoading
-    //       // ? const LinearProgressIndicator()
-    //       ? const RefreshProgressIndicator(semanticsValue: 'Logout')
-    //       // CircularProgressIndicator()
-
+ 
     return Scaffold(
-      appBar: AppBar(title: const Text("Home")),
       bottomNavigationBar: numberOfItems >= 2
           ? BottomNavigationBar(
               items: bottomNavigationItems,
