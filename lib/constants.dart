@@ -26,5 +26,9 @@ const String inValidUserText =  "Invalid user credentials";
 const String uberMoveFont = "UberMove";
 // End of Login Screen
 
+// Reprorting Team SCREEN Strings
+const String reportingTeamTitle = "Reporting Team";
+// End of Reporting Team
+
 
 

@@ -1,6 +1,8 @@
 import 'package:feedbackapp/screens/home/mainhome_page.dart';
 import 'package:feedbackapp/screens/settings/settings_view.dart';
 import 'package:flutter/material.dart';
+import 'package:feedbackapp/constants.dart' as constants;
+
 
 class MainTabView extends StatefulWidget {
   const MainTabView({super.key});
@@ -30,9 +32,13 @@ class _MainTabViewState extends State<MainTabView> {
             icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
-          NavigationDestination(
-            icon: Badge(child: Icon(Icons.settings)),
-            label: 'Settings',
+          // NavigationDestination(
+          //   icon: Badge(child: Icon(Icons.settings)),
+          //   label: 'Settings',
+          // ),
+            NavigationDestination(
+            icon: Badge(child: Icon(Icons.people)),
+            label: constants.reportingTeamTitle,
           ),
         ],
       ),
@@ -41,8 +47,12 @@ class _MainTabViewState extends State<MainTabView> {
         /// Home Page    
         const MainHomePageView(),
 
-        /// Settings page
-        const SettingsView()
+        // /// Settings page
+        // const SettingsView()
+
+        /// Employees page
+        const EmployeeListView()
+
       ][currentPageIndex],
     );
   }
