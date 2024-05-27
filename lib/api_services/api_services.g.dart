@@ -11,7 +11,6 @@ part of 'api_services.dart';
 class _RestClient implements RestClient {
   _RestClient(
     this._dio, {
-    this.baseUrl,
   }) {
     baseUrl ??= 'http://ec2-18-219-231-99.us-east-2.compute.amazonaws.com/';
   }
@@ -270,6 +269,115 @@ class _RestClient implements RestClient {
     var value = _result.data!
         .map((dynamic i) => Employee.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  Future<Employee> fetchEmployeesDetails(String employeeId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'param1': employeeId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Employee>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/employees',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Employee.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Employee> updateEmployeesDetails(String employeeId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'param1': employeeId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Employee>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/employees',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Employee.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<OneOnOne> createEmployee(OneOnOne request) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<OneOnOne>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/employees',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OneOnOne.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<OneOnOne> deleteEmployee(String employeeId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'param1': employeeId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<OneOnOne>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/employees',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OneOnOne.fromJson(_result.data!);
     return value;
   }
 

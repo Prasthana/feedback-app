@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
-import 'package:flutter/services.dart';
 
 const colorPrimary = Colors.white60;
 const colorAccent = Colors.black;

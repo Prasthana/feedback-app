@@ -12,18 +12,18 @@ String welcomeToJson(List<Employee> data) => json.encode(List<dynamic>.from(data
 class Employee {
     int id;
     @JsonKey(name: 'employee_no')
-    String employeeNo;
-    String name;
-    String email;
-    String designation;
+    String? employeeNo;
+    String? name;
+    String? email;
+    String? designation;
     Employee? manager;
 
     Employee({
         required this.id,
-        required this.employeeNo,
-        required this.name,
-        required this.email,
-        required this.designation,
+        this.employeeNo,
+        this.name,
+        this.email,
+        this.designation,
         this.manager,
     });
 
