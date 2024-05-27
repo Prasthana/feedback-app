@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:feedbackapp/constants.dart' as constants;
 import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:intl/intl.dart';
 
 /*
 class LoginView extends StatefulWidget {
@@ -148,7 +149,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            selectedDate.toIso8601String(),
+                            //selectedDate.toIso8601String(),
+                            DateFormat('dd-MM-yyyy').format(selectedDate),
                             textAlign: TextAlign.left,
                             style: const TextStyle(
                               color: textColor,
