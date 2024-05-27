@@ -1,6 +1,8 @@
+import 'package:feedbackapp/constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/constants.dart' as constants;
+import 'package:flutter/widgets.dart';
 
 class CreateOneOnOneView extends StatelessWidget {
   const CreateOneOnOneView({super.key});
@@ -25,11 +27,62 @@ class CreateOneOnOneView extends StatelessWidget {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [addVerticalSpace(10.0), meetingImage(),
-        const Text(constants.selectEmployeeText)
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            addVerticalSpace(10.0),
+            meetingImage(),
+            const Text(
+              constants.selectEmployeeText,
+              style: TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 21,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            addVerticalSpace(12.0),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 51.0,
+              child: TextButton(
+                onPressed: () {
+                  debugPrint("TextButton ------>>>>");
+                },
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  side: const BorderSide(color: textColor, width: 1.0),
+                ),
+                child: const Align(
+                  alignment: Alignment
+                      .centerLeft,
+                  child: Text(
+                    constants.searchEmployeeText,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: textColor,
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            addVerticalSpace(36),
+            const Text(
+              constants.dateText,
+              style: TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 21,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

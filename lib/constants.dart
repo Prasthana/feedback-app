@@ -1,3 +1,8 @@
+
+import 'package:flutter/material.dart';
+
+const textColor = Color.fromRGBO(0, 0, 0, 1);
+
 ///  This is API Hard coded strings. 
 const String grantType = "password";
 const String clientId = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";
@@ -28,6 +33,10 @@ const String uberMoveFont = "UberMove";
 
 // Login 1-on-1 Strings
 const String selectEmployeeText = "Select Employee";
+const String searchEmployeeText = "Search Employee";
+const String dateText = "Date";
+const String timeText = "Time";
+
 
 // End of Login Screen
 
