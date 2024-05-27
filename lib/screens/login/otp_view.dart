@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:feedbackapp/api_services/api_services.dart';
@@ -28,6 +29,7 @@ class _OtpViewState extends State<OtpView> {
 
    bool isEnableConfirmBtn = false;
    bool isEnableResendBtn = true; 
+   bool isNotValidOTP = false;
    String enteredOTP = "";
    String resendText = constants.resend;
    var counterForResend = constants.resendTime;
@@ -35,6 +37,12 @@ class _OtpViewState extends State<OtpView> {
    void setEnableConfirmBtn(bool newValue){
      setState(() {
       isEnableConfirmBtn = newValue;
+     });
+   }
+
+   void setValidOTPStatus(bool newValue){
+     setState(() {
+      isNotValidOTP = newValue;
      });
    }
 
@@ -142,7 +150,9 @@ class _OtpViewState extends State<OtpView> {
 
               addVerticalSpace(8),
 
-              const Text(
+              Visibility(
+                  visible: isNotValidOTP, 
+                  child: const Text(
                     constants.errorEnterValidOTP, 
                     style: TextStyle(
                         fontFamily: 'UberMove',
@@ -150,6 +160,7 @@ class _OtpViewState extends State<OtpView> {
                         fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(255, 69, 69, 1)),
                   ),
+                ),
 
               addVerticalSpace(24),
 
@@ -238,7 +249,7 @@ _validateOTP(int id, String authCode, BuildContext context) async {
   ApiManager.public.verifyEmailOTP(request).then((val) {
     // do some operation
     logger.e('email response -- ${val.toJson()}');
-
+    setValidOTPStatus(false);
     _getLoginToken(val, context);
 
     // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
@@ -250,6 +261,7 @@ _validateOTP(int id, String authCode, BuildContext context) async {
         // Here's the sample to get the failed response error code and message
         final res = (obj as DioException).response;
         logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+        setValidOTPStatus(true);
         break;
       default:
         break;
