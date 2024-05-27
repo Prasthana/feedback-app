@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/api_services.dart';
+import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:network_logger/network_logger.dart';
+import 'package:feedbackapp/constants.dart' as constants;
+
 
 Dio dio = Dio(
   BaseOptions(
@@ -23,8 +28,13 @@ class ApiManager {
       InterceptorsWrapper(
         onRequest: (options, handler) {
           // Add the authorization token to every request
-          StorageManager().getData('TOKEN').then((token) {
-            options.headers['Authorization'] = 'Bearer $token';
+          StorageManager().getData(constants.loginTokenResponse).then((token) {
+            if(token != constants.noDataFound){
+              Map<String, dynamic>  json = jsonDecode(token);
+            var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
+            var access_token = mLoginTokenResponse.accessToken;
+              options.headers['Authorization'] = 'Bearer $access_token';
+            }
             return handler.next(options); // Continue
           });
         },

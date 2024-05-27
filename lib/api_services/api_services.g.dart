@@ -10,7 +10,9 @@ part of 'api_services.dart';
 
 class _RestClient implements RestClient {
   _RestClient(
-    this._dio) {
+    this._dio, {
+    this.baseUrl,
+  }) {
     baseUrl ??= 'https://pug-stirring-hopefully.ngrok-free.app/';
   }
 
@@ -239,6 +241,35 @@ class _RestClient implements RestClient {
               baseUrl,
             ))));
     final value = OneOnOne.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<List<Employee>> fetchEmployeesList() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Employee>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/employees',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) => Employee.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

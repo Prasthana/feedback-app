@@ -1,6 +1,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
+import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
@@ -15,7 +16,7 @@ abstract class RestClient {
   factory RestClient(Dio dio) = _RestClient;
 
 // ************************************************************************
-// *********************** API's for One - On - One ***********************
+// *********************** API's for Login ***********************
 
   @POST("users/send_email_auth_code")
   Future<EmailOTPResponse> sendEmailOTP(@Body() EmailOTPRequest request);
@@ -44,6 +45,13 @@ abstract class RestClient {
 
   @POST("/one_on_ones")
   Future<OneOnOne> createOneOnOne(@Body() OneOnOne request);
+
+
+// ************************************************************************
+// *********************** API's for Employee's ***********************
+
+  @GET("/employees")
+  Future<List<Employee>> fetchEmployeesList();
 
 // ************************************************************************
 // ************************************************************************

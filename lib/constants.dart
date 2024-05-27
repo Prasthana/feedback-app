@@ -5,6 +5,12 @@ const String clientSecret = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
 const int resendTime = 30;
 
 
+// this is for shared preference's key's
+const String loginTokenResponse = "login_token_response";
+const String barearToken = "barear_token";
+const String noDataFound = "No data found!";
+
+
 ///  This is for Screen level Hard coded strings. 
 
 // This is OTP SCREEN Strings
@@ -25,6 +31,11 @@ const String enterValidEmailText = "Please enter a valid mail";
 const String inValidUserText =  "Invalid user credentials";
 const String uberMoveFont = "UberMove";
 // End of Login Screen
+
+// Reprorting Team SCREEN Strings
+const String reportingTeamTitle = "Reporting Team";
+const String noDataAvailable= "No data available";
+// End of Reporting Team
 
 
 
