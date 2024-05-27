@@ -42,13 +42,13 @@ class CreateOneOnOneView extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            addVerticalSpace(12.0),
+            addVerticalSpace(8.0),
             SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 51.0,
               child: TextButton(
                 onPressed: () {
-                  debugPrint("TextButton ------>>>>");
+                  debugPrint("search employee ------>>>>");
                 },
                 style: OutlinedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -57,8 +57,7 @@ class CreateOneOnOneView extends StatelessWidget {
                   side: const BorderSide(color: textColor, width: 1.0),
                 ),
                 child: const Align(
-                  alignment: Alignment
-                      .centerLeft,
+                  alignment: Alignment.centerLeft,
                   child: Text(
                     constants.searchEmployeeText,
                     textAlign: TextAlign.left,
@@ -73,14 +72,100 @@ class CreateOneOnOneView extends StatelessWidget {
               ),
             ),
             addVerticalSpace(36),
-            const Text(
-              constants.dateText,
-              style: TextStyle(
-                fontFamily: constants.uberMoveFont,
-                fontSize: 21,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+
+            /// *************Date start***************
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      constants.dateText,
+                      style: TextStyle(
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 21,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    addVerticalSpace(8),
+                    SizedBox(
+                      width: (MediaQuery.of(context).size.width / 2) - 28,
+                      height: 51.0,
+                      child: TextButton(
+                        onPressed: () {
+                          debugPrint("select date ------>>>>");
+                        },
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          side: const BorderSide(color: textColor, width: 1.0),
+                        ),
+                        child: const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "27/05/2024",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: textColor,
+                              fontFamily: constants.uberMoveFont,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // *************Date end***************
+                addHorizontalSpace(24),
+                // *************Time start***************
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      constants.timeText,
+                      style: TextStyle(
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 21,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    addVerticalSpace(8),
+                    SizedBox(
+                      width: (MediaQuery.of(context).size.width / 2) - 28,
+                      height: 51.0,
+                      child: TextButton(
+                        onPressed: () {
+                          debugPrint("select time ------>>>>");
+                        },
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          side: const BorderSide(color: textColor, width: 1.0),
+                        ),
+                        child: const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "9:45 AM - 10:45 AM",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: textColor,
+                              fontFamily: constants.uberMoveFont,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ), // *************Time end***************
           ],
         ),
       ),
