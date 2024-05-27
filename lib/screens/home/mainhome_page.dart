@@ -54,21 +54,11 @@ class _MainHomePageViewState extends State<MainHomePageView> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('clickeed on calender ------>>>');
-          // Navigator.of(context).push(MaterialPageRoute(
-          //     builder: (context) => const OneOnOneDateView()));
-          // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  const MainTabView()));
-
-    // Navigator.push(
-    //   context, // BuildContext of the current screen
-    //   MaterialPageRoute(builder: (context) => const OneOnOneDateView(), fullscreenDialog: true),
-    // );
-
       // used modal_bottom_sheet - to model present
       showCupertinoModalBottomSheet(
         context: context,
         builder: (context) => const OneOnOneDateView(),
         enableDrag: true,
-        bounce: false,
       );  
 
 
