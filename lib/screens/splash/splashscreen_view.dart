@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:feedbackapp/constants.dart' as constants;
+
 
 class SplashScreenView extends StatefulWidget {
   const SplashScreenView({super.key});
@@ -15,8 +19,30 @@ class SplashScreenView extends StatefulWidget {
 }
 
 class _SplashScreenViewState extends State<SplashScreenView> {
-  bool isLoggedIn() {
-    return false;
+    var isLogedIn = false;
+
+void setLoginStatus(bool newValue) {
+    setState(() {
+      isLogedIn = newValue;
+    });
+  }
+
+  checkLoginstatus() {
+    var sm = StorageManager();
+   sm.getData(constants.loginTokenResponse).then((val) {          
+          if(val != null){
+            Map<String, dynamic>  json = jsonDecode(val);
+            var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
+            logger.d('val -- $json');
+            if(mLoginTokenResponse.user != null){
+              setLoginStatus(true);
+            } else {
+              setLoginStatus(false);
+            }
+          } else {
+           setLoginStatus(false);
+          }
+        });
   }
 
   saveTempToken() {
@@ -35,16 +61,17 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   void initState() {
     super.initState();
 
-    saveTempToken();
+    checkLoginstatus();
     Timer(
         const Duration(seconds: 2),
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    isLoggedIn() ? const MainTabView() : const LoginView(),
+                    isLogedIn? const MainTabView() : const LoginView(),
                 //LoginView(),
-                fullscreenDialog: true)));
+                fullscreenDialog: true))
+                );
   }
 
   @override
