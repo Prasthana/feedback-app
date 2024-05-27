@@ -1,4 +1,6 @@
+import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/screens/employees/employee_list_view.dart';
 import 'package:feedbackapp/screens/home/mainhome_page.dart';
 import 'package:feedbackapp/screens/settings/settings_view.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,8 @@ class MainTabView extends StatefulWidget {
 class _MainTabViewState extends State<MainTabView> {
   int currentPageIndex = 0;
   bool _isLoading = false;
+  // Example condition flags
+  bool hasAccessForTeamTab = false;
 
   @override
   void initState() {
@@ -22,6 +26,15 @@ class _MainTabViewState extends State<MainTabView> {
       _isLoading = true;
     });
     ApiManager.authenticated.performPrepareCall().then((val) {
+
+     Permission? tabTabAccess = val.permissions?["teams.tab"];
+
+     if (tabTabAccess?.access == Access.enabled) {
+        hasAccessForTeamTab = true;
+     } else {
+      hasAccessForTeamTab = false;
+     }
+     
       setState(() {
         _isLoading = false;
       });
@@ -34,8 +47,6 @@ class _MainTabViewState extends State<MainTabView> {
     });
   }
 
-  // Example condition flags
-  bool showExtraItem1 = false;
 
   List<BottomNavigationBarItem> bottomNavItems() {
     List<BottomNavigationBarItem> bottomNavItems = [
@@ -45,7 +56,7 @@ class _MainTabViewState extends State<MainTabView> {
       ),
     ];
 
-    if (showExtraItem1) {
+    if (hasAccessForTeamTab) {
       bottomNavItems.add(const BottomNavigationBarItem(
         icon: Icon(Icons.people),
         label: 'People',
@@ -61,9 +72,9 @@ class _MainTabViewState extends State<MainTabView> {
       const MainHomePageView()
     ];
 
-    if (showExtraItem1) {
+    if (hasAccessForTeamTab) {
       /// Settings page
-      bottomWidgets.add(const SettingsView());
+      bottomWidgets.add(const EmployeeListView());
     }
     return bottomWidgets[currentPageIndex];
   }
