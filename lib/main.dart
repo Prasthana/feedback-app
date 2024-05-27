@@ -49,7 +49,7 @@ clearSecureStorageOnReinstall() async {
     var hasRunBefore = prefs.getBool(key);
 
     if ( hasRunBefore != null && hasRunBefore == false) {
-      FlutterSecureStorage storage = FlutterSecureStorage();
+      FlutterSecureStorage storage = const FlutterSecureStorage();
       await storage.deleteAll();
       prefs.setBool(key, true);
     }

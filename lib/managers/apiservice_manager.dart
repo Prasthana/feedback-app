@@ -32,8 +32,8 @@ class ApiManager {
             if(token != constants.noDataFound){
               Map<String, dynamic>  json = jsonDecode(token);
             var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
-            var access_token = mLoginTokenResponse.accessToken;
-              options.headers['Authorization'] = 'Bearer $access_token';
+            var accessToken = mLoginTokenResponse.accessToken;
+              options.headers['Authorization'] = 'Bearer $accessToken';
             }
             return handler.next(options); // Continue
           });
