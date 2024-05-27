@@ -71,7 +71,7 @@ class CreateOneOnOneView extends StatelessWidget {
                 ),
               ),
             ),
-            addVerticalSpace(36),
+            addVerticalSpace(26),
 
             /// *************Date start***************
             Row(
