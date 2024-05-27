@@ -16,6 +16,7 @@ var logger = Logger(
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   clearSecureStorageOnReinstall();
   bugsnag.start(apiKey: bugsnagappid);
   bugsnag_performance.start(apiKey: bugsnagappid);

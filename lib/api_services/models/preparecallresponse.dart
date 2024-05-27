@@ -33,7 +33,9 @@ class Permission {
   Map<String, dynamic> toJson() => _$PermissionToJson(this);
 }
 
+@JsonEnum(fieldRename: FieldRename.snake)
 enum Access {
     enabled,
+    @JsonKey(name: 'not_available')
     notAvailable
 }

@@ -34,5 +34,5 @@ Map<String, dynamic> _$PermissionToJson(Permission instance) =>
 
 const _$AccessEnumMap = {
   Access.enabled: 'enabled',
-  Access.notAvailable: 'notAvailable',
+  Access.notAvailable: 'not_available',
 };
