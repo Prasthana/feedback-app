@@ -7,6 +7,7 @@ import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -269,6 +270,8 @@ _getLoginToken(VerifyEmailOTPResponse mVerifyEmailOTPResponse, BuildContext cont
     // do some operation
     logger.e('email response -- ${val.toJson()}');
 
+    _saveMyLoginToken(val);
+
     Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  const MainTabView()));
 
   }).catchError((obj) {
@@ -317,5 +320,14 @@ _genarateOtp(String? email,BuildContext context) async {
 
 }
 
-
+_saveMyLoginToken(LoginTokenResponse mLoginTokenResponse){
+  var sm = StorageManager();
+    sm.saveData(constants.loginMyTokenResponce, mLoginTokenResponse.toString());
+    logger.d('Key A value is');
+    // print(
+    sm.getData(constants.loginMyTokenResponce).then((val) {
+      // do some operation
+      logger.d('val -- $val');
+    });
+}
 }

@@ -5,6 +5,10 @@ const String clientSecret = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
 const int resendTime = 30;
 
 
+// this is for shared preference's key's
+const String loginMyTokenResponce = "LOGIN_MY_TOKEN_RESPONCE";
+
+
 ///  This is for Screen level Hard coded strings. 
 
 // This is OTP SCREEN Strings
