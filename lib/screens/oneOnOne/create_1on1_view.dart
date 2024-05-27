@@ -1,8 +1,10 @@
 import 'package:feedbackapp/constants.dart';
+import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/constants.dart' as constants;
 import 'package:flutter/widgets.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CreateOneOnOneView extends StatelessWidget {
   const CreateOneOnOneView({super.key});
@@ -12,7 +14,7 @@ class CreateOneOnOneView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
+          icon: const Icon(Icons.arrow_back, color: textColor),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -49,6 +51,11 @@ class CreateOneOnOneView extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   debugPrint("search employee ------>>>>");
+                  showCupertinoModalBottomSheet(
+                    context: context,
+                     builder: (context) => const SelectEmployeeView(),
+                  );
+
                 },
                 style: OutlinedButton.styleFrom(
                   shape: RoundedRectangleBorder(
