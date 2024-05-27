@@ -26,5 +26,10 @@ const String inValidUserText =  "Invalid user credentials";
 const String uberMoveFont = "UberMove";
 // End of Login Screen
 
+// Login 1-on-1 Strings
+const String selectEmployeeText = "Select Employee";
+
+// End of Login Screen
+
 
 

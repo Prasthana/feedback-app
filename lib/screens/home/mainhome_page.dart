@@ -1,6 +1,6 @@
 import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
-import 'package:feedbackapp/screens/oneOnOne/oneonone_from_date_view.dart';
+import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
       // used modal_bottom_sheet - to model present
       showCupertinoModalBottomSheet(
         context: context,
-        builder: (context) => const OneOnOneDateView(),
+        builder: (context) => const CreateOneOnOneView(),
         enableDrag: true,
       );  
 
