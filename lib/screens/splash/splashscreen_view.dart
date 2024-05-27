@@ -15,9 +15,9 @@ class SplashScreenView extends StatefulWidget {
 }
 
 class _SplashScreenViewState extends State<SplashScreenView> {
-  bool isLoggedIn() {
-    return false;
-  }
+  // bool isLoggedIn() {
+  //   return false;
+  // }
 
   saveTempToken() {
     var sm = StorageManager();
@@ -36,15 +36,24 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     super.initState();
 
     saveTempToken();
-    Timer(
-        const Duration(seconds: 2),
-        () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    isLoggedIn() ? const MainTabView() : const LoginView(),
-                //LoginView(),
-                fullscreenDialog: true)));
+
+    var sm = StorageManager();
+
+    sm.getData('TOKEN').then((val) {
+      // do some operation
+      // logger.d('val -- $val');
+
+      var isLoggedIn = (val != null);
+      Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      isLoggedIn ? const MainTabView() : const LoginView(),
+                  //LoginView(),
+                  fullscreenDialog: true)));
+    });
   }
 
   @override
