@@ -2,7 +2,6 @@ import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/employees/employee_list_view.dart';
 import 'package:feedbackapp/screens/home/mainhome_page.dart';
-import 'package:feedbackapp/screens/settings/settings_view.dart';
 import 'package:flutter/material.dart';
 
 class MainTabView extends StatefulWidget {
