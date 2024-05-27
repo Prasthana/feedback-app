@@ -10,9 +10,7 @@ part of 'api_services.dart';
 
 class _RestClient implements RestClient {
   _RestClient(
-    this._dio, {
-    this.baseUrl,
-  }) {
+    this._dio) {
     baseUrl ??= 'https://pug-stirring-hopefully.ngrok-free.app/';
   }
 
@@ -103,6 +101,33 @@ class _RestClient implements RestClient {
               baseUrl,
             ))));
     final value = LoginTokenResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<PrepareCallResponse> performPrepareCall() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<PrepareCallResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'users/prepare',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = PrepareCallResponse.fromJson(_result.data!);
     return value;
   }
 

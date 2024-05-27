@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:feedbackapp/api_services/api_services.dart';
@@ -10,7 +9,6 @@ import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
@@ -272,7 +270,6 @@ class _OtpViewState extends State<OtpView> {
       // do some operation
       logger.e('email response -- ${val.toJson()}');
       String user = jsonEncode(val.toJson());
-      var accessToken = val.accessToken;
       var sm = StorageManager();
 
       sm.saveData(constants.loginTokenResponse, user).then((val) {
@@ -280,7 +277,7 @@ class _OtpViewState extends State<OtpView> {
         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainTabView()));
         Navigator.pushAndRemoveUntil<dynamic>(
         context, MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => MainTabView(),),
+          builder: (BuildContext context) => const MainTabView(),),
         (route) => false,//if you want to disable back feature set to false
         );
       });
