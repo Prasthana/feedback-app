@@ -74,7 +74,7 @@ class _OtpViewState extends State<OtpView> {
         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginView())),
       ), 
       title: const Text(constants.txtLogin,style: TextStyle(
-                    fontFamily: 'UberMove',
+                    fontFamily: constants.uberMoveFont,
                     fontSize: 22,
                     fontStyle: FontStyle.normal,
                     color: Color.fromRGBO(0, 0, 0, 1)),
@@ -90,7 +90,7 @@ class _OtpViewState extends State<OtpView> {
                  const Text(
                     constants.verifyYourEmail, 
                     style: TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 28,
                         fontWeight: FontWeight.w700,
                         color: Color.fromRGBO(4, 4, 4, 1)),
@@ -101,7 +101,7 @@ class _OtpViewState extends State<OtpView> {
                 const Text(
                     constants.enterCodeSentTo, 
                     style: TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
                         color: Color.fromRGBO(4, 4, 4, 1)),
@@ -112,7 +112,7 @@ class _OtpViewState extends State<OtpView> {
               Text(
                     widget.emailOTPResponse.email,
                     style: const TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
                         color: Color.fromRGBO(22, 97, 210, 1)),
@@ -155,7 +155,7 @@ class _OtpViewState extends State<OtpView> {
                   child: const Text(
                     constants.errorEnterValidOTP, 
                     style: TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(255, 69, 69, 1)),
@@ -183,7 +183,7 @@ class _OtpViewState extends State<OtpView> {
               }, 
               child: Text(constants.confirm,
               style: TextStyle(
-                  fontFamily: 'UberMove',
+                  fontFamily: constants.uberMoveFont,
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
                   color: isEnableConfirmBtn ? const Color.fromRGBO(255, 255, 255, 1) :  const Color.fromRGBO(0, 0, 0, 1)
@@ -197,7 +197,7 @@ class _OtpViewState extends State<OtpView> {
               const Center(child:Text(
                     constants.haveNotReceivedCodeYet, 
                     style: TextStyle(
-                        fontFamily: 'UberMove',
+                        fontFamily: constants.uberMoveFont,
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
                         color: Color.fromRGBO(4, 4, 4, 1)),
@@ -225,7 +225,7 @@ class _OtpViewState extends State<OtpView> {
                     },
                     child: Text(resendText,
                     style: TextStyle(
-                      fontFamily: 'UberMove',
+                      fontFamily: constants.uberMoveFont,
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
                       color: isEnableResendBtn ? const Color.fromRGBO(22, 97, 210, 1) : const Color.fromARGB(255, 169, 191, 224)),

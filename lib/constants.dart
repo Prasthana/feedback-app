@@ -1,7 +1,7 @@
 ///  This is API Hard coded strings. 
 const String grantType = "password";
-const String clientId = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";
-const String clientSecret = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
+const String clientId = "SpQyZ8B1tjeJlMQ4q7eWkIhZDkkLxYnnsdmbCrs0uFE";
+const String clientSecret = "vJE-BSnABo0iCYOr7uaJ3si6H2mPHBMRYE21GwisR1I";
 const int resendTime = 30;
 
 
