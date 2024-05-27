@@ -5,6 +5,7 @@ part 'verifyotp.g.dart';
 @JsonSerializable()
 class VerifyEmailOTPRequest {
   int id;
+  @JsonKey(name: 'email_auth_code')
   String emailAuthCode;
 
   VerifyEmailOTPRequest({required this.id, 
@@ -23,6 +24,7 @@ class VerifyEmailOTPRequest {
 @JsonSerializable()
 class VerifyEmailOTPResponse {
   int id;
+  @JsonKey(name: 'login_token')
   String loginToken;
   String email;
 

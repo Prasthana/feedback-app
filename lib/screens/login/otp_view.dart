@@ -272,7 +272,9 @@ class _OtpViewState extends State<OtpView> {
       // do some operation
       logger.e('email response -- ${val.toJson()}');
       String user = jsonEncode(val.toJson());
+      var accessToken = val.accessToken;
       var sm = StorageManager();
+
       sm.saveData(constants.loginTokenResponse, user).then((val) {
         // do some operation
         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainTabView()));
