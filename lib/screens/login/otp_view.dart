@@ -271,10 +271,9 @@ class _OtpViewState extends State<OtpView> {
     ApiManager.public.generateLoginToken(request).then((val) {
       // do some operation
       logger.e('email response -- ${val.toJson()}');
-      // Map decodedata = json.decode(val as String);
       String user = jsonEncode(val.toJson());
       var sm = StorageManager();
-      sm.saveData(constants.loginMyTokenResponce, user).then((val) {
+      sm.saveData(constants.loginTokenResponse, user).then((val) {
         // do some operation
         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainTabView()));
         Navigator.pushAndRemoveUntil<dynamic>(

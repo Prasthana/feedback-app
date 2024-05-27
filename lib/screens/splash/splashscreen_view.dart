@@ -29,7 +29,7 @@ void setLoginStatus(bool newValue) {
 
   checkLoginstatus() {
     var sm = StorageManager();
-   sm.getData(constants.loginMyTokenResponce).then((val) {          
+   sm.getData(constants.loginTokenResponse).then((val) {          
           if(val != null){
             Map<String, dynamic>  json = jsonDecode(val);
             var mLoginTokenResponse = LoginTokenResponse.fromJson(json);

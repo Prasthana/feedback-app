@@ -6,7 +6,7 @@ const int resendTime = 30;
 
 
 // this is for shared preference's key's
-const String loginMyTokenResponce = "LOGIN_MY_TOKEN_RESPONCE";
+const String loginTokenResponse = "login_token_response";
 
 
 ///  This is for Screen level Hard coded strings. 
