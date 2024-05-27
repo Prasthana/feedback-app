@@ -5,7 +5,7 @@ import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:network_logger/network_logger.dart';
-import 'package:feedbackapp/constants.dart' as constants;
+import 'package:feedbackapp/utils/constants.dart' as constants;
 
 
 Dio dio = Dio(

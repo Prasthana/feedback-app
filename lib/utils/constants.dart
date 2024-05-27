@@ -32,6 +32,11 @@ const String inValidUserText =  "Invalid user credentials";
 const String uberMoveFont = "UberMove";
 // End of Login Screen
 
+
+// 1-1 List SCREEN Strings
+const String oneOneOnScreenTitle = "Schedule";
+
+
 // Reprorting Team SCREEN Strings
 const String reportingTeamTitle = "Reporting Team";
 const String noDataAvailable= "No data available";
