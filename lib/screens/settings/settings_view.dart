@@ -1,3 +1,4 @@
+import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:flutter/material.dart';
 
 class SettingsView extends StatefulWidget {
@@ -8,33 +9,51 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  bool _isLoading = false;
+
+  Future<void> _performAction() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Simulate a network request or a time-consuming task
+    // await Future.delayed(Duration(seconds: 3));
+
+    var sm = StorageManager();
+
+    sm.removeData("TOKEN").then((val) {
+      // setState(() {
+      //   _isLoading = false;
+      // });
+
+      Navigator.popUntil(context, (route) => route.isFirst);
+    });
+
+    // Perform your actual action here
+    // For example, navigate to another screen or update the UI
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return       ListView.builder(
-          reverse: true,
-          itemCount: 2,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  margin: const EdgeInsets.all(8.0),
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Text(
-                    'Hello',
-                    style: theme.textTheme.bodyLarge!
-                        .copyWith(color: theme.colorScheme.onPrimary),
-                  ),
-                ),
-              );
-            }
-            return null;
-         }
-         );
+    return Center(
+      child: _isLoading
+          // ? const LinearProgressIndicator()
+          ? const RefreshProgressIndicator(semanticsValue: 'Logout')
+          // CircularProgressIndicator()
+          : ElevatedButton(
+              onPressed: _performAction,
+              child: const Text('Logout'),
+            ),
+    );
+    /*
+    return Center(
+        child: ElevatedButton(
+            child: const Text("Logout"),
+            onPressed: () => {
+                  sm.removeData("TOKEN").then((val) {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                  })
+                }));
+                */
   }
 }

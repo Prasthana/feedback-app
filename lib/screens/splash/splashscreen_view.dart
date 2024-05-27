@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
@@ -19,6 +18,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   //   return false;
   // }
 
+/*
   saveTempToken() {
     var sm = StorageManager();
     sm.saveData('TOKEN',
@@ -30,12 +30,13 @@ class _SplashScreenViewState extends State<SplashScreenView> {
       logger.d('val -- $val');
     });
   }
+  */
 
   @override
   void initState() {
     super.initState();
 
-    saveTempToken();
+    // saveTempToken();
 
     var sm = StorageManager();
 
