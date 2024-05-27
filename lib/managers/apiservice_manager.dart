@@ -18,7 +18,7 @@ Dio dio = Dio(
 
 class ApiManager {
   static const String baseURL =
-      'https://pug-stirring-hopefully.ngrok-free.app/';
+      'http://ec2-18-219-231-99.us-east-2.compute.amazonaws.com/';
 
   static Dio buildDioClient(String base) {
     final dio = Dio()..options = BaseOptions(baseUrl: baseURL);
