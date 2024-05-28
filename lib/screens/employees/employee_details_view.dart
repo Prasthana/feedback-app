@@ -24,7 +24,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white ,
-        title: Text(widget.mEmployee?.name ?? ""),
+        title: Text(widget.mEmployee.name ?? ""),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
           onPressed: () => Navigator.pop(context),
@@ -42,7 +42,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   maxRadius: 64.0,
                   foregroundImage: NetworkImage(""),
                   child: Text(
-                    getInitials(widget.mEmployee?.name ?? "", 2),
+                    getInitials(widget.mEmployee.name ?? "", 2),
                     style: const TextStyle(
                         fontFamily: constants.uberMoveFont,
                         fontSize: 24,
@@ -56,7 +56,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee?.name ?? "",
+                  widget.mEmployee.name ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 24,
@@ -69,7 +69,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee?.designation ?? "",
+                  widget.mEmployee.designation ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -82,7 +82,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee?.email ?? "",
+                  widget.mEmployee.email ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -95,7 +95,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee?.email ?? "",
+                  widget.mEmployee.email ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -128,7 +128,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 trailing: const Icon(Icons.chevron_right),
                 title: const Text(
                  constants.appLock,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
@@ -151,7 +151,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 trailing: const Icon(Icons.chevron_right),
                 title: const Text(
                  constants.logOut,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
@@ -176,7 +176,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   String getInitials(String string, [int limitTo = 2]) {
-    if (string == null || string.isEmpty) {
+    if (string.isEmpty) {
       return '';
     }
 
@@ -188,7 +188,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       return string.substring(0, 1);
     }
 
-    for (var i = 0; i < (limitTo ?? split.length); i++) {
+    for (var i = 0; i < (limitTo); i++) {
       buffer.write(split[i][0]);
     }
 
