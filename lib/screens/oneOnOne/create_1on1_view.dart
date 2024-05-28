@@ -30,21 +30,24 @@ String _selectedOption = constants.doesNotRepeatText;
       builder: (BuildContext context) {
         String tempSelectedOption = _selectedOption;
         return AlertDialog(
-          //title: Text("Choose an option"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: _options.map((option) {
-              return RadioListTile<String>(
-                title: Text(option),
-                value: option,
-                groupValue: tempSelectedOption,
-                onChanged: (value) {
-                  setState(() {
-                    tempSelectedOption = value!;
-                  });
-                },
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: _options.map((option) {
+                  return RadioListTile<String>(
+                    title: Text(option),
+                    value: option,
+                    groupValue: tempSelectedOption,
+                    onChanged: (value) {
+                      setState(() {
+                        tempSelectedOption = value!;
+                      });
+                    },
+                  );
+                }).toList(),
               );
-            }).toList(),
+            }
           ),
           actions: <Widget>[
             TextButton(
