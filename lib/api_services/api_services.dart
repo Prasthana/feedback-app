@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneononeresponse.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
@@ -52,7 +53,7 @@ abstract class RestClient {
 // *********************** API's for Employee's ***********************
 
   @GET("/employees")
-  Future<List<Employee>> fetchEmployeesList();
+  Future<EmployeesResponse> fetchEmployeesList();
 
   @GET("/employees")
   Future<Employee> fetchEmployeesDetails(@Query("param1") String employeeId);
@@ -61,10 +62,10 @@ abstract class RestClient {
   Future<Employee> updateEmployeesDetails(@Query("param1") String employeeId);
 
   @POST("/employees")
-  Future<OneOnOne> createEmployee(@Body() OneOnOne request);
+  Future<Employee> createEmployee(@Body() OneOnOne request);
 
   @DELETE("/employees")
-  Future<OneOnOne> deleteEmployee(@Query("param1") String employeeId);
+  Future<Employee> deleteEmployee(@Query("param1") String employeeId);
 
 // ************************************************************************
 // ************************************************************************
