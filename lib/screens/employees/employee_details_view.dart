@@ -34,7 +34,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white ,
-        title: Text(widget.mEmployee.name ?? ""),
+        // title: Text(widget.mEmployee.name ?? ""),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
           onPressed: () => Navigator.pop(context),
@@ -91,7 +91,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee.name ?? "",
+                  employee?.name ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 24,
@@ -104,7 +104,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee.designation ?? "",
+                  employee?.designation ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -117,7 +117,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee.email ?? "",
+                  employee?.email ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -128,19 +128,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               addVerticalSpace(8),
 
-              const Center(
-                child: Text(
-                  widget.mEmployee.email ?? "",
-                  style: const TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(22, 97, 210, 1)),
-                ),
-              ),
-
-              addVerticalSpace(24),
-
+/*
+ 
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -157,6 +146,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               ),
 
             addVerticalSpace(6),
+
 
             ListTile(
                 leading: Image.asset('assets/icApplock.png', height: 38),
@@ -203,6 +193,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 indent: 68.0,
                 endIndent: 0,
               ),
+
+*/
 
             ],
         )
