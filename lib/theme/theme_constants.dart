@@ -4,6 +4,7 @@ import 'package:feedbackapp/utils/constants.dart' as constants;
 
 const colorPrimary = Colors.green;
 const colorAccent = Colors.greenAccent;
+const colorText = Color.fromRGBO(0, 0, 0, 1);
 
 ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
