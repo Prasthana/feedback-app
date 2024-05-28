@@ -17,7 +17,57 @@ class CreateOneOnOneView extends StatefulWidget {
 class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
-  String selectedOption = constants.doesNotRepeatText;
+// String selectedOption = constants.doesNotRepeatText;
+ // List<String> options = ["Does not repeat","Daily","Weekly on friday","custom"];
+
+
+String _selectedOption = constants.doesNotRepeatText;
+  List<String> _options = ["Does not repeat", "Daily", "Weekly on friday", "custom"];
+
+  void _showRadioButtonDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String _tempSelectedOption = _selectedOption;
+        return AlertDialog(
+          //title: Text("Choose an option"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: _options.map((option) {
+              return RadioListTile<String>(
+                title: Text(option),
+                value: option,
+                groupValue: _tempSelectedOption,
+                onChanged: (value) {
+                  setState(() {
+                    _tempSelectedOption = value!;
+                  });
+                },
+              );
+            }).toList(),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                setState(() {
+                  _selectedOption = _tempSelectedOption;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -220,6 +270,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
             GestureDetector(
               onTap: () {
                 debugPrint('GestureDetector ------->>>>');
+                _showRadioButtonDialog();
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -234,7 +285,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   ),
                   addHorizontalSpace(10),
                   Text(
-                    selectedOption,
+                    _selectedOption,
                     style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -291,6 +342,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
               minWidth: double.infinity,
               height: 58.0,
               onPressed: () {
+                debugPrint("clicked on create ----->>>>");
+                
                 
               },
               // ignore: sort_child_properties_last
