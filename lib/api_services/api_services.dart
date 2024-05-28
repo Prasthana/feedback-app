@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
+import 'package:feedbackapp/api_services/models/oneononeresponse.dart';
+import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
@@ -35,16 +37,16 @@ abstract class RestClient {
 // *********************** API's for One - On - One ***********************
 
   @GET("/one_on_ones")
-  Future<List<OneOnOne>> fetchOneOnOnesList();
+  Future<OneOnOnesResponse> fetchOneOnOnesList();
 
   @GET("/one_on_ones")
-  Future<OneOnOne> fetchOneOnOneDetails(@Query("param1") String oneononeid);
+  Future<OneOnOneResponse> fetchOneOnOneDetails(@Query("param1") String oneononeid);
 
   @PUT("/one_on_ones")
-  Future<OneOnOne> updateOneOnOneDetails(@Query("param1") String oneononeid);
+  Future<OneOnOneResponse> updateOneOnOneDetails(@Query("param1") String oneononeid);
 
   @POST("/one_on_ones")
-  Future<OneOnOne> createOneOnOne(@Body() OneOnOne request);
+  Future<OneOnOneResponse> createOneOnOne(@Body() OneOnOne request);
 
 // ************************************************************************
 // *********************** API's for Employee's ***********************
