@@ -3,6 +3,7 @@ import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
@@ -47,7 +48,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     return const CircularProgressIndicator();
                   } else if (snapshot.hasData) {
                     final employeeResponse = snapshot.data;
-                    // var listCount = employeesResponse?.employeesList?.length ?? 0;
                     if (employeeResponse?.employee != null) {
                       return buildEmployeeDetailsView(employeeResponse?.employee);
                     } else {
@@ -70,19 +70,35 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               addVerticalSpace(12),
-              Center(
+               Center(
                 child: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 64.0,
                   foregroundImage: NetworkImage(""),
-                  child: Text(
-                    getInitials(employee?.name ?? "", 2),
-                    style: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(255, 255, 255, 1)),
-                  ),
+                  child: Stack(
+                  children: [
+                    const Align(
+                        alignment: Alignment.bottomRight,
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Colors.white70,
+                          child: Icon(CupertinoIcons.camera),
+                        ),
+                    ),
+
+                    Align(
+                      alignment: Alignment.center,
+                      child:  Text(
+                      getInitials(employee?.name ?? "", 2),
+                      style: const TextStyle(
+                          fontFamily: constants.uberMoveFont,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromRGBO(255, 255, 255, 1)),
+                      ),
+                    )
+                  ]
+                ),
                 ),
               ),
               
