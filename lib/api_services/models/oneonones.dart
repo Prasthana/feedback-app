@@ -10,23 +10,20 @@ part 'oneonones.g.dart';
 
 @JsonSerializable()
 class OneOnOne {
-  int? id;
-  DateTime? scheduledDate;
-  DateTime? startTime;
-  DateTime? endTime;
-  String? status;
-  dynamic notes;
-  Participant? participant;
+    @JsonKey(name: 'start_date_time')
+    DateTime? startDateTime;
+    @JsonKey(name: 'end_date_time')
+    DateTime? endDateTime;
+    String notes; // 
+    @JsonKey(name: 'one_on_one_participants_attributes')
+    List<OneOnOneParticipantsAttribute>? oneOnOneParticipantsAttributes;
 
-  OneOnOne({
-    required this.id,
-    required this.scheduledDate,
-    required this.startTime,
-    required this.endTime,
-    required this.status,
-    required this.notes,
-    required this.participant,
-  });
+    OneOnOne({
+        required this.startDateTime,
+        required this.endDateTime,
+        required this.notes,
+        required this.oneOnOneParticipantsAttributes,
+    });
 
   factory OneOnOne.fromJson(Map<String, dynamic> json) =>
       _$OneOnOneFromJson(json);
@@ -38,20 +35,26 @@ class OneOnOne {
 // ########----########----########----########----########----########----########----########----########----########
 
 @JsonSerializable()
-class Participant {
-  int? id;
-  String? name;
-  String? email;
+class OneOnOneParticipantsAttribute {
+    @JsonKey(name: 'employee_id')
+    int? employeeId;
 
-  Participant({
-    required this.id,
-    required this.name,
-    required this.email,
-  });
- 
-  factory Participant.fromJson(Map<String, dynamic> json) =>
-      _$ParticipantFromJson(json);
-  Map<String, dynamic> toJson() => _$ParticipantToJson(this);
+    OneOnOneParticipantsAttribute({
+        required this.employeeId,
+    });
+
+    // factory OneOnOneParticipantsAttribute.fromJson(Map<String, dynamic> json) => OneOnOneParticipantsAttribute(
+    //     employeeId: json["employee_id"],
+    // );
+
+    // Map<String, dynamic> toJson() => {
+    //     "employee_id": employeeId,
+    // };
+
+      factory OneOnOneParticipantsAttribute.fromJson(Map<String, dynamic> json) =>
+      _$OneOnOneParticipantsAttributeFromJson(json);
+
+      Map<String, dynamic> toJson() => _$OneOnOneParticipantsAttributeToJson(this);
 }
 
 // ########----########----########----########----########----########----########----########----########----########

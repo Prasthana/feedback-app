@@ -7,42 +7,36 @@ part of 'oneonones.dart';
 // **************************************************************************
 
 OneOnOne _$OneOnOneFromJson(Map<String, dynamic> json) => OneOnOne(
-      id: (json['id'] as num?)?.toInt(),
-      scheduledDate: json['scheduledDate'] == null
+      startDateTime: json['start_date_time'] == null
           ? null
-          : DateTime.parse(json['scheduledDate'] as String),
-      startTime: json['startTime'] == null
+          : DateTime.parse(json['start_date_time'] as String),
+      endDateTime: json['end_date_time'] == null
           ? null
-          : DateTime.parse(json['startTime'] as String),
-      endTime: json['endTime'] == null
-          ? null
-          : DateTime.parse(json['endTime'] as String),
-      status: json['status'] as String?,
-      notes: json['notes'],
-      participant: json['participant'] == null
-          ? null
-          : Participant.fromJson(json['participant'] as Map<String, dynamic>),
+          : DateTime.parse(json['end_date_time'] as String),
+      notes: json['notes'] as String,
+      oneOnOneParticipantsAttributes:
+          (json['one_on_one_participants_attributes'] as List<dynamic>?)
+              ?.map((e) => OneOnOneParticipantsAttribute.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
     );
 
 Map<String, dynamic> _$OneOnOneToJson(OneOnOne instance) => <String, dynamic>{
-      'id': instance.id,
-      'scheduledDate': instance.scheduledDate?.toIso8601String(),
-      'startTime': instance.startTime?.toIso8601String(),
-      'endTime': instance.endTime?.toIso8601String(),
-      'status': instance.status,
+      'start_date_time': instance.startDateTime?.toIso8601String(),
+      'end_date_time': instance.endDateTime?.toIso8601String(),
       'notes': instance.notes,
-      'participant': instance.participant,
+      'one_on_one_participants_attributes':
+          instance.oneOnOneParticipantsAttributes,
     };
 
-Participant _$ParticipantFromJson(Map<String, dynamic> json) => Participant(
-      id: (json['id'] as num?)?.toInt(),
-      name: json['name'] as String?,
-      email: json['email'] as String?,
+OneOnOneParticipantsAttribute _$OneOnOneParticipantsAttributeFromJson(
+        Map<String, dynamic> json) =>
+    OneOnOneParticipantsAttribute(
+      employeeId: (json['employee_id'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$ParticipantToJson(Participant instance) =>
+Map<String, dynamic> _$OneOnOneParticipantsAttributeToJson(
+        OneOnOneParticipantsAttribute instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'email': instance.email,
+      'employee_id': instance.employeeId,
     };
