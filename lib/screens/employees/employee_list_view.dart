@@ -4,6 +4,7 @@ import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/constants.dart' as constants;
+import 'package:flutter_text_drawable/flutter_text_drawable.dart';
 
 
 class EmployeeListView extends StatefulWidget {
@@ -53,18 +54,72 @@ class _EmployeeListViewState extends State<EmployeeListView> {
       itemBuilder: (context, index) {
         final employee = employeeList[index];
         return Container(
+          width: double.infinity,
           color: Colors.grey.shade300,
           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          height: 100,
-          width: double.maxFinite,
+          height: 76,
           child: Row(
-            children: [
-              Expanded(flex: 1, child: Image.asset('assets/splash-image.png')),
-              addHorizontalSpace(10),
-              Expanded(flex: 3, child: Text(employee?.name ?? "DUMMY")),
+            children: <Widget> [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextDrawable(
+                height: 54.0,
+                width: 54.0,
+                boxShape: BoxShape.circle,
+                text: employee?.name ?? "")
+            ),
+
+              Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                employee?.name ?? "",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                employee?.designation ?? "",
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.grey,
+                ),
+              ),
             ],
           ),
+
+            ],
+
+          )
+          
+          // child: Row(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     // Expanded(flex: 1, child: Image.asset('assets/splash-image.png')),
+          //     Expanded(flex: 1, 
+          //     child: TextDrawable(
+          //       height: 54.0,
+          //       width: 54.0,
+          //       boxShape: BoxShape.circle,
+          //       text: employee?.name ?? "")
+          //       ),
+          //     Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       Expanded(flex: 2, child: Text(employee?.name ?? "")),
+          //       Expanded(flex: 2, child: Text(employee?.designation ?? "")),
+          //     ],
+          //     ),
+          //     // Expanded(flex: 3, child: Text(employee?.name ?? "")),
+          //     // Expanded(flex: 3, child: Text(employee?.designation ?? "")),
+          //   ],
+          // ),
         );
       },
     );
