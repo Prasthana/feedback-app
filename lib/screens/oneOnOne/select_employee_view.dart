@@ -1,3 +1,4 @@
+import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
@@ -14,7 +15,7 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: constants.textColor),
+          icon: const Icon(Icons.arrow_back, color: colorText),
           onPressed: () {
             Navigator.pop(context);
           },

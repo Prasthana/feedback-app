@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
 
-const textColor = Color.fromRGBO(0, 0, 0, 1);
-
 ///  This is API Hard coded strings. 
 const String grantType = "password";
 const String clientId = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";

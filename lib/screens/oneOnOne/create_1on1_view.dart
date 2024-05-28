@@ -1,4 +1,5 @@
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
+import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -103,7 +104,7 @@ String _selectedOption = constants.doesNotRepeatText;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: constants.textColor),
+          icon: const Icon(Icons.arrow_back, color: colorText),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -151,7 +152,7 @@ String _selectedOption = constants.doesNotRepeatText;
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     side:
-                        const BorderSide(color: constants.textColor, width: 1.0),
+                        const BorderSide(color: colorText, width: 1.0),
                   ),
                   child: const Align(
                     alignment: Alignment.centerLeft,
@@ -159,7 +160,7 @@ String _selectedOption = constants.doesNotRepeatText;
                       constants.searchEmployeeText,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        color: constants.textColor,
+                        color: colorText,
                         fontFamily: constants.uberMoveFont,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -199,7 +200,7 @@ String _selectedOption = constants.doesNotRepeatText;
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             side: const BorderSide(
-                                color: constants.textColor, width: 1.0),
+                                color: colorText, width: 1.0),
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -207,7 +208,7 @@ String _selectedOption = constants.doesNotRepeatText;
                               DateFormat('dd-MM-yyyy').format(selectedDate),
                               textAlign: TextAlign.left,
                               style: const TextStyle(
-                                color: constants.textColor,
+                                color: colorText,
                                 fontFamily: constants.uberMoveFont,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -248,7 +249,7 @@ String _selectedOption = constants.doesNotRepeatText;
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             side: const BorderSide(
-                                color: constants.textColor, width: 1.0),
+                                color: colorText, width: 1.0),
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -256,7 +257,7 @@ String _selectedOption = constants.doesNotRepeatText;
                               "${selectedTime.hour} : ${selectedTime.minute}",
                               textAlign: TextAlign.left,
                               style: const TextStyle(
-                                color: constants.textColor,
+                                color: colorText,
                                 fontFamily: constants.uberMoveFont,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -330,7 +331,7 @@ String _selectedOption = constants.doesNotRepeatText;
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: constants.textColor,
+                      color: colorText,
                     ),
                   ),
                 ),
@@ -371,7 +372,7 @@ String _selectedOption = constants.doesNotRepeatText;
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 54.0),
         child: Image.asset(
-          'assets/meeting-image.png',
+          'assets/emptyOneOnOneList.png',
         ) // Image.asset
         );
   }
