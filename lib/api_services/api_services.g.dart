@@ -243,13 +243,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<Employee>> fetchEmployeesList() async {
+  Future<EmployeesResponse> fetchEmployeesList() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Employee>>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<EmployeesResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -265,9 +264,7 @@ class _RestClient implements RestClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var value = _result.data!
-        .map((dynamic i) => Employee.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = EmployeesResponse.fromJson(_result.data!);
     return value;
   }
 
@@ -326,14 +323,14 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<OneOnOne> createEmployee(OneOnOne request) async {
+  Future<Employee> createEmployee(OneOnOne request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<OneOnOne>(Options(
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Employee>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -349,18 +346,18 @@ class _RestClient implements RestClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = OneOnOne.fromJson(_result.data!);
+    final value = Employee.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<OneOnOne> deleteEmployee(String employeeId) async {
+  Future<Employee> deleteEmployee(String employeeId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'param1': employeeId};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<OneOnOne>(Options(
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Employee>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
@@ -376,7 +373,7 @@ class _RestClient implements RestClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = OneOnOne.fromJson(_result.data!);
+    final value = Employee.fromJson(_result.data!);
     return value;
   }
 

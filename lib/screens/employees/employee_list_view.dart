@@ -1,5 +1,6 @@
 
 import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class EmployeeListView extends StatefulWidget {
 }
 
 class _EmployeeListViewState extends State<EmployeeListView> {
-  Future<List<Employee>> employeesFuture = ApiManager.authenticated.fetchEmployeesList();
+  Future<EmployeesResponse> employeesFuture = ApiManager.authenticated.fetchEmployeesList();
   @override
   Widget build(BuildContext context) {
     Theme.of(context);
@@ -21,16 +22,16 @@ class _EmployeeListViewState extends State<EmployeeListView> {
     return Scaffold(
       appBar: AppBar( title: const Text(constants.reportingTeamTitle)),
       body: Center(
-      child: FutureBuilder<List<Employee>>(
+      child: FutureBuilder<EmployeesResponse>(
         future: employeesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            final employeesList = snapshot.data;
-              var listCount = employeesList?.length ?? 0;
+            final employeesResponse = snapshot.data;
+              var listCount = employeesResponse?.employeesList?.length ?? 0;
               if (listCount > 0) {
-                return buildEmployeesList(employeesList);
+                return buildEmployeesList(employeesResponse?.employeesList);
               } else {
                 return buildEmptyListView();
               }
