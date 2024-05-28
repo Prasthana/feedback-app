@@ -1,5 +1,7 @@
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:network_logger/network_logger.dart';
@@ -26,15 +28,19 @@ class _MainHomePageViewState extends State<MainHomePageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(constants.oneOneOnScreenTitle),
-              actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: 'Show Snackbar',
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('This is a snackbar'))); },)]
-      ),
+      appBar: AppBar(
+          title: const Text(constants.oneOneOnScreenTitle),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              tooltip: 'Logout',
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('This is a snackbar')));
+                logoutUser();
+              },
+            )
+          ]),
       body: Center(
         child: FutureBuilder<OneOnOnesResponse>(
           future: oneOnOnesFuture,
@@ -84,34 +90,51 @@ class _MainHomePageViewState extends State<MainHomePageView> {
   }
 
   Widget buildEmptyListView() {
-    return
-              Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-child:
-     Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-               Image.asset('assets/emptyOneOnOneList.png', height: 250),
-          addVerticalSpace(20),
-          const Text('No 1-on-1 Meetings scheduled',style: TextStyle (
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 20,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w500,
-                    ),
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset('assets/emptyOneOnOneList.png', height: 250),
+              addVerticalSpace(20),
+              const Text(
+                'No 1-on-1 Meetings scheduled',
+                style: TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 20,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              addVerticalSpace(20),
+              const Text(
+                'You can create a 1-on-1 meeting by clicking on the calendar icon below.',
+                style: TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 15,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
           ),
-          addVerticalSpace(20),
-          const Text(
-                  'You can create a 1-on-1 meeting by clicking on the calendar icon below.',style: TextStyle (
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 15,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w400,
-                    ),),
-        ],
-      ),
-    ));
+        ));
+  }
+
+  logoutUser() {
+    var sm = StorageManager();
+
+    sm.removeData(constants.loginTokenResponse).then((val) {
+      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainTabView()));
+      Navigator.pushAndRemoveUntil<dynamic>(
+        context,
+        MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => const LoginView(),
+        ),
+        (route) => false, //if you want to disable back feature set to false
+      );
+    });
   }
 }
