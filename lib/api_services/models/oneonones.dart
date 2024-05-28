@@ -43,14 +43,6 @@ class OneOnOneParticipantsAttribute {
         required this.employeeId,
     });
 
-    // factory OneOnOneParticipantsAttribute.fromJson(Map<String, dynamic> json) => OneOnOneParticipantsAttribute(
-    //     employeeId: json["employee_id"],
-    // );
-
-    // Map<String, dynamic> toJson() => {
-    //     "employee_id": employeeId,
-    // };
-
       factory OneOnOneParticipantsAttribute.fromJson(Map<String, dynamic> json) =>
       _$OneOnOneParticipantsAttributeFromJson(json);
 
