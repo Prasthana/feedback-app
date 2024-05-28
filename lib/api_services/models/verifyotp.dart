@@ -1,3 +1,4 @@
+import 'package:feedbackapp/api_services/models/userlogin.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'verifyotp.g.dart';
@@ -21,23 +22,20 @@ class VerifyEmailOTPRequest {
 // ########----########----########----########----########----########----########----########----########----########
 // ########----########----########----########----########----########----########----########----########----########
 
+
 @JsonSerializable()
 class VerifyEmailOTPResponse {
-  int id;
-  @JsonKey(name: 'login_token')
-  String loginToken;
-  String email;
+  @JsonKey(name: 'user_login')
+    UserLogin? userLogin;
 
-  VerifyEmailOTPResponse({required this.id,
-                    required this.loginToken,
-                    required this.email
-                   });
+    VerifyEmailOTPResponse({
+        this.userLogin,
+    });
 
    factory VerifyEmailOTPResponse.fromJson(Map<String, dynamic> json) => _$VerifyEmailOTPResponseFromJson(json);
   Map<String, dynamic> toJson() => _$VerifyEmailOTPResponseToJson(this);
 
 }
-
 
 // ########----########----########----########----########----########----########----########----########----########
 // ########----########----########----########----########----########----########----########----########----########

@@ -30,7 +30,6 @@ class LoginTokenRequest {
 
 
 @JsonSerializable()
-
 class LoginTokenResponse {
     @JsonKey(name: 'access_token')
     String? accessToken;

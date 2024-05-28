@@ -1,4 +1,4 @@
-import 'package:feedbackapp/api_services/models/oneonones.dart';
+import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -17,7 +17,7 @@ class MainHomePageView extends StatefulWidget {
 
 class _MainHomePageViewState extends State<MainHomePageView> {
   // variable to call and store future list of posts
-  Future<List<OneOnOne>> oneOnOnesFuture =
+  Future<OneOnOnesResponse> oneOnOnesFuture =
       ApiManager.authenticated.fetchOneOnOnesList();
 
   @override
@@ -39,16 +39,16 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                   const SnackBar(content: Text('This is a snackbar'))); },)]
       ),
       body: Center(
-        child: FutureBuilder<List<OneOnOne>>(
+        child: FutureBuilder<OneOnOnesResponse>(
           future: oneOnOnesFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             } else if (snapshot.hasData) {
-              final oneOnOnesList = snapshot.data;
-              var listCount = oneOnOnesList?.length ?? 0;
+              final oneOnOnesResponse = snapshot.data;
+              var listCount = oneOnOnesResponse?.oneononesList?.length ?? 0;
               if (listCount > 0) {
-                return buildoneOnOnesList(oneOnOnesList);
+                return buildoneOnOnesList(oneOnOnesResponse);
               } else {
                 return buildEmptyListView();
               }
@@ -77,11 +77,12 @@ class _MainHomePageViewState extends State<MainHomePageView> {
     );
   }
 
-  Widget buildoneOnOnesList(List<OneOnOne>? oneOnOnesList) {
+  // ignore: non_constant_identifier_names
+  Widget buildoneOnOnesList(OneOnOnesResponse? OneOnOnesResponse) {
     return ListView.builder(
-      itemCount: oneOnOnesList?.length,
+      itemCount: OneOnOnesResponse?.oneononesList?.length ?? 0,
       itemBuilder: (context, index) {
-        final oneOnOne = oneOnOnesList?[index];
+        final oneOnOne = OneOnOnesResponse?.oneononesList?[index];
         return Container(
           color: Colors.grey.shade300,
           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),

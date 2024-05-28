@@ -5,20 +5,36 @@ part 'preparecallresponse.g.dart';
 
 @JsonSerializable()
 class PrepareCallResponse {
-    int? id;
-    String? email;
-    Map<String, Permission>? permissions;
+    User? user;
 
     PrepareCallResponse({
-        this.id,
-        this.email,
-        this.permissions,
+        this.user,
     });
 
   factory PrepareCallResponse.fromJson(Map<String, dynamic> json) =>
       _$PrepareCallResponseFromJson(json);
   Map<String, dynamic> toJson() => _$PrepareCallResponseToJson(this);
+
 }
+
+@JsonSerializable()
+class User {
+    int? id;
+    String? email;
+    Map<String, Permission>? permissions;
+
+    User({
+        this.id,
+        this.email,
+        this.permissions,
+    });
+
+  factory User.fromJson(Map<String, dynamic> json) =>
+      _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+
+}
+
 
 @JsonSerializable()
 class Permission {

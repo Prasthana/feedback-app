@@ -26,7 +26,7 @@ class _MainTabViewState extends State<MainTabView> {
     });
     ApiManager.authenticated.performPrepareCall().then((val) {
 
-     Permission? tabTabAccess = val.permissions?["teams.tab"];
+     Permission? tabTabAccess = val.user?.permissions?["teams.tab"];
 
      if (tabTabAccess?.access == Access.enabled) {
         hasAccessForTeamTab = true;

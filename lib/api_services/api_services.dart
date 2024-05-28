@@ -2,7 +2,10 @@
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
+import 'package:feedbackapp/api_services/models/oneononeresponse.dart';
+import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
@@ -35,22 +38,22 @@ abstract class RestClient {
 // *********************** API's for One - On - One ***********************
 
   @GET("/one_on_ones")
-  Future<List<OneOnOne>> fetchOneOnOnesList();
+  Future<OneOnOnesResponse> fetchOneOnOnesList();
 
   @GET("/one_on_ones")
-  Future<OneOnOne> fetchOneOnOneDetails(@Query("param1") String oneononeid);
+  Future<OneOnOneResponse> fetchOneOnOneDetails(@Query("param1") String oneononeid);
 
   @PUT("/one_on_ones")
-  Future<OneOnOne> updateOneOnOneDetails(@Query("param1") String oneononeid);
+  Future<OneOnOneResponse> updateOneOnOneDetails(@Query("param1") String oneononeid);
 
   @POST("/one_on_ones")
-  Future<OneOnOne> createOneOnOne(@Body() OneOnOne request);
+  Future<OneOnOneResponse> createOneOnOne(@Body() OneOnOne request);
 
 // ************************************************************************
 // *********************** API's for Employee's ***********************
 
   @GET("/employees")
-  Future<List<Employee>> fetchEmployeesList();
+  Future<EmployeesResponse> fetchEmployeesList();
 
   @GET("/employees")
   Future<Employee> fetchEmployeesDetails(@Query("param1") String employeeId);
@@ -59,10 +62,10 @@ abstract class RestClient {
   Future<Employee> updateEmployeesDetails(@Query("param1") String employeeId);
 
   @POST("/employees")
-  Future<OneOnOne> createEmployee(@Body() OneOnOne request);
+  Future<Employee> createEmployee(@Body() OneOnOne request);
 
   @DELETE("/employees")
-  Future<OneOnOne> deleteEmployee(@Query("param1") String employeeId);
+  Future<Employee> deleteEmployee(@Query("param1") String employeeId);
 
 // ************************************************************************
 // ************************************************************************
