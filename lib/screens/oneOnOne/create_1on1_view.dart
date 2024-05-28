@@ -18,6 +18,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
 
  DateTime selectedDate = DateTime.now();
  TimeOfDay selectedTime = TimeOfDay.now();
+ String selectedOption = "Don not repeat";
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -164,7 +165,11 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   ],
                 ),
                 // *************Date end***************
+
+
                 addHorizontalSpace(24),
+
+
                 // *************Time start***************
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,9 +200,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            selectedTime.hour.toString() + " : " + selectedTime.minute.toString(),
+                            "${selectedTime.hour} : ${selectedTime.minute}",
                             textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: constants.textColor,
                               fontFamily: constants.uberMoveFont,
                               fontSize: 14,
@@ -210,7 +215,43 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   ],
                 ),
               ],
-            ), // *************Time end***************
+            ), 
+            // *************Time end***************
+            addVerticalSpace(18),
+            GestureDetector(
+              onTap: () {
+                debugPrint('GestureDetector ------->>>>');
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Text('Repeat?', 
+                    style: TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  
+                  Text(selectedOption, 
+                    style: const TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    ),
+                  ),
+
+                  const Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.black,
+                  )
+                ],
+              ),
+            ),
+
           ],
         ),
       ),
