@@ -3,6 +3,7 @@ import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/employees/employee_details_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
@@ -48,25 +49,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
     );
   }
 
-  String getInitials(String string, [int limitTo = 2]) {
-    if (string == null || string.isEmpty) {
-      return '';
-    }
-
-    var buffer = StringBuffer();
-    var split = string.split(' ');
-
-    //For one word
-    if (split.length == 1) {
-      return string.substring(0, 1);
-    }
-
-    for (var i = 0; i < (limitTo ?? split.length); i++) {
-      buffer.write(split[i][0]);
-    }
-
-    return buffer.toString();
-  }
+ 
 
   Widget buildEmployeesList(List<Employee>? employeeList) {
     return ListView.builder(
@@ -81,7 +64,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: NetworkImage(""),
+                  foregroundImage: const NetworkImage(""),
                   child: Text(
                     getInitials(employee?.name ?? "", 2),
                     style: const TextStyle(

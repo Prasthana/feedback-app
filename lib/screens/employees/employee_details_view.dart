@@ -34,6 +34,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white ,
+        title: Text(widget.mEmployee.name ?? ""),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
           onPressed: () => Navigator.pop(context),
@@ -75,30 +76,14 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 64.0,
                   foregroundImage: NetworkImage(""),
-                  child: Stack(
-                  children: [
-                    const Align(
-                        alignment: Alignment.bottomRight,
-                        child: CircleAvatar(
-                          radius: 18,
-                          backgroundColor: Colors.white70,
-                          child: Icon(CupertinoIcons.camera),
-                        ),
-                    ),
-
-                    Align(
-                      alignment: Alignment.center,
-                      child:  Text(
-                      getInitials(employee?.name ?? "", 2),
-                      style: const TextStyle(
-                          fontFamily: constants.uberMoveFont,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromRGBO(255, 255, 255, 1)),
-                      ),
-                    )
-                  ]
-                ),
+                  child: Text(
+                    getInitials(widget.mEmployee.name ?? "", 2),
+                    style: const TextStyle(
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(255, 255, 255, 1)),
+                  ),
                 ),
               ),
               
@@ -106,7 +91,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  employee?.name ?? "",
+                  widget.mEmployee.name ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 24,
@@ -119,7 +104,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  "${employee?.designation ?? ""}, ${employee?.employeeNo ?? ""}",
+                  widget.mEmployee.designation ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -132,7 +117,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  employee?.email ?? "",
+                  widget.mEmployee.email ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -145,10 +130,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               const Center(
                 child: Text(
-                  constants.addMobileNumber,
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      decorationColor:Color.fromRGBO(22, 97, 210, 1),
+                  widget.mEmployee.email ?? "",
+                  style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -180,7 +163,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 trailing: const Icon(Icons.chevron_right),
                 title: const Text(
                  constants.appLock,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
@@ -203,7 +186,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 trailing: const Icon(Icons.chevron_right),
                 title: const Text(
                  constants.logOut,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
@@ -227,7 +210,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   String getInitials(String string, [int limitTo = 2]) {
-    if (string == null || string.isEmpty) {
+    if (string.isEmpty) {
       return '';
     }
 
@@ -239,7 +222,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       return string.substring(0, 1);
     }
 
-    for (var i = 0; i < (limitTo ?? split.length); i++) {
+    for (var i = 0; i < (limitTo); i++) {
       buffer.write(split[i][0]);
     }
 
