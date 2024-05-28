@@ -1,5 +1,7 @@
 
 import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
+import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -15,6 +17,13 @@ class EmployeeDetailsView extends StatefulWidget {
 }
 
 class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
+ Future<EmployeeDetailsResponse>? employeeFuture;
+
+  @override
+  void initState() {
+    this.employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee!.id);
+    super.initState();
+  }
 
    @override
   Widget build(BuildContext context) {
@@ -24,13 +33,38 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white ,
-        title: Text(widget.mEmployee?.name ?? ""),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Container(
+
+      body: Center(
+              child: FutureBuilder<EmployeeDetailsResponse>(
+                future: employeeFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasData) {
+                    final employeeResponse = snapshot.data;
+                    // var listCount = employeesResponse?.employeesList?.length ?? 0;
+                    if (employeeResponse?.employee != null) {
+                      return buildEmployeeDetailsView(employeeResponse?.employee);
+                    } else {
+                      return buildEmployeeDetailsView(widget.mEmployee);
+                    }
+                  } else {
+                    return buildEmployeeDetailsView(widget.mEmployee);
+                  }
+                },
+              ),
+            ),
+    
+    );
+  }
+
+  Widget buildEmployeeDetailsView(Employee? employee) {
+    return  Container(
         padding: const EdgeInsets.all(12.0),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,7 +76,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   maxRadius: 64.0,
                   foregroundImage: NetworkImage(""),
                   child: Text(
-                    getInitials(widget.mEmployee?.name ?? "", 2),
+                    getInitials(employee?.name ?? "", 2),
                     style: const TextStyle(
                         fontFamily: constants.uberMoveFont,
                         fontSize: 24,
@@ -56,7 +90,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee?.name ?? "",
+                  employee?.name ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 24,
@@ -69,7 +103,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee?.designation ?? "",
+                  "${employee?.designation ?? ""}, ${employee?.employeeNo ?? ""}",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -82,7 +116,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               Center(
                 child: Text(
-                  widget.mEmployee?.email ?? "",
+                  employee?.email ?? "",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
@@ -93,14 +127,16 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               addVerticalSpace(8),
 
-              Center(
+              const Center(
                 child: Text(
-                  widget.mEmployee?.email ?? "",
-                  style: const TextStyle(
+                  constants.addMobileNumber,
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      decorationColor:Color.fromRGBO(22, 97, 210, 1),
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(4, 4, 4, 1)),
+                      color: Color.fromRGBO(22, 97, 210, 1)),
                 ),
               ),
 
@@ -171,8 +207,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
             ],
         )
-      )
-    );
+      );
   }
 
   String getInitials(String string, [int limitTo = 2]) {

@@ -57,6 +57,7 @@ const String reportingTeamTitle = "Reporting Team";
 const String noDataAvailable= "No data available";
 const String noEmployeeAdded= "No Employees Added";
 const String addEmployeeMsg= "You can add employees by clicking on the plus icon below.";
+const String addMobileNumber= "Add Mobile Number";
 const String settings = "Settings";
 const String appLock = "App Lock";
 const String logOut = "Log Out";
