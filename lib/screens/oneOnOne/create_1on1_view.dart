@@ -22,13 +22,13 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
 
 
 String _selectedOption = constants.doesNotRepeatText;
-  List<String> _options = ["Does not repeat", "Daily", "Weekly on friday", "custom"];
+  final List<String> _options = ["Does not repeat", "Daily", "Weekly on friday", "custom"];
 
   void _showRadioButtonDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        String _tempSelectedOption = _selectedOption;
+        String tempSelectedOption = _selectedOption;
         return AlertDialog(
           //title: Text("Choose an option"),
           content: Column(
@@ -37,10 +37,10 @@ String _selectedOption = constants.doesNotRepeatText;
               return RadioListTile<String>(
                 title: Text(option),
                 value: option,
-                groupValue: _tempSelectedOption,
+                groupValue: tempSelectedOption,
                 onChanged: (value) {
                   setState(() {
-                    _tempSelectedOption = value!;
+                    tempSelectedOption = value!;
                   });
                 },
               );
@@ -48,16 +48,16 @@ String _selectedOption = constants.doesNotRepeatText;
           ),
           actions: <Widget>[
             TextButton(
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text("OK"),
+              child: const Text("OK"),
               onPressed: () {
                 setState(() {
-                  _selectedOption = _tempSelectedOption;
+                  _selectedOption = tempSelectedOption;
                 });
                 Navigator.of(context).pop();
               },
