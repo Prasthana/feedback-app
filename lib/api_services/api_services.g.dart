@@ -248,6 +248,7 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
+    final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<EmployeesResponse>(Options(
       method: 'GET',
       headers: _headers,
