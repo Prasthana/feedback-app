@@ -19,11 +19,17 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
 // String selectedOption = constants.doesNotRepeatText;
- // List<String> options = ["Does not repeat","Daily","Weekly on friday","custom"];
+  // List<String> options = ["Does not repeat","Daily","Weekly on friday","custom"];
 
-
-String _selectedOption = constants.doesNotRepeatText;
-  final List<String> _options = ["Does not repeat", "Daily", "Weekly on friday", "custom"];
+  String _selectedOption = constants.doesNotRepeatText;
+  bool isEmployeeSelected = true;
+  
+  final List<String> _options = [
+    "Does not repeat",
+    "Daily",
+    "Weekly on friday",
+    "custom"
+  ];
 
   void _showRadioButtonDialog() {
     showDialog(
@@ -31,25 +37,23 @@ String _selectedOption = constants.doesNotRepeatText;
       builder: (BuildContext context) {
         String tempSelectedOption = _selectedOption;
         return AlertDialog(
-          content: StatefulBuilder(
-            builder: (context, setState) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: _options.map((option) {
-                  return RadioListTile<String>(
-                    title: Text(option),
-                    value: option,
-                    groupValue: tempSelectedOption,
-                    onChanged: (value) {
-                      setState(() {
-                        tempSelectedOption = value!;
-                      });
-                    },
-                  );
-                }).toList(),
-              );
-            }
-          ),
+          content: StatefulBuilder(builder: (context, setState) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _options.map((option) {
+                return RadioListTile<String>(
+                  title: Text(option),
+                  value: option,
+                  groupValue: tempSelectedOption,
+                  onChanged: (value) {
+                    setState(() {
+                      tempSelectedOption = value!;
+                    });
+                  },
+                );
+              }).toList(),
+            );
+          }),
           actions: <Widget>[
             TextButton(
               child: const Text("Cancel"),
@@ -71,7 +75,6 @@ String _selectedOption = constants.doesNotRepeatText;
       },
     );
   }
-
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -151,26 +154,35 @@ String _selectedOption = constants.doesNotRepeatText;
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    side:
-                        const BorderSide(color: colorText, width: 1.0),
+                    side: const BorderSide(color: colorText, width: 1.0),
                   ),
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      constants.searchEmployeeText,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
+                    child: 
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          'assets/icApplock.png',
+                          height: isEmployeeSelected ? 30.0 : 0.0,
+                          width: isEmployeeSelected ? 30.0 : 0.0,
+                        ),
+                        addHorizontalSpace(5),
+                       Text(isEmployeeSelected ? 'Nagaraju Kamatham' : constants.searchEmployeeText,
+                        style: const TextStyle(
                         color: colorText,
                         fontFamily: constants.uberMoveFont,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
+                        ),
                       ),
+                      ],
                     ),
                   ),
                 ),
               ),
               addVerticalSpace(26),
-          
+
               /// *************Date start***************
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -199,8 +211,8 @@ String _selectedOption = constants.doesNotRepeatText;
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            side: const BorderSide(
-                                color: colorText, width: 1.0),
+                            side:
+                                const BorderSide(color: colorText, width: 1.0),
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -220,9 +232,9 @@ String _selectedOption = constants.doesNotRepeatText;
                     ],
                   ),
                   // *************Date end***************
-          
+
                   addHorizontalSpace(24),
-          
+
                   // *************Time start***************
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,8 +260,8 @@ String _selectedOption = constants.doesNotRepeatText;
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            side: const BorderSide(
-                                color: colorText, width: 1.0),
+                            side:
+                                const BorderSide(color: colorText, width: 1.0),
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -305,7 +317,7 @@ String _selectedOption = constants.doesNotRepeatText;
                   ],
                 ),
               ),
-          
+
               addVerticalSpace(30),
               const Text(
                 constants.notesText,
@@ -315,9 +327,9 @@ String _selectedOption = constants.doesNotRepeatText;
                   fontWeight: FontWeight.w500,
                 ),
               ),
-          
+
               addVerticalSpace(8),
-          
+
               TextFormField(
                 minLines: 5,
                 maxLines: 5,
@@ -341,23 +353,21 @@ String _selectedOption = constants.doesNotRepeatText;
                   fontWeight: FontWeight.w500,
                 ),
               ),
-          
+
               addVerticalSpace(30),
-          
+
               MaterialButton(
                 minWidth: double.infinity,
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
-                  
-                  
                 },
                 // ignore: sort_child_properties_last
                 child: const Text(constants.createText),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                color:const Color.fromRGBO(0, 0, 0, 1),
+                color: const Color.fromRGBO(0, 0, 0, 1),
                 //const Color.fromRGBO(173, 173, 173, 1),
                 textColor: Colors.white,
               )
