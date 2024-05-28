@@ -1,6 +1,7 @@
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/screens/employees/employee_details_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -34,8 +35,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
               final employeesResponse = snapshot.data;
               var listCount = employeesResponse?.employeesList?.length ?? 0;
               if (listCount > 0) {
-                // return buildEmployeesList(employeesResponse?.employeesList);
-                return buildEmptyListView();
+                return buildEmployeesList(employeesResponse?.employeesList);
               } else {
                 return buildEmptyListView();
               }
@@ -72,7 +72,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
     return ListView.builder(
         itemCount: employeeList?.length,
         itemBuilder: (BuildContext context, int index) {
-          final employee = employeeList?[index];
+          var employee = employeeList?[index];
 
           return Column(
             children: <Widget>[
@@ -109,7 +109,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeScreen()),);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
                 }, 
               ),
               const Divider(
