@@ -35,7 +35,7 @@ platform :ios do
     )
     match(type: "adhoc",app_identifier: APP_IDENTIFIER,api_key: api_key)
 
-    BUILD_NUMBER = latest_testflight_build_number(app_identifier: APP_IDENTIFIER,version: APP_VERSION) + 2
+    BUILD_NUMBER = latest_testflight_build_number(app_identifier: APP_IDENTIFIER,version: APP_VERSION) + 1
 
     increment_build_number(build_number: BUILD_NUMBER,xcodeproj: XCODE_PROJECT)
     # build_app(workspace: XCODE_WORKSPACE, scheme: XCODE_SCHEME)

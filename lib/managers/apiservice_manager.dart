@@ -5,7 +5,7 @@ import 'package:feedbackapp/api_services/api_services.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:network_logger/network_logger.dart';
-import 'package:feedbackapp/constants.dart' as constants;
+import 'package:feedbackapp/utils/constants.dart' as constants;
 
 
 Dio dio = Dio(
@@ -18,7 +18,7 @@ Dio dio = Dio(
 
 class ApiManager {
   static const String baseURL =
-      'https://pug-stirring-hopefully.ngrok-free.app/';
+      'http://ec2-18-219-231-99.us-east-2.compute.amazonaws.com/';
 
   static Dio buildDioClient(String base) {
     final dio = Dio()..options = BaseOptions(baseUrl: baseURL);
@@ -32,8 +32,8 @@ class ApiManager {
             if(token != constants.noDataFound){
               Map<String, dynamic>  json = jsonDecode(token);
             var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
-            var access_token = mLoginTokenResponse.accessToken;
-              options.headers['Authorization'] = 'Bearer $access_token';
+            var accessToken = mLoginTokenResponse.accessToken;
+              options.headers['Authorization'] = 'Bearer $accessToken';
             }
             return handler.next(options); // Continue
           });

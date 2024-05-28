@@ -3,9 +3,8 @@ import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/constants.dart' as constants;
 import 'package:flutter_text_drawable/flutter_text_drawable.dart';
-
+import 'package:feedbackapp/utils/constants.dart' as constants;
 
 class EmployeeListView extends StatefulWidget {
   const EmployeeListView({super.key});
@@ -18,18 +17,10 @@ class _EmployeeListViewState extends State<EmployeeListView> {
   Future<List<Employee>> employeesFuture = ApiManager.authenticated.fetchEmployeesList();
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-      title: const Text(constants.reportingTeamTitle, style: TextStyle(
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 22,
-                    fontStyle: FontStyle.normal,
-                    color: Color.fromRGBO(0, 0, 0, 1)),
-              ),
-      ),
-
+      appBar: AppBar( title: const Text(constants.reportingTeamTitle)),
       body: Center(
       child: FutureBuilder<List<Employee>>(
         future: employeesFuture,
@@ -37,10 +28,15 @@ class _EmployeeListViewState extends State<EmployeeListView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            final employees = snapshot.data!;
-            return buildEmployeesList(employees);
+            final employeesList = snapshot.data;
+              var listCount = employeesList?.length ?? 0;
+              if (listCount > 0) {
+                return buildEmployeesList(employeesList);
+              } else {
+                return buildEmptyListView();
+              }
           } else {
-            return const Text(constants.noDataAvailable);
+                return buildEmptyListView();
           }
         },
       ),
@@ -48,11 +44,11 @@ class _EmployeeListViewState extends State<EmployeeListView> {
     );
   }
 
-  Widget buildEmployeesList(List<Employee> employeeList) {
+  Widget buildEmployeesList(List<Employee>? employeeList) {
     return ListView.builder(
-      itemCount: employeeList.length,
+      itemCount: employeeList?.length,
       itemBuilder: (context, index) {
-        final employee = employeeList[index];
+        final employee = employeeList?[index];
         return Container(
           width: double.infinity,
           color: Colors.grey.shade300,
@@ -123,5 +119,38 @@ class _EmployeeListViewState extends State<EmployeeListView> {
         );
       },
     );
+  }
+
+
+  Widget buildEmptyListView() {
+    return
+              Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+child:
+     Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+               Image.asset('assets/emptyOneOnOneList.png', height: 250),
+          addVerticalSpace(20),
+          const Text('No Employees Added',style: TextStyle (
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 20,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w500,
+                    ),
+          ),
+          addVerticalSpace(20),
+          const Text(
+                  'You can add employees  by clicking on the plus icon below.',style: TextStyle (
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 15,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w400,
+                    ),),
+        ],
+      ),
+    ));
   }
 }

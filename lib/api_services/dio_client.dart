@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:network_logger/network_logger.dart';
 /*
 Dio buildDioClient(String base) {
   final dio = Dio()..options = BaseOptions(baseUrl: base);
