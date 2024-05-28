@@ -3,7 +3,6 @@ import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_text_drawable/flutter_text_drawable.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
 class EmployeeListView extends StatefulWidget {
@@ -15,6 +14,70 @@ class EmployeeListView extends StatefulWidget {
 
 class _EmployeeListViewState extends State<EmployeeListView> {
   Future<List<Employee>> employeesFuture = ApiManager.authenticated.fetchEmployeesList();
+  
+  
+
+  List<Employee> employeesList = [ Employee(id: 123,name: "One 1",designation: "Hello", email: "abc@xyz.com"),
+  Employee(id: 123,name: "One 2",designation: "Hello", email: "abc@xyz.com"),
+  Employee(id: 123,name: "One 3",designation: "Hello", email: "abc@xyz.com"),
+  ];
+
+   @override
+  Widget build(BuildContext context) {
+    Theme.of(context);
+
+    return Scaffold(
+      appBar: AppBar(title: const Text(constants.reportingTeamTitle)),
+      body: ListView.builder(
+          itemCount: employeesList.length,
+          itemBuilder: (BuildContext context, int index) {
+            final employee = employeesList?[index];
+
+            return Column(
+        children: <Widget>[
+          ListTile(
+                // leading:  TextDrawable(text: employee?.name ?? ""),
+                leading: CircleAvatar(
+                backgroundColor: Color.fromRGBO(157, 149, 252, 1),
+                maxRadius: 28.0,
+                foregroundImage: NetworkImage(""),
+                child: Text(getInitials(employee?.name ?? "", 2),
+                style: const TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromRGBO(255, 255, 255, 1)),
+                    ),
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                title: Text(employee?.name ?? "",
+                style: const TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: Color.fromRGBO(0, 0, 0, 1)),),
+                subtitle: Text(employee?.designation ?? "",
+                 style: const TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromRGBO(0, 0, 0, 1)),),
+                ),
+          const Divider(
+            color: Color.fromRGBO(195, 195, 195, 1),
+                height: 3.0,
+                thickness: 1.0,
+                indent: 76.0, 
+                endIndent: 0,
+          ),
+        ],
+      );
+      }),
+          
+    );
+  }
+  /*
+  //ApiManager.authenticated.fetchEmployeesList();
   @override
   Widget build(BuildContext context) {
     Theme.of(context);
@@ -36,13 +99,34 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                 return buildEmptyListView();
               }
           } else {
-                return buildEmptyListView();
+              return buildEmptyListView();
           }
         },
       ),
     ),
     );
   }
+  */
+
+String getInitials(String string, [int limitTo = 2]) {
+  if (string == null || string.isEmpty) {
+    return '';
+  }
+
+  var buffer = StringBuffer();
+  var split = string.split(' ');
+
+  //For one word
+  if (split.length == 1) {
+    return string.substring(0, 1);
+  }
+
+  for (var i = 0; i < (limitTo ?? split.length); i++) {
+    buffer.write(split[i][0]);
+  }
+
+  return buffer.toString();
+}
 
   Widget buildEmployeesList(List<Employee>? employeeList) {
     return ListView.builder(
@@ -57,14 +141,14 @@ class _EmployeeListViewState extends State<EmployeeListView> {
           height: 76,
           child: Row(
             children: <Widget> [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: TextDrawable(
-                height: 54.0,
-                width: 54.0,
-                boxShape: BoxShape.circle,
-                text: employee?.name ?? "")
-            ),
+            // Align(
+            //   alignment: Alignment.centerLeft,
+            //   child: TextDrawable(
+            //     height: 54.0,
+            //     width: 54.0,
+            //     boxShape: BoxShape.circle,
+            //     text: employee?.name ?? "")
+            // ),
 
               Column(
             mainAxisAlignment: MainAxisAlignment.start,
