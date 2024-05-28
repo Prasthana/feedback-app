@@ -1,3 +1,6 @@
+
+import 'package:flutter/material.dart';
+
 ///  This is API Hard coded strings. 
 const String grantType = "password";
 const String clientId = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";
@@ -32,15 +35,33 @@ const String inValidUserText =  "Invalid user credentials";
 const String uberMoveFont = "UberMove";
 // End of Login Screen
 
+// 1-on-1 Screen Strings
+const String selectEmployeeText = "Select Employee";
+const String searchEmployeeText = "Search Employee";
+const String dateText = "Date";
+const String timeText = "Time";
+const String notesText = "Notes";
+const String notesHintText = "Start typing here...";
+const String repeatText = "Repeat?";
+const String doesNotRepeatText = "Does not repeat";
+const String createText = "Create";
+
+// End of 1-on-1 Screen
+
 
 // 1-1 List SCREEN Strings
 const String oneOneOnScreenTitle = "Schedule";
 
-
 // Reprorting Team SCREEN Strings
 const String reportingTeamTitle = "Reporting Team";
 const String noDataAvailable= "No data available";
+const String noEmployeeAdded= "No Employees Added";
+const String addEmployeeMsg= "You can add employees by clicking on the plus icon below.";
+const String settings = "Settings";
+const String appLock = "App Lock";
+const String logOut = "Log Out";
 // End of Reporting Team
+
 
 
 

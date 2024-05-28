@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
-const colorPrimary = Colors.white60;
-const colorAccent = Colors.black;
+
+const colorPrimary = Colors.green;
+const colorAccent = Colors.greenAccent;
+const colorText = Color.fromRGBO(0, 0, 0, 1);
 
 ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
