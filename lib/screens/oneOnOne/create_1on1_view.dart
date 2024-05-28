@@ -1,11 +1,11 @@
-import 'package:feedbackapp/constants.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/constants.dart' as constants;
+import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/intl.dart';
+import 'package:feedbackapp/utils/constants.dart';
 
 class CreateOneOnOneView extends StatefulWidget {
   const CreateOneOnOneView({super.key});
@@ -50,7 +50,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: textColor),
+          icon: const Icon(Icons.arrow_back, color: constants.textColor),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -97,7 +97,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  side: const BorderSide(color: textColor, width: 1.0),
+                  side: const BorderSide(color: constants.textColor, width: 1.0),
                 ),
                 child: const Align(
                   alignment: Alignment.centerLeft,
@@ -105,7 +105,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     constants.searchEmployeeText,
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: textColor,
+                      color: constants.textColor,
                       fontFamily: constants.uberMoveFont,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -144,7 +144,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          side: const BorderSide(color: textColor, width: 1.0),
+                          side: const BorderSide(color: constants.textColor, width: 1.0),
                         ),
                         child: Align(
                           alignment: Alignment.centerLeft,
@@ -152,7 +152,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                             DateFormat('dd-MM-yyyy').format(selectedDate),
                             textAlign: TextAlign.left,
                             style: const TextStyle(
-                              color: textColor,
+                              color: constants.textColor,
                               fontFamily: constants.uberMoveFont,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -190,7 +190,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          side: const BorderSide(color: textColor, width: 1.0),
+                          side: const BorderSide(color: constants.textColor, width: 1.0),
                         ),
                         child: Align(
                           alignment: Alignment.centerLeft,
@@ -198,7 +198,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                             selectedTime.hour.toString() + " : " + selectedTime.minute.toString(),
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              color: textColor,
+                              color: constants.textColor,
                               fontFamily: constants.uberMoveFont,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,

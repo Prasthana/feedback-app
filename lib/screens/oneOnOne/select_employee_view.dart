@@ -1,29 +1,32 @@
-
-
-import 'package:feedbackapp/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/constants.dart' as constants;
+import 'package:feedbackapp/utils/constants.dart' as constants;
 
-class SelectEmployeeView
- extends StatelessWidget {
-  const SelectEmployeeView
-  ({super.key});
+class SelectEmployeeView extends StatefulWidget {
+  const SelectEmployeeView({super.key});
 
+  @override
+  State<SelectEmployeeView> createState() => _SelectEmployeeViewState();
+}
+
+class _SelectEmployeeViewState extends State<SelectEmployeeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: textColor),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: constants.textColor),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: const Text(constants.selectEmployeeText),
+        title: const Text(constants.selectEmployeeText,
+            style: TextStyle(
+              fontFamily: constants.uberMoveFont,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+            )),
         backgroundColor: Colors.amber,
       ),
     );
   }
-
-
 }
