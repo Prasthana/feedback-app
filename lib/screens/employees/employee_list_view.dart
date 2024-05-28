@@ -34,8 +34,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
               final employeesResponse = snapshot.data;
               var listCount = employeesResponse?.employeesList?.length ?? 0;
               if (listCount > 0) {
-                // return buildEmployeesList(employeesResponse?.employeesList);
-                return buildEmptyListView();
+                 return buildEmployeesList(employeesResponse?.employeesList);
               } else {
                 return buildEmptyListView();
               }
