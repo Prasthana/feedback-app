@@ -34,7 +34,8 @@ class _EmployeeListViewState extends State<EmployeeListView> {
               final employeesResponse = snapshot.data;
               var listCount = employeesResponse?.employeesList?.length ?? 0;
               if (listCount > 0) {
-                return buildEmployeesList(employeesResponse?.employeesList);
+                // return buildEmployeesList(employeesResponse?.employeesList);
+                return buildEmptyListView();
               } else {
                 return buildEmptyListView();
               }
@@ -80,7 +81,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: NetworkImage("https://picsum.photos/250?image=9"),
+                  foregroundImage: NetworkImage(""),
                   child: Text(
                     getInitials(employee?.name ?? "", 2),
                     style: const TextStyle(
@@ -107,6 +108,9 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                       fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
+                onTap: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeScreen()),);
+                }, 
               ),
               const Divider(
                 color: Color.fromRGBO(195, 195, 195, 1),
@@ -131,7 +135,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
               Image.asset('assets/emptyOneOnOneList.png', height: 250),
               addVerticalSpace(20),
               const Text(
-                'No Employees Added',
+                constants.noEmployeeAdded,
                 style: TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 20,
@@ -141,7 +145,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
               ),
               addVerticalSpace(20),
               const Text(
-                'You can add employees  by clicking on the plus icon below.',
+                constants.addEmployeeMsg,
                 style: TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 15,
