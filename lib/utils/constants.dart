@@ -37,14 +37,17 @@ const String inValidUserText =  "Invalid user credentials";
 const String uberMoveFont = "UberMove";
 // End of Login Screen
 
-// Login 1-on-1 Strings
+// 1-on-1 Screen Strings
 const String selectEmployeeText = "Select Employee";
 const String searchEmployeeText = "Search Employee";
 const String dateText = "Date";
 const String timeText = "Time";
 
+// End of 1-on-1 Screen
 
-// End of Login Screen
+
+// 1-1 List SCREEN Strings
+const String oneOneOnScreenTitle = "Schedule";
 
 // Reprorting Team SCREEN Strings
 const String reportingTeamTitle = "Reporting Team";

@@ -8,10 +8,10 @@ part of 'employee.dart';
 
 Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
       id: (json['id'] as num).toInt(),
-      employeeNo: json['employee_no'] as String,
-      name: json['name'] as String,
-      email: json['email'] as String,
-      designation: json['designation'] as String,
+      employeeNo: json['employee_no'] as String?,
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      designation: json['designation'] as String?,
       manager: json['manager'] == null
           ? null
           : Employee.fromJson(json['manager'] as Map<String, dynamic>),

@@ -52,6 +52,18 @@ abstract class RestClient {
   @GET("/employees")
   Future<List<Employee>> fetchEmployeesList();
 
+  @GET("/employees")
+  Future<Employee> fetchEmployeesDetails(@Query("param1") String employeeId);
+
+  @PUT("/employees")
+  Future<Employee> updateEmployeesDetails(@Query("param1") String employeeId);
+
+  @POST("/employees")
+  Future<OneOnOne> createEmployee(@Body() OneOnOne request);
+
+  @DELETE("/employees")
+  Future<OneOnOne> deleteEmployee(@Query("param1") String employeeId);
+
 // ************************************************************************
 // ************************************************************************
 

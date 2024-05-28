@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:network_logger/network_logger.dart';
+import 'package:feedbackapp/utils/constants.dart' as constants;
 
 class MainHomePageView extends StatefulWidget {
   const MainHomePageView({super.key});
@@ -25,24 +26,18 @@ class _MainHomePageViewState extends State<MainHomePageView> {
     super.initState();
   }
 
-/*
-  // function to fetch data from api and return future list of posts
-  static Future<List<OneOnOne>> getOneOnOnes() async {
-    // var url = Uri.parse("https://jsonplaceholder.typicode.com/albums/1/photos");
-    // final response = await http.get(url, headers: {"Content-Type": "application/json"});
-    // final List body = json.decode(response.body);
-    // return body.map((e) => OneOnOne.fromJson(e)).toList();
-
-    ApiManager.authenticated.fetchOneOnOnesList().then((oneOnOnesList) {
-      // do some operation
-      return oneOnOnesList;  
-    });
-  }
-  */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text(constants.oneOneOnScreenTitle),
+              actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('This is a snackbar'))); },)]
+      ),
       body: Center(
         child: FutureBuilder<List<OneOnOne>>(
           future: oneOnOnesFuture,
@@ -50,8 +45,13 @@ class _MainHomePageViewState extends State<MainHomePageView> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             } else if (snapshot.hasData) {
-              final oneOnOnesList = snapshot.data!;
-              return buildoneOnOnesList(oneOnOnesList);
+              final oneOnOnesList = snapshot.data;
+              var listCount = oneOnOnesList?.length ?? 0;
+              if (listCount > 0) {
+                return buildoneOnOnesList(oneOnOnesList);
+              } else {
+                return buildEmptyListView();
+              }
             } else {
               return const Text("No data available");
             }
@@ -77,11 +77,11 @@ class _MainHomePageViewState extends State<MainHomePageView> {
     );
   }
 
-  Widget buildoneOnOnesList(List<OneOnOne> oneOnOnesList) {
+  Widget buildoneOnOnesList(List<OneOnOne>? oneOnOnesList) {
     return ListView.builder(
-      itemCount: oneOnOnesList.length,
+      itemCount: oneOnOnesList?.length,
       itemBuilder: (context, index) {
-        final oneOnOne = oneOnOnesList[index];
+        final oneOnOne = oneOnOnesList?[index];
         return Container(
           color: Colors.grey.shade300,
           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -93,11 +93,43 @@ class _MainHomePageViewState extends State<MainHomePageView> {
               Expanded(flex: 1, child: Image.asset('assets/splash-image.png')),
               addHorizontalSpace(10),
               Expanded(
-                  flex: 3, child: Text(oneOnOne.participant?.name ?? "DUMMY")),
+                  flex: 3, child: Text(oneOnOne?.participant?.name ?? "DUMMY")),
             ],
           ),
         );
       },
     );
+  }
+
+  Widget buildEmptyListView() {
+    return
+              Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+child:
+     Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+               Image.asset('assets/emptyOneOnOneList.png', height: 250),
+          addVerticalSpace(20),
+          const Text('No 1-on-1 Meetings scheduled',style: TextStyle (
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 20,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w500,
+                    ),
+          ),
+          addVerticalSpace(20),
+          const Text(
+                  'You can create a 1-on-1 meeting by clicking on the calendar icon below.',style: TextStyle (
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 15,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w400,
+                    ),),
+        ],
+      ),
+    ));
   }
 }

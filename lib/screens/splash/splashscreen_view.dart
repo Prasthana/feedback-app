@@ -8,7 +8,7 @@ import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/constants.dart' as constants;
+import 'package:feedbackapp/utils/constants.dart' as constants;
 
 
 class SplashScreenView extends StatefulWidget {

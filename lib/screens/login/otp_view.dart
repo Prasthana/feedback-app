@@ -14,7 +14,7 @@ import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/constants.dart' as constants;
+import 'package:feedbackapp/utils/constants.dart' as constants;
 
 class OtpView extends StatefulWidget {
   OtpView({super.key, required this.emailOTPResponse});
@@ -71,14 +71,7 @@ class _OtpViewState extends State<OtpView> {
           icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          constants.txtLogin,
-          style: TextStyle(
-              fontFamily: constants.uberMoveFont,
-              fontSize: 22,
-              fontStyle: FontStyle.normal,
-              color: Color.fromRGBO(0, 0, 0, 1)),
-        ),
+        title: const Text(constants.txtLogin),
       ),
       body: Container(
         padding: const EdgeInsets.all(36.0),

@@ -10,7 +10,7 @@ import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/screens/login/otp_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/constants.dart' as constants;
+import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:network_logger/network_logger.dart';
 
 class LoginView extends StatefulWidget {
