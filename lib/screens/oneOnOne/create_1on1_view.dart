@@ -10,15 +10,14 @@ import 'package:feedbackapp/utils/constants.dart';
 class CreateOneOnOneView extends StatefulWidget {
   const CreateOneOnOneView({super.key});
 
-@override
+  @override
   State<CreateOneOnOneView> createState() => _CreateOneOnOneViewState();
 }
 
 class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
-
- DateTime selectedDate = DateTime.now();
- TimeOfDay selectedTime = TimeOfDay.now();
- String selectedOption = "Don not repeat";
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+  String selectedOption = constants.doesNotRepeatText;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -33,7 +32,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     }
   }
 
-    Future<void> _selectTime() async {
+  Future<void> _selectTime() async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(), // Optional initial time to display
@@ -90,15 +89,15 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   debugPrint("search employee ------>>>>");
                   showCupertinoModalBottomSheet(
                     context: context,
-                     builder: (context) => const SelectEmployeeView(),
+                    builder: (context) => const SelectEmployeeView(),
                   );
-
                 },
                 style: OutlinedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  side: const BorderSide(color: constants.textColor, width: 1.0),
+                  side:
+                      const BorderSide(color: constants.textColor, width: 1.0),
                 ),
                 child: const Align(
                   alignment: Alignment.centerLeft,
@@ -145,7 +144,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          side: const BorderSide(color: constants.textColor, width: 1.0),
+                          side: const BorderSide(
+                              color: constants.textColor, width: 1.0),
                         ),
                         child: Align(
                           alignment: Alignment.centerLeft,
@@ -166,9 +166,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 ),
                 // *************Date end***************
 
-
                 addHorizontalSpace(24),
-
 
                 // *************Time start***************
                 Column(
@@ -195,7 +193,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          side: const BorderSide(color: constants.textColor, width: 1.0),
+                          side: const BorderSide(
+                              color: constants.textColor, width: 1.0),
                         ),
                         child: Align(
                           alignment: Alignment.centerLeft,
@@ -215,7 +214,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   ],
                 ),
               ],
-            ), 
+            ),
             // *************Time end***************
             addVerticalSpace(18),
             GestureDetector(
@@ -225,25 +224,24 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text('Repeat?', 
+                  const Text(
+                    constants.repeatText,
                     style: TextStyle(
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  
-                  Text(selectedOption, 
+                  addHorizontalSpace(10),
+                  Text(
+                    selectedOption,
                     style: const TextStyle(
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-
+                  addHorizontalSpace(5),
                   const Icon(
                     Icons.arrow_drop_down,
                     color: Colors.black,
@@ -252,6 +250,58 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
               ),
             ),
 
+            addVerticalSpace(30),
+            const Text(
+              constants.notesText,
+              style: TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 21,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+
+            addVerticalSpace(8),
+
+            TextFormField(
+              minLines: 5,
+              maxLines: 5,
+              keyboardType: TextInputType.multiline,
+              decoration: const InputDecoration(
+                hintText: constants.notesHintText,
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: constants.textColor,
+                  ),
+                ),
+              ),
+              style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+
+            addVerticalSpace(30),
+
+            MaterialButton(
+              minWidth: double.infinity,
+              height: 58.0,
+              onPressed: () {
+                
+              },
+              // ignore: sort_child_properties_last
+              child: const Text(constants.createText),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              color:const Color.fromRGBO(0, 0, 0, 1),
+              //const Color.fromRGBO(173, 173, 173, 1),
+              textColor: Colors.white,
+            )
           ],
         ),
       ),

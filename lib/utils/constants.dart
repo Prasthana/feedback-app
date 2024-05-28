@@ -42,6 +42,11 @@ const String selectEmployeeText = "Select Employee";
 const String searchEmployeeText = "Search Employee";
 const String dateText = "Date";
 const String timeText = "Time";
+const String notesText = "Notes";
+const String notesHintText = "Start typing here...";
+const String repeatText = "Repeat?";
+const String doesNotRepeatText = "Does not repeat";
+const String createText = "Create";
 
 // End of 1-on-1 Screen
 
