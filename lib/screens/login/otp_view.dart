@@ -98,7 +98,7 @@ class _OtpViewState extends State<OtpView> {
               ),
               addVerticalSpace(4),
               Text(
-                widget.emailOTPResponse.email,
+                widget.emailOTPResponse.userLogin?.email ?? "",
                 style: const TextStyle(
                     fontFamily: constants.uberMoveFont,
                     fontSize: 17,
@@ -165,7 +165,7 @@ class _OtpViewState extends State<OtpView> {
                         // );
                         // });
                         _validateOTP(
-                            widget.emailOTPResponse.id, enteredOTP, context);
+                            widget.emailOTPResponse.userLogin?.id ?? -1, enteredOTP, context);
                       }
                     },
                     child: Text(constants.confirm,
@@ -193,7 +193,7 @@ class _OtpViewState extends State<OtpView> {
                   onPressed: () {
                     if (isEnableResendBtn == true) {
                       setEnableResendBtn(false);
-                      _genarateOtp(widget.emailOTPResponse.email, context);
+                      _genarateOtp(widget.emailOTPResponse.userLogin?.email, context);
                       Timer.periodic(const Duration(seconds: 1), (timer) {
                         // print(timer.tick);
                         counterForResend--;
@@ -257,7 +257,7 @@ class _OtpViewState extends State<OtpView> {
         grantType: constants.grantType,
         clientId: constants.clientId,
         clientSecret: constants.clientSecret,
-        loginToken: mVerifyEmailOTPResponse.loginToken);
+        loginToken: mVerifyEmailOTPResponse.userLogin?.loginToken ?? "NoTOKEN");
 
     ApiManager.public.generateLoginToken(request).then((val) {
       // do some operation

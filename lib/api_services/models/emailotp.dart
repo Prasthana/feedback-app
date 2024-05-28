@@ -1,3 +1,4 @@
+import 'package:feedbackapp/api_services/models/userlogin.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'emailotp.g.dart';
@@ -21,20 +22,21 @@ class EmailOTPRequest {
 // ########----########----########----########----########----########----########----########----########----########
 // ########----########----########----########----########----########----########----########----########----########
 
+
 @JsonSerializable()
 class EmailOTPResponse {
-  int id;
-  String email;
+  @JsonKey(name: 'user_login')
+    UserLogin? userLogin;
 
-  EmailOTPResponse({required this.id, required this.email});
-
+    EmailOTPResponse({
+        this.userLogin,
+    });
   factory EmailOTPResponse.fromJson(Map<String, dynamic> json) =>
       _$EmailOTPResponseFromJson(json);
   Map<String, dynamic> toJson() => _$EmailOTPResponseToJson(this);
+
 }
 
 // ########----########----########----########----########----########----########----########----########----########
 // ########----########----########----########----########----########----########----########----########----########
 // ########----########----########----########----########----########----########----########----########----########
-
-

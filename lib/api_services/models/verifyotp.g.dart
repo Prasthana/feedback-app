@@ -23,15 +23,13 @@ Map<String, dynamic> _$VerifyEmailOTPRequestToJson(
 VerifyEmailOTPResponse _$VerifyEmailOTPResponseFromJson(
         Map<String, dynamic> json) =>
     VerifyEmailOTPResponse(
-      id: (json['id'] as num).toInt(),
-      loginToken: json['login_token'] as String,
-      email: json['email'] as String,
+      userLogin: json['user_login'] == null
+          ? null
+          : UserLogin.fromJson(json['user_login'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$VerifyEmailOTPResponseToJson(
         VerifyEmailOTPResponse instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'login_token': instance.loginToken,
-      'email': instance.email,
+      'user_login': instance.userLogin,
     };

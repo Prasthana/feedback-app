@@ -20,12 +20,12 @@ Map<String, dynamic> _$EmailOTPRequestToJson(EmailOTPRequest instance) =>
 
 EmailOTPResponse _$EmailOTPResponseFromJson(Map<String, dynamic> json) =>
     EmailOTPResponse(
-      id: (json['id'] as num).toInt(),
-      email: json['email'] as String,
+      userLogin: json['user_login'] == null
+          ? null
+          : UserLogin.fromJson(json['user_login'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$EmailOTPResponseToJson(EmailOTPResponse instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'email': instance.email,
+      'user_login': instance.userLogin,
     };
