@@ -14,17 +14,15 @@ class Employee {
     @JsonKey(name: 'employee_no')
     String? employeeNo;
     String? name;
-    String? email;
     String? designation;
-    Employee? manager;
+    String? email;
 
     Employee({
         required this.id,
         this.employeeNo,
         this.name,
-        this.email,
         this.designation,
-        this.manager,
+        this.email,
     });
 
 
