@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneononeresponse.dart';
@@ -55,8 +56,8 @@ abstract class RestClient {
   @GET("/employees")
   Future<EmployeesResponse> fetchEmployeesList();
 
-  @GET("/employees")
-  Future<Employee> fetchEmployeesDetails(@Query("param1") String employeeId);
+  @GET("/employees/{employeeId}")
+  Future<EmployeeDetailsResponse> fetchEmployeesDetails(@Path("employeeId") int employeeId);
 
   @PUT("/employees")
   Future<Employee> updateEmployeesDetails(@Query("param1") String employeeId);
