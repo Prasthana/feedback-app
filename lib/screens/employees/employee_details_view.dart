@@ -31,7 +31,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   Future getImage(String type) async {
     var image = null;
-    if (type == "Camera") {
+    if (type == constants.camera) {
       image = await ImagePicker().pickImage(source: ImageSource.camera);
     } else {
       image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -130,20 +130,20 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                           child: new Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              new ListTile(
-                                leading: new Icon(Icons.camera),
-                                title: new Text('Camera'),
+                               ListTile(
+                                leading: const Icon(Icons.camera),
+                                title: const Text(constants.camera),
                                 onTap: () => {
-                                  getImage("Camera"),
+                                  getImage(constants.camera),
                                   // this is how you dismiss the modal bottom sheet after making a choice
                                   Navigator.pop(context),
                                 },
                               ),
-                              new ListTile(
-                                leading: new Icon(Icons.image),
-                                title: new Text('Gallery'),
+                               ListTile(
+                                leading: const Icon(Icons.image),
+                                title: const Text(constants.gallery),
                                 onTap: () => {
-                                  getImage("Gallery"),
+                                  getImage(constants.gallery),
                                   // dismiss the modal sheet
                                   Navigator.pop(context),
                                 },
