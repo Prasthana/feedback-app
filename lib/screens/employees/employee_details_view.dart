@@ -6,6 +6,7 @@ import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -178,6 +179,107 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(22, 97, 210, 1)),
                 ),
+              ),
+            ),
+            addVerticalSpace(8),
+
+            Visibility(
+                visible: isLoginEmployee,
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      addVerticalSpace(8),
+                      SizedBox(
+                        width: 144.0,
+                        height: 40.0,
+                        child: TextButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            side: const BorderSide(color: colorText, width: 1.0),
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Stack(children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: ImageIcon(
+                                  AssetImage('assets/icMailSent.png'),
+                                  size: 24,
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  constants.sendEmail,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: colorText,
+                                    fontFamily: constants.uberMoveFont,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  addHorizontalSpace(12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      addVerticalSpace(8),
+                      SizedBox(
+                        width: 144.0,
+                        height: 40.0,
+                        child: TextButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            side: const BorderSide(color: colorText, width: 1.0),
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Stack(children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: ImageIcon(
+                                  AssetImage('assets/icOneonOne.png'),
+                                  size: 24,
+                                  color: Color.fromRGBO(0, 0, 0, 1),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  constants.create1On1,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: colorText,
+                                    fontFamily: constants.uberMoveFont,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             addVerticalSpace(8),
