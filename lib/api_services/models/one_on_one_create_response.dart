@@ -21,29 +21,27 @@ class OneOnOneCreateResponse {
     Map<String, dynamic> toJson() => _$OneOnOneCreateResponseToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class OneOnOneCreate {
-    @JsonKey(includeIfNull: false)
     int? id;
     @JsonKey(name: 'start_date_time')
     String startDateTime;
     @JsonKey(name: 'end_date_time')
     
     String endDateTime;
-    @JsonKey(includeIfNull: false)
     String? status;
     String notes;
 
-    @JsonKey(name: 'good_at_points', includeIfNull: false)
+    @JsonKey(name: 'good_at_points')
     List<dynamic>? goodAtPoints;
 
-    @JsonKey(name: 'yet_to_improve_points', includeIfNull: false)
+    @JsonKey(name: 'yet_to_improve_points')
     List<dynamic>? yetToImprovePoints;
 
-    @JsonKey(name: 'one_on_one_participants', includeIfNull: false)
+    @JsonKey(name: 'one_on_one_participants')
     List<OneOnOneParticipant>? oneOnOneParticipants;
 
-    @JsonKey(name: 'one_on_one_participants_attribute', includeIfNull: false)
+    @JsonKey(name: 'one_on_one_participants_attribute')
     List<OneOnOneParticipantsAttribute>? oneOnOneParticipantsAttributes;
 
     OneOnOneCreate({
