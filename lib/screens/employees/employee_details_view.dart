@@ -53,8 +53,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   @override
   void initState() {
     checkLoginstatus(widget.mEmployee!.id);
-    this.employeeFuture =
-        ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee!.id);
+    this.employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee!.id ?? 0);
     super.initState();
   }
 

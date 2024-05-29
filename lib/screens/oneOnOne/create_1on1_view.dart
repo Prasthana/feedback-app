@@ -1,8 +1,20 @@
+import 'dart:ffi';
+
+import 'package:dio/dio.dart';
+import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
+import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/oneonones.dart';
+import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 
@@ -16,12 +28,16 @@ class CreateOneOnOneView extends StatefulWidget {
 class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
-// String selectedOption = constants.doesNotRepeatText;
- // List<String> options = ["Does not repeat","Daily","Weekly on friday","custom"];
+  String enteredNotes = "";
+  Employee selectedEmployee = Employee();
+  String _selectedOption = constants.doesNotRepeatText;
 
-
-String _selectedOption = constants.doesNotRepeatText;
-  final List<String> _options = ["Does not repeat", "Daily", "Weekly on friday", "custom"];
+  final List<String> _options = [
+    "Does not repeat",
+    "Daily",
+    "Weekly on friday",
+    "custom"
+  ];
 
   void _showRadioButtonDialog() {
     showDialog(
@@ -29,25 +45,23 @@ String _selectedOption = constants.doesNotRepeatText;
       builder: (BuildContext context) {
         String tempSelectedOption = _selectedOption;
         return AlertDialog(
-          content: StatefulBuilder(
-            builder: (context, setState) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: _options.map((option) {
-                  return RadioListTile<String>(
-                    title: Text(option),
-                    value: option,
-                    groupValue: tempSelectedOption,
-                    onChanged: (value) {
-                      setState(() {
-                        tempSelectedOption = value!;
-                      });
-                    },
-                  );
-                }).toList(),
-              );
-            }
-          ),
+          content: StatefulBuilder(builder: (context, setState) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _options.map((option) {
+                return RadioListTile<String>(
+                  title: Text(option),
+                  value: option,
+                  groupValue: tempSelectedOption,
+                  onChanged: (value) {
+                    setState(() {
+                      tempSelectedOption = value!;
+                    });
+                  },
+                );
+              }).toList(),
+            );
+          }),
           actions: <Widget>[
             TextButton(
               child: const Text("Cancel"),
@@ -69,7 +83,6 @@ String _selectedOption = constants.doesNotRepeatText;
       },
     );
   }
-
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -138,37 +151,51 @@ String _selectedOption = constants.doesNotRepeatText;
                 width: MediaQuery.of(context).size.width,
                 height: 51.0,
                 child: TextButton(
-                  onPressed: () {
-                    debugPrint("search employee ------>>>>");
-                    showCupertinoModalBottomSheet(
+                  onPressed: () async {
+                    final result = await showCupertinoModalBottomSheet(
                       context: context,
                       builder: (context) => const SelectEmployeeView(),
                     );
+                    setState(() {
+                      if (result != null) {
+                        selectedEmployee = result as Employee;
+                      }
+                    });
+                    logger.e("result - ${selectedEmployee.name}");
                   },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    side:
-                        const BorderSide(color: colorText, width: 1.0),
+                    side: const BorderSide(color: colorText, width: 1.0),
                   ),
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      constants.searchEmployeeText,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: colorText,
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        (selectedEmployee.name != null)
+                            ? showEmployeeAvatar()
+                            : const Text(''),
+                        addHorizontalSpace(5),
+                        Text(
+                          selectedEmployee.name != null
+                              ? selectedEmployee.name ?? ""
+                              : constants.searchEmployeeText,
+                          style: const TextStyle(
+                            color: colorText,
+                            fontFamily: constants.uberMoveFont,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
               addVerticalSpace(26),
-          
+
               /// *************Date start***************
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -197,8 +224,8 @@ String _selectedOption = constants.doesNotRepeatText;
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            side: const BorderSide(
-                                color: colorText, width: 1.0),
+                            side:
+                                const BorderSide(color: colorText, width: 1.0),
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -218,9 +245,9 @@ String _selectedOption = constants.doesNotRepeatText;
                     ],
                   ),
                   // *************Date end***************
-          
+
                   addHorizontalSpace(24),
-          
+
                   // *************Time start***************
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,8 +273,8 @@ String _selectedOption = constants.doesNotRepeatText;
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            side: const BorderSide(
-                                color: colorText, width: 1.0),
+                            side:
+                                const BorderSide(color: colorText, width: 1.0),
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -303,7 +330,7 @@ String _selectedOption = constants.doesNotRepeatText;
                   ],
                 ),
               ),
-          
+
               addVerticalSpace(30),
               const Text(
                 constants.notesText,
@@ -313,55 +340,85 @@ String _selectedOption = constants.doesNotRepeatText;
                   fontWeight: FontWeight.w500,
                 ),
               ),
-          
+
               addVerticalSpace(8),
-          
+
               TextFormField(
-                minLines: 5,
-                maxLines: 5,
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(
-                  hintText: constants.notesHintText,
-                  hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: colorText,
+                  minLines: 5,
+                  maxLines: 5,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.done,
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white,
+                    hintText: constants.notesHintText,
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: colorText,
+                      ),
                     ),
                   ),
-                ),
-                style: const TextStyle(
-                  fontFamily: constants.uberMoveFont,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-          
+                  style: const TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  onChanged: (value) {
+                    enteredNotes = value;
+                  }),
+
               addVerticalSpace(30),
-          
+
               MaterialButton(
                 minWidth: double.infinity,
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
-                  
-                  
+                  if (selectedEmployee.name == null) {
+                    showInvalidAlert(
+                        context, constants.selectEmployeeValidationText);
+                  } else {
+                    var startDateTime =
+                        DateFormat('yyyy-MM-dd').format(selectedDate) +
+                            "T07:15:00Z";
+                    var endDateTime =
+                        DateFormat('yyyy-MM-dd').format(selectedDate) +
+                            "T09:15:00Z";
+                    _createOneOnOneRequest(startDateTime, endDateTime,
+                        enteredNotes, selectedEmployee.id ?? 0, context);
+                  }
                 },
                 // ignore: sort_child_properties_last
                 child: const Text(constants.createText),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                color:const Color.fromRGBO(0, 0, 0, 1),
+                color: const Color.fromRGBO(0, 0, 0, 1),
                 //const Color.fromRGBO(173, 173, 173, 1),
                 textColor: Colors.white,
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget showEmployeeAvatar() {
+    return CircleAvatar(
+      backgroundColor: colorPrimary,
+      maxRadius: 18.0,
+      foregroundImage: const NetworkImage(""),
+      child: Text(
+        getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
+        style: const TextStyle(
+            fontFamily: constants.uberMoveFont,
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: Color.fromRGBO(255, 255, 255, 1)),
       ),
     );
   }
@@ -373,5 +430,38 @@ String _selectedOption = constants.doesNotRepeatText;
           'assets/emptyOneOnOneList.png',
         ) // Image.asset
         );
+  }
+
+  _createOneOnOneRequest(String startDateTime, String endDateTime, String notes,
+      int employeeId, BuildContext context) async {
+    List<OneOnOneParticipantsAttribute> oneOnOneAttributes = [];
+    var attr = OneOnOneParticipantsAttribute(employeeId: employeeId);
+    oneOnOneAttributes.add(attr);
+
+    var oneOnOneObj = OneOnOneCreate(
+        startDateTime: startDateTime,
+        endDateTime: endDateTime,
+        notes: notes,
+        oneOnOneParticipantsAttributes: oneOnOneAttributes);
+
+    var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
+    ApiManager.authenticated.createOneOnOne(request).then((val) {
+      // do some operation
+      logger.e('createOneOnOne response -- ${val.toJson()}');
+
+      // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
+    }).catchError((obj) {
+      // non-200 error goes here.
+      switch (obj.runtimeType) {
+        case const (DioException):
+          // Here's the sample to get the failed response error code and message
+          final res = (obj as DioException).response;
+          logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+
+          break;
+        default:
+          break;
+      }
+    });
   }
 }

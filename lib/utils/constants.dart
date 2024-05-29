@@ -44,6 +44,7 @@ const String notesHintText = "Start typing here...";
 const String repeatText = "Repeat?";
 const String doesNotRepeatText = "Does not repeat";
 const String createText = "Create";
+const String selectEmployeeValidationText = "Select the employee to create";
 
 // End of 1-on-1 Screen
 
