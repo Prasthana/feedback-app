@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
-import 'package:feedbackapp/api_services/models/employeerequest.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
@@ -13,6 +11,7 @@ import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
@@ -37,15 +36,22 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     }
 
     if (image != null) {
-      // setState(() {
-      //   _image = image as XFile;
-      // });
-
      File file = File(image.path);
+     final filePath = file.absolute.path;
+     final lastIndex = filePath.lastIndexOf(new RegExp(r'.jp'));
+     final splitted = filePath.substring(0, (lastIndex));
+     final outPath = "${splitted}_out${filePath.substring(lastIndex)}";
 
-      // var employee = EmployeeRequest(name: widget.mEmployee!.name ?? "", avatar: file, mobileNumber: "1234567890");
+    var result = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path, outPath,
+        quality: 70,
+      );
 
-      this.employeeFuture = ApiManager.authenticated.updateEmployeesDetails(widget.mEmployee!.id, file);
+     File file1 = File(result!.path);
+     print(file.lengthSync());
+     print(file1.lengthSync());
+
+      this.employeeFuture = ApiManager.authenticated.updateEmployeesDetails(widget.mEmployee!.id, file1);
     }
   }
 
@@ -58,8 +64,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   @override
   void initState() {
     checkLoginstatus(widget.mEmployee!.id);
-    this.employeeFuture =
-        ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee!.id);
+    this.employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee!.id);
     super.initState();
   }
 
@@ -163,8 +168,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 child: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 64.0,
-                  foregroundImage: NetworkImage(""),
-                  // backgroundImage: FileImage(_image),
+                  backgroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
                   child: Stack(children: [
                     Visibility(
                       visible: isLoginEmployee,
