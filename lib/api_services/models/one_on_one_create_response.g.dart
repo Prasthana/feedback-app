@@ -31,11 +31,11 @@ OneOnOneCreate _$OneOnOneCreateFromJson(Map<String, dynamic> json) =>
       oneOnOneParticipants: (json['one_on_one_participants'] as List<dynamic>?)
           ?.map((e) => OneOnOneParticipant.fromJson(e as Map<String, dynamic>))
           .toList(),
-      oneOnOneParticipantsAttributes: (json['one_on_one_participants_attribute']
-              as List<dynamic>?)
-          ?.map((e) =>
-              OneOnOneParticipantsAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      oneOnOneParticipantsAttributes:
+          (json['one_on_one_participants_attributes'] as List<dynamic>?)
+              ?.map((e) => OneOnOneParticipantsAttribute.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
     );
 
 Map<String, dynamic> _$OneOnOneCreateToJson(OneOnOneCreate instance) {
@@ -55,7 +55,7 @@ Map<String, dynamic> _$OneOnOneCreateToJson(OneOnOneCreate instance) {
   writeNotNull('good_at_points', instance.goodAtPoints);
   writeNotNull('yet_to_improve_points', instance.yetToImprovePoints);
   writeNotNull('one_on_one_participants', instance.oneOnOneParticipants);
-  writeNotNull('one_on_one_participants_attribute',
+  writeNotNull('one_on_one_participants_attributes',
       instance.oneOnOneParticipantsAttributes);
   return val;
 }
