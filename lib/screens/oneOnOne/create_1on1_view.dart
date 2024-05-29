@@ -1,10 +1,8 @@
-import 'dart:ffi';
 
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
-import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
@@ -14,7 +12,6 @@ import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
-import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 
@@ -382,11 +379,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                         context, constants.selectEmployeeValidationText);
                   } else {
                     var startDateTime =
-                        DateFormat('yyyy-MM-dd').format(selectedDate) +
-                            "T07:15:00Z";
+                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T07:15:00Z";
                     var endDateTime =
-                        DateFormat('yyyy-MM-dd').format(selectedDate) +
-                            "T09:15:00Z";
+                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T09:15:00Z";
                     _createOneOnOneRequest(startDateTime, endDateTime,
                         enteredNotes, selectedEmployee.id ?? 0, context);
                   }
