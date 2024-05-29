@@ -157,7 +157,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     );
 
                     setState(() {
-                      selectedEmployee = result as Employee;
+                      if (result != null) {
+                        selectedEmployee = result as Employee;
+                      }
                     });
                     
                     logger.e("result - ${selectedEmployee.name}");
