@@ -10,6 +10,7 @@ import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -173,10 +174,18 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.asset(
-                          'assets/icApplock.png',
-                          height: selectedEmployee.name != null  ? 30.0 : 0.0,
-                          width: selectedEmployee.name != null ? 30.0 : 0.0,
+                        CircleAvatar(
+                          backgroundColor: colorPrimary,
+                          maxRadius: 28.0,
+                          foregroundImage: const NetworkImage(""),
+                          child: Text(
+                          getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
+                          style: const TextStyle(
+                            fontFamily: constants.uberMoveFont,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromRGBO(255, 255, 255, 1)),
+                          ),
                         ),
                         addHorizontalSpace(5),
                         Text(
