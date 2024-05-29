@@ -36,7 +36,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
         //     Navigator.pop(context);
         //   },
         // ),
-        automaticallyImplyLeading: false, // Hide the back button
+       // automaticallyImplyLeading: false, // Hide the back button
         title: const Text(
           "1-on-1",
           style: TextStyle(
