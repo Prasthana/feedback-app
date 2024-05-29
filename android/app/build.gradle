@@ -30,7 +30,7 @@ if (flutterMinSdkVersion == null) {
 
 def flutterTargetSdkVersion = localProperties.getProperty("flutter.targetSdkVersion")
 if (flutterTargetSdkVersion == null) {
-    flutterTargetSdkVersion = 32
+    flutterTargetSdkVersion = 34
 }
 
 android {

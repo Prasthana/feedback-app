@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Feedback App',
       theme: lightTheme,
-      darkTheme: darkTheme,
+      themeMode: ThemeMode.light,
+      // darkTheme: darkTheme,
       home:  
       const Scaffold(
         backgroundColor: Colors.white, 
