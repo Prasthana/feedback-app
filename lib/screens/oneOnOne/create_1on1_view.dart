@@ -22,8 +22,7 @@ class CreateOneOnOneView extends StatefulWidget {
 class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
-// String selectedOption = constants.doesNotRepeatText;
-  // List<String> options = ["Does not repeat","Daily","Weekly on friday","custom"];
+   String enteredNotes = "";
 
   String _selectedOption = constants.doesNotRepeatText;
   bool isEmployeeSelected = true;
@@ -358,6 +357,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
+                onChanged: (value) {
+                          enteredNotes = value;
+                        }
               ),
 
               addVerticalSpace(30),
@@ -367,16 +369,14 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
-                  /*
-                  "start_date_time": "2024-05-24T07:15:00Z", // Type: DateTime 
-                    "end_date_time": "2024-05-24T08:15:00Z",
-                  */
 
+                  var startDateTime = DateFormat('yyyy-MM-dd').format(selectedDate) + "T07:15:00Z";
+                  var endDateTime = DateFormat('yyyy-MM-dd').format(selectedDate) + "T09:15:00Z";
                   _createOneOnOneRequest(
-                      "2024-05-30T07:15:00Z",
-                      "2024-05-30T07:15:00Z",
-                      "Test notes for the meeting",
-                      6,
+                      startDateTime,
+                      endDateTime,
+                      enteredNotes,
+                      5,
                       context);
                 },
                 // ignore: sort_child_properties_last
