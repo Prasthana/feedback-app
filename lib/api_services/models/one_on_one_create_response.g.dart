@@ -38,19 +38,27 @@ OneOnOneCreate _$OneOnOneCreateFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$OneOnOneCreateToJson(OneOnOneCreate instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'start_date_time': instance.startDateTime,
-      'end_date_time': instance.endDateTime,
-      'status': instance.status,
-      'notes': instance.notes,
-      'good_at_points': instance.goodAtPoints,
-      'yet_to_improve_points': instance.yetToImprovePoints,
-      'one_on_one_participants': instance.oneOnOneParticipants,
-      'one_on_one_participants_attribute':
-          instance.oneOnOneParticipantsAttributes,
-    };
+Map<String, dynamic> _$OneOnOneCreateToJson(OneOnOneCreate instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['start_date_time'] = instance.startDateTime;
+  val['end_date_time'] = instance.endDateTime;
+  writeNotNull('status', instance.status);
+  val['notes'] = instance.notes;
+  writeNotNull('good_at_points', instance.goodAtPoints);
+  writeNotNull('yet_to_improve_points', instance.yetToImprovePoints);
+  writeNotNull('one_on_one_participants', instance.oneOnOneParticipants);
+  writeNotNull('one_on_one_participants_attribute',
+      instance.oneOnOneParticipantsAttributes);
+  return val;
+}
 
 OneOnOneParticipant _$OneOnOneParticipantFromJson(Map<String, dynamic> json) =>
     OneOnOneParticipant(

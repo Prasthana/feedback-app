@@ -410,20 +410,14 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
 // sagar.kshetri12@prasthana.com
     var attr = OneOnOneParticipantsAttribute(employeeId: employeeId);
     oneOnOneAttributes.add(attr);
-    debugPrint("oneOnOneAttributes ------>>> ${oneOnOneAttributes.toString()}");
 
     var oneOnOneObj = OneOnOneCreate(
         startDateTime: startDateTime,
         endDateTime: endDateTime,
         notes: notes,
         oneOnOneParticipantsAttributes: oneOnOneAttributes);
-    debugPrint("oneOnOneObj ------>>> $oneOnOneObj");
 
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
-    debugPrint("request ------>>> $request");
-
-    logger.e('createOneOnOne request -- ${request.toJson()}');
-
     ApiManager.authenticated.createOneOnOne(request).then((val) {
       // do some operation
       logger.e('createOneOnOne response -- ${val.toJson()}');

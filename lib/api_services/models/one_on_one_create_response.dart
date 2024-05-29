@@ -23,20 +23,27 @@ class OneOnOneCreateResponse {
 
 @JsonSerializable()
 class OneOnOneCreate {
+    @JsonKey(includeIfNull: false)
     int? id;
     @JsonKey(name: 'start_date_time')
     String startDateTime;
     @JsonKey(name: 'end_date_time')
+    
     String endDateTime;
+    @JsonKey(includeIfNull: false)
     String? status;
     String notes;
-    @JsonKey(name: 'good_at_points')
+
+    @JsonKey(name: 'good_at_points', includeIfNull: false)
     List<dynamic>? goodAtPoints;
-    @JsonKey(name: 'yet_to_improve_points')
+
+    @JsonKey(name: 'yet_to_improve_points', includeIfNull: false)
     List<dynamic>? yetToImprovePoints;
-    @JsonKey(name: 'one_on_one_participants')
+
+    @JsonKey(name: 'one_on_one_participants', includeIfNull: false)
     List<OneOnOneParticipant>? oneOnOneParticipants;
-    @JsonKey(name: 'one_on_one_participants_attribute')
+
+    @JsonKey(name: 'one_on_one_participants_attribute', includeIfNull: false)
     List<OneOnOneParticipantsAttribute>? oneOnOneParticipantsAttributes;
 
     OneOnOneCreate({
