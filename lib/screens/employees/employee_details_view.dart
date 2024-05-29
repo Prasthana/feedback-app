@@ -15,9 +15,9 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
-  EmployeeDetailsView({super.key, required this.mEmployee});
+  const EmployeeDetailsView({super.key, required this.mEmployee});
 
-  Employee mEmployee;
+  final Employee mEmployee;
 
   @override
   State<EmployeeDetailsView> createState() => _EmployeeDetailsViewState();
@@ -28,7 +28,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   bool isLoginEmployee = false;
 
   Future getImage(String type) async {
-    var image = null;
+    XFile? image;
     if (type == constants.camera) {
       image = await ImagePicker().pickImage(source: ImageSource.camera);
     } else {
@@ -53,7 +53,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       print(file1.lengthSync());
 
       this.employeeFuture = ApiManager.authenticated
-          .updateEmployeesDetails(widget.mEmployee!.id, file1);
+          .updateEmployeesDetails(widget.mEmployee?.id ?? 0, file1);
     }
   }
 
@@ -65,9 +65,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   @override
   void initState() {
-    checkLoginstatus(widget.mEmployee?.id ?? 0);
-    this.employeeFuture = ApiManager.authenticated
-        .fetchEmployeesDetails(widget.mEmployee?.id ?? 0);
+    checkLoginstatus(widget.mEmployee.id ?? 0);
+    employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee.id ?? 0);
     super.initState();
   }
 
@@ -140,7 +139,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       context: context,
                       builder: (BuildContext context) {
                         return SafeArea(
-                          child: new Column(
+                          child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               ListTile(

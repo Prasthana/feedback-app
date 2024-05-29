@@ -10,9 +10,7 @@ part of 'api_services.dart';
 
 class _RestClient implements RestClient {
   _RestClient(
-    this._dio, {
-    this.baseUrl,
-  }) {
+    this._dio) {
     baseUrl ??= 'http://ec2-18-219-231-99.us-east-2.compute.amazonaws.com/';
   }
 
@@ -215,14 +213,15 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<OneOnOneResponse> createOneOnOne(OneOnOne request) async {
+  Future<OneOnOneCreateResponse> createOneOnOne(
+      OneOnOneCreateRequest request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<OneOnOneResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OneOnOneCreateResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -238,7 +237,7 @@ class _RestClient implements RestClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = OneOnOneResponse.fromJson(_result.data!);
+    final value = OneOnOneCreateResponse.fromJson(_result.data!);
     return value;
   }
 

@@ -7,7 +7,7 @@ part of 'employee.dart';
 // **************************************************************************
 
 Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt(),
       employeeNo: json['employee_no'] as String?,
       name: json['name'] as String?,
       designation: json['designation'] as String?,

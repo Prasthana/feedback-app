@@ -10,7 +10,7 @@ String welcomeToJson(List<Employee> data) => json.encode(List<dynamic>.from(data
 
 @JsonSerializable()
 class Employee {
-    int id;
+    int? id;
     @JsonKey(name: 'employee_no')
     String? employeeNo;
     String? name;
@@ -24,7 +24,7 @@ class Employee {
     Employee? manager;
 
     Employee({
-        required this.id,
+        this.id,
         this.employeeNo,
         this.name,
         this.designation,
