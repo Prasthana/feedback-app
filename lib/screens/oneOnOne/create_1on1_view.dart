@@ -1,3 +1,9 @@
+import 'package:dio/dio.dart';
+import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
+import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/oneonones.dart';
+import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -21,7 +27,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
 
   String _selectedOption = constants.doesNotRepeatText;
   bool isEmployeeSelected = true;
-  
+
   final List<String> _options = [
     "Does not repeat",
     "Daily",
@@ -156,8 +162,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   ),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: 
-                    Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.asset(
@@ -166,14 +171,17 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                           width: isEmployeeSelected ? 30.0 : 0.0,
                         ),
                         addHorizontalSpace(5),
-                       Text(isEmployeeSelected ? 'Nagaraju Kamatham' : constants.searchEmployeeText,
-                        style: const TextStyle(
-                        color: colorText,
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                        Text(
+                          isEmployeeSelected
+                              ? 'Nagaraju Kamatham'
+                              : constants.searchEmployeeText,
+                          style: const TextStyle(
+                            color: colorText,
+                            fontFamily: constants.uberMoveFont,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
                       ],
                     ),
                   ),
@@ -359,6 +367,17 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
+                  /*
+                  "start_date_time": "2024-05-24T07:15:00Z", // Type: DateTime 
+                    "end_date_time": "2024-05-24T08:15:00Z",
+                  */
+
+                  _createOneOnOneRequest(
+                      "2024-05-30T07:15:00Z",
+                      "2024-05-30T07:15:00Z",
+                      "Test notes for the meeting",
+                      6,
+                      context);
                 },
                 // ignore: sort_child_properties_last
                 child: const Text(constants.createText),
@@ -383,5 +402,45 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
           'assets/emptyOneOnOneList.png',
         ) // Image.asset
         );
+  }
+
+  _createOneOnOneRequest(String startDateTime, String endDateTime, String notes,
+      int employeeId, BuildContext context) async {
+    List<OneOnOneParticipantsAttribute> oneOnOneAttributes = [];
+// sagar.kshetri12@prasthana.com
+    var attr = OneOnOneParticipantsAttribute(employeeId: employeeId);
+    oneOnOneAttributes.add(attr);
+    debugPrint("oneOnOneAttributes ------>>> ${oneOnOneAttributes.toString()}");
+
+    var oneOnOneObj = OneOnOneCreate(
+        startDateTime: startDateTime,
+        endDateTime: endDateTime,
+        notes: notes,
+        oneOnOneParticipantsAttributes: oneOnOneAttributes);
+    debugPrint("oneOnOneObj ------>>> $oneOnOneObj");
+
+    var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
+    debugPrint("request ------>>> $request");
+
+    logger.e('createOneOnOne request -- ${request.toJson()}');
+
+    ApiManager.authenticated.createOneOnOne(request).then((val) {
+      // do some operation
+      logger.e('createOneOnOne response -- ${val.toJson()}');
+
+      // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
+    }).catchError((obj) {
+      // non-200 error goes here.
+      switch (obj.runtimeType) {
+        case const (DioException):
+          // Here's the sample to get the failed response error code and message
+          final res = (obj as DioException).response;
+          logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+
+          break;
+        default:
+          break;
+      }
+    });
   }
 }
