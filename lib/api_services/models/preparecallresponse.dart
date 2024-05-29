@@ -53,6 +53,7 @@ class Permission {
 enum Access {
     enabled,
     // Dont remove this - ita false warning - Janakiram
+    // ignore: invalid_annotation_target
     @JsonKey(name: 'not_available')
     notAvailable
 }

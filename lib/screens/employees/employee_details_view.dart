@@ -15,9 +15,9 @@ import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
 import 'package:image_picker/image_picker.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
-  EmployeeDetailsView({super.key, required this.mEmployee});
+  const EmployeeDetailsView({super.key, required this.mEmployee});
 
-  Employee mEmployee;
+  final Employee mEmployee;
 
   @override
   State<EmployeeDetailsView> createState() => _EmployeeDetailsViewState();

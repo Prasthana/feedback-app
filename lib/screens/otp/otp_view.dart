@@ -20,6 +20,7 @@ class OtpView extends StatefulWidget {
   OtpView({super.key, required this.emailOTPResponse});
 
   EmailOTPResponse emailOTPResponse;
+  
   @override
   State<OtpView> createState() => _OtpViewState();
 }
