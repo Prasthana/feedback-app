@@ -161,9 +161,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                         selectedEmployee = result as Employee;
                       }
                     });
-                    
                     logger.e("result - ${selectedEmployee.name}");
-
                   },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
