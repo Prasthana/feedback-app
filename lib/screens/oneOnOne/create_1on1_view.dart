@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
+import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
 import 'package:feedbackapp/api_services/models/oneonones.dart';
@@ -22,10 +25,10 @@ class CreateOneOnOneView extends StatefulWidget {
 class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
-   String enteredNotes = "";
-
+  String enteredNotes = "";
+  Employee selectedEmployee = Employee();
   String _selectedOption = constants.doesNotRepeatText;
-  bool isEmployeeSelected = true;
+ 
 
   final List<String> _options = [
     "Does not repeat",
@@ -146,12 +149,18 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 width: MediaQuery.of(context).size.width,
                 height: 51.0,
                 child: TextButton(
-                  onPressed: () {
-                    debugPrint("search employee ------>>>>");
-                    showCupertinoModalBottomSheet(
+                  onPressed: () async {
+                     final result = await showCupertinoModalBottomSheet(
                       context: context,
                       builder: (context) => const SelectEmployeeView(),
                     );
+
+                    setState(() {
+                      selectedEmployee = result as Employee;
+                    });
+                    
+                    logger.e("result - ${selectedEmployee.name}");
+
                   },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -166,13 +175,13 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                       children: [
                         Image.asset(
                           'assets/icApplock.png',
-                          height: isEmployeeSelected ? 30.0 : 0.0,
-                          width: isEmployeeSelected ? 30.0 : 0.0,
+                          height: selectedEmployee.name != null  ? 30.0 : 0.0,
+                          width: selectedEmployee.name != null ? 30.0 : 0.0,
                         ),
                         addHorizontalSpace(5),
                         Text(
-                          isEmployeeSelected
-                              ? 'Nagaraju Kamatham'
+                          selectedEmployee.name != null
+                              ? selectedEmployee.name ?? ""
                               : constants.searchEmployeeText,
                           style: const TextStyle(
                             color: colorText,
@@ -369,14 +378,13 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
-
                   var startDateTime = DateFormat('yyyy-MM-dd').format(selectedDate) + "T07:15:00Z";
                   var endDateTime = DateFormat('yyyy-MM-dd').format(selectedDate) + "T09:15:00Z";
                   _createOneOnOneRequest(
                       startDateTime,
                       endDateTime,
                       enteredNotes,
-                      5,
+                      selectedEmployee.id ?? 0,
                       context);
                 },
                 // ignore: sort_child_properties_last

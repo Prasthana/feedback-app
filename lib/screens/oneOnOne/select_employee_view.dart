@@ -118,7 +118,9 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                 // Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
+                  var mEmployee = employeeList![index];
+                  Navigator.pop(context, mEmployee);
+                 // Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView()),);
                 }, 
               ),
               const Divider(
