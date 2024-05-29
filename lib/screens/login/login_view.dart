@@ -155,7 +155,7 @@ String? _validateEmail(String? email) {
   }
 }
 
-showInvalidUserAlert(BuildContext context) {
+showInvalidAlert(BuildContext context, String alertText) {
     // set up the button
   Widget okButton = TextButton(
     child: const Text("OK"),
@@ -166,7 +166,7 @@ showInvalidUserAlert(BuildContext context) {
 
   AlertDialog alert = AlertDialog(
     title: const Text(""),
-    content: const Text(constants.inValidUserText),
+    content: Text(alertText),
     actions: [
       okButton,
     ],
@@ -201,7 +201,7 @@ _genarateOtp(String? email,BuildContext context) async {
         final res = (obj as DioException).response;
         logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
         // debugPrint('statusMessage ------>>> ${res?.statusMessage}');
-        showInvalidUserAlert(context);
+        showInvalidAlert(context, constants.inValidUserText);
         break;
       default:
         break;

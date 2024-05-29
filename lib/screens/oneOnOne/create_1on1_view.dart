@@ -7,12 +7,14 @@ import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart'
 import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 
@@ -29,7 +31,6 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   String enteredNotes = "";
   Employee selectedEmployee = Employee();
   String _selectedOption = constants.doesNotRepeatText;
- 
 
   final List<String> _options = [
     "Does not repeat",
@@ -151,11 +152,10 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 51.0,
                 child: TextButton(
                   onPressed: () async {
-                     final result = await showCupertinoModalBottomSheet(
+                    final result = await showCupertinoModalBottomSheet(
                       context: context,
                       builder: (context) => const SelectEmployeeView(),
                     );
-
                     setState(() {
                       if (result != null) {
                         selectedEmployee = result as Employee;
@@ -174,19 +174,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CircleAvatar(
-                          backgroundColor: colorPrimary,
-                          maxRadius: 28.0,
-                          foregroundImage: const NetworkImage(""),
-                          child: Text(
-                          getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
-                          style: const TextStyle(
-                            fontFamily: constants.uberMoveFont,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(255, 255, 255, 1)),
-                          ),
-                        ),
+                        (selectedEmployee.name != null) ? showEmployeeAvatar() : const Text(''),
                         addHorizontalSpace(5),
                         Text(
                           selectedEmployee.name != null
@@ -354,32 +342,31 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
               addVerticalSpace(8),
 
               TextFormField(
-                minLines: 5,
-                maxLines: 5,
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(
-                  fillColor: Colors.white,
-                  hintText: constants.notesHintText,
-                  hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: colorText,
+                  minLines: 5,
+                  maxLines: 5,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.done,
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white,
+                    hintText: constants.notesHintText,
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: colorText,
+                      ),
                     ),
                   ),
-                ),
-                style: const TextStyle(
-                  fontFamily: constants.uberMoveFont,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-                onChanged: (value) {
-                          enteredNotes = value;
-                        }
-              ),
+                  style: const TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  onChanged: (value) {
+                    enteredNotes = value;
+                  }),
 
               addVerticalSpace(30),
 
@@ -388,14 +375,18 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
-                  var startDateTime = DateFormat('yyyy-MM-dd').format(selectedDate) + "T07:15:00Z";
-                  var endDateTime = DateFormat('yyyy-MM-dd').format(selectedDate) + "T09:15:00Z";
-                  _createOneOnOneRequest(
-                      startDateTime,
-                      endDateTime,
-                      enteredNotes,
-                      selectedEmployee.id ?? 0,
-                      context);
+                  if (selectedEmployee.name == null) {
+                    showInvalidAlert(context, constants.selectEmployeeValidationText);
+                  } else {
+                    var startDateTime =
+                        DateFormat('yyyy-MM-dd').format(selectedDate) +
+                            "T07:15:00Z";
+                    var endDateTime =
+                        DateFormat('yyyy-MM-dd').format(selectedDate) +
+                            "T09:15:00Z";
+                    _createOneOnOneRequest(startDateTime, endDateTime,
+                        enteredNotes, selectedEmployee.id ?? 0, context);
+                  }
                 },
                 // ignore: sort_child_properties_last
                 child: const Text(constants.createText),
@@ -413,6 +404,23 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     );
   }
 
+  Widget showEmployeeAvatar() {
+                       return  CircleAvatar(
+                          backgroundColor: colorPrimary,
+                          maxRadius: 28.0,
+                          foregroundImage: const NetworkImage(""),
+                          child: Text(
+                            getInitials(
+                                selectedEmployee.name ?? "No Particiapnt", 2),
+                            style: const TextStyle(
+                                fontFamily: constants.uberMoveFont,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromRGBO(255, 255, 255, 1)),
+                          ),
+                        );
+  }
+
   Padding meetingImage() {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 54.0),
@@ -425,7 +433,6 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   _createOneOnOneRequest(String startDateTime, String endDateTime, String notes,
       int employeeId, BuildContext context) async {
     List<OneOnOneParticipantsAttribute> oneOnOneAttributes = [];
-// sagar.kshetri12@prasthana.com
     var attr = OneOnOneParticipantsAttribute(employeeId: employeeId);
     oneOnOneAttributes.add(attr);
 
