@@ -6,6 +6,7 @@ import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart'
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/screens/oneOnOne/1on1_success_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -443,6 +444,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     ApiManager.authenticated.createOneOnOne(request).then((val) {
       // do some operation
       logger.e('createOneOnOne response -- ${val.toJson()}');
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => OneonOneSuccessView(oneOnOneResp: val)),);
 
       // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
     }).catchError((obj) {
