@@ -101,7 +101,14 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             addVerticalSpace(12),
-            Center(
+
+            GestureDetector(
+              onTap: (){
+                if(isLoginEmployee){
+                  
+                }
+              },
+              child: Center(
               child: CircleAvatar(
                 backgroundColor: themeconstants.colorPrimary,
                 maxRadius: 64.0,
@@ -131,6 +138,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   )
                 ]),
               ),
+            ),
+            
             ),
             addVerticalSpace(12),
             Center(
