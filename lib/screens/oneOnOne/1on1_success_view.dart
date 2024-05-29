@@ -18,9 +18,15 @@ class OneonOneSuccessView extends StatefulWidget {
 class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
   @override
   Widget build(BuildContext context) {
-    var oName = widget.oneOnOneResp.oneOnOne.oneOnOneParticipants?.first.employee.name ?? "";
-    var oDate = widget.oneOnOneResp.oneOnOne.startDateTime ?? "";  
-    var oTime = widget.oneOnOneResp.oneOnOne.endDateTime ?? ""; 
+    var empName = widget.oneOnOneResp.oneOnOne.oneOnOneParticipants?.first.employee.name ?? "";
+    var dateStr = widget.oneOnOneResp.oneOnOne.startDateTime ?? "";  
+    var startDateTime = widget.oneOnOneResp.oneOnOne.startDateTime ?? "";
+    var endDateTime = widget.oneOnOneResp.oneOnOne.endDateTime ?? "";
+    var startTime = getFormatedTime(startDateTime);
+    var endTime = getFormatedTime(endDateTime);
+
+    var oneOn1Time = "$startTime - $endTime";
+    var oneOn1Date = getFormatedDate(dateStr);
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +54,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
             addVerticalSpace(90),
             meetingSuccessImage(),
             addVerticalSpace(60),
-            multiFontText(oName, oDate, oTime),
+            multiFontText(empName, oneOn1Date, oneOn1Time),
             addVerticalSpace(20),
             const Text(
               "We have sent an email to your employee regarding the 1-on-1 meeting. Wishing you a productive meeting!",
@@ -87,11 +93,15 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
     );
   }
 
-    String formatTime(String dateTimeString) {
+  String getFormatedTime(String dateTimeString) {
       DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
-      final DateFormat formatter = DateFormat.jm(); // Adjust format as needed
+      final DateFormat formatter = DateFormat.jm();
       return formatter.format(dateTime);
-   }
+  }
+  String getFormatedDate(String dateTimeString) {
+      DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
+      return DateFormat('dd-MM-yyyy').format(dateTime);
+  }
 
 
   Padding meetingSuccessImage() {
