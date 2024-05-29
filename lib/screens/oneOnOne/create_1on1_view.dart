@@ -410,7 +410,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   Widget showEmployeeAvatar() {
     return CircleAvatar(
       backgroundColor: colorPrimary,
-      maxRadius: 28.0,
+      maxRadius: 18.0,
       foregroundImage: const NetworkImage(""),
       child: Text(
         getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
