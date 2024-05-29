@@ -41,7 +41,7 @@ class OneOnOneCreate {
     @JsonKey(name: 'one_on_one_participants')
     List<OneOnOneParticipant>? oneOnOneParticipants;
 
-    @JsonKey(name: 'one_on_one_participants_attribute')
+    @JsonKey(name: 'one_on_one_participants_attributes')
     List<OneOnOneParticipantsAttribute>? oneOnOneParticipantsAttributes;
 
     OneOnOneCreate({
