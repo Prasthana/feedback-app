@@ -104,7 +104,13 @@ class _LoginViewState extends State<LoginView> {
                           });
                           _enteredEmail = email;
                         },
-                        validator: _validateEmail,
+                        validator: (email) {
+                          if (email != null && EmailValidator.validate(email)) {
+                          return null;
+                          }
+                            return constants.enterValidEmailText;
+                          
+                        },
                       ),
                       addVerticalSpace(45),
                       MaterialButton(
@@ -131,17 +137,6 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
-  }
-}
-
-String? _validateEmail(String? email) {
-  // Improved email validation using a regular expression
-  final emailRegExp = RegExp(
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$");
-  if (email == null || email.isEmpty || !emailRegExp.hasMatch(email)) {
-    return constants.enterValidEmailText;
-  } else {
-    return null; // No error
   }
 }
 
