@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
@@ -97,11 +98,11 @@ class _LoginViewState extends State<LoginView> {
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),
-                        onChanged: (value) {
+                        onChanged: (email) {
                           setState(() {
-                            isEmailValidated = _isEmailValidated(value);
+                            isEmailValidated = EmailValidator.validate(email);
                           });
-                          _enteredEmail = value;
+                          _enteredEmail = email;
                         },
                         validator: _validateEmail,
                       ),
@@ -130,17 +131,6 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
-  }
-}
-
-bool _isEmailValidated(String? email) {
-  // Improved email validation using a regular expression
-  final emailRegExp = RegExp(
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$");
-  if (email == null || email.isEmpty || !emailRegExp.hasMatch(email)) {
-    return false;
-  } else {
-    return true; // No error
   }
 }
 
