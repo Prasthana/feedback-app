@@ -15,5 +15,5 @@
       buffer.write(split[i][0]);
     }
 
-    return buffer.toString();
+    return buffer.toString().toUpperCase();
   }

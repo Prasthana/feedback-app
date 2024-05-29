@@ -174,7 +174,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        (selectedEmployee.name != null) ? showEmployeeAvatar() : const Text(''),
+                        (selectedEmployee.name != null)
+                            ? showEmployeeAvatar()
+                            : const Text(''),
                         addHorizontalSpace(5),
                         Text(
                           selectedEmployee.name != null
@@ -376,7 +378,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
                   if (selectedEmployee.name == null) {
-                    showInvalidAlert(context, constants.selectEmployeeValidationText);
+                    showInvalidAlert(
+                        context, constants.selectEmployeeValidationText);
                   } else {
                     var startDateTime =
                         DateFormat('yyyy-MM-dd').format(selectedDate) +
@@ -405,20 +408,19 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   }
 
   Widget showEmployeeAvatar() {
-                       return  CircleAvatar(
-                          backgroundColor: colorPrimary,
-                          maxRadius: 28.0,
-                          foregroundImage: const NetworkImage(""),
-                          child: Text(
-                            getInitials(
-                                selectedEmployee.name ?? "No Particiapnt", 2),
-                            style: const TextStyle(
-                                fontFamily: constants.uberMoveFont,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromRGBO(255, 255, 255, 1)),
-                          ),
-                        );
+    return CircleAvatar(
+      backgroundColor: colorPrimary,
+      maxRadius: 28.0,
+      foregroundImage: const NetworkImage(""),
+      child: Text(
+        getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
+        style: const TextStyle(
+            fontFamily: constants.uberMoveFont,
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+            color: Color.fromRGBO(255, 255, 255, 1)),
+      ),
+    );
   }
 
   Padding meetingImage() {
