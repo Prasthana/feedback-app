@@ -359,6 +359,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 keyboardType: TextInputType.multiline,
                 textInputAction: TextInputAction.done,
                 decoration: const InputDecoration(
+                  fillColor: Colors.white,
                   hintText: constants.notesHintText,
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                   border: OutlineInputBorder(
