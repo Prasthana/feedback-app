@@ -444,10 +444,11 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     ApiManager.authenticated.createOneOnOne(request).then((val) {
       // do some operation
       logger.e('createOneOnOne response -- ${val.toJson()}');
-
-      Navigator.push(context, MaterialPageRoute(builder: (context) => OneonOneSuccessView(oneOnOneResp: val)),);
-
-      // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
+      showCupertinoModalBottomSheet(
+        context: context,
+        builder: (context) =>  OneonOneSuccessView(oneOnOneResp: val),
+        enableDrag: false,
+      ); 
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {

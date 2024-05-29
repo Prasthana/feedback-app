@@ -1,22 +1,16 @@
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/screens/home/mainhome_page.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
-
-// class OneonOneSuccessView extends StatefulWidget {
-//   OneonOneSuccessView({super.key, required this.oneOnOneResp});
-
-//   final OneOnOneCreateResponse oneOnOneResp;
-
-//   @override
-//   State<OneonOneSuccessView> createState() => _OneonOneSuccessViewState();
-// }
+import 'package:intl/intl.dart';
 
 class OneonOneSuccessView extends StatefulWidget {
-  const OneonOneSuccessView({super.key, required this.oneOnOneResp});
+  OneonOneSuccessView({super.key, required this.oneOnOneResp});
 
-  final String oneOnOneResp;
+  final OneOnOneCreateResponse oneOnOneResp;
+
   @override
   State<OneonOneSuccessView> createState() => _OneonOneSuccessViewState();
 }
@@ -24,20 +18,18 @@ class OneonOneSuccessView extends StatefulWidget {
 class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
   @override
   Widget build(BuildContext context) {
-    var oName = "Raju Kamatham"; //widget.oneOnOneResp;
-    var oDate = "18-05-24"; // widget.oneOnOneResp;
-    var oTime = "9:45 -11:45"; //widget.oneOnOneResp;
-
-    // widget.oneOnOneResp.oneOnOne.startDateTime;
+    var oName = widget.oneOnOneResp.oneOnOne.oneOnOneParticipants?.first.employee.name ?? "";
+    var oDate = widget.oneOnOneResp.oneOnOne.startDateTime ?? "";  
+    var oTime = widget.oneOnOneResp.oneOnOne.endDateTime ?? ""; 
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: colorText),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: colorText),
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        // ),
         title: const Text(
           "1-on-1",
           style: TextStyle(
@@ -56,45 +48,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
             addVerticalSpace(90),
             meetingSuccessImage(),
             addVerticalSpace(60),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  '1-on-1 with ',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-                Text(
-                  oName,
-                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  ' for',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-              Text(
-                  oDate,
-                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  ' at ',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-                Text(
-                  oTime,
-                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  ' created',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-              ],
-              ),
+            multiFontText(oName, oDate, oTime),
             addVerticalSpace(20),
             const Text(
               "We have sent an email to your employee regarding the 1-on-1 meeting. Wishing you a productive meeting!",
@@ -109,7 +63,9 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
             MaterialButton(
               minWidth: double.infinity,
               height: 58.0,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MainHomePageView()),);
+              },
               // ignore: sort_child_properties_last
               child: const Text(
                 "Done",
@@ -131,6 +87,13 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
     );
   }
 
+    String formatTime(String dateTimeString) {
+      DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
+      final DateFormat formatter = DateFormat.jm(); // Adjust format as needed
+      return formatter.format(dateTime);
+   }
+
+
   Padding meetingSuccessImage() {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -138,5 +101,50 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
           'assets/1-on-1_success.png',
         ) // Image.asset
         );
+  }
+
+  Widget multiFontText(String name, String date, String time) {
+    return Column(
+      children: [
+                   Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  '1-on-1 with ',
+                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+                ),
+                Text(
+                  name,
+                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+                const Text(
+                  ' for',
+                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              Text(
+                  date,
+                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+                const Text(
+                  ' at ',
+                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+                ),
+                Text(
+                  time,
+                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+                const Text(
+                  ' created',
+                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+                ),
+              ],
+              ),
+      ],
+    );
   }
 }
