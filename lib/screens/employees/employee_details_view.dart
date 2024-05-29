@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
+import 'package:feedbackapp/api_services/models/employeerequest.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
@@ -27,8 +28,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<EmployeeDetailsResponse>? employeeFuture;
   bool isLoginEmployee = false;
 
-  late File _image;
-
   Future getImage(String type) async {
     var image = null;
     if (type == constants.camera) {
@@ -38,9 +37,15 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     }
 
     if (image != null) {
-      setState(() {
-        _image = image as File;
-      });
+      // setState(() {
+      //   _image = image as XFile;
+      // });
+
+     File file = File(image.path);
+
+      // var employee = EmployeeRequest(name: widget.mEmployee!.name ?? "", avatar: file, mobileNumber: "1234567890");
+
+      this.employeeFuture = ApiManager.authenticated.updateEmployeesDetails(widget.mEmployee!.id, file);
     }
   }
 
@@ -130,7 +135,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                           child: new Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                               ListTile(
+                              ListTile(
                                 leading: const Icon(Icons.camera),
                                 title: const Text(constants.camera),
                                 onTap: () => {
@@ -139,7 +144,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                   Navigator.pop(context),
                                 },
                               ),
-                               ListTile(
+                              ListTile(
                                 leading: const Icon(Icons.image),
                                 title: const Text(constants.gallery),
                                 onTap: () => {
@@ -158,8 +163,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 child: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 64.0,
-                  // foregroundImage: NetworkImage(""),
-                  backgroundImage: FileImage(_image),
+                  foregroundImage: NetworkImage(""),
+                  // backgroundImage: FileImage(_image),
                   child: Stack(children: [
                     Visibility(
                       visible: isLoginEmployee,
