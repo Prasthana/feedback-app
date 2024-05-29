@@ -36,22 +36,24 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     }
 
     if (image != null) {
-     File file = File(image.path);
-     final filePath = file.absolute.path;
-     final lastIndex = filePath.lastIndexOf(new RegExp(r'.jp'));
-     final splitted = filePath.substring(0, (lastIndex));
-     final outPath = "${splitted}_out${filePath.substring(lastIndex)}";
+      File file = File(image.path);
+      final filePath = file.absolute.path;
+      final lastIndex = filePath.lastIndexOf(new RegExp(r'.jp'));
+      final splitted = filePath.substring(0, (lastIndex));
+      final outPath = "${splitted}_out${filePath.substring(lastIndex)}";
 
-    var result = await FlutterImageCompress.compressAndGetFile(
-        file.absolute.path, outPath,
+      var result = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path,
+        outPath,
         quality: 70,
       );
 
-     File file1 = File(result!.path);
-     print(file.lengthSync());
-     print(file1.lengthSync());
+      File file1 = File(result!.path);
+      print(file.lengthSync());
+      print(file1.lengthSync());
 
-      this.employeeFuture = ApiManager.authenticated.updateEmployeesDetails(widget.mEmployee!.id, file1);
+      this.employeeFuture = ApiManager.authenticated
+          .updateEmployeesDetails(widget.mEmployee!.id, file1);
     }
   }
 
@@ -63,8 +65,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   @override
   void initState() {
-    checkLoginstatus(widget.mEmployee!.id);
-    this.employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee!.id);
+    checkLoginstatus(widget.mEmployee?.id ?? 0);
+    this.employeeFuture = ApiManager.authenticated
+        .fetchEmployeesDetails(widget.mEmployee?.id ?? 0);
     super.initState();
   }
 
@@ -168,7 +171,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 child: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 64.0,
-                  backgroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
+                  backgroundImage:
+                      NetworkImage(employee?.avatarAttachmentUrl ?? ""),
                   child: Stack(children: [
                     Visibility(
                       visible: isLoginEmployee,
