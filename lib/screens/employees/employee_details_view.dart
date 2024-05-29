@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
@@ -11,6 +12,7 @@ import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
+import 'package:image_picker/image_picker.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
   EmployeeDetailsView({super.key, required this.mEmployee});
@@ -24,6 +26,23 @@ class EmployeeDetailsView extends StatefulWidget {
 class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<EmployeeDetailsResponse>? employeeFuture;
   bool isLoginEmployee = false;
+
+  late File _image;
+
+  Future getImage(String type) async {
+    var image = null;
+    if (type == "Camera") {
+      image = await ImagePicker().pickImage(source: ImageSource.camera);
+    } else {
+      image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    }
+
+    if (image != null) {
+      setState(() {
+        _image = image as File;
+      });
+    }
+  }
 
   void setIsLoginEmployee(bool newValue) {
     setState(() {
@@ -101,45 +120,72 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             addVerticalSpace(12),
-
             GestureDetector(
-              onTap: (){
-                if(isLoginEmployee){
-                  
+              onTap: () {
+                if (isLoginEmployee) {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SafeArea(
+                          child: new Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              new ListTile(
+                                leading: new Icon(Icons.camera),
+                                title: new Text('Camera'),
+                                onTap: () => {
+                                  getImage("Camera"),
+                                  // this is how you dismiss the modal bottom sheet after making a choice
+                                  Navigator.pop(context),
+                                },
+                              ),
+                              new ListTile(
+                                leading: new Icon(Icons.image),
+                                title: new Text('Gallery'),
+                                onTap: () => {
+                                  getImage("Gallery"),
+                                  // dismiss the modal sheet
+                                  Navigator.pop(context),
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      });
                 }
               },
               child: Center(
-              child: CircleAvatar(
-                backgroundColor: themeconstants.colorPrimary,
-                maxRadius: 64.0,
-                foregroundImage: NetworkImage(""),
-                child: Stack(children: [
-                  Visibility(
-                    visible: isLoginEmployee,
-                    child: const Align(
-                      alignment: Alignment.bottomRight,
-                      child: CircleAvatar(
-                        radius: 18,
-                        backgroundColor: Colors.white70,
-                        child: Icon(Icons.camera_alt),
+                child: CircleAvatar(
+                  backgroundColor: themeconstants.colorPrimary,
+                  maxRadius: 64.0,
+                  // foregroundImage: NetworkImage(""),
+                  backgroundImage: FileImage(_image),
+                  child: Stack(children: [
+                    Visibility(
+                      visible: isLoginEmployee,
+                      child: const Align(
+                        alignment: Alignment.bottomRight,
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Colors.white70,
+                          child: Icon(Icons.camera_alt),
+                        ),
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      getInitials(employee?.name ?? "", 2),
-                      style: const TextStyle(
-                          fontFamily: constants.uberMoveFont,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromRGBO(255, 255, 255, 1)),
-                    ),
-                  )
-                ]),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        getInitials(employee?.name ?? "", 2),
+                        style: const TextStyle(
+                            fontFamily: constants.uberMoveFont,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromRGBO(255, 255, 255, 1)),
+                      ),
+                    )
+                  ]),
+                ),
               ),
-            ),
-            
             ),
             addVerticalSpace(12),
             Center(
@@ -191,10 +237,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               ),
             ),
             addVerticalSpace(8),
-
             Visibility(
-                visible: isLoginEmployee,
-                child: Row(
+              visible: isLoginEmployee,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
@@ -210,7 +255,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            side: const BorderSide(color: colorText, width: 1.0),
+                            side:
+                                const BorderSide(color: colorText, width: 1.0),
                           ),
                           child: const Align(
                             alignment: Alignment.center,
@@ -256,7 +302,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            side: const BorderSide(color: colorText, width: 1.0),
+                            side:
+                                const BorderSide(color: colorText, width: 1.0),
                           ),
                           child: const Align(
                             alignment: Alignment.center,
