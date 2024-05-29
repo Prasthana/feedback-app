@@ -30,7 +30,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   late File _image;
 
   Future getImage(String type) async {
-    var image = null;
+    XFile? image;
     if (type == constants.camera) {
       image = await ImagePicker().pickImage(source: ImageSource.camera);
     } else {
@@ -52,8 +52,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   @override
   void initState() {
-    checkLoginstatus(widget.mEmployee!.id);
-    this.employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee!.id ?? 0);
+    checkLoginstatus(widget.mEmployee.id ?? 0);
+    employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee.id ?? 0);
     super.initState();
   }
 
@@ -126,7 +126,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       context: context,
                       builder: (BuildContext context) {
                         return SafeArea(
-                          child: new Column(
+                          child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                                ListTile(

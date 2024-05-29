@@ -1,5 +1,4 @@
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
-import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'one_on_one_create_request.g.dart';
 

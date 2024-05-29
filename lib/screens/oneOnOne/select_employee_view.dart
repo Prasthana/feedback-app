@@ -70,7 +70,7 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
       return string.substring(0, 1);
     }
 
-    for (var i = 0; i < (limitTo ?? split.length); i++) {
+    for (var i = 0; i < (limitTo); i++) {
       buffer.write(split[i][0]);
     }
 
@@ -90,7 +90,7 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
                 leading: CircleAvatar(
                   backgroundColor: colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: NetworkImage(""),
+                  foregroundImage: const NetworkImage(""),
                   child: Text(
                     getInitials(employee?.name ?? "", 2),
                     style: const TextStyle(
