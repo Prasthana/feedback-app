@@ -380,9 +380,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                         context, constants.selectEmployeeValidationText);
                   } else {
                     var startDateTime =
-                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T07:15:00Z";
+                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T14:15:00Z";
                     var endDateTime =
-                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T09:15:00Z";
+                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T16:25:00Z";
                     _createOneOnOneRequest(startDateTime, endDateTime,
                         enteredNotes, selectedEmployee.id ?? 0, context);
                   }

@@ -45,6 +45,7 @@ const String repeatText = "Repeat?";
 const String doesNotRepeatText = "Does not repeat";
 const String createText = "Create";
 const String selectEmployeeValidationText = "Select the employee to create";
+const String meetingSuccessDescriptionText = "We have sent an email to your employee regarding the 1-on-1 meeting. Wishing you a productive meeting!";
 
 // End of 1-on-1 Screen
 

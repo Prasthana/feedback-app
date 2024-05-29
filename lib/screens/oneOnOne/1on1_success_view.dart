@@ -55,9 +55,9 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
             meetingSuccessImage(),
             addVerticalSpace(60),
             multiFontText(empName, oneOn1Date, oneOn1Time),
-            addVerticalSpace(20),
+            addVerticalSpace(40),
             const Text(
-              "We have sent an email to your employee regarding the 1-on-1 meeting. Wishing you a productive meeting!",
+              constants.meetingSuccessDescriptionText,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: constants.uberMoveFont,
