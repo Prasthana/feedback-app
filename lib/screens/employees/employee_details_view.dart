@@ -71,19 +71,37 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               addVerticalSpace(12),
+
                Center(
                 child: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 64.0,
                   foregroundImage: NetworkImage(""),
-                  child: Text(
-                    getInitials(widget.mEmployee.name ?? "", 2),
-                    style: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(255, 255, 255, 1)),
-                  ),
+                  child: Stack(
+                  children: [
+                    const Align(
+                        alignment: Alignment.bottomRight,
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Colors.white70,
+                          child: Icon(Icons.camera_alt),
+                        ),
+                    ),
+
+                     Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                        getInitials(employee?.name ?? "", 2),
+                        style: const TextStyle(
+                            fontFamily: constants.uberMoveFont,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromRGBO(255, 255, 255, 1)),
+                      ),
+                    )
+                  ]
+                ),
+                  
                 ),
               ),
               
@@ -113,7 +131,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 ),
               ),
 
-              addVerticalSpace(8),
+               addVerticalSpace(8),
 
               Center(
                 child: Text(
@@ -128,7 +146,21 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
               addVerticalSpace(8),
 
-/*
+              const Center(
+                child: Text(
+                  constants.addMobileNumber,
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      decorationColor: Color.fromRGBO(22, 97, 210, 1),
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(22, 97, 210, 1)),
+                ),
+              ),
+
+
+              addVerticalSpace(8),
  
               Align(
                 alignment: Alignment.centerLeft,
@@ -146,7 +178,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               ),
 
             addVerticalSpace(6),
-
 
             ListTile(
                 leading: Image.asset('assets/icApplock.png', height: 38),
@@ -193,8 +224,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 indent: 68.0,
                 endIndent: 0,
               ),
-
-*/
 
             ],
         )
