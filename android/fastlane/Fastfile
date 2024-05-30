@@ -17,7 +17,7 @@ default_platform(:android)
 
 platform :android do
 
-  BUILD_NUMBER = 1
+  BUILD_NUMBER = 2
   APP_VERSION = "0.6"
 
 #   lane :increment_staging do
@@ -36,16 +36,17 @@ platform :android do
 
 
     gradle(
-      task: 'bundle',
-      build_type: 'Release',
+      tasks: ["clean bundleRelease"],
       properties: { "android.injected.version.code" => BUILD_NUMBER, 
                     "android.injected.version.name" => APP_VERSION, }
     )
 
     upload_to_play_store(
       skip_upload_apk: true, 
+      package_name: ENV["PACKAGE_NAME"],
       aab: "../build/app/outputs/bundle/release/app-release.aab",
       track: "internal",
+      release_status: 'draft',
       json_key: ENV["JSON_FILE"])
 
   end
