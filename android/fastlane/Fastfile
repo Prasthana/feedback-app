@@ -17,27 +17,28 @@ default_platform(:android)
 
 platform :android do
 
-  BUILD_NUMBER = 2
+  APP_VERSION_CODE = 2
   APP_VERSION = "0.6"
 
-#   lane :increment_staging do
-#     staging_build_number = google_play_track_version_codes(
-#         package_name:  ENV["PACKAGE_NAME"],
-#         track: "internal",
-#         json_key: ENV["JSON_FILE"],
-#       )[0]
+  lane :increment_staging do
+    staging_build_number = google_play_track_version_codes(
+        package_name:  ENV["PACKAGE_NAME"],
+        track: "internal",
+        json_key: ENV["JSON_FILE"],
+      )[0]
 
-#     current_staging_build_number = staging_build_number + 1
-#     build_number = increment_version_code(gradle_file_path: "app/build.gradle", version_code: current_staging_build_number)
-# end
+    APP_VERSION_CODE = staging_build_number + 1
+
+    increment_version_code(gradle_file_path: "app/build.gradle", version_code: APP_VERSION_CODE)
+end
 
   desc "Submit a new Beta Build to Playstore"
   lane :beta do
 
-
+    increment_staging
     gradle(
       tasks: ["clean bundleRelease"],
-      properties: { "android.injected.version.code" => BUILD_NUMBER, 
+      properties: { "android.injected.version.code" => APP_VERSION_CODE, 
                     "android.injected.version.name" => APP_VERSION, }
     )
 
