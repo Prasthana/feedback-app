@@ -188,7 +188,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       });
                 }
               },
-              child: CircleAvatar(
+              child: 
+              CircleAvatar(
                 backgroundColor: themeconstants.colorPrimary,
                 maxRadius: 64.0,
                 // backgroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
