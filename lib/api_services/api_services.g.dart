@@ -244,6 +244,39 @@ class _RestClient implements RestClient {
   }
 
   @override
+  Future<OneOnOnesListResponse> fetchEmployeePastOneOnOns(
+    String timePeriod,
+    int employeeId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'time_period': timePeriod,
+      r'employee_id': employeeId,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OneOnOnesListResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/one_on_ones',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OneOnOnesListResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<EmployeesResponse> fetchEmployeesList() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

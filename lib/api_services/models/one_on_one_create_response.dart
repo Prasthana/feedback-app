@@ -25,18 +25,17 @@ class OneOnOneCreateResponse {
 class OneOnOneCreate {
     int? id;
     @JsonKey(name: 'start_date_time')
-    String startDateTime;
+    String? startDateTime;
     @JsonKey(name: 'end_date_time')
-    
-    String endDateTime;
+    String? endDateTime;
     String? status;
-    String notes;
+    String? notes;
 
     @JsonKey(name: 'good_at_points')
-    List<dynamic>? goodAtPoints;
+    List<String>? goodAtPoints;
 
     @JsonKey(name: 'yet_to_improve_points')
-    List<dynamic>? yetToImprovePoints;
+    List<String>? yetToImprovePoints;
 
     @JsonKey(name: 'one_on_one_participants')
     List<OneOnOneParticipant>? oneOnOneParticipants;
