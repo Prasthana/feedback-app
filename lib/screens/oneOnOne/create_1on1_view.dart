@@ -129,12 +129,6 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       });
     }
   }
-
-  String getTimeFromUtcDateTime(DateTime dateTime) {
-    final DateFormat formatter = DateFormat('HH:mm:ss.SSS z');
-    return formatter.format(dateTime);
-  }
-
     String formatTimeOfDay(TimeOfDay timeOfDay) {
       final DateFormat formatter = DateFormat.jm();
       return formatter.format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, timeOfDay.hour, timeOfDay.minute));
