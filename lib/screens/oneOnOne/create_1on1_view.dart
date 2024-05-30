@@ -129,23 +129,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       });
     }
   }
-    String formatTimeOfDay(TimeOfDay timeOfDay) {
-      final DateFormat formatter = DateFormat.jm();
-      return formatter.format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, timeOfDay.hour, timeOfDay.minute));
-    }
-
-    TimeOfDay addOneHour(TimeOfDay timeOfDay) {
-      final newHour = (timeOfDay.hour + 1) % 24; 
-      final newMinute = timeOfDay.minute;
-      return TimeOfDay(hour: newHour, minute: newMinute);
-    }
-    DateTime toUtcDateTime(TimeOfDay timeOfDay) {
-      final now = DateTime.now();
-      final utcDateTime = DateTime.utc(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
-      return utcDateTime;
-    }
-
-
+    
   @override
   Widget build(BuildContext context) {
     return Scaffold(
