@@ -311,10 +311,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 // ignore: sort_child_properties_last
                 child: const Text(constants.createText),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
                 color: const Color.fromRGBO(0, 0, 0, 1),
-                //const Color.fromRGBO(173, 173, 173, 1),
                 textColor: Colors.white,
               )
             ],
