@@ -9,6 +9,7 @@ import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
 import 'package:feedbackapp/api_services/models/oneononeresponse.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/api_services/models/oneonones.dart';
@@ -56,7 +57,7 @@ abstract class RestClient {
   Future<OneOnOneCreateResponse> createOneOnOne(@Body() OneOnOneCreateRequest request);
 
    @GET("/one_on_ones")
-  Future<OneOnOnesResponse> fetchEmployeePastOneOnOns(@Query("time_period") String timePeriod, @Query("employee_id") int employeeId);
+  Future<OneOnOnesListResponse> fetchEmployeePastOneOnOns(@Query("time_period") String timePeriod, @Query("employee_id") int employeeId);
 
 // ************************************************************************
 // *********************** API's for Employee's ***********************

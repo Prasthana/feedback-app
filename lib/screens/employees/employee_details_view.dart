@@ -4,12 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
-import 'package:feedbackapp/api_services/models/oneonones.dart';
-import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
+import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
+import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -28,7 +29,7 @@ class EmployeeDetailsView extends StatefulWidget {
 
 class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<EmployeeDetailsResponse>? employeeFuture;
-  Future<OneOnOnesResponse>? oneOnOneFuture;
+  Future<OneOnOnesListResponse>? oneOnOneFuture;
   bool isLoginEmployee = false;
   bool isUpdating = false;
 
@@ -146,16 +147,16 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           },
         ),
 
-        FutureBuilder<OneOnOnesResponse>(
+        FutureBuilder<OneOnOnesListResponse>(
           future: oneOnOneFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return buildOneOnOnesView(List.empty());
+              return const CircularProgressIndicator();
             } else if (snapshot.hasData) {
-              final oneOnOnesResponse = snapshot.data;
-              var listCount = oneOnOnesResponse?.oneononesList?.length ?? 0;
-              if (listCount > 0) {
-                return buildOneOnOnesView(oneOnOnesResponse?.oneononesList);
+              final oneOnOnesListResponse = snapshot.data;
+              var listCount = oneOnOnesListResponse?.oneononesList?.length ?? 0;
+              if (listCount > 0 && isLoginEmployee == false) {
+                return buildOneOnOnesView(oneOnOnesListResponse?.oneononesList);
               } else {
                return buildOneOnOnesView(List.empty());
               }
@@ -171,18 +172,21 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
 
-  Widget buildOneOnOnesView(List<OneOnOne>? oneOnOneList) {
+  Widget buildOneOnOnesView(List<OneOnOneCreate>? oneOnOneList) {
     return ListView.builder(
         shrinkWrap: true,
         itemCount: oneOnOneList?.length,
         itemBuilder: (BuildContext context, int index) {
           var oneOnOne = oneOnOneList?[index];
+          String startTime = getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "dd-MM-yyyy");
+          // String endTime = getFormatedTime(oneOnOne.endDateTime ?? "", "dd-MM-yyyy");
+          // var yet_to_improve_points = oneOnOne?.yetToImprovePoints?.length ?? 0;
           return Column(
             children: <Widget>[
               ListTile(
                 trailing: const Icon(Icons.chevron_right),
                 title: Text(
-                  "$oneOnOne.startTime",
+                  "$startTime",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,

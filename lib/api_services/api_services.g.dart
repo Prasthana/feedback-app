@@ -244,7 +244,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<OneOnOnesResponse> fetchEmployeePastOneOnOns(
+  Future<OneOnOnesListResponse> fetchEmployeePastOneOnOns(
     String timePeriod,
     int employeeId,
   ) async {
@@ -255,8 +255,8 @@ class _RestClient implements RestClient {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<OneOnOnesResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OneOnOnesListResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -272,7 +272,7 @@ class _RestClient implements RestClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = OneOnOnesResponse.fromJson(_result.data!);
+    final value = OneOnOnesListResponse.fromJson(_result.data!);
     return value;
   }
 
