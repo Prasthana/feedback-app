@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
@@ -12,6 +11,7 @@ import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:flutter/widgets.dart';
@@ -27,7 +27,8 @@ class CreateOneOnOneView extends StatefulWidget {
 
 class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
+  TimeOfDay selectedStartTime = TimeOfDay.now();
+  TimeOfDay selectedEndTime = TimeOfDay.now();
   String enteredNotes = "";
   Employee selectedEmployee = Employee();
   String _selectedOption = constants.doesNotRepeatText;
@@ -97,7 +98,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     }
   }
 
-  Future<void> _selectTime() async {
+  Future<void> _selectTime(bool isStartTime) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(), // Optional initial time to display
@@ -105,7 +106,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
 
     if (pickedTime != null) {
       setState(() {
-        selectedTime = pickedTime;
+        isStartTime ? selectedStartTime = pickedTime : selectedEndTime = pickedTime;
       });
     }
   }
@@ -194,65 +195,18 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   ),
                 ),
               ),
-              addVerticalSpace(26),
-
-               const Text(
-                        constants.dateText,
-                        style: TextStyle(
-                          fontFamily: constants.uberMoveFont,
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      addVerticalSpace(8),
-                      SizedBox(
-                        width: (MediaQuery.of(context).size.width),
-                        height: 51.0,
-                        child: TextButton(
-                          onPressed: () {
-                            debugPrint("select time ------>>>>");
-                            _selectDate(context);
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            side:
-                                const BorderSide(color: colorText, width: 1.0),
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              DateFormat('dd-MM-yyyy').format(selectedDate),
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                color: colorText,
-                                fontFamily: constants.uberMoveFont,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      
-                      addVerticalSpace(24),
-
-              /// *************Date start***************
+              addVerticalSpace(20),
+              showDatePickar(),
+              addVerticalSpace(20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                    showTimePickar(),
-                    addHorizontalSpace(24),
-                    showTimePickar(),
-                  // *************Date end***************
-
-                  
-
-                  // *************Time start***************
+                  showTimePickar(true),
+                  addHorizontalSpace(24),
+                  showTimePickar(false),
                 ],
               ),
-              // *************Time end***************
+              /*
               addVerticalSpace(18),
               GestureDetector(
                 onTap: () {
@@ -287,8 +241,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   ],
                 ),
               ),
-
-              addVerticalSpace(30),
+            */
+              addVerticalSpace(20),
               const Text(
                 constants.notesText,
                 style: TextStyle(
@@ -301,7 +255,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
               addVerticalSpace(8),
 
               TextFormField(
-                  minLines: 5,
+                  minLines: 3,
                   maxLines: 5,
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.done,
@@ -327,7 +281,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     enteredNotes = value;
                   }),
 
-              addVerticalSpace(30),
+              addVerticalSpace(20),
 
               MaterialButton(
                 minWidth: double.infinity,
@@ -336,11 +290,13 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   debugPrint("clicked on create ----->>>>");
                   if (selectedEmployee.name == null && enteredNotes.isEmpty) {
                     // ignore: prefer_interpolation_to_compose_strings
-                    var textAlert = constants.selectEmployeeValidationText + "\n" + constants.enterNotesText;
-                    showInvalidAlert(
-                        context, textAlert);
+                    var textAlert = constants.selectEmployeeValidationText +
+                        "\n" +
+                        constants.enterNotesText;
+                    showInvalidAlert(context, textAlert);
                   } else if (selectedEmployee.name == null) {
-                    showInvalidAlert(context, constants.selectEmployeeValidationText);
+                    showInvalidAlert(
+                        context, constants.selectEmployeeValidationText);
                   } else if (enteredNotes.isEmpty) {
                     showInvalidAlert(context, constants.enterNotesText);
                   } else {
@@ -368,51 +324,98 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     );
   }
 
-  Widget showTimePickar() {
-         return  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        constants.startTimeText,
-                        style: TextStyle(
-                          fontFamily: constants.uberMoveFont,
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      addVerticalSpace(8),
-                      SizedBox(
-                        width: (MediaQuery.of(context).size.width / 2) - 28,
-                        height: 51.0,
-                        child: TextButton(
-                          onPressed: () {
-                            debugPrint("select date ------>>>>");
-                           _selectTime();
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            side:
-                                const BorderSide(color: colorText, width: 1.0),
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                               "${selectedTime.hour} : ${selectedTime.minute}",
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                color: colorText,
-                                fontFamily: constants.uberMoveFont,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
+  Widget showDatePickar() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          constants.dateText,
+          style: TextStyle(
+            fontFamily: constants.uberMoveFont,
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        addVerticalSpace(8),
+        SizedBox(
+          width: (MediaQuery.of(context).size.width),
+          height: 51.0,
+          child: TextButton(
+            onPressed: () {
+              debugPrint("select time ------>>>>");
+              _selectDate(context);
+            },
+            style: OutlinedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              side: const BorderSide(color: colorText, width: 1.0),
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                DateFormat('dd-MM-yyyy').format(selectedDate),
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  color: colorText,
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget showTimePickar(bool isStarTime) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+         Text(
+          isStarTime ? constants.startTimeText : constants.endTimeText,
+          style: const TextStyle(
+            fontFamily: constants.uberMoveFont,
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        addVerticalSpace(8),
+        SizedBox(
+          width: (MediaQuery.of(context).size.width / 2) - 28,
+          height: 51.0,
+          child: TextButton(
+            onPressed: () {
+              debugPrint("select date ------>>>>");
+              _selectTime(isStarTime);
+             // showTimePicker(context: context, initialTime: TimeOfDay.now());
+            },
+            style: OutlinedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              side: const BorderSide(color: colorText, width: 1.0),
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                isStarTime ?"${selectedStartTime.hour} : ${selectedStartTime.minute}" :
+                "${selectedEndTime.hour} : ${selectedEndTime.minute}",
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  color: colorText,
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget showEmployeeAvatar() {
@@ -459,9 +462,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       Navigator.pop(context);
       showCupertinoModalBottomSheet(
         context: context,
-        builder: (context) =>  OneonOneSuccessView(oneOnOneResp: val),
+        builder: (context) => OneonOneSuccessView(oneOnOneResp: val),
         enableDrag: false,
-      ); 
+      );
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {
