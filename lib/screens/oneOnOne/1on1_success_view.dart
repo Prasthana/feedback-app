@@ -22,11 +22,11 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
     var dateStr = widget.oneOnOneResp.oneOnOne.startDateTime ?? "";  
     var startDateTime = widget.oneOnOneResp.oneOnOne.startDateTime ?? "";
     var endDateTime = widget.oneOnOneResp.oneOnOne.endDateTime ?? "";
-    var startTime = getFormatedTime(startDateTime);
-    var endTime = getFormatedTime(endDateTime);
+    String startTime = getFormatedTime(startDateTime);
+    String endTime = getFormatedTime(endDateTime);
 
     var oneOn1Time = "$startTime - $endTime";
-    var oneOn1Date = getFormatedDate(dateStr);
+    String oneOn1Date = getFormatedDate(dateStr);
 
     return Scaffold(
       appBar: AppBar(
@@ -88,15 +88,15 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
     );
   }
 
-  String getFormatedTime(String dateTimeString) {
-      DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
-      final DateFormat formatter = DateFormat.jm();
-      return formatter.format(dateTime);
-  }
-  String getFormatedDate(String dateTimeString) {
-      DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
-      return DateFormat('dd-MM-yyyy').format(dateTime);
-  }
+  // String getFormatedTime(String dateTimeString) {
+  //     DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
+  //     final DateFormat formatter = DateFormat.jm();
+  //     return formatter.format(dateTime);
+  // }
+  // String getFormatedDate(String dateTimeString) {
+  //     DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
+  //     return DateFormat('dd-MM-yyyy').format(dateTime);
+  // }
 
 
   Padding meetingSuccessImage() {
