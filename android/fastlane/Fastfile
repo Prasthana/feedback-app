@@ -17,15 +17,32 @@ default_platform(:android)
 
 platform :android do
 
+  lane :increment_staging do
+    staging_build_number = google_play_track_version_codes(
+        package_name:  ENV["PACKAGE_NAME"],
+        track: "internal",
+        json_key: ENV["JSON_FILE"],
+      )[0]
+
+    current_staging_build_number = staging_build_number + 1
+    build_number = increment_version_code(gradle_file_path: "app/build.gradle", version_code: current_staging_build_number)
+end
+
   desc "Submit a new Beta Build to Playstore"
   lane :beta do
+
+    build_number = increment_staging
+
     gradle(
       task: 'bundle',
-      build_type: 'Release'
+      build_type: 'Release',
+      properties: { "android.injected.version.code" => build_number, 
+                    "android.injected.version.name" => APP_VERSION, }
     )
 
     upload_to_play_store(
       skip_upload_apk: true, 
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
       track: "internal",
       json_key: ENV["JSON_FILE"])
 
