@@ -187,7 +187,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         itemBuilder: (BuildContext context, int index) {
           var oneOnOne = oneOnOneList?[index];
           String startTime = getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", systemFormateDateTime);
-          var yet_to_improve_points = oneOnOne?.yetToImprovePoints?.length ?? 0;
+          var yetToImprovePoints = oneOnOne?.yetToImprovePoints?.length ?? 0 ;
           return Column(
             children: <Widget>[
               ListTile(
@@ -198,11 +198,11 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 subtitle: Text(
-                  "$oneOnOne.startTime",
+                  '$yetToImprovePoints ${constants.openYetToImprove}',
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 13,

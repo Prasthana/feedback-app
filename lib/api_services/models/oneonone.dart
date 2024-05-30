@@ -1,6 +1,7 @@
 
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
+import 'package:feedbackapp/api_services/models/one_on_one_point.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'oneonone.g.dart';
@@ -11,16 +12,15 @@ class OneOnOne {
     @JsonKey(name: 'start_date_time')
     String? startDateTime;
     @JsonKey(name: 'end_date_time')
-    
     String? endDateTime;
     String? status;
     String? notes;
 
     @JsonKey(name: 'good_at_points')
-    List<dynamic>? goodAtPoints;
+    List<OneOnOnePoint>? goodAtPoints;
 
     @JsonKey(name: 'yet_to_improve_points')
-    List<dynamic>? yetToImprovePoints;
+    List<OneOnOnePoint>? yetToImprovePoints;
 
     @JsonKey(name: 'one_on_one_participants')
     List<OneOnOneParticipant>? oneOnOneParticipants;
