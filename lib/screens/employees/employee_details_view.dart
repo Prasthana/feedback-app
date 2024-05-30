@@ -4,10 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
+import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
+import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -26,6 +29,7 @@ class EmployeeDetailsView extends StatefulWidget {
 
 class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<EmployeeDetailsResponse>? employeeFuture;
+  Future<OneOnOnesListResponse>? oneOnOneFuture;
   bool isLoginEmployee = false;
   bool isUpdating = false;
 
@@ -80,8 +84,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   void initState() {
     mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
-    employeeFuture =
-        ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
+    employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
+
     super.initState();
   }
 
@@ -97,6 +101,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           setIsLoginEmployee(true);
         } else {
           setIsLoginEmployee(false);
+          oneOnOneFuture = ApiManager.authenticated.fetchEmployeePastOneOnOns(constants.historyOneOnOnes, mEmployee?.id ?? 0);
         }
       } else {
         setIsLoginEmployee(false);
@@ -118,8 +123,10 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Center(
-        child: FutureBuilder<EmployeeDetailsResponse>(
+      body: SingleChildScrollView(
+          child: Column( 
+        children: [ 
+         FutureBuilder<EmployeeDetailsResponse>(
           future: employeeFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -129,6 +136,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             } else if (snapshot.hasData) {
               final employeeResponse = snapshot.data;
               if (employeeResponse?.employee != null) {
+                mEmployee = employeeResponse?.employee;
                 return buildEmployeeDetailsView(employeeResponse?.employee);
               } else {
                 return buildEmployeeDetailsView(mEmployee);
@@ -138,8 +146,75 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             }
           },
         ),
-      ),
+
+        FutureBuilder<OneOnOnesListResponse>(
+          future: oneOnOneFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasData) {
+              final oneOnOnesListResponse = snapshot.data;
+              var listCount = oneOnOnesListResponse?.oneononesList?.length ?? 0;
+              if (listCount > 0 && isLoginEmployee == false) {
+                return buildOneOnOnesView(oneOnOnesListResponse?.oneononesList);
+              } else {
+               return buildOneOnOnesView(List.empty());
+              }
+            } else {
+             return buildOneOnOnesView(List.empty());
+            }
+          },
+        ),
+        ]
+        ) 
+        ),
     );
+  }
+
+
+  Widget buildOneOnOnesView(List<OneOnOneCreate>? oneOnOneList) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: oneOnOneList?.length,
+        itemBuilder: (BuildContext context, int index) {
+          var oneOnOne = oneOnOneList?[index];
+          String startTime = getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "dd-MM-yyyy");
+          // String endTime = getFormatedTime(oneOnOne.endDateTime ?? "", "dd-MM-yyyy");
+          // var yet_to_improve_points = oneOnOne?.yetToImprovePoints?.length ?? 0;
+          return Column(
+            children: <Widget>[
+              ListTile(
+                trailing: const Icon(Icons.chevron_right),
+                title: Text(
+                  "$startTime",
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
+                ),
+                subtitle: Text(
+                  "$oneOnOne.startTime",
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
+                ),
+                // onTap: () {
+                //   Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
+                // }, 
+              ),
+              const Divider(
+                color: Color.fromRGBO(195, 195, 195, 1),
+                height: 3.0,
+                thickness: 1.0,
+                indent: 12.0,
+                endIndent: 0,
+              ),
+            ],
+          );
+        });
   }
 
   Widget buildEmployeeDetailsView(Employee? employee) {
@@ -187,7 +262,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       });
                 }
               },
-              child: CircleAvatar(
+              child: 
+              CircleAvatar(
                 backgroundColor: themeconstants.colorPrimary,
                 maxRadius: 64.0,
                 // backgroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
@@ -461,7 +537,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       endIndent: 0,
                     ),
                   ],
-                )),
+                )
+              ),
+
           ],
         ));
   }

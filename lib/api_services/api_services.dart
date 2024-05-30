@@ -9,6 +9,7 @@ import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
 import 'package:feedbackapp/api_services/models/oneononeresponse.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
@@ -46,14 +47,17 @@ abstract class RestClient {
   @GET("/one_on_ones")
   Future<OneOnOnesResponse> fetchOneOnOnesList();
 
-  @GET("/one_on_ones")
-  Future<OneOnOneResponse> fetchOneOnOneDetails(@Query("param1") String oneononeid);
+  @GET("/one_on_ones/{oneononeid}")
+  Future<OneOnOneCreateResponse> fetchOneOnOneDetails(@Path("oneononeid") int oneononeid);
 
   @PUT("/one_on_ones")
   Future<OneOnOneResponse> updateOneOnOneDetails(@Query("param1") String oneononeid);
 
   @POST("/one_on_ones")
   Future<OneOnOneCreateResponse> createOneOnOne(@Body() OneOnOneCreateRequest request);
+
+   @GET("/one_on_ones")
+  Future<OneOnOnesListResponse> fetchEmployeePastOneOnOns(@Query("time_period") String timePeriod, @Query("employee_id") int employeeId);
 
 // ************************************************************************
 // *********************** API's for Employee's ***********************
