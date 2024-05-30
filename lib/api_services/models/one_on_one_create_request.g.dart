@@ -9,8 +9,7 @@ part of 'one_on_one_create_request.dart';
 OneOnOneCreateRequest _$OneOnOneCreateRequestFromJson(
         Map<String, dynamic> json) =>
     OneOnOneCreateRequest(
-      oneOnOne:
-          OneOnOneCreate.fromJson(json['one_on_one'] as Map<String, dynamic>),
+      oneOnOne: OneOnOne.fromJson(json['one_on_one'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$OneOnOneCreateRequestToJson(

@@ -11,7 +11,7 @@ import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
 import 'package:feedbackapp/api_services/models/oneononeresponse.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
-import 'package:feedbackapp/api_services/models/oneonones.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';

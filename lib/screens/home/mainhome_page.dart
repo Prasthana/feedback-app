@@ -101,7 +101,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                   maxRadius: 28.0,
                   foregroundImage: const NetworkImage(""),
                   child: Text(
-                    getInitials(oneOnOne?.participant?.name ?? "No Particiapnt", 2),
+                    getInitials(oneOnOne?.oneOnOneParticipants?.last.name ?? "No Particiapnt", 2),
                     style: const TextStyle(
                         fontFamily: constants.uberMoveFont,
                         fontSize: 17,
@@ -111,7 +111,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                 ),
                 trailing: const Icon(Icons.chevron_right),
                 title: Text(
-                  oneOnOne?.participant?.name ?? "No Particiapnt",
+                  oneOnOne?.oneOnOneParticipants?.last.name ?? "No Particiapnt",
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,
