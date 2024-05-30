@@ -9,10 +9,12 @@ import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/1on1_success_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
+import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 
@@ -194,14 +196,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
               ),
               addVerticalSpace(26),
 
-              /// *************Date start***************
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
+               const Text(
                         constants.dateText,
                         style: TextStyle(
                           fontFamily: constants.uberMoveFont,
@@ -211,11 +206,11 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                       ),
                       addVerticalSpace(8),
                       SizedBox(
-                        width: (MediaQuery.of(context).size.width / 2) - 28,
+                        width: (MediaQuery.of(context).size.width),
                         height: 51.0,
                         child: TextButton(
                           onPressed: () {
-                            debugPrint("select date ------>>>>");
+                            debugPrint("select time ------>>>>");
                             _selectDate(context);
                           },
                           style: OutlinedButton.styleFrom(
@@ -240,57 +235,21 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                      
+                      addVerticalSpace(24),
+
+              /// *************Date start***************
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                    showTimePickar(),
+                    addHorizontalSpace(24),
+                    showTimePickar(),
                   // *************Date end***************
 
-                  addHorizontalSpace(24),
+                  
 
                   // *************Time start***************
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        constants.timeText,
-                        style: TextStyle(
-                          fontFamily: constants.uberMoveFont,
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      addVerticalSpace(8),
-                      SizedBox(
-                        width: (MediaQuery.of(context).size.width / 2) - 28,
-                        height: 51.0,
-                        child: TextButton(
-                          onPressed: () {
-                            debugPrint("select time ------>>>>");
-                            _selectTime();
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            side:
-                                const BorderSide(color: colorText, width: 1.0),
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "${selectedTime.hour} : ${selectedTime.minute}",
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                color: colorText,
-                                fontFamily: constants.uberMoveFont,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
               // *************Time end***************
@@ -407,6 +366,53 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
         ),
       ),
     );
+  }
+
+  Widget showTimePickar() {
+         return  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        constants.startTimeText,
+                        style: TextStyle(
+                          fontFamily: constants.uberMoveFont,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      addVerticalSpace(8),
+                      SizedBox(
+                        width: (MediaQuery.of(context).size.width / 2) - 28,
+                        height: 51.0,
+                        child: TextButton(
+                          onPressed: () {
+                            debugPrint("select date ------>>>>");
+                           _selectTime();
+                          },
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            side:
+                                const BorderSide(color: colorText, width: 1.0),
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                               "${selectedTime.hour} : ${selectedTime.minute}",
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                color: colorText,
+                                fontFamily: constants.uberMoveFont,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
   }
 
   Widget showEmployeeAvatar() {
