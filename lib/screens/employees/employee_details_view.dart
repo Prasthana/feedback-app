@@ -38,7 +38,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Employee? mEmployee;
   late String systemFormateDateTime;
 
-  Future getSystemFormateDateTime() async{
+  Future getSystemFormateDateTime() async {
     final datePattern = await SystemDateTimeFormat().getLongDatePattern();
     final timePattern = await SystemDateTimeFormat().getTimePattern();
     systemFormateDateTime = "$datePattern $timePattern";
@@ -92,7 +92,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   void initState() {
     mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
-    employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
+    employeeFuture =
+        ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
 
     super.initState();
   }
@@ -109,7 +110,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           setIsLoginEmployee(true);
         } else {
           setIsLoginEmployee(false);
-          oneOnOneFuture = ApiManager.authenticated.fetchEmployeePastOneOnOns(constants.historyOneOnOnes, mEmployee?.id ?? 0);
+          oneOnOneFuture = ApiManager.authenticated.fetchEmployeePastOneOnOns(
+              constants.historyOneOnOnes, mEmployee?.id ?? 0);
         }
       } else {
         setIsLoginEmployee(false);
@@ -131,15 +133,19 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         ),
       ),
       body: SingleChildScrollView(
-          child: Column( 
-        children: [ 
-         FutureBuilder<EmployeeDetailsResponse>(
+          child: Column(children: [
+        FutureBuilder<EmployeeDetailsResponse>(
           future: employeeFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return isUpdating
                   ? buildEmployeeDetailsView(mEmployee)
-                  : const CircularProgressIndicator();
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height / 1.3,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
             } else if (snapshot.hasData) {
               final employeeResponse = snapshot.data;
               if (employeeResponse?.employee != null) {
@@ -153,31 +159,32 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             }
           },
         ),
-
         FutureBuilder<OneOnOnesListResponse>(
           future: oneOnOneFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             } else if (snapshot.hasData) {
               final oneOnOnesListResponse = snapshot.data;
               var listCount = oneOnOnesListResponse?.oneononesList?.length ?? 0;
               if (listCount > 0 && isLoginEmployee == false) {
                 return buildOneOnOnesView(oneOnOnesListResponse?.oneononesList);
               } else {
-               return buildOneOnOnesView(List.empty());
+                return buildOneOnOnesView(List.empty());
               }
             } else {
-             return buildOneOnOnesView(List.empty());
+              return buildOneOnOnesView(List.empty());
             }
           },
         ),
-        ]
-        ) 
-        ),
+      ])),
     );
   }
-
 
   Widget buildOneOnOnesView(List<OneOnOne>? oneOnOneList) {
     getSystemFormateDateTime();
@@ -186,8 +193,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         itemCount: oneOnOneList?.length,
         itemBuilder: (BuildContext context, int index) {
           var oneOnOne = oneOnOneList?[index];
-          String startTime = getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", systemFormateDateTime);
-          var yetToImprovePoints = oneOnOne?.yetToImprovePoints?.length ?? 0 ;
+          String startTime = getFormatedDateConvertion(
+              oneOnOne?.startDateTime ?? "", systemFormateDateTime);
+          var yetToImprovePoints = oneOnOne?.yetToImprovePoints?.length ?? 0;
           return Column(
             children: <Widget>[
               ListTile(
@@ -211,7 +219,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 ),
                 // onTap: () {
                 //   Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
-                // }, 
+                // },
               ),
               const Divider(
                 color: Color.fromRGBO(195, 195, 195, 1),
@@ -270,8 +278,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       });
                 }
               },
-              child: 
-              CircleAvatar(
+              child: CircleAvatar(
                 backgroundColor: themeconstants.colorPrimary,
                 maxRadius: 64.0,
                 // backgroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
@@ -284,7 +291,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         alignment: Alignment.center,
                         child: CachedNetworkImage(
                           imageUrl: employee?.avatarAttachmentUrl ?? "",
-                          fit: BoxFit.contain,
+                          height: 128.0,
+                          width: 128.0,
+                          fit: BoxFit.cover,
                           placeholder: (context, url) => const Center(
                             child: CircularProgressIndicator(),
                           ),
@@ -545,9 +554,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       endIndent: 0,
                     ),
                   ],
-                )
-              ),
-
+                )),
           ],
         ));
   }
