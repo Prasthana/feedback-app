@@ -444,7 +444,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 18.0,
-      foregroundImage: const NetworkImage(""),
+      foregroundImage: NetworkImage(selectedEmployee.avatarAttachmentUrl ?? ""),
       child: Text(
         getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
         style: const TextStyle(
@@ -485,7 +485,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       showCupertinoModalBottomSheet(
         context: context,
         builder: (context) => OneonOneSuccessView(oneOnOneResp: val),
-        enableDrag: false,
+        enableDrag: true,
       );
     }).catchError((obj) {
       // non-200 error goes here.
