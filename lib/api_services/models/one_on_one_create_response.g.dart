@@ -22,12 +22,16 @@ Map<String, dynamic> _$OneOnOneCreateResponseToJson(
 OneOnOneCreate _$OneOnOneCreateFromJson(Map<String, dynamic> json) =>
     OneOnOneCreate(
       id: (json['id'] as num?)?.toInt(),
-      startDateTime: json['start_date_time'] as String,
-      endDateTime: json['end_date_time'] as String,
+      startDateTime: json['start_date_time'] as String?,
+      endDateTime: json['end_date_time'] as String?,
       status: json['status'] as String?,
-      notes: json['notes'] as String,
-      goodAtPoints: json['good_at_points'] as List<dynamic>?,
-      yetToImprovePoints: json['yet_to_improve_points'] as List<dynamic>?,
+      notes: json['notes'] as String?,
+      goodAtPoints: (json['good_at_points'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      yetToImprovePoints: (json['yet_to_improve_points'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       oneOnOneParticipants: (json['one_on_one_participants'] as List<dynamic>?)
           ?.map((e) => OneOnOneParticipant.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -48,10 +52,10 @@ Map<String, dynamic> _$OneOnOneCreateToJson(OneOnOneCreate instance) {
   }
 
   writeNotNull('id', instance.id);
-  val['start_date_time'] = instance.startDateTime;
-  val['end_date_time'] = instance.endDateTime;
+  writeNotNull('start_date_time', instance.startDateTime);
+  writeNotNull('end_date_time', instance.endDateTime);
   writeNotNull('status', instance.status);
-  val['notes'] = instance.notes;
+  writeNotNull('notes', instance.notes);
   writeNotNull('good_at_points', instance.goodAtPoints);
   writeNotNull('yet_to_improve_points', instance.yetToImprovePoints);
   writeNotNull('one_on_one_participants', instance.oneOnOneParticipants);

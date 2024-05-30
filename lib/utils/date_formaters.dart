@@ -12,6 +12,11 @@ String getFormatedDate(String dateTimeString) {
   return DateFormat('dd-MM-yyyy').format(dateTime);
 }
 
+String getFormatedDateConvertion(String dateTimeString, String outputFormate) {
+  DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
+  return DateFormat(outputFormate).format(dateTime);
+}
+
 String getTimeFromUtcDateTime(DateTime dateTime) {
   final DateFormat formatter = DateFormat('HH:mm:ss.SSS z');
   return formatter.format(dateTime);
