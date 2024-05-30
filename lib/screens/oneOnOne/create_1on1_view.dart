@@ -118,7 +118,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       initialTime: TimeOfDay.now(),
     );
 
-    if (pickedTime != null) {
+    if (pickedTime != null) { 
       setState(() {
         if (isStartTime) {
           selectedStartTime = pickedTime ;
@@ -130,6 +130,11 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     }
   }
 
+  String getTimeFromUtcDateTime(DateTime dateTime) {
+  final DateFormat formatter = DateFormat('HH:mm:ss.SSS z');
+  return formatter.format(dateTime);
+}
+
     String formatTimeOfDay(TimeOfDay timeOfDay) {
       final DateFormat formatter = DateFormat.jm();
       return formatter.format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, timeOfDay.hour, timeOfDay.minute));
@@ -139,6 +144,11 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       final newHour = (timeOfDay.hour + 1) % 24; 
       final newMinute = timeOfDay.minute;
       return TimeOfDay(hour: newHour, minute: newMinute);
+    }
+    DateTime toUtcDateTime(TimeOfDay timeOfDay) {
+      final now = DateTime.now();
+      final utcDateTime = DateTime.utc(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+      return utcDateTime;
     }
 
 
@@ -331,10 +341,17 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   } else if (enteredNotes.isEmpty) {
                     showInvalidAlert(context, constants.enterNotesText);
                   } else {
+                          var utcStartTime = toUtcDateTime(selectedStartTime).toUtc();
+                          var utcEndTime = toUtcDateTime(selectedEndTime).toUtc();
+
+                          var onlyStartTime = getTimeFromUtcDateTime(utcStartTime);
+                          var onlyEndTime = getTimeFromUtcDateTime(utcEndTime);
+                          
+
                     var startDateTime =
-                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T14:15:00Z";
+                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T$onlyStartTime";
                     var endDateTime =
-                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T16:25:00Z";
+                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T$onlyEndTime";
                     _createOneOnOneRequest(startDateTime, endDateTime,
                         enteredNotes, selectedEmployee.id ?? 0, context);
                   }
