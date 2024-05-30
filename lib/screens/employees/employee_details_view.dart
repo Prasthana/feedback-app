@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,6 +18,7 @@ import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:system_date_time_format/system_date_time_format.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
   const EmployeeDetailsView({super.key, required this.mEmployee});
@@ -34,6 +36,14 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   bool isUpdating = false;
 
   Employee? mEmployee;
+  late String systemFormateDateTime;
+
+  Future getSystemFormateDateTime() async{
+    final datePattern = await SystemDateTimeFormat().getLongDatePattern();
+    final timePattern = await SystemDateTimeFormat().getTimePattern();
+    systemFormateDateTime = "$datePattern $timePattern";
+    systemFormateDateTime;
+  }
 
   Future getImage(String type) async {
     XFile? image;
@@ -170,17 +180,18 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
 
   Widget buildOneOnOnesView(List<OneOnOne>? oneOnOneList) {
+    getSystemFormateDateTime();
     return ListView.builder(
         shrinkWrap: true,
         itemCount: oneOnOneList?.length,
         itemBuilder: (BuildContext context, int index) {
           var oneOnOne = oneOnOneList?[index];
-          String startTime = getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "dd-MM-yyyy");
-          // String endTime = getFormatedTime(oneOnOne.endDateTime ?? "", "dd-MM-yyyy");
-          // var yet_to_improve_points = oneOnOne?.yetToImprovePoints?.length ?? 0;
+          String startTime = getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", systemFormateDateTime);
+          var yet_to_improve_points = oneOnOne?.yetToImprovePoints?.length ?? 0;
           return Column(
             children: <Widget>[
               ListTile(
+                contentPadding: const EdgeInsets.fromLTRB(28.0, 0, 16.0, 0),
                 trailing: const Icon(Icons.chevron_right),
                 title: Text(
                   startTime,
@@ -206,7 +217,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 color: Color.fromRGBO(195, 195, 195, 1),
                 height: 3.0,
                 thickness: 1.0,
-                indent: 12.0,
+                indent: 28.0,
                 endIndent: 0,
               ),
             ],
