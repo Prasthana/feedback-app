@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
@@ -14,6 +16,7 @@ import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:retrofit/http.dart';
+import 'package:retrofit/retrofit.dart';
 
 part 'api_services.g.dart';
  
@@ -61,8 +64,9 @@ abstract class RestClient {
   @GET("/employees/{employeeId}")
   Future<EmployeeDetailsResponse> fetchEmployeesDetails(@Path("employeeId") int employeeId);
 
-  @PUT("/employees")
-  Future<Employee> updateEmployeesDetails(@Query("param1") String employeeId);
+  @MultiPart()
+  @PUT("/employees/{employeeId}")
+  Future<EmployeeDetailsResponse> updateEmployeesDetails(@Path("employeeId") int employeeId, @Part(name : "employee[avatar]") File request);
 
   @POST("/employees")
   Future<Employee> createEmployee(@Body() OneOnOne request);

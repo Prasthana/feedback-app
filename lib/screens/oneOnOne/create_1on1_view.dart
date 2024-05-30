@@ -6,6 +6,7 @@ import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart'
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/screens/oneOnOne/1on1_success_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -374,14 +375,20 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
-                  if (selectedEmployee.name == null) {
+                  if (selectedEmployee.name == null && enteredNotes.isEmpty) {
+                    // ignore: prefer_interpolation_to_compose_strings
+                    var textAlert = constants.selectEmployeeValidationText + "\n" + constants.enterNotesText;
                     showInvalidAlert(
-                        context, constants.selectEmployeeValidationText);
+                        context, textAlert);
+                  } else if (selectedEmployee.name == null) {
+                    showInvalidAlert(context, constants.selectEmployeeValidationText);
+                  } else if (enteredNotes.isEmpty) {
+                    showInvalidAlert(context, constants.enterNotesText);
                   } else {
                     var startDateTime =
-                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T07:15:00Z";
+                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T14:15:00Z";
                     var endDateTime =
-                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T09:15:00Z";
+                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T16:25:00Z";
                     _createOneOnOneRequest(startDateTime, endDateTime,
                         enteredNotes, selectedEmployee.id ?? 0, context);
                   }
@@ -443,8 +450,12 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     ApiManager.authenticated.createOneOnOne(request).then((val) {
       // do some operation
       logger.e('createOneOnOne response -- ${val.toJson()}');
-
-      // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
+      Navigator.pop(context);
+      showCupertinoModalBottomSheet(
+        context: context,
+        builder: (context) =>  OneonOneSuccessView(oneOnOneResp: val),
+        enableDrag: false,
+      ); 
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {

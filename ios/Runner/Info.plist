@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>The app needs to access the Photo Library in order to be able to load images from it.</string>
-    <key>NSCameraUsageDescription</key>
-    <string>The app needs to access the Camera in order to be able to get images from it.</string>
+	<string>The app needs to access the Photo Library in order to be able to load images from it.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>The app needs to access the Camera in order to be able to get images from it.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -24,6 +24,8 @@
 	<string>0.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>CFBundleVersion</key>
 	<string>3</string>
 	<key>LSRequiresIPhoneOS</key>
