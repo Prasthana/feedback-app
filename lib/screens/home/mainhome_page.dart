@@ -1,8 +1,10 @@
+import 'package:feedbackapp/api_services/models/oneonones.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
+import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +132,11 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
+                   showCupertinoModalBottomSheet(
+                      context: context,
+                      builder: (context) => const UpdateOneoneOneView(oneOnOneResp: "hello"),
+                      enableDrag: true,
+                    );
                 }, 
               ),
               const Divider(

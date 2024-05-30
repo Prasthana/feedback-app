@@ -47,8 +47,8 @@ abstract class RestClient {
   @GET("/one_on_ones")
   Future<OneOnOnesResponse> fetchOneOnOnesList();
 
-  @GET("/one_on_ones")
-  Future<OneOnOneResponse> fetchOneOnOneDetails(@Query("param1") String oneononeid);
+  @GET("/one_on_ones/{oneononeid}")
+  Future<OneOnOneCreateResponse> fetchOneOnOneDetails(@Path("oneononeid") int oneononeid);
 
   @PUT("/one_on_ones")
   Future<OneOnOneResponse> updateOneOnOneDetails(@Query("param1") String oneononeid);
