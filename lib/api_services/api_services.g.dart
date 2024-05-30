@@ -10,7 +10,9 @@ part of 'api_services.dart';
 
 class _RestClient implements RestClient {
   _RestClient(
-    this._dio) {
+    this._dio, {
+    this.baseUrl,
+  }) {
     baseUrl ??= 'http://ec2-18-219-231-99.us-east-2.compute.amazonaws.com/';
   }
 
@@ -238,6 +240,39 @@ class _RestClient implements RestClient {
               baseUrl,
             ))));
     final value = OneOnOneCreateResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<OneOnOnesResponse> fetchEmployeePastOneOnOns(
+    String timePeriod,
+    int employeeId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'time_period': timePeriod,
+      r'employee_id': employeeId,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<OneOnOnesResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/one_on_ones',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OneOnOnesResponse.fromJson(_result.data!);
     return value;
   }
 

@@ -12,6 +12,7 @@ const int nameInitLength = 2;
 const String loginTokenResponse = "login_token_response";
 const String barearToken = "barear_token";
 const String noDataFound = "No data found!";
+const String historyOneOnOnes = "history";
 
 
 ///  This is for Screen level Hard coded strings. 

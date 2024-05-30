@@ -55,6 +55,9 @@ abstract class RestClient {
   @POST("/one_on_ones")
   Future<OneOnOneCreateResponse> createOneOnOne(@Body() OneOnOneCreateRequest request);
 
+   @GET("/one_on_ones")
+  Future<OneOnOnesResponse> fetchEmployeePastOneOnOns(@Query("time_period") String timePeriod, @Query("employee_id") int employeeId);
+
 // ************************************************************************
 // *********************** API's for Employee's ***********************
 
