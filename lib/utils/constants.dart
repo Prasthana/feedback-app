@@ -5,6 +5,7 @@ const String grantType = "password";
 const String clientId = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";
 const String clientSecret = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
 const int resendTime = 30;
+const int nameInitLength = 2;
 
 
 // this is for shared preference's key's
@@ -38,14 +39,14 @@ const String uberMoveFont = "UberMove";
 const String selectEmployeeText = "Select Employee";
 const String searchEmployeeText = "Search Employee";
 const String dateText = "Date";
-const String timeText = "Time";
+const String startTimeText = "Start Time";
+const String endTimeText = "End Time";
 const String notesText = "Notes";
 const String notesHintText = "Start typing here...";
 const String repeatText = "Repeat?";
 const String doesNotRepeatText = "Does not repeat";
 const String createText = "Create";
 const String selectEmployeeValidationText = "Select the employee to create";
-const String enterNotesText = "Please enter the notes";
 const String meetingSuccessDescriptionText = "We have sent an email to your employee regarding the 1-on-1 meeting. Wishing you a productive meeting!";
 
 // End of 1-on-1 Screen
