@@ -1,4 +1,4 @@
-import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'one_on_one_create_request.g.dart';
 
@@ -8,7 +8,7 @@ part 'one_on_one_create_request.g.dart';
 @JsonSerializable()
 class OneOnOneCreateRequest {
     @JsonKey(name: 'one_on_one')
-    OneOnOneCreate oneOnOne;
+    OneOnOne oneOnOne;
 
     OneOnOneCreateRequest({
         required this.oneOnOne,

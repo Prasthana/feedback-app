@@ -1,4 +1,4 @@
-import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'one_on_ones_list_response.g.dart';
@@ -7,7 +7,7 @@ part 'one_on_ones_list_response.g.dart';
 class OneOnOnesListResponse {
   
     @JsonKey(name: 'one_on_ones')
-    List<OneOnOneCreate>? oneononesList;
+    List<OneOnOne>? oneononesList;
 
     OneOnOnesListResponse({
         this.oneononesList,

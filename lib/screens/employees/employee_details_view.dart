@@ -4,8 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
-import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
 import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
@@ -46,7 +46,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     if (image != null) {
       File file = File(image.path);
       final filePath = file.absolute.path;
-      final lastIndex = filePath.lastIndexOf(new RegExp(r'.jp'));
+      final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
       final splitted = filePath.substring(0, (lastIndex));
       final outPath = "${splitted}_out${filePath.substring(lastIndex)}";
 
@@ -57,8 +57,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       );
 
       File file1 = File(result!.path);
-      print(file.lengthSync());
-      print(file1.lengthSync());
+      //print(file.lengthSync());
+      //print(file1.lengthSync());
 
       var employeeFuture = ApiManager.authenticated
           .updateEmployeesDetails(mEmployee?.id ?? 0, file1);
@@ -69,8 +69,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   void setEmployeeFuture(Future<EmployeeDetailsResponse>? newValue) {
     setState(() {
-      this.employeeFuture = newValue;
-      this.isUpdating = true;
+      employeeFuture = newValue;
+      isUpdating = true;
     });
   }
 
@@ -82,7 +82,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   @override
   void initState() {
-    this.mEmployee = widget.mEmployee;
+    mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
     employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
 
@@ -172,7 +172,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
 
-  Widget buildOneOnOnesView(List<OneOnOneCreate>? oneOnOneList) {
+  Widget buildOneOnOnesView(List<OneOnOne>? oneOnOneList) {
     return ListView.builder(
         shrinkWrap: true,
         itemCount: oneOnOneList?.length,
@@ -186,7 +186,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               ListTile(
                 trailing: const Icon(Icons.chevron_right),
                 title: Text(
-                  "$startTime",
+                  startTime,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
-import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
@@ -11,10 +11,8 @@ import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
-import 'package:flutter/widgets.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 
@@ -31,7 +29,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   TimeOfDay selectedEndTime = TimeOfDay.now();
   String enteredNotes = "";
   Employee selectedEmployee = Employee();
-  String _selectedOption = constants.doesNotRepeatText;
+  //String _selectedOption = constants.doesNotRepeatText;
 
   @override
   void initState() {
@@ -47,12 +45,14 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     });
   }
 
+/*
   final List<String> _options = [
     "Does not repeat",
     "Daily",
     "Weekly on friday",
     "custom"
   ];
+
 
   void _showRadioButtonDialog() {
     showDialog(
@@ -98,6 +98,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       },
     );
   }
+
+*/
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -473,7 +475,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     var attr = OneOnOneParticipantsAttribute(employeeId: employeeId);
     oneOnOneAttributes.add(attr);
 
-    var oneOnOneObj = OneOnOneCreate(
+    var oneOnOneObj = OneOnOne(
         startDateTime: startDateTime,
         endDateTime: endDateTime,
         notes: notes,

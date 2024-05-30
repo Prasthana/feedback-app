@@ -1,5 +1,5 @@
 
-import 'package:feedbackapp/api_services/models/oneonones.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'oneononeresponse.g.dart';

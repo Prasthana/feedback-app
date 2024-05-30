@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
-import 'package:feedbackapp/api_services/models/oneonones.dart';
-import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -75,9 +73,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  Widget buildOneOnOneDetailsView(OneOnOneCreate? _oneOnOne) {
+  Widget buildOneOnOneDetailsView(OneOnOne? oneOnOne) {
     var employee =
-        _oneOnOne?.oneOnOneParticipants?.first.employee ?? Employee();
+        oneOnOne?.oneOnOneParticipants?.first.employee ?? Employee();
     return Container(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -114,7 +112,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 children: [
                   const Icon(Icons.calendar_month),
                   addHorizontalSpace(5),
-                  Text("Tuesday, 18 May 2024"),
+                  const Text("Tuesday, 18 May 2024"),
                 ],
               ),
             ),
@@ -123,9 +121,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.access_time_filled),
+                  const Icon(Icons.access_time_filled),
                   addHorizontalSpace(5),
-                  Text("9:30 AM"),
+                  const Text("9:30 AM"),
                 ],
               ),
             ),

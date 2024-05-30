@@ -1,11 +1,9 @@
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
-import 'package:feedbackapp/screens/home/mainhome_page.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
-import 'package:intl/intl.dart';
 
 class OneonOneSuccessView extends StatefulWidget {
   OneonOneSuccessView({super.key, required this.oneOnOneResp});
@@ -20,9 +18,9 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
   @override
   Widget build(BuildContext context) {
     var empName = widget.oneOnOneResp.oneOnOne.oneOnOneParticipants?.first.employee.name ?? "";
-    var dateStr = widget.oneOnOneResp.oneOnOne.startDateTime ?? "";  
-    var startDateTime = widget.oneOnOneResp.oneOnOne.startDateTime ?? "";
-    var endDateTime = widget.oneOnOneResp.oneOnOne.endDateTime ?? "";
+    var dateStr = widget.oneOnOneResp.oneOnOne.startDateTime;  
+    var startDateTime = widget.oneOnOneResp.oneOnOne.startDateTime;
+    var endDateTime = widget.oneOnOneResp.oneOnOne.endDateTime;
     String startTime = getFormatedTime(startDateTime);
     String endTime = getFormatedTime(endDateTime);
 
