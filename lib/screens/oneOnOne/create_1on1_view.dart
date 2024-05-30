@@ -29,7 +29,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   TimeOfDay selectedEndTime = TimeOfDay.now();
   String enteredNotes = "";
   Employee selectedEmployee = Employee();
-  String _selectedOption = constants.doesNotRepeatText;
+  //String _selectedOption = constants.doesNotRepeatText;
 
   @override
   void initState() {

@@ -10,7 +10,7 @@ OneOnOnesListResponse _$OneOnOnesListResponseFromJson(
         Map<String, dynamic> json) =>
     OneOnOnesListResponse(
       oneononesList: (json['one_on_ones'] as List<dynamic>?)
-          ?.map((e) => OneOnOneCreate.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => OneOnOne.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

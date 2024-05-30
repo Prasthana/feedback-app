@@ -4,8 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
-import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
 import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
@@ -172,7 +172,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
 
-  Widget buildOneOnOnesView(List<OneOnOneCreate>? oneOnOneList) {
+  Widget buildOneOnOnesView(List<OneOnOne>? oneOnOneList) {
     return ListView.builder(
         shrinkWrap: true,
         itemCount: oneOnOneList?.length,
@@ -186,7 +186,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               ListTile(
                 trailing: const Icon(Icons.chevron_right),
                 title: Text(
-                  "$startTime",
+                  startTime,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,
