@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
@@ -26,6 +27,7 @@ class EmployeeDetailsView extends StatefulWidget {
 class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<EmployeeDetailsResponse>? employeeFuture;
   bool isLoginEmployee = false;
+  bool isUpdating = false;
 
   Future getImage(String type) async {
     XFile? image;
@@ -52,9 +54,18 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       print(file.lengthSync());
       print(file1.lengthSync());
 
-      this.employeeFuture = ApiManager.authenticated
+      var employeeFuture = ApiManager.authenticated
           .updateEmployeesDetails(widget.mEmployee?.id ?? 0, file1);
+
+      setEmployeeFuture(employeeFuture);
     }
+  }
+
+  void setEmployeeFuture(Future<EmployeeDetailsResponse>? newValue) {
+    setState(() {
+      this.employeeFuture = newValue;
+      this.isUpdating = true;
+    });
   }
 
   void setIsLoginEmployee(bool newValue) {
@@ -66,7 +77,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   @override
   void initState() {
     checkLoginstatus(widget.mEmployee.id ?? 0);
-    employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(widget.mEmployee.id ?? 0);
+    employeeFuture = ApiManager.authenticated
+        .fetchEmployeesDetails(widget.mEmployee.id ?? 0);
     super.initState();
   }
 
@@ -108,7 +120,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           future: employeeFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return isUpdating ? buildEmployeeDetailsView(widget.mEmployee) : const CircularProgressIndicator();
             } else if (snapshot.hasData) {
               final employeeResponse = snapshot.data;
               if (employeeResponse?.employee != null) {
@@ -126,6 +138,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   Widget buildEmployeeDetailsView(Employee? employee) {
+    isUpdating = false;
     return Container(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -187,10 +200,10 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     Align(
                       alignment: Alignment.center,
                       child: Text(
-                        getInitials(employee?.name ?? "", 2),
+                        getInitials(employee?.name ?? "", employee?.avatarAttachmentUrl == null ? 2 : 0),
                         style: const TextStyle(
                             fontFamily: constants.uberMoveFont,
-                            fontSize: 24,
+                            fontSize: 30,
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(255, 255, 255, 1)),
                       ),

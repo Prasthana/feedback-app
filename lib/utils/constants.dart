@@ -5,6 +5,7 @@ const String grantType = "password";
 const String clientId = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";
 const String clientSecret = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
 const int resendTime = 30;
+const int nameInitLength = 2;
 
 
 // this is for shared preference's key's
