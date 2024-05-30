@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
@@ -12,6 +11,7 @@ import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
@@ -27,8 +27,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<EmployeeDetailsResponse>? employeeFuture;
   bool isLoginEmployee = false;
 
-  late File _image;
-
   Future getImage(String type) async {
     XFile? image;
     if (type == constants.camera) {
@@ -38,9 +36,24 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     }
 
     if (image != null) {
-      setState(() {
-        _image = image as File;
-      });
+      File file = File(image.path);
+      final filePath = file.absolute.path;
+      final lastIndex = filePath.lastIndexOf(new RegExp(r'.jp'));
+      final splitted = filePath.substring(0, (lastIndex));
+      final outPath = "${splitted}_out${filePath.substring(lastIndex)}";
+
+      var result = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path,
+        outPath,
+        quality: 70,
+      );
+
+      File file1 = File(result!.path);
+      print(file.lengthSync());
+      print(file1.lengthSync());
+
+      this.employeeFuture = ApiManager.authenticated
+          .updateEmployeesDetails(widget.mEmployee?.id ?? 0, file1);
     }
   }
 
@@ -129,7 +142,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                               ListTile(
+                              ListTile(
                                 leading: const Icon(Icons.camera),
                                 title: const Text(constants.camera),
                                 onTap: () => {
@@ -138,7 +151,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                   Navigator.pop(context),
                                 },
                               ),
-                               ListTile(
+                              ListTile(
                                 leading: const Icon(Icons.image),
                                 title: const Text(constants.gallery),
                                 onTap: () => {
@@ -157,8 +170,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 child: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 64.0,
-                  // foregroundImage: NetworkImage(""),
-                  backgroundImage: FileImage(_image),
+                  backgroundImage:
+                      NetworkImage(employee?.avatarAttachmentUrl ?? ""),
                   child: Stack(children: [
                     Visibility(
                       visible: isLoginEmployee,
