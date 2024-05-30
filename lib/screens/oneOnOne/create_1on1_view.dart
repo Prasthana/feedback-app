@@ -33,6 +33,20 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   Employee selectedEmployee = Employee();
   String _selectedOption = constants.doesNotRepeatText;
 
+  @override
+  void initState() {
+    super.initState();
+    _updateTime();
+  }
+
+    void _updateTime() {
+    final now = TimeOfDay.now();
+    final newTime = addOneHour(now);
+    setState(() {
+      selectedEndTime = newTime;
+    });
+  }
+
   final List<String> _options = [
     "Does not repeat",
     "Daily",
@@ -101,15 +115,32 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   Future<void> _selectTime(bool isStartTime) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(), // Optional initial time to display
+      initialTime: TimeOfDay.now(),
     );
 
     if (pickedTime != null) {
       setState(() {
-        isStartTime ? selectedStartTime = pickedTime : selectedEndTime = pickedTime;
+        if (isStartTime) {
+          selectedStartTime = pickedTime ;
+          selectedEndTime = addOneHour(pickedTime);
+        } else {
+          selectedEndTime = pickedTime;
+        }
       });
     }
   }
+
+    String formatTimeOfDay(TimeOfDay timeOfDay) {
+      final DateFormat formatter = DateFormat.jm();
+      return formatter.format(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, timeOfDay.hour, timeOfDay.minute));
+    }
+
+    TimeOfDay addOneHour(TimeOfDay timeOfDay) {
+      final newHour = (timeOfDay.hour + 1) % 24; 
+      final newMinute = timeOfDay.minute;
+      return TimeOfDay(hour: newHour, minute: newMinute);
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -341,7 +372,6 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
           height: 51.0,
           child: TextButton(
             onPressed: () {
-              debugPrint("select time ------>>>>");
               _selectDate(context);
             },
             style: OutlinedButton.styleFrom(
@@ -399,9 +429,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
             ),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                isStarTime ?"${selectedStartTime.hour} : ${selectedStartTime.minute}" :
-                "${selectedEndTime.hour} : ${selectedEndTime.minute}",
+              child: Text(formatTimeOfDay(isStarTime ? selectedStartTime : selectedEndTime),
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: colorText,
