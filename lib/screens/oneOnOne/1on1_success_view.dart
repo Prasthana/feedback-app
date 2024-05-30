@@ -30,13 +30,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
 
     return Scaffold(
       appBar: AppBar(
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: colorText),
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
-       // automaticallyImplyLeading: false, // Hide the back button
+        automaticallyImplyLeading: false,
         title: const Text(
           "1-on-1",
           style: TextStyle(
@@ -71,7 +65,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
               minWidth: double.infinity,
               height: 58.0,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MainHomePageView()),);
+                Navigator.pop(context);
               },
               // ignore: sort_child_properties_last
               child: const Text(

@@ -375,9 +375,15 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
-                  if (selectedEmployee.name == null) {
+                  if (selectedEmployee.name == null && enteredNotes.isEmpty) {
+                    // ignore: prefer_interpolation_to_compose_strings
+                    var textAlert = constants.selectEmployeeValidationText + "\n" + constants.enterNotesText;
                     showInvalidAlert(
-                        context, constants.selectEmployeeValidationText);
+                        context, textAlert);
+                  } else if (selectedEmployee.name == null) {
+                    showInvalidAlert(context, constants.selectEmployeeValidationText);
+                  } else if (enteredNotes.isEmpty) {
+                    showInvalidAlert(context, constants.enterNotesText);
                   } else {
                     var startDateTime =
                         "${DateFormat('yyyy-MM-dd').format(selectedDate)}T14:15:00Z";
@@ -444,6 +450,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     ApiManager.authenticated.createOneOnOne(request).then((val) {
       // do some operation
       logger.e('createOneOnOne response -- ${val.toJson()}');
+      Navigator.pop(context);
       showCupertinoModalBottomSheet(
         context: context,
         builder: (context) =>  OneonOneSuccessView(oneOnOneResp: val),
