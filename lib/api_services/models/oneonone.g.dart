@@ -12,8 +12,12 @@ OneOnOne _$OneOnOneFromJson(Map<String, dynamic> json) => OneOnOne(
       endDateTime: json['end_date_time'] as String?,
       status: json['status'] as String?,
       notes: json['notes'] as String?,
-      goodAtPoints: json['good_at_points'] as List<dynamic>?,
-      yetToImprovePoints: json['yet_to_improve_points'] as List<dynamic>?,
+      goodAtPoints: (json['good_at_points'] as List<dynamic>?)
+          ?.map((e) => OneOnOnePoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      yetToImprovePoints: (json['yet_to_improve_points'] as List<dynamic>?)
+          ?.map((e) => OneOnOnePoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
       oneOnOneParticipants: (json['one_on_one_participants'] as List<dynamic>?)
           ?.map((e) => OneOnOneParticipant.fromJson(e as Map<String, dynamic>))
           .toList(),

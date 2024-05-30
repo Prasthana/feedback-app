@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,6 +18,7 @@ import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:system_date_time_format/system_date_time_format.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
   const EmployeeDetailsView({super.key, required this.mEmployee});
@@ -34,6 +36,14 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   bool isUpdating = false;
 
   Employee? mEmployee;
+  late String systemFormateDateTime;
+
+  Future getSystemFormateDateTime() async {
+    final datePattern = await SystemDateTimeFormat().getLongDatePattern();
+    final timePattern = await SystemDateTimeFormat().getTimePattern();
+    systemFormateDateTime = "$datePattern $timePattern";
+    systemFormateDateTime;
+  }
 
   Future getImage(String type) async {
     XFile? image;
@@ -82,7 +92,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   void initState() {
     mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
-    employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
+    employeeFuture =
+        ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
 
     super.initState();
   }
@@ -99,7 +110,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           setIsLoginEmployee(true);
         } else {
           setIsLoginEmployee(false);
-          oneOnOneFuture = ApiManager.authenticated.fetchEmployeePastOneOnOns(constants.historyOneOnOnes, mEmployee?.id ?? 0);
+          oneOnOneFuture = ApiManager.authenticated.fetchEmployeePastOneOnOns(
+              constants.historyOneOnOnes, mEmployee?.id ?? 0);
         }
       } else {
         setIsLoginEmployee(false);
@@ -121,15 +133,19 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         ),
       ),
       body: SingleChildScrollView(
-          child: Column( 
-        children: [ 
-         FutureBuilder<EmployeeDetailsResponse>(
+          child: Column(children: [
+        FutureBuilder<EmployeeDetailsResponse>(
           future: employeeFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return isUpdating
                   ? buildEmployeeDetailsView(mEmployee)
-                  : const CircularProgressIndicator();
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height / 1.3,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
             } else if (snapshot.hasData) {
               final employeeResponse = snapshot.data;
               if (employeeResponse?.employee != null) {
@@ -143,55 +159,58 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             }
           },
         ),
-
         FutureBuilder<OneOnOnesListResponse>(
           future: oneOnOneFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             } else if (snapshot.hasData) {
               final oneOnOnesListResponse = snapshot.data;
               var listCount = oneOnOnesListResponse?.oneononesList?.length ?? 0;
               if (listCount > 0 && isLoginEmployee == false) {
                 return buildOneOnOnesView(oneOnOnesListResponse?.oneononesList);
               } else {
-               return buildOneOnOnesView(List.empty());
+                return buildOneOnOnesView(List.empty());
               }
             } else {
-             return buildOneOnOnesView(List.empty());
+              return buildOneOnOnesView(List.empty());
             }
           },
         ),
-        ]
-        ) 
-        ),
+      ])),
     );
   }
 
-
   Widget buildOneOnOnesView(List<OneOnOne>? oneOnOneList) {
+    getSystemFormateDateTime();
     return ListView.builder(
         shrinkWrap: true,
         itemCount: oneOnOneList?.length,
         itemBuilder: (BuildContext context, int index) {
           var oneOnOne = oneOnOneList?[index];
-          String startTime = getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "dd-MM-yyyy");
-          // String endTime = getFormatedTime(oneOnOne.endDateTime ?? "", "dd-MM-yyyy");
-          // var yet_to_improve_points = oneOnOne?.yetToImprovePoints?.length ?? 0;
+          String startTime = getFormatedDateConvertion(
+              oneOnOne?.startDateTime ?? "", systemFormateDateTime);
+          var yetToImprovePoints = oneOnOne?.yetToImprovePoints?.length ?? 0;
           return Column(
             children: <Widget>[
               ListTile(
+                contentPadding: const EdgeInsets.fromLTRB(28.0, 0, 16.0, 0),
                 trailing: const Icon(Icons.chevron_right),
                 title: Text(
                   startTime,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 subtitle: Text(
-                  "$oneOnOne.startTime",
+                  '$yetToImprovePoints ${constants.openYetToImprove}',
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 13,
@@ -200,13 +219,13 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 ),
                 // onTap: () {
                 //   Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
-                // }, 
+                // },
               ),
               const Divider(
                 color: Color.fromRGBO(195, 195, 195, 1),
                 height: 3.0,
                 thickness: 1.0,
-                indent: 12.0,
+                indent: 28.0,
                 endIndent: 0,
               ),
             ],
@@ -259,8 +278,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       });
                 }
               },
-              child: 
-              CircleAvatar(
+              child: CircleAvatar(
                 backgroundColor: themeconstants.colorPrimary,
                 maxRadius: 64.0,
                 // backgroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
@@ -273,7 +291,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         alignment: Alignment.center,
                         child: CachedNetworkImage(
                           imageUrl: employee?.avatarAttachmentUrl ?? "",
-                          fit: BoxFit.contain,
+                          height: 128.0,
+                          width: 128.0,
+                          fit: BoxFit.cover,
                           placeholder: (context, url) => const Center(
                             child: CircularProgressIndicator(),
                           ),
@@ -534,9 +554,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       endIndent: 0,
                     ),
                   ],
-                )
-              ),
-
+                )),
           ],
         ));
   }
