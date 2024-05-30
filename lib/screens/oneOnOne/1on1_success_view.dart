@@ -21,11 +21,11 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
     var dateStr = widget.oneOnOneResp.oneOnOne.startDateTime;  
     var startDateTime = widget.oneOnOneResp.oneOnOne.startDateTime;
     var endDateTime = widget.oneOnOneResp.oneOnOne.endDateTime;
-    String startTime = getFormatedTime(startDateTime);
-    String endTime = getFormatedTime(endDateTime);
+    String startTime = getFormatedTime(startDateTime ?? "");
+    String endTime = getFormatedTime(endDateTime ?? "");
 
     var oneOn1Time = "$startTime - $endTime";
-    String oneOn1Date = getFormatedDate(dateStr);
+    String oneOn1Date = getFormatedDate(dateStr ?? "");
 
     return Scaffold(
       appBar: AppBar(
