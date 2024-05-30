@@ -30,14 +30,6 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          "1-on-1",
-          style: TextStyle(
-            fontFamily: constants.uberMoveFont,
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
       ),
       backgroundColor: Colors.white,
       body: Padding(

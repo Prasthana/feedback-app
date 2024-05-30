@@ -3,6 +3,7 @@ import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart'
 import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
+import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class UpdateOneoneOneView extends StatefulWidget {
 
 class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   Future<OneOnOneCreateResponse>? oneOnOneCreateResponseFuture;
-
+  String enteredNotes = "";
   @override
   void initState() {
     // this.mEmployee = widget.mEmployee;
@@ -39,6 +40,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             Navigator.pop(context);
           },
         ),
+        backgroundColor: Colors.white,
         title: const Text(
           "1-on-1",
           style: TextStyle(
@@ -74,65 +76,143 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildOneOnOneDetailsView(OneOnOne? oneOnOne) {
-    var employee =
-        oneOnOne?.oneOnOneParticipants?.first.employee ?? Employee();
+    var employee = oneOnOne?.oneOnOneParticipants?.first.employee ?? Employee();
+    String meetingStartTime =
+        getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "hh:mm a");
+    String meetingDate = getFormatedDateConvertion(
+        oneOnOne?.startDateTime ?? "", "EEEE, dd MMM yyyy");
     return Container(
+      color: Colors.white,
       padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center, 
-        children: [
-          addVerticalSpace(40),
-          showEmployeeAvatar(employee),
-          addVerticalSpace(12),
-            Center(
-              child: Text(
-                employee.name ?? "",
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        addVerticalSpace(20),
+        Center(
+          child: showEmployeeAvatar(employee),
+        ),
+        addVerticalSpace(12),
+        Center(
+          child: Text(
+            employee.name ?? "",
+            style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Color.fromRGBO(4, 4, 4, 1)),
+          ),
+        ),
+        addVerticalSpace(8),
+        Center(
+          child: Text(
+            employee.email ?? "",
+            style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Color.fromRGBO(4, 4, 4, 1)),
+          ),
+        ),
+        addVerticalSpace(8),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.calendar_month),
+              addHorizontalSpace(5),
+              Text(
+                meetingDate,
                 style: const TextStyle(
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromRGBO(4, 4, 4, 1)),
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            addVerticalSpace(8),
-            Center(
-              child: Text(
-                employee.email ?? "",
+            ],
+          ),
+        ),
+        addVerticalSpace(8),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.access_time_filled),
+              addHorizontalSpace(5),
+              Text(
+                meetingStartTime,
                 style: const TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+        addVerticalSpace(12),
+        const Text(
+          constants.notesText,
+          style: TextStyle(
+            fontFamily: constants.uberMoveFont,
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        addVerticalSpace(8),
+        TextFormField(
+            minLines: 2,
+            maxLines: 5,
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.done,
+            decoration: const InputDecoration(
+              fillColor: Colors.white,
+              hintText: constants.notesHintText,
+              hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: colorText,
+                ),
+              ),
+            ),
+            style: const TextStyle(
+              fontFamily: constants.uberMoveFont,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            onChanged: (value) {
+              enteredNotes = value;
+            }),
+        addVerticalSpace(20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Good At",
+              style: TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 21,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "+ Add point",
+                  style: TextStyle(
+                    color: Color.fromRGBO(22, 97, 210, 1),
                     fontFamily: constants.uberMoveFont,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromRGBO(4, 4, 4, 1)),
-              ),
-            ),
-            addVerticalSpace(8),
-             Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.calendar_month),
-                  addHorizontalSpace(5),
-                  const Text("Tuesday, 18 May 2024"),
-                ],
-              ),
-            ),
-            addVerticalSpace(8),
-             Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.access_time_filled),
-                  addHorizontalSpace(5),
-                  const Text("9:30 AM"),
-                ],
-              ),
-            ),
-
+                    fontSize: 21,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ))
+          ],
+        )
       ]),
     );
   }
 
-    Widget showEmployeeAvatar(Employee selectedEmployee) {
+  Widget showEmployeeAvatar(Employee selectedEmployee) {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 58.0,
