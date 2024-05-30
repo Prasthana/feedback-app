@@ -158,13 +158,23 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
             children: [
               addVerticalSpace(10.0),
               meetingImage(),
-              const Text(
-                constants.selectEmployeeText,
-                style: TextStyle(
-                  fontFamily: constants.uberMoveFont,
-                  fontSize: 21,
-                  fontWeight: FontWeight.w500,
-                ),
+              const Row(
+                children: [
+                  Text(
+                    constants.selectEmployeeText,
+                    style: TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(width: 4,),
+                   Text(
+                    '*',
+                    style: TextStyle(color: Colors.red,
+                            fontWeight: FontWeight.w900),
+                  ),
+                ],
               ),
               addVerticalSpace(8.0),
               SizedBox(
@@ -307,17 +317,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
-                  if (selectedEmployee.name == null && enteredNotes.isEmpty) {
-                    // ignore: prefer_interpolation_to_compose_strings
-                    var textAlert = constants.selectEmployeeValidationText +
-                        "\n" +
-                        constants.enterNotesText;
-                    showInvalidAlert(context, textAlert);
-                  } else if (selectedEmployee.name == null) {
+                  if (selectedEmployee.name == null) {
                     showInvalidAlert(
                         context, constants.selectEmployeeValidationText);
-                  } else if (enteredNotes.isEmpty) {
-                    showInvalidAlert(context, constants.enterNotesText);
                   } else {
                           var utcStartTime = toUtcDateTime(selectedStartTime).toUtc();
                           var utcEndTime = toUtcDateTime(selectedEndTime).toUtc();
