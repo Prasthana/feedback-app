@@ -10,9 +10,7 @@ part of 'api_services.dart';
 
 class _RestClient implements RestClient {
   _RestClient(
-    this._dio, {
-    this.baseUrl,
-  }) {
+    this._dio) {
     baseUrl ??= 'http://ec2-18-219-231-99.us-east-2.compute.amazonaws.com/';
   }
 
@@ -298,20 +296,31 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<Employee> updateEmployeesDetails(String employeeId) async {
+  Future<EmployeeDetailsResponse> updateEmployeesDetails(
+    int employeeId,
+    File request,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'param1': employeeId};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Employee>(Options(
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'employee[avatar]',
+      MultipartFile.fromFileSync(
+        request.path,
+        filename: request.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<EmployeeDetailsResponse>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
+      contentType: 'multipart/form-data',
     )
             .compose(
               _dio.options,
-              '/employees',
+              '/employees/${employeeId}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -320,7 +329,7 @@ class _RestClient implements RestClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = Employee.fromJson(_result.data!);
+    final value = EmployeeDetailsResponse.fromJson(_result.data!);
     return value;
   }
 

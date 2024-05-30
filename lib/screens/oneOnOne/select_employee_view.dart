@@ -58,7 +58,7 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
   }
 
    String getInitials(String string, [int limitTo = 2]) {
-    if (string == null || string.isEmpty) {
+    if (string.isEmpty) {
       return '';
     }
 

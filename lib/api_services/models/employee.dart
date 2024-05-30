@@ -16,6 +16,12 @@ class Employee {
     String? name;
     String? designation;
     String? email;
+    @JsonKey(name: 'mobile_number')
+    String? mobileNumber;
+    @JsonKey(name: 'avatar_attachment_url')
+    String? avatarAttachmentUrl;
+    @JsonKey(name: 'manager')
+    Employee? manager;
 
     Employee({
         this.id,
@@ -23,6 +29,9 @@ class Employee {
         this.name,
         this.designation,
         this.email,
+        this.mobileNumber,
+        this.avatarAttachmentUrl,
+        this.manager
     });
 
 
