@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
@@ -29,6 +30,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   bool isLoginEmployee = false;
   bool isUpdating = false;
 
+  Employee? mEmployee;
+
   Future getImage(String type) async {
     XFile? image;
     if (type == constants.camera) {
@@ -55,7 +58,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       print(file1.lengthSync());
 
       var employeeFuture = ApiManager.authenticated
-          .updateEmployeesDetails(widget.mEmployee?.id ?? 0, file1);
+          .updateEmployeesDetails(mEmployee?.id ?? 0, file1);
 
       setEmployeeFuture(employeeFuture);
     }
@@ -76,9 +79,10 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   @override
   void initState() {
-    checkLoginstatus(widget.mEmployee.id ?? 0);
-    employeeFuture = ApiManager.authenticated
-        .fetchEmployeesDetails(widget.mEmployee.id ?? 0);
+    this.mEmployee = widget.mEmployee;
+    checkLoginstatus(mEmployee?.id ?? 0);
+    employeeFuture =
+        ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
     super.initState();
   }
 
@@ -109,7 +113,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        // title: Text(widget.mEmployee.name ?? ""),
+        // title: Text(mEmployee.name ?? ""),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
           onPressed: () => Navigator.pop(context),
@@ -120,16 +124,18 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           future: employeeFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return isUpdating ? buildEmployeeDetailsView(widget.mEmployee) : const CircularProgressIndicator();
+              return isUpdating
+                  ? buildEmployeeDetailsView(mEmployee)
+                  : const CircularProgressIndicator();
             } else if (snapshot.hasData) {
               final employeeResponse = snapshot.data;
               if (employeeResponse?.employee != null) {
                 return buildEmployeeDetailsView(employeeResponse?.employee);
               } else {
-                return buildEmployeeDetailsView(widget.mEmployee);
+                return buildEmployeeDetailsView(mEmployee);
               }
             } else {
-              return buildEmployeeDetailsView(widget.mEmployee);
+              return buildEmployeeDetailsView(mEmployee);
             }
           },
         ),
@@ -138,6 +144,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   Widget buildEmployeeDetailsView(Employee? employee) {
+    if (isUpdating) {
+      employee?.avatarAttachmentUrl = "";
+    }
     isUpdating = false;
     return Container(
         padding: const EdgeInsets.all(12.0),
@@ -179,37 +188,54 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       });
                 }
               },
-              child: Center(
-                child: CircleAvatar(
-                  backgroundColor: themeconstants.colorPrimary,
-                  maxRadius: 64.0,
-                  backgroundImage:
-                      NetworkImage(employee?.avatarAttachmentUrl ?? ""),
-                  child: Stack(children: [
-                    Visibility(
-                      visible: isLoginEmployee,
-                      child: const Align(
-                        alignment: Alignment.bottomRight,
-                        child: CircleAvatar(
-                          radius: 18,
-                          backgroundColor: Colors.white70,
-                          child: Icon(Icons.camera_alt),
+              child: CircleAvatar(
+                backgroundColor: themeconstants.colorPrimary,
+                maxRadius: 64.0,
+                // backgroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
+
+                child: Stack(children: [
+                  Visibility(
+                    visible: employee?.avatarAttachmentUrl != null,
+                    child: ClipOval(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: CachedNetworkImage(
+                          imageUrl: employee?.avatarAttachmentUrl ?? "",
+                          fit: BoxFit.contain,
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => url == ""
+                              ? const Center(child: CircularProgressIndicator())
+                              : const Icon(Icons.account_circle),
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        getInitials(employee?.name ?? "", employee?.avatarAttachmentUrl == null ? 2 : 0),
-                        style: const TextStyle(
-                            fontFamily: constants.uberMoveFont,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(255, 255, 255, 1)),
+                  ),
+                  Visibility(
+                    visible: isLoginEmployee,
+                    child: const Align(
+                      alignment: Alignment.bottomRight,
+                      child: CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Colors.white70,
+                        child: Icon(Icons.camera_alt),
                       ),
-                    )
-                  ]),
-                ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      getInitials(employee?.name ?? "",
+                          employee?.avatarAttachmentUrl == null ? 2 : 0),
+                      style: const TextStyle(
+                          fontFamily: constants.uberMoveFont,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromRGBO(255, 255, 255, 1)),
+                    ),
+                  )
+                ]),
               ),
             ),
             addVerticalSpace(12),
