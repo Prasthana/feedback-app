@@ -9,12 +9,12 @@ part 'oneonone.g.dart';
 class OneOnOne {
     int? id;
     @JsonKey(name: 'start_date_time')
-    String startDateTime;
+    String? startDateTime;
     @JsonKey(name: 'end_date_time')
     
-    String endDateTime;
+    String? endDateTime;
     String? status;
-    String notes;
+    String? notes;
 
     @JsonKey(name: 'good_at_points')
     List<dynamic>? goodAtPoints;

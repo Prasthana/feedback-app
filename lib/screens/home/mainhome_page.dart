@@ -93,6 +93,8 @@ class _MainHomePageViewState extends State<MainHomePageView> {
         itemBuilder: (BuildContext context, int index) {
         final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
 
+        var employeeName = oneOnOne?.oneOnOneParticipants?.first.employee.name ?? "No Employee";
+
           return Column(
             children: <Widget>[
               ListTile(
@@ -102,7 +104,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                   maxRadius: 28.0,
                   foregroundImage: const NetworkImage(""),
                   child: Text(
-                    getInitials(oneOnOne?.oneOnOneParticipants?.last.name ?? "No Particiapnt", 2),
+                    getInitials(employeeName, 2),
                     style: const TextStyle(
                         fontFamily: constants.uberMoveFont,
                         fontSize: 17,
@@ -111,8 +113,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                   ),
                 ),
                 trailing: const Icon(Icons.chevron_right),
-                title: Text(
-                  oneOnOne?.oneOnOneParticipants?.last.name ?? "No Particiapnt",
+                title: Text(employeeName,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,

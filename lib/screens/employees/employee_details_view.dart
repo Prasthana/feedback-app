@@ -57,8 +57,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       );
 
       File file1 = File(result!.path);
-      //print(file.lengthSync());
-      //print(file1.lengthSync());
 
       var employeeFuture = ApiManager.authenticated
           .updateEmployeesDetails(mEmployee?.id ?? 0, file1);
@@ -117,7 +115,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        // title: Text(mEmployee.name ?? ""),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
           onPressed: () => Navigator.pop(context),
