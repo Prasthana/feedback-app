@@ -46,7 +46,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
             IconButton(
               icon: const Icon(Icons.account_circle_outlined),
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This is a snackbar')));
+                // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This is a snackbar')));
                 navigateToMyProfile();
               },
             )
