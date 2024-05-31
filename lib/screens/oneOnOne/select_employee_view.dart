@@ -99,7 +99,6 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
                         color: Color.fromRGBO(255, 255, 255, 1)),
                   ),
                 ),
-                trailing: const Icon(Icons.chevron_right),
                 title: Text(
                   employee?.name ?? "",
                   style: const TextStyle(

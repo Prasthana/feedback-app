@@ -293,7 +293,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   decoration: const InputDecoration(
                     fillColor: Colors.white,
                     hintText: constants.notesHintText,
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                    hintStyle: TextStyle(color: Color.fromRGBO(111, 111, 111, 1), fontSize: 14),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
