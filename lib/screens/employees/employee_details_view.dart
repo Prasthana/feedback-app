@@ -23,6 +23,7 @@ import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import 'package:system_date_time_format/system_date_time_format.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
@@ -53,14 +54,14 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   Future updateMobileNumber(String mobile) async {
+    var employeerequest =
+        EmployeeRequest(name: mEmployee?.name ?? "", mobileNumber: mobile);
 
-    var employeerequest = EmployeeRequest(name: mEmployee?.name ?? "", mobileNumber: mobile);
-
-    var employeeFuture = ApiManager.authenticated.updateEmployeesMobile(mEmployee?.id ?? 0, employeerequest);
+    var employeeFuture = ApiManager.authenticated
+        .updateEmployeesMobile(mEmployee?.id ?? 0, employeerequest);
 
     setEmployeeFuture(employeeFuture);
   }
-  
 
   Future getImage(String type) async {
     XFile? image;
@@ -249,7 +250,12 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateOneoneOneView(oneOnOneData: oneOnOne),));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            UpdateOneoneOneView(oneOnOneData: oneOnOne),
+                      ));
                 },
               ),
               const Divider(
@@ -396,31 +402,35 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             ),
             addVerticalSpace(8),
             Visibility(
-              visible: isLoginEmployee && !employee!.mobileNumber!.isNotEmpty && addMobileNumber == false,
-              child:  Center(
+              visible: isLoginEmployee &&
+                  !employee!.mobileNumber!.isNotEmpty &&
+                  addMobileNumber == false,
+              child: Center(
                 child: TextButton(
                   onPressed: () {
                     setAddMobileNumber(true);
                   },
                   child: const Text(
                     constants.addMobileNumber,
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      decorationColor: Color.fromRGBO(22, 97, 210, 1),
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color:  Color.fromRGBO(22, 97, 210, 1)),
-                ),
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        decorationColor: Color.fromRGBO(22, 97, 210, 1),
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(22, 97, 210, 1)),
+                  ),
                 ),
               ),
             ),
             Visibility(
-              visible: isLoginEmployee && (employee!.mobileNumber!.isNotEmpty || addMobileNumber == true),
-              child:  Center(
-                child: SizedBox(
+              visible: isLoginEmployee &&
+                  (employee!.mobileNumber!.isNotEmpty ||
+                      addMobileNumber == true),
+              child: Center(
+                  child: SizedBox(
                 width: 160.0,
-                child: TextField( 
+                child: TextField(
                   keyboardType: TextInputType.number,
                   onSubmitted: (value) {
                     updateMobileNumber(value);
@@ -430,22 +440,20 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   textAlign: TextAlign.center,
-                  controller: TextEditingController(text: mEmployee?.mobileNumber ?? ""),
+                  controller: TextEditingController(
+                      text: mEmployee?.mobileNumber ?? ""),
                   decoration: const InputDecoration(
-                       fillColor:Colors.white,
-                       suffixIcon: Icon(Icons.edit_square),
-                       suffixIconColor: Color.fromRGBO(0, 0, 0, 1)
-                  ),
+                      fillColor: Colors.white,
+                      suffixIcon: Icon(Icons.edit_square),
+                      suffixIconColor: Color.fromRGBO(0, 0, 0, 1)),
                   style: const TextStyle(
                       backgroundColor: Colors.white,
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
-                      color:  Color.fromRGBO(4, 4, 4, 1)),
+                      color: Color.fromRGBO(4, 4, 4, 1)),
                 ),
-                )
-                
-              ),
+              )),
             ),
             addVerticalSpace(8),
             Visibility(
@@ -461,7 +469,25 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         width: 144.0,
                         height: 40.0,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                          // Android: Will open mail app or show native picker.
+                          // iOS: Will open mail app if single mail app found.
+                          var result = await OpenMailApp.openMailApp(
+                            nativePickerTitle: 'Select email app to open',
+                          );
+                          if (!result.didOpen && !result.canOpen) {
+                            showNoMailAppsDialog(context);
+                          } else if (!result.didOpen && result.canOpen) {
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return MailAppPickerDialog(
+                                  mailApps: result.options,
+                                );
+                              },
+                            );
+                          }
+                          },
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -509,7 +535,12 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         height: 40.0,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOneOnOneView(mEmployee: employee)),);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CreateOneOnOneView(mEmployee: employee)),
+                            );
                           },
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -642,6 +673,26 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         (route) => false, //if you want to disable back feature set to false
       );
     });
+  }
+
+  void showNoMailAppsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Open Mail App"),
+          content: Text("No mail apps installed"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   String getSubsectionTitle() {
