@@ -369,6 +369,37 @@ class _RestClient implements RestClient {
   }
 
   @override
+  Future<EmployeeDetailsResponse> updateEmployeesMobile(
+    int employeeId,
+    EmployeeRequest request,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<EmployeeDetailsResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/employees/${employeeId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = EmployeeDetailsResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<Employee> createEmployee(OneOnOne request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

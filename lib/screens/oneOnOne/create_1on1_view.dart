@@ -17,7 +17,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 
 class CreateOneOnOneView extends StatefulWidget {
-  const CreateOneOnOneView({super.key});
+  final Employee? mEmployee;
+  CreateOneOnOneView({super.key, required this.mEmployee});
 
   @override
   State<CreateOneOnOneView> createState() => _CreateOneOnOneViewState();
@@ -29,15 +30,20 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   TimeOfDay selectedEndTime = TimeOfDay.now();
   String enteredNotes = "";
   Employee selectedEmployee = Employee();
+  bool isEmployeeEdite = true;
   //String _selectedOption = constants.doesNotRepeatText;
 
   @override
   void initState() {
+    selectedEmployee = widget.mEmployee!;
+    if(selectedEmployee.id != null){
+      isEmployeeEdite = false;
+    }
     super.initState();
     _updateTime();
   }
 
-    void _updateTime() {
+  void _updateTime() {
     final now = TimeOfDay.now();
     final newTime = addOneHour(now);
     setState(() {
@@ -184,7 +190,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 51.0,
                 child: TextButton(
                   onPressed: () async {
-                    final result = await showCupertinoModalBottomSheet(
+                    if(isEmployeeEdite == true) {
+                      final result = await showCupertinoModalBottomSheet(
                       context: context,
                       builder: (context) => const SelectEmployeeView(),
                     );
@@ -194,6 +201,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                       }
                     });
                     logger.e("result - ${selectedEmployee.name}");
+                    }                  
                   },
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(

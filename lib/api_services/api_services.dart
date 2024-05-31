@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
+import 'package:feedbackapp/api_services/models/employeerequest.dart';
 import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
@@ -71,6 +72,10 @@ abstract class RestClient {
   @MultiPart()
   @PUT("/employees/{employeeId}")
   Future<EmployeeDetailsResponse> updateEmployeesDetails(@Path("employeeId") int employeeId, @Part(name : "employee[avatar]") File request);
+
+  @PUT("/employees/{employeeId}")
+  Future<EmployeeDetailsResponse> updateEmployeesMobile(@Path("employeeId") int employeeId, @Body() EmployeeRequest request);
+
 
   @POST("/employees")
   Future<Employee> createEmployee(@Body() OneOnOne request);

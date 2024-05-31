@@ -6,14 +6,11 @@ part 'employeerequest.g.dart';
 class EmployeeRequest {
   @JsonKey(name: 'name')
   String name;
-  @JsonKey(name: 'avatar')
-  String avatar;
   @JsonKey(name: 'mobile_number')
   String mobileNumber;
 
   EmployeeRequest({
     required this.name,
-    required this.avatar,
     required this.mobileNumber,
   });
 
