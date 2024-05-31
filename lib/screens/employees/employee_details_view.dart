@@ -4,12 +4,14 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
+import 'package:feedbackapp/api_services/models/employeerequest.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
@@ -17,6 +19,7 @@ import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:system_date_time_format/system_date_time_format.dart';
@@ -46,6 +49,16 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     systemFormateDateTime = "$datePattern $timePattern";
     systemFormateDateTime;
   }
+
+  Future updateMobileNumber(String mobile) async {
+
+    var employeerequest = EmployeeRequest(name: mEmployee?.name ?? "", mobileNumber: mobile);
+
+      var employeeFuture = ApiManager.authenticated.updateEmployeesMobile(mEmployee?.id ?? 0, employeerequest);
+
+      setEmployeeFuture(employeeFuture);
+  }
+  
 
   Future getImage(String type) async {
     XFile? image;
@@ -392,14 +405,33 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             Visibility(
               visible: isLoginEmployee && mobileNumber != "",
               child:  Center(
-                child: Text(
-                    mobileNumber,
+                child: SizedBox(
+                width: 160.0,
+                child: TextField( 
+                  keyboardType: TextInputType.number,
+                  onSubmitted: (value) {
+                    updateMobileNumber(value);
+                  },
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(10),
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  textAlign: TextAlign.center,
+                    controller: TextEditingController(text: mobileNumber),
+                    decoration: const InputDecoration(
+                       fillColor:Colors.white,
+                       suffixIcon: Icon(Icons.edit_square),
+                       suffixIconColor: Color.fromRGBO(0, 0, 0, 1)
+                    ),
                   style: const TextStyle(
+                      backgroundColor: Colors.white,
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color:  Color.fromRGBO(4, 4, 4, 1)),
                 ),
+                )
+                
               ),
             ),
             addVerticalSpace(8),
@@ -568,7 +600,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             color: Color.fromRGBO(0, 0, 0, 1)),
                       ),
                       onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
+                        logoutUser();
                       },
                     ),
                     const Divider(
@@ -582,6 +614,21 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 )),
           ],
         ));
+  }
+
+  logoutUser() {
+    var sm = StorageManager();
+
+    sm.removeData(constants.loginTokenResponse).then((val) {
+      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainTabView()));
+      Navigator.pushAndRemoveUntil<dynamic>(
+        context,
+        MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => const LoginView(),
+        ),
+        (route) => false, //if you want to disable back feature set to false
+      );
+    });
   }
 
   String getSubsectionTitle() {

@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
+import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:feedbackapp/screens/employees/employee_details_view.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
@@ -38,12 +44,10 @@ class _MainHomePageViewState extends State<MainHomePageView> {
           title: const Text(constants.oneOneOnScreenTitle),
           actions: <Widget>[
             IconButton(
-              icon: const Icon(Icons.logout),
-              tooltip: 'Logout',
+              icon: const Icon(Icons.account_circle_outlined),
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('This is a snackbar')));
-                logoutUser();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This is a snackbar')));
+                navigateToMyProfile();
               },
             )
           ]),
@@ -186,18 +190,19 @@ class _MainHomePageViewState extends State<MainHomePageView> {
         ));
   }
 
-  logoutUser() {
+  void navigateToMyProfile() {
     var sm = StorageManager();
-
-    sm.removeData(constants.loginTokenResponse).then((val) {
-      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainTabView()));
-      Navigator.pushAndRemoveUntil<dynamic>(
-        context,
-        MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => const LoginView(),
-        ),
-        (route) => false, //if you want to disable back feature set to false
-      );
+    sm.getData(constants.loginTokenResponse).then((val) {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
+        logger.d('val -- $json');
+        if (mLoginTokenResponse.user != null) {
+          var employee = Employee();
+          employee.id = mLoginTokenResponse.user?.employeeId ?? 0;
+          Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employee)),);  
+        } 
+      } 
     });
   }
 }
