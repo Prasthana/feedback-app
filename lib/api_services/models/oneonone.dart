@@ -53,8 +53,8 @@ class OneOnOne {
 
 @JsonSerializable(includeIfNull: false)
 class OneOnOnePointsAttribute {
-    String pointType;
     @JsonKey(name: 'point_type')
+    String pointType;
     String title;
 
     OneOnOnePointsAttribute({

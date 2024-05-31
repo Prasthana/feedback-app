@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
+import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
@@ -26,7 +29,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   String enteredNotes = "";
   OneOnOne? oneOnOneData;
   TextEditingController _textFieldController = TextEditingController();
-  double _currentSliderValue = 0.5;
+  double _currentSliderValue = 0.0;
   // ignore: prefer_final_fields
   List<OneOnOnePointsAttribute> _oneOnOnePointsAttributes = [];
   String enteredAddPoint = "";
@@ -40,18 +43,18 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget showRatingBar() {
-         return Slider(
-          value: _currentSliderValue,
-          max: 5,
-          divisions: 10,
-          activeColor: Colors.black,
-          label: _currentSliderValue.toString(),
-          onChanged: (double value) {
-            setState(() {
-              _currentSliderValue = value;
-            });
-          },
-        );
+    return Slider(
+      value: _currentSliderValue,
+      max: 5,
+      divisions: 10,
+      activeColor: Colors.black,
+      label: _currentSliderValue.toString(),
+      onChanged: (double value) {
+        setState(() {
+          _currentSliderValue = value;
+        });
+      },
+    );
   }
 
   @override
@@ -84,7 +87,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 return const CircularProgressIndicator();
               } else if (snapshot.hasData) {
                 final oneOneResponse = snapshot.data;
-        
+
                 var oneOnOne = oneOneResponse?.oneOnOne;
                 if (oneOnOne != null) {
                   debugPrint("------>>> 1");
@@ -190,6 +193,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         TextFormField(
             minLines: 2,
             maxLines: 5,
+            initialValue: oneOnOne?.notes ?? "",
             keyboardType: TextInputType.multiline,
             textInputAction: TextInputAction.done,
             decoration: const InputDecoration(
@@ -228,37 +232,59 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(30),
         showRatingBar(),
         addVerticalSpace(20),
-         
         MaterialButton(
-                minWidth: double.infinity,
-                height: 58.0,
-                onPressed: () {
-                  debugPrint("clicked on Save ----->>>> $_currentSliderValue");
-                },
-                // ignore: sort_child_properties_last
-                child: const Text("Save"),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                color: const Color.fromRGBO(0, 0, 0, 1),
-                textColor: Colors.white,
-              ),
+          minWidth: double.infinity,
+          height: 58.0,
+          onPressed: () {
+            debugPrint("clicked on Save ----->>>> $_currentSliderValue");
+            _updateOneOnOneAPIcall(context);
+          },
+          // ignore: sort_child_properties_last
+          child: const Text("Save"),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          color: const Color.fromRGBO(0, 0, 0, 1),
+          textColor: Colors.white,
+        ),
         addVerticalSpace(60),
-
       ]),
     );
-    //    ),
-    // );
   }
 
   _updateOneOnOneAPIcall(BuildContext context) async {
-    
-    var oneOnOneObj = OneOnOne(
-        feedbackRating: _currentSliderValue,
-        notes: enteredNotes,
-        oneOnOnePointsAttributes: _oneOnOnePointsAttributes);
-  
+    var oneOnOneObj = OneOnOne();
+    if (_currentSliderValue > 0) {
+      oneOnOneObj.feedbackRating = _currentSliderValue;
+    }
+    if (enteredNotes.isNotEmpty) {
+      oneOnOneObj.notes = enteredNotes;
+    }
+    if (_oneOnOnePointsAttributes.isNotEmpty) {
+      oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
+    }
+    var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
+    ApiManager.authenticated
+        .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
+        .then((val) {
+     
+      logger.e('update OneOnOne response -- ${val.toJson()}');
+      _oneOnOnePointsAttributes.clear();
+      oneOnOneCreateResponseFuture =
+        ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
+    }).catchError((obj) {
+      // non-200 error goes here.
+      switch (obj.runtimeType) {
+        case const (DioException):
+          // Here's the sample to get the failed response error code and message
+          final res = (obj as DioException).response;
+          logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
 
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   Widget yetToImproveBottomView(List<Point>? yetToImproveList) {
@@ -425,7 +451,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Future<void> _displayTextInputDialog(
-    bool isGoodAt, String text, BuildContext context) async {
+      bool isGoodAt, String text, BuildContext context) async {
+        var chngedText = "";
+
     return showDialog(
       context: context,
       builder: (context) {
@@ -455,7 +483,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
               onChanged: (value) {
-               // enteredAddPoint = value;
+                 chngedText = value;
               }),
           actions: <Widget>[
             TextButton(
@@ -467,10 +495,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                var enterPoint = _textFieldController.text;
-                var pointType = isGoodAt? "pt_good_at" : "pt_yet_to_improve";
-                var attr = OneOnOnePointsAttribute(pointType: pointType, title: enterPoint);
-                 _oneOnOnePointsAttributes.add(attr);
+                var pointType = isGoodAt ? "pt_good_at" : "pt_yet_to_improve";
+                var attr = OneOnOnePointsAttribute(
+                    pointType: pointType, title: chngedText);
+                _oneOnOnePointsAttributes.add(attr);
                 Navigator.pop(context);
               },
             ),

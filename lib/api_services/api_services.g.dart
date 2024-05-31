@@ -188,11 +188,15 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<OneOnOneResponse> updateOneOnOneDetails(int oneononeid) async {
+  Future<OneOnOneResponse> updateOneOnOneDetails(
+    OneOnOneCreateRequest request,
+    int oneononeid,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<OneOnOneResponse>(Options(
       method: 'PUT',

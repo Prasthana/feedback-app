@@ -51,8 +51,8 @@ abstract class RestClient {
   Future<OneOnOneCreateResponse> fetchOneOnOneDetails(@Path("oneononeid") int oneononeid);
 
   @PUT("/one_on_ones/{oneononeid}")
-  Future<OneOnOneResponse> updateOneOnOneDetails(@Path("oneononeid") int oneononeid);
-
+  Future<OneOnOneResponse> updateOneOnOneDetails(@Body() OneOnOneCreateRequest request, @Path("oneononeid") int oneononeid);
+  
   @POST("/one_on_ones")
   Future<OneOnOneCreateResponse> createOneOnOne(@Body() OneOnOneCreateRequest request);
 

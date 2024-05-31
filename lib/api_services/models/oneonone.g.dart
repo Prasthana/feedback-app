@@ -62,15 +62,15 @@ Map<String, dynamic> _$OneOnOneToJson(OneOnOne instance) {
 OneOnOnePointsAttribute _$OneOnOnePointsAttributeFromJson(
         Map<String, dynamic> json) =>
     OneOnOnePointsAttribute(
-      pointType: json['pointType'] as String,
-      title: json['point_type'] as String,
+      pointType: json['point_type'] as String,
+      title: json['title'] as String,
     );
 
 Map<String, dynamic> _$OneOnOnePointsAttributeToJson(
         OneOnOnePointsAttribute instance) =>
     <String, dynamic>{
-      'pointType': instance.pointType,
-      'point_type': instance.title,
+      'point_type': instance.pointType,
+      'title': instance.title,
     };
 
 Point _$PointFromJson(Map<String, dynamic> json) => Point(
