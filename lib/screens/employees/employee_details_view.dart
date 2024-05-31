@@ -430,12 +430,12 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   textAlign: TextAlign.center,
-                    controller: TextEditingController(text: mEmployee?.mobileNumber ?? ""),
-                    decoration: const InputDecoration(
+                  controller: TextEditingController(text: mEmployee?.mobileNumber ?? ""),
+                  decoration: const InputDecoration(
                        fillColor:Colors.white,
                        suffixIcon: Icon(Icons.edit_square),
                        suffixIconColor: Color.fromRGBO(0, 0, 0, 1)
-                    ),
+                  ),
                   style: const TextStyle(
                       backgroundColor: Colors.white,
                       fontFamily: constants.uberMoveFont,
