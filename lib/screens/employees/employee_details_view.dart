@@ -35,6 +35,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<OneOnOnesListResponse>? oneOnOneFuture;
   bool isLoginEmployee = false;
   bool isUpdating = false;
+  String mobileNumber = "";
 
   Employee? mEmployee;
   late String systemFormateDateTime;
@@ -89,10 +90,18 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     });
   }
 
+  void setMobileNumber(String newValue) {
+    setState(() {
+      mobileNumber = newValue;
+    });
+  }
+
   @override
   void initState() {
     mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
+    setMobileNumber(mEmployee?.mobileNumber ?? "");
+
     employeeFuture =
         ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
 
@@ -366,17 +375,30 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             ),
             addVerticalSpace(8),
             Visibility(
-              visible: isLoginEmployee,
+              visible: isLoginEmployee && mobileNumber == "",
               child: const Center(
                 child: Text(
-                  constants.addMobileNumber,
+                    constants.addMobileNumber,
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       decorationColor: Color.fromRGBO(22, 97, 210, 1),
                       fontFamily: constants.uberMoveFont,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(22, 97, 210, 1)),
+                      color:  Color.fromRGBO(22, 97, 210, 1)),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: isLoginEmployee && mobileNumber != "",
+              child:  Center(
+                child: Text(
+                    mobileNumber,
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color:  Color.fromRGBO(4, 4, 4, 1)),
                 ),
               ),
             ),
