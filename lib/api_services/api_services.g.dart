@@ -188,9 +188,9 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<OneOnOneResponse> updateOneOnOneDetails(String oneononeid) async {
+  Future<OneOnOneResponse> updateOneOnOneDetails(int oneononeid) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'param1': oneononeid};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio
@@ -201,7 +201,7 @@ class _RestClient implements RestClient {
     )
             .compose(
               _dio.options,
-              '/one_on_ones',
+              '/one_on_ones/${oneononeid}',
               queryParameters: queryParameters,
               data: _data,
             )
