@@ -8,6 +8,7 @@ import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:flutter/widgets.dart';
 
 class UpdateOneoneOneView extends StatefulWidget {
   const UpdateOneoneOneView({super.key, required this.oneOnOneData});
@@ -87,109 +88,120 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     String meetingDate = getFormatedDateConvertion(
         oneOnOne?.startDateTime ?? "", "EEEE, dd MMM yyyy");
 
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(12.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        addVerticalSpace(20),
-        Center(
-          child: showEmployeeAvatar(employee),
-        ),
-        addVerticalSpace(12),
-        Center(
-          child: Text(
-            employee.name ?? "",
-            style: const TextStyle(
-                fontFamily: constants.uberMoveFont,
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                color: Color.fromRGBO(4, 4, 4, 1)),
+    return SingleChildScrollView(
+      child:
+       Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(12.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          addVerticalSpace(20),
+          Center(
+            child: showEmployeeAvatar(employee),
           ),
-        ),
-        addVerticalSpace(8),
-        Center(
-          child: Text(
-            employee.email ?? "",
-            style: const TextStyle(
-                fontFamily: constants.uberMoveFont,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Color.fromRGBO(4, 4, 4, 1)),
-          ),
-        ),
-        addVerticalSpace(8),
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.calendar_month),
-              addHorizontalSpace(5),
-              Text(
-                meetingDate,
-                style: const TextStyle(
+          addVerticalSpace(12),
+          Center(
+            child: Text(
+              employee.name ?? "",
+              style: const TextStyle(
                   fontFamily: constants.uberMoveFont,
-                  fontSize: 15,
+                  fontSize: 24,
                   fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
-        ),
-        addVerticalSpace(8),
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.access_time_filled),
-              addHorizontalSpace(5),
-              Text(
-                meetingStartTime,
-                style: const TextStyle(
-                  fontFamily: constants.uberMoveFont,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
-        ),
-        addVerticalSpace(12),
-        const Text(
-          constants.notesText,
-          style: TextStyle(
-            fontFamily: constants.uberMoveFont,
-            fontSize: 21,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        addVerticalSpace(8),
-        TextFormField(
-            minLines: 2,
-            maxLines: 5,
-            keyboardType: TextInputType.multiline,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(
-              fillColor: Colors.white,
-              hintText: constants.notesHintText,
-              hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: colorText,
-                ),
-              ),
+                  color: Color.fromRGBO(4, 4, 4, 1)),
             ),
-            style: const TextStyle(
+          ),
+          addVerticalSpace(8),
+          Center(
+            child: Text(
+              employee.email ?? "",
+              style: const TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromRGBO(4, 4, 4, 1)),
+            ),
+          ),
+          addVerticalSpace(8),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.calendar_month),
+                addHorizontalSpace(5),
+                Text(
+                  meetingDate,
+                  style: const TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          addVerticalSpace(8),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.access_time_filled),
+                addHorizontalSpace(5),
+                Text(
+                  meetingStartTime,
+                  style: const TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          addVerticalSpace(12),
+          const Text(
+            constants.notesText,
+            style: TextStyle(
               fontFamily: constants.uberMoveFont,
-              fontSize: 14,
+              fontSize: 21,
               fontWeight: FontWeight.w500,
             ),
-            onChanged: (value) {
-              enteredNotes = value;
-            }),
-        addVerticalSpace(20),
+          ),
+          addVerticalSpace(8),
+          TextFormField(
+              minLines: 2,
+              maxLines: 5,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.done,
+              decoration: const InputDecoration(
+                fillColor: Colors.white,
+                hintText: constants.notesHintText,
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: colorText,
+                  ),
+                ),
+              ),
+              style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+              onChanged: (value) {
+                enteredNotes = value;
+              }),
+          addVerticalSpace(20),
+          //bottomListView(oneOnOne?.goodAtPoints),
+        ]),
+      ),
+    );
+  }
+
+  Widget bottomListView(List<Point>? goodAtList) {
+    return Column(
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -217,13 +229,18 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           ],
         ),
         addVerticalSpace(10),
-        //buildGoodAtList(oneOnOne?.goodAtPoints)
-      ]),
+        (goodAtList != null && goodAtList.isNotEmpty)
+            ? buildGoodAtList(goodAtList)
+            : const Text('')
+      ],
     );
   }
 
   Widget buildGoodAtList(List<Point>? goodAtList) {
     return ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
         itemCount: goodAtList?.length,
         itemBuilder: (BuildContext context, int index) {
           var goodAtPoint = goodAtList?[index];
@@ -262,7 +279,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       ),
     );
   }
-
 
   Future<void> _displayTextInputDialog(
       String text, BuildContext context) async {
