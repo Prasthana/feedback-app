@@ -14,6 +14,8 @@ class OneOnOne {
     String? endDateTime;
     String? status;
     String? notes;
+    @JsonKey(name: 'feedback_rating')
+    double? feedbackRating;
 
     @JsonKey(name: 'good_at_points')
     List<Point>? goodAtPoints;
@@ -26,6 +28,9 @@ class OneOnOne {
 
     @JsonKey(name: 'one_on_one_participants_attributes')
     List<OneOnOneParticipantsAttribute>? oneOnOneParticipantsAttributes;
+    
+    @JsonKey(name: 'one_on_one_points_attributes')
+    List<OneOnOnePointsAttribute>? oneOnOnePointsAttributes;
 
     OneOnOne({
          this.id,
@@ -42,6 +47,22 @@ class OneOnOne {
     factory OneOnOne.fromJson(Map<String, dynamic> json) =>
       _$OneOnOneFromJson(json);
     Map<String, dynamic> toJson() => _$OneOnOneToJson(this);
+}
+
+@JsonSerializable(includeIfNull: false)
+class OneOnOnePointsAttribute {
+    String pointType;
+    @JsonKey(name: 'point_type')
+    String title;
+
+    OneOnOnePointsAttribute({
+        required this.pointType,
+        required this.title,
+    });
+
+    factory OneOnOnePointsAttribute.fromJson(Map<String, dynamic> json) =>
+      _$OneOnOnePointsAttributeFromJson(json);
+    Map<String, dynamic> toJson() => _$OneOnOnePointsAttributeToJson(this);
 }
 
 @JsonSerializable()
