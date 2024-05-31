@@ -10,10 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
 class UpdateOneoneOneView extends StatefulWidget {
-  const UpdateOneoneOneView({super.key, required this.oneOnOneResp});
+  const UpdateOneoneOneView({super.key, required this.oneOnOneData});
 
-  final String oneOnOneResp;
-  //final OneOnOneCreateResponse oneOnOneResp;
+  //final String oneOnOneResp;
+  final OneOnOne? oneOnOneData;
   @override
   State<UpdateOneoneOneView> createState() => _UpdateOneoneOneViewState();
 }
@@ -21,12 +21,14 @@ class UpdateOneoneOneView extends StatefulWidget {
 class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   Future<OneOnOneCreateResponse>? oneOnOneCreateResponseFuture;
   String enteredNotes = "";
+  OneOnOne? oneOnOneData;
+
   @override
   void initState() {
-    // this.mEmployee = widget.mEmployee;
+     oneOnOneData = widget.oneOnOneData;
     // checkLoginstatus(mEmployee?.id ?? 0);
     oneOnOneCreateResponseFuture =
-        ApiManager.authenticated.fetchOneOnOneDetails(1);
+        ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
     super.initState();
   }
 

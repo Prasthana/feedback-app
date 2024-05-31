@@ -134,7 +134,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                 onTap: () {
                    showCupertinoModalBottomSheet(
                       context: context,
-                      builder: (context) => const UpdateOneoneOneView(oneOnOneResp: "hello"),
+                      builder: (context) => UpdateOneoneOneView(oneOnOneData: oneOnOne),
                       enableDrag: true,
                     );
                 }, 
