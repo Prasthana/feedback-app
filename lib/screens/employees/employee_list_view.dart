@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
@@ -18,6 +20,13 @@ class EmployeeListView extends StatefulWidget {
 class _EmployeeListViewState extends State<EmployeeListView> {
   Future<EmployeesResponse> employeesFuture =
       ApiManager.authenticated.fetchEmployeesList();
+
+  FutureOr onRefresh(dynamic value) {
+    Future<EmployeesResponse> refEmployeesFuture = ApiManager.authenticated.fetchEmployeesList();
+    setState(() {
+      employeesFuture = refEmployeesFuture;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +101,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),).then(onRefresh);
                 }, 
               ),
               const Divider(

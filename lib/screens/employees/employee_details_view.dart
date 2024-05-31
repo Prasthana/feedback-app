@@ -4,20 +4,26 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
+import 'package:feedbackapp/api_services/models/employeerequest.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
+import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import 'package:system_date_time_format/system_date_time_format.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
@@ -34,6 +40,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<OneOnOnesListResponse>? oneOnOneFuture;
   bool isLoginEmployee = false;
   bool isUpdating = false;
+  bool addMobileNumber = false;
+  String mobileNumber = "";
 
   Employee? mEmployee;
   late String systemFormateDateTime;
@@ -43,6 +51,16 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     final timePattern = await SystemDateTimeFormat().getTimePattern();
     systemFormateDateTime = "$datePattern $timePattern";
     systemFormateDateTime;
+  }
+
+  Future updateMobileNumber(String mobile) async {
+    var employeerequest =
+        EmployeeRequest(name: mEmployee?.name ?? "", mobileNumber: mobile);
+
+    var employeeFuture = ApiManager.authenticated
+        .updateEmployeesMobile(mEmployee?.id ?? 0, employeerequest);
+
+    setEmployeeFuture(employeeFuture);
   }
 
   Future getImage(String type) async {
@@ -82,9 +100,21 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     });
   }
 
+  void setAddMobileNumber(bool newValue) {
+    setState(() {
+      addMobileNumber = newValue;
+    });
+  }
+
   void setIsLoginEmployee(bool newValue) {
     setState(() {
       isLoginEmployee = newValue;
+    });
+  }
+
+  void setMobileNumber(String newValue) {
+    setState(() {
+      mobileNumber = newValue;
     });
   }
 
@@ -92,6 +122,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   void initState() {
     mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
+    setMobileNumber(mEmployee?.mobileNumber ?? "");
+
     employeeFuture =
         ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
 
@@ -217,9 +249,14 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
-                // onTap: () {
-                //   Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
-                // },
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            UpdateOneoneOneView(oneOnOneData: oneOnOne),
+                      ));
+                },
               ),
               const Divider(
                 color: Color.fromRGBO(195, 195, 195, 1),
@@ -365,23 +402,62 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             ),
             addVerticalSpace(8),
             Visibility(
-              visible: isLoginEmployee,
-              child: const Center(
-                child: Text(
-                  constants.addMobileNumber,
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      decorationColor: Color.fromRGBO(22, 97, 210, 1),
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(22, 97, 210, 1)),
+              visible: isLoginEmployee &&
+                  !employee!.mobileNumber!.isNotEmpty &&
+                  addMobileNumber == false,
+              child: Center(
+                child: TextButton(
+                  onPressed: () {
+                    setAddMobileNumber(true);
+                  },
+                  child: const Text(
+                    constants.addMobileNumber,
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        decorationColor: Color.fromRGBO(22, 97, 210, 1),
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(22, 97, 210, 1)),
+                  ),
                 ),
               ),
             ),
+            Visibility(
+              visible: isLoginEmployee &&
+                  (employee!.mobileNumber!.isNotEmpty ||
+                      addMobileNumber == true),
+              child: Center(
+                  child: SizedBox(
+                width: 160.0,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  onSubmitted: (value) {
+                    updateMobileNumber(value);
+                  },
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(10),
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  textAlign: TextAlign.center,
+                  controller: TextEditingController(
+                      text: mEmployee?.mobileNumber ?? ""),
+                  decoration: const InputDecoration(
+                      fillColor: Colors.white,
+                      suffixIcon: Icon(Icons.edit_square),
+                      suffixIconColor: Color.fromRGBO(0, 0, 0, 1)),
+                  style: const TextStyle(
+                      backgroundColor: Colors.white,
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(4, 4, 4, 1)),
+                ),
+              )),
+            ),
             addVerticalSpace(8),
             Visibility(
-              visible: isLoginEmployee,
+              visible: !isLoginEmployee,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -393,7 +469,25 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         width: 144.0,
                         height: 40.0,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                          // Android: Will open mail app or show native picker.
+                          // iOS: Will open mail app if single mail app found.
+                          var result = await OpenMailApp.openMailApp(
+                            nativePickerTitle: 'Select email app to open',
+                          );
+                          if (!result.didOpen && !result.canOpen) {
+                            showNoMailAppsDialog(context);
+                          } else if (!result.didOpen && result.canOpen) {
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return MailAppPickerDialog(
+                                  mailApps: result.options,
+                                );
+                              },
+                            );
+                          }
+                          },
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -440,7 +534,14 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         width: 144.0,
                         height: 40.0,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CreateOneOnOneView(mEmployee: employee)),
+                            );
+                          },
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -543,7 +644,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             color: Color.fromRGBO(0, 0, 0, 1)),
                       ),
                       onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
+                        logoutUser();
                       },
                     ),
                     const Divider(
@@ -557,6 +658,41 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 )),
           ],
         ));
+  }
+
+  logoutUser() {
+    var sm = StorageManager();
+
+    sm.removeData(constants.loginTokenResponse).then((val) {
+      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainTabView()));
+      Navigator.pushAndRemoveUntil<dynamic>(
+        context,
+        MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => const LoginView(),
+        ),
+        (route) => false, //if you want to disable back feature set to false
+      );
+    });
+  }
+
+  void showNoMailAppsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Open Mail App"),
+          content: Text("No mail apps installed"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   String getSubsectionTitle() {
