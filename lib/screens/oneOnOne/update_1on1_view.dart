@@ -27,6 +27,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   OneOnOne? oneOnOneData;
   TextEditingController _textFieldController = TextEditingController();
   double _currentSliderValue = 0.5;
+  // ignore: prefer_final_fields
+  List<OneOnOnePointsAttribute> _oneOnOnePointsAttributes = [];
+  String enteredAddPoint = "";
 
   @override
   void initState() {
@@ -230,7 +233,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 minWidth: double.infinity,
                 height: 58.0,
                 onPressed: () {
-                  debugPrint("clicked on create ----->>>>");
+                  debugPrint("clicked on Save ----->>>> $_currentSliderValue");
                 },
                 // ignore: sort_child_properties_last
                 child: const Text("Save"),
@@ -246,6 +249,16 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
     //    ),
     // );
+  }
+
+  _updateOneOnOneAPIcall(BuildContext context) async {
+    
+    var oneOnOneObj = OneOnOne(
+        feedbackRating: _currentSliderValue,
+        notes: enteredNotes,
+        oneOnOnePointsAttributes: _oneOnOnePointsAttributes);
+  
+
   }
 
   Widget yetToImproveBottomView(List<Point>? yetToImproveList) {
@@ -264,7 +277,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             ),
             TextButton(
                 onPressed: () {
-                  _displayTextInputDialog("Yet to Improve", context);
+                  _displayTextInputDialog(false, "Yet to Improve", context);
                 },
                 child: const Text(
                   "+ Add point",
@@ -344,7 +357,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             ),
             TextButton(
                 onPressed: () {
-                  _displayTextInputDialog("Good at point", context);
+                  _displayTextInputDialog(true, "Good at point", context);
                 },
                 child: const Text(
                   "+ Add point",
@@ -412,7 +425,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Future<void> _displayTextInputDialog(
-      String text, BuildContext context) async {
+    bool isGoodAt, String text, BuildContext context) async {
     return showDialog(
       context: context,
       builder: (context) {
@@ -442,7 +455,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
               onChanged: (value) {
-                enteredNotes = value;
+               // enteredAddPoint = value;
               }),
           actions: <Widget>[
             TextButton(
@@ -454,7 +467,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                print(_textFieldController.text);
+                var enterPoint = _textFieldController.text;
+                var pointType = isGoodAt? "pt_good_at" : "pt_yet_to_improve";
+                var attr = OneOnOnePointsAttribute(pointType: pointType, title: enterPoint);
+                 _oneOnOnePointsAttributes.add(attr);
                 Navigator.pop(context);
               },
             ),

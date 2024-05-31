@@ -34,14 +34,16 @@ class OneOnOne {
 
     OneOnOne({
          this.id,
-        required this.startDateTime,
-        required this.endDateTime,
+         this.startDateTime,
+         this.endDateTime,
          this.status,
-        required this.notes,
+         this.notes,
+         this.feedbackRating,
          this.goodAtPoints,
          this.yetToImprovePoints,
          this.oneOnOneParticipants,
          this.oneOnOneParticipantsAttributes,
+         this.oneOnOnePointsAttributes,
     });
 
     factory OneOnOne.fromJson(Map<String, dynamic> json) =>

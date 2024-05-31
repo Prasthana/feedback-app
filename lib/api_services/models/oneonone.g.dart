@@ -12,6 +12,7 @@ OneOnOne _$OneOnOneFromJson(Map<String, dynamic> json) => OneOnOne(
       endDateTime: json['end_date_time'] as String?,
       status: json['status'] as String?,
       notes: json['notes'] as String?,
+      feedbackRating: (json['feedback_rating'] as num?)?.toDouble(),
       goodAtPoints: (json['good_at_points'] as List<dynamic>?)
           ?.map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -26,13 +27,12 @@ OneOnOne _$OneOnOneFromJson(Map<String, dynamic> json) => OneOnOne(
               ?.map((e) => OneOnOneParticipantsAttribute.fromJson(
                   e as Map<String, dynamic>))
               .toList(),
-    )
-      ..feedbackRating = (json['feedback_rating'] as num?)?.toDouble()
-      ..oneOnOnePointsAttributes =
+      oneOnOnePointsAttributes:
           (json['one_on_one_points_attributes'] as List<dynamic>?)
               ?.map((e) =>
                   OneOnOnePointsAttribute.fromJson(e as Map<String, dynamic>))
-              .toList();
+              .toList(),
+    );
 
 Map<String, dynamic> _$OneOnOneToJson(OneOnOne instance) {
   final val = <String, dynamic>{};
