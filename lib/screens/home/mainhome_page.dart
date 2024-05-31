@@ -78,7 +78,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
       // used modal_bottom_sheet - to model present
       showCupertinoModalBottomSheet(
         context: context,
-        builder: (context) => const CreateOneOnOneView(),
+        builder: (context) => CreateOneOnOneView(mEmployee: Employee(),),
         enableDrag: true,
       );  
 

@@ -449,7 +449,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             ),
             addVerticalSpace(8),
             Visibility(
-              visible: isLoginEmployee,
+              visible: !isLoginEmployee,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -509,7 +509,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         height: 40.0,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateOneOnOneView()),);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOneOnOneView(mEmployee: employee)),);
                           },
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
