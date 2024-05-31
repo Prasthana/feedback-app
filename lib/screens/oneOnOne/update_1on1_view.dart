@@ -6,9 +6,11 @@ import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:flutter/widgets.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class UpdateOneoneOneView extends StatefulWidget {
   const UpdateOneoneOneView({super.key, required this.oneOnOneData});
@@ -24,6 +26,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   String enteredNotes = "";
   OneOnOne? oneOnOneData;
   TextEditingController _textFieldController = TextEditingController();
+  double _currentSliderValue = 0.5;
 
   @override
   void initState() {
@@ -31,6 +34,21 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     oneOnOneCreateResponseFuture =
         ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
     super.initState();
+  }
+
+  Widget showRatingBar() {
+         return Slider(
+          value: _currentSliderValue,
+          max: 5,
+          divisions: 10,
+          activeColor: Colors.black,
+          label: _currentSliderValue.toString(),
+          onChanged: (double value) {
+            setState(() {
+              _currentSliderValue = value;
+            });
+          },
+        );
   }
 
   @override
@@ -53,29 +71,31 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           ),
         ),
       ),
-      body: Center(
-        child: FutureBuilder<OneOnOneCreateResponse>(
-          future: oneOnOneCreateResponseFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasData) {
-              final oneOneResponse = snapshot.data;
-
-              var oneOnOne = oneOneResponse?.oneOnOne;
-              if (oneOnOne != null) {
-                debugPrint("------>>> 1");
-                // return buildGoodAtList(oneOnOne.goodAtPoints);
-                return buildOneOnOneDetailsView(oneOnOne);
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: FutureBuilder<OneOnOneCreateResponse>(
+            future: oneOnOneCreateResponseFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasData) {
+                final oneOneResponse = snapshot.data;
+        
+                var oneOnOne = oneOneResponse?.oneOnOne;
+                if (oneOnOne != null) {
+                  debugPrint("------>>> 1");
+                  return buildOneOnOneDetailsView(oneOnOne);
+                } else {
+                  debugPrint("------>>> 2");
+                  return buildEmptyView();
+                }
               } else {
-                debugPrint("------>>> 2");
+                debugPrint("------>>> 3");
                 return buildEmptyView();
               }
-            } else {
-              debugPrint("------>>> 3");
-              return buildEmptyView();
-            }
-          },
+            },
+          ),
         ),
       ),
     );
@@ -89,117 +109,226 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         oneOnOne?.startDateTime ?? "", "EEEE, dd MMM yyyy");
 
     return SingleChildScrollView(
-      child:
-       Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(12.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          addVerticalSpace(20),
-          Center(
-            child: showEmployeeAvatar(employee),
+      //color: Colors.white,
+      padding: const EdgeInsets.all(12.0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        addVerticalSpace(20),
+        Center(
+          child: showEmployeeAvatar(employee),
+        ),
+        addVerticalSpace(12),
+        Center(
+          child: Text(
+            employee.name ?? "",
+            style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Color.fromRGBO(4, 4, 4, 1)),
           ),
-          addVerticalSpace(12),
-          Center(
-            child: Text(
-              employee.name ?? "",
-              style: const TextStyle(
+        ),
+        addVerticalSpace(8),
+        Center(
+          child: Text(
+            employee.email ?? "",
+            style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Color.fromRGBO(4, 4, 4, 1)),
+          ),
+        ),
+        addVerticalSpace(8),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.calendar_month),
+              addHorizontalSpace(5),
+              Text(
+                meetingDate,
+                style: const TextStyle(
                   fontFamily: constants.uberMoveFont,
-                  fontSize: 24,
+                  fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  color: Color.fromRGBO(4, 4, 4, 1)),
-            ),
+                ),
+              ),
+            ],
           ),
-          addVerticalSpace(8),
-          Center(
-            child: Text(
-              employee.email ?? "",
-              style: const TextStyle(
+        ),
+        addVerticalSpace(8),
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.access_time_filled),
+              addHorizontalSpace(5),
+              Text(
+                meetingStartTime,
+                style: const TextStyle(
                   fontFamily: constants.uberMoveFont,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(4, 4, 4, 1)),
-            ),
-          ),
-          addVerticalSpace(8),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.calendar_month),
-                addHorizontalSpace(5),
-                Text(
-                  meetingDate,
-                  style: const TextStyle(
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          addVerticalSpace(8),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.access_time_filled),
-                addHorizontalSpace(5),
-                Text(
-                  meetingStartTime,
-                  style: const TextStyle(
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                  ),
+        ),
+        addVerticalSpace(12),
+        const Text(
+          constants.notesText,
+          style: TextStyle(
+            fontFamily: constants.uberMoveFont,
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        addVerticalSpace(8),
+        TextFormField(
+            minLines: 2,
+            maxLines: 5,
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.done,
+            decoration: const InputDecoration(
+              fillColor: Colors.white,
+              hintText: constants.notesHintText,
+              hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: colorText,
                 ),
-              ],
+              ),
             ),
-          ),
-          addVerticalSpace(12),
-          const Text(
-            constants.notesText,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: constants.uberMoveFont,
-              fontSize: 21,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
+            onChanged: (value) {
+              enteredNotes = value;
+            }),
+        addVerticalSpace(20),
+        gootAtBottomView(oneOnOne?.goodAtPoints),
+        yetToImproveBottomView(oneOnOne?.yetToImprovePoints),
+        addVerticalSpace(20),
+        const Text(
+          "Rating:",
+          style: TextStyle(
+            fontFamily: constants.uberMoveFont,
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
           ),
-          addVerticalSpace(8),
-          TextFormField(
-              minLines: 2,
-              maxLines: 5,
-              keyboardType: TextInputType.multiline,
-              textInputAction: TextInputAction.done,
-              decoration: const InputDecoration(
-                fillColor: Colors.white,
-                hintText: constants.notesHintText,
-                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        ),
+        addVerticalSpace(30),
+        showRatingBar(),
+        addVerticalSpace(20),
+         
+        MaterialButton(
+                minWidth: double.infinity,
+                height: 58.0,
+                onPressed: () {
+                  debugPrint("clicked on create ----->>>>");
+                },
+                // ignore: sort_child_properties_last
+                child: const Text("Save"),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: colorText,
-                  ),
-                ),
+                color: const Color.fromRGBO(0, 0, 0, 1),
+                textColor: Colors.white,
               ),
-              style: const TextStyle(
+        addVerticalSpace(60),
+
+      ]),
+    );
+    //    ),
+    // );
+  }
+
+  Widget yetToImproveBottomView(List<Point>? yetToImproveList) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Yet to Improve",
+              style: TextStyle(
                 fontFamily: constants.uberMoveFont,
-                fontSize: 14,
+                fontSize: 21,
                 fontWeight: FontWeight.w500,
               ),
-              onChanged: (value) {
-                enteredNotes = value;
-              }),
-          addVerticalSpace(20),
-          //bottomListView(oneOnOne?.goodAtPoints),
-        ]),
-      ),
+            ),
+            TextButton(
+                onPressed: () {
+                  _displayTextInputDialog("Yet to Improve", context);
+                },
+                child: const Text(
+                  "+ Add point",
+                  style: TextStyle(
+                    color: Color.fromRGBO(22, 97, 210, 1),
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 21,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ))
+          ],
+        ),
+        addVerticalSpace(10),
+        showRecordView()
+      ],
     );
   }
 
-  Widget bottomListView(List<Point>? goodAtList) {
+  Widget showRecordView() {
+    return const ListTile(
+        leading: Icon(Icons.menu),
+        trailing: Icon(Icons.mic),
+        title: Text(
+          "Type here or click on Mic",
+          style: TextStyle(
+              fontFamily: constants.uberMoveFont,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              color: Color.fromRGBO(0, 0, 0, 1)),
+        ));
+  }
+
+  Widget buildYetToImproveList(List<Point>? yetToImproveList) {
+    return ListView.separated(
+      // Second list view
+      shrinkWrap: true,
+      itemCount: yetToImproveList?.length ?? 0,
+      separatorBuilder: (context, index) => Divider(), // Optional separator
+      itemBuilder: (context, index) {
+        var yetToImprovePoint = yetToImproveList?[index];
+        return SizedBox(
+          height: 56.0,
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.menu),
+                title: Text(
+                  yetToImprovePoint?.title ?? "",
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
+                ),
+                onTap: () {},
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget gootAtBottomView(List<Point>? goodAtList) {
     return Column(
       children: [
         Row(
@@ -229,26 +358,26 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           ],
         ),
         addVerticalSpace(10),
-        (goodAtList != null && goodAtList.isNotEmpty)
-            ? buildGoodAtList(goodAtList)
-            : const Text('')
+        showRecordView(),
+        buildGoodAtList(goodAtList)
       ],
     );
   }
 
   Widget buildGoodAtList(List<Point>? goodAtList) {
-    return ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: const ClampingScrollPhysics(),
-        itemCount: goodAtList?.length,
-        itemBuilder: (BuildContext context, int index) {
-          var goodAtPoint = goodAtList?[index];
-          return Column(
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      itemCount: goodAtList?.length ?? 0,
+      separatorBuilder: (context, index) => const Divider(),
+      itemBuilder: (context, index) {
+        var goodAtPoint = goodAtList?[index];
+        return SizedBox(
+          height: 56.0,
+          child: Column(
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.menu),
-                trailing: const Icon(Icons.mic),
                 title: Text(
                   goodAtPoint?.title ?? "",
                   style: const TextStyle(
@@ -260,8 +389,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 onTap: () {},
               ),
             ],
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   Widget showEmployeeAvatar(Employee selectedEmployee) {
