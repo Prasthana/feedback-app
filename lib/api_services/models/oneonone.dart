@@ -1,7 +1,6 @@
 
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
-import 'package:feedbackapp/api_services/models/one_on_one_point.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'oneonone.g.dart';
@@ -17,10 +16,10 @@ class OneOnOne {
     String? notes;
 
     @JsonKey(name: 'good_at_points')
-    List<OneOnOnePoint>? goodAtPoints;
+    List<Point>? goodAtPoints;
 
     @JsonKey(name: 'yet_to_improve_points')
-    List<OneOnOnePoint>? yetToImprovePoints;
+    List<Point>? yetToImprovePoints;
 
     @JsonKey(name: 'one_on_one_participants')
     List<OneOnOneParticipant>? oneOnOneParticipants;
@@ -43,6 +42,23 @@ class OneOnOne {
     factory OneOnOne.fromJson(Map<String, dynamic> json) =>
       _$OneOnOneFromJson(json);
     Map<String, dynamic> toJson() => _$OneOnOneToJson(this);
+}
+
+@JsonSerializable()
+class Point {
+    int id;
+    dynamic completionComment;
+    String title;
+
+    Point({
+        required this.id,
+        required this.completionComment,
+        required this.title,
+    });
+
+    factory Point.fromJson(Map<String, dynamic> json) =>
+      _$PointFromJson(json);
+    Map<String, dynamic> toJson() => _$PointToJson(this);
 }
 
 @JsonSerializable()

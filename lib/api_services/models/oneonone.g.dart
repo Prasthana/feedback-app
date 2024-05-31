@@ -13,10 +13,10 @@ OneOnOne _$OneOnOneFromJson(Map<String, dynamic> json) => OneOnOne(
       status: json['status'] as String?,
       notes: json['notes'] as String?,
       goodAtPoints: (json['good_at_points'] as List<dynamic>?)
-          ?.map((e) => OneOnOnePoint.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
       yetToImprovePoints: (json['yet_to_improve_points'] as List<dynamic>?)
-          ?.map((e) => OneOnOnePoint.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
       oneOnOneParticipants: (json['one_on_one_participants'] as List<dynamic>?)
           ?.map((e) => OneOnOneParticipant.fromJson(e as Map<String, dynamic>))
@@ -49,6 +49,18 @@ Map<String, dynamic> _$OneOnOneToJson(OneOnOne instance) {
       instance.oneOnOneParticipantsAttributes);
   return val;
 }
+
+Point _$PointFromJson(Map<String, dynamic> json) => Point(
+      id: (json['id'] as num).toInt(),
+      completionComment: json['completionComment'],
+      title: json['title'] as String,
+    );
+
+Map<String, dynamic> _$PointToJson(Point instance) => <String, dynamic>{
+      'id': instance.id,
+      'completionComment': instance.completionComment,
+      'title': instance.title,
+    };
 
 OneOnOneParticipant _$OneOnOneParticipantFromJson(Map<String, dynamic> json) =>
     OneOnOneParticipant(

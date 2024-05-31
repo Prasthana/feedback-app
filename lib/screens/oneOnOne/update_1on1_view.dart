@@ -22,11 +22,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   Future<OneOnOneCreateResponse>? oneOnOneCreateResponseFuture;
   String enteredNotes = "";
   OneOnOne? oneOnOneData;
+  TextEditingController _textFieldController = TextEditingController();
 
   @override
   void initState() {
-     oneOnOneData = widget.oneOnOneData;
-    // checkLoginstatus(mEmployee?.id ?? 0);
+    oneOnOneData = widget.oneOnOneData;
     oneOnOneCreateResponseFuture =
         ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
     super.initState();
@@ -61,14 +61,17 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             } else if (snapshot.hasData) {
               final oneOneResponse = snapshot.data;
 
-              var length =
-                  oneOneResponse?.oneOnOne.oneOnOneParticipants?.length ?? 0;
-              if (length > 0) {
-                return buildOneOnOneDetailsView(oneOneResponse?.oneOnOne);
+              var oneOnOne = oneOneResponse?.oneOnOne;
+              if (oneOnOne != null) {
+                debugPrint("------>>> 1");
+                // return buildGoodAtList(oneOnOne.goodAtPoints);
+                return buildOneOnOneDetailsView(oneOnOne);
               } else {
-                return buildOneOnOneDetailsView(oneOneResponse?.oneOnOne);
+                debugPrint("------>>> 2");
+                return buildEmptyView();
               }
             } else {
+              debugPrint("------>>> 3");
               return buildEmptyView();
             }
           },
@@ -83,6 +86,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "hh:mm a");
     String meetingDate = getFormatedDateConvertion(
         oneOnOne?.startDateTime ?? "", "EEEE, dd MMM yyyy");
+
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(12.0),
@@ -198,7 +202,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               ),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  _displayTextInputDialog("Good at point", context);
+                },
                 child: const Text(
                   "+ Add point",
                   style: TextStyle(
@@ -209,9 +215,36 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                   ),
                 ))
           ],
-        )
+        ),
+        addVerticalSpace(10),
+        //buildGoodAtList(oneOnOne?.goodAtPoints)
       ]),
     );
+  }
+
+  Widget buildGoodAtList(List<Point>? goodAtList) {
+    return ListView.builder(
+        itemCount: goodAtList?.length,
+        itemBuilder: (BuildContext context, int index) {
+          var goodAtPoint = goodAtList?[index];
+          return Column(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.menu),
+                trailing: const Icon(Icons.mic),
+                title: Text(
+                  goodAtPoint?.title ?? "",
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
+                ),
+                onTap: () {},
+              ),
+            ],
+          );
+        });
   }
 
   Widget showEmployeeAvatar(Employee selectedEmployee) {
@@ -227,6 +260,60 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             fontWeight: FontWeight.w600,
             color: Color.fromRGBO(255, 255, 255, 1)),
       ),
+    );
+  }
+
+
+  Future<void> _displayTextInputDialog(
+      String text, BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(text),
+          content: TextFormField(
+              minLines: 4,
+              maxLines: 5,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.done,
+              decoration: const InputDecoration(
+                fillColor: Colors.white,
+                hintText: constants.notesHintText,
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: colorText,
+                  ),
+                ),
+              ),
+              style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+              onChanged: (value) {
+                enteredNotes = value;
+              }),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                print(_textFieldController.text);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
