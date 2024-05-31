@@ -13,6 +13,7 @@ import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
+import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -247,9 +248,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
-                // onTap: () {
-                //   Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
-                // },
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateOneoneOneView(oneOnOneData: oneOnOne),));
+                },
               ),
               const Divider(
                 color: Color.fromRGBO(195, 195, 195, 1),
