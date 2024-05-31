@@ -38,6 +38,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<OneOnOnesListResponse>? oneOnOneFuture;
   bool isLoginEmployee = false;
   bool isUpdating = false;
+  bool addMobileNumber = false;
   String mobileNumber = "";
 
   Employee? mEmployee;
@@ -54,9 +55,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
     var employeerequest = EmployeeRequest(name: mEmployee?.name ?? "", mobileNumber: mobile);
 
-      var employeeFuture = ApiManager.authenticated.updateEmployeesMobile(mEmployee?.id ?? 0, employeerequest);
+    var employeeFuture = ApiManager.authenticated.updateEmployeesMobile(mEmployee?.id ?? 0, employeerequest);
 
-      setEmployeeFuture(employeeFuture);
+    setEmployeeFuture(employeeFuture);
   }
   
 
@@ -94,6 +95,12 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     setState(() {
       employeeFuture = newValue;
       isUpdating = true;
+    });
+  }
+
+  void setAddMobileNumber(bool newValue) {
+    setState(() {
+      addMobileNumber = newValue;
     });
   }
 
@@ -388,9 +395,13 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             ),
             addVerticalSpace(8),
             Visibility(
-              visible: isLoginEmployee && mobileNumber == "",
-              child: const Center(
-                child: Text(
+              visible: isLoginEmployee && !employee!.mobileNumber!.isNotEmpty && addMobileNumber == false,
+              child:  Center(
+                child: TextButton(
+                  onPressed: () {
+                    setAddMobileNumber(true);
+                  },
+                  child: const Text(
                     constants.addMobileNumber,
                   style: TextStyle(
                       decoration: TextDecoration.underline,
@@ -400,10 +411,11 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       fontWeight: FontWeight.w400,
                       color:  Color.fromRGBO(22, 97, 210, 1)),
                 ),
+                ),
               ),
             ),
             Visibility(
-              visible: isLoginEmployee && mobileNumber != "",
+              visible: isLoginEmployee && (employee!.mobileNumber!.isNotEmpty || addMobileNumber == true),
               child:  Center(
                 child: SizedBox(
                 width: 160.0,
@@ -417,7 +429,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   textAlign: TextAlign.center,
-                    controller: TextEditingController(text: mobileNumber),
+                    controller: TextEditingController(text: mEmployee?.mobileNumber ?? ""),
                     decoration: const InputDecoration(
                        fillColor:Colors.white,
                        suffixIcon: Icon(Icons.edit_square),

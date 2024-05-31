@@ -200,6 +200,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
         if (mLoginTokenResponse.user != null) {
           var employee = Employee();
           employee.id = mLoginTokenResponse.user?.employeeId ?? 0;
+          employee.mobileNumber = mLoginTokenResponse.user?.mobileNumber ?? "";
           Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employee)),);  
         } 
       } 
