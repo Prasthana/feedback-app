@@ -105,7 +105,6 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         grantType: constants.grantTypeRefreshToken,
         clientId: constants.clientId,
         clientSecret: constants.clientSecret,
-        loginToken: null,
         refreshToken: refreshToken);
 
     var success = await ApiManager.public.generateLoginToken(request).then((val) {
