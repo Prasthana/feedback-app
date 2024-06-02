@@ -9,11 +9,8 @@ import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
-import 'package:flutter/widgets.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class UpdateOneoneOneView extends StatefulWidget {
   const UpdateOneoneOneView({super.key, required this.oneOnOneData});
@@ -28,7 +25,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   Future<OneOnOneCreateResponse>? oneOnOneCreateResponseFuture;
   String enteredNotes = "";
   OneOnOne? oneOnOneData;
-  TextEditingController _textFieldController = TextEditingController();
+  //TextEditingController _textFieldController = TextEditingController();
   double _currentSliderValue = 0.0;
   // ignore: prefer_final_fields
   List<OneOnOnePointsAttribute> _oneOnOnePointsAttributes = [];
@@ -341,7 +338,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       // Second list view
       shrinkWrap: true,
       itemCount: yetToImproveList?.length ?? 0,
-      separatorBuilder: (context, index) => Divider(), // Optional separator
+      separatorBuilder: (context, index) => const Divider(), // Optional separator
       itemBuilder: (context, index) {
         var yetToImprovePoint = yetToImproveList?[index];
         return SizedBox(
