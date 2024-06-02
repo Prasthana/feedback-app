@@ -161,7 +161,7 @@ class _OtpViewState extends State<OtpView> {
                     onPressed: () {
                       if (enteredOTP.isEmpty == false) {
                         // showDialog(context: context, builder: (context){
-                        //   return AlertDialog(title: const Text("Verification Code"),
+                        //   return CupertinoAlertDialog(title: const Text("Verification Code"),
                         //     content: Text('Code entered is $enteredOTP'),
                         // );
                         // });
@@ -255,7 +255,7 @@ class _OtpViewState extends State<OtpView> {
   _getLoginToken(VerifyEmailOTPResponse mVerifyEmailOTPResponse,
       BuildContext context) async {
     var request = LoginTokenRequest(
-        grantType: constants.grantType,
+        grantType: constants.grantTypePassword,
         clientId: constants.clientId,
         clientSecret: constants.clientSecret,
         loginToken: mVerifyEmailOTPResponse.userLogin?.loginToken ?? "NoTOKEN");

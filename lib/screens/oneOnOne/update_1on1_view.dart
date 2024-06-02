@@ -9,6 +9,7 @@ import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
@@ -454,7 +455,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     return showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
+        return CupertinoAlertDialog(
           title: Text(text),
           content: TextFormField(
               minLines: 4,

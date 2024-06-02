@@ -17,6 +17,7 @@ import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
@@ -679,7 +680,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
+        return CupertinoAlertDialog(
           title: const Text("Open Mail App"),
           content: const Text("No mail apps installed"),
           actions: <Widget>[

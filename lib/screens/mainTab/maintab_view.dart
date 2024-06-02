@@ -93,7 +93,7 @@ class _MainTabViewState extends State<MainTabView> {
             )
           : null,
       body: _isLoading
-          ? const CircularProgressIndicator()
+          ? const Center ( child:  CircularProgressIndicator())
           : (numberOfItems >= 2 ? bottomWidgets() : const MainHomePageView()),
     );
   }
