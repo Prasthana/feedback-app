@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
@@ -114,6 +115,8 @@ class _SplashScreenViewState extends State<SplashScreenView> {
       var sm = StorageManager();
 
       sm.saveData(constants.loginTokenResponse, user);
+
+      sleep(const Duration(seconds: 1));
 
       return true;
     }).catchError((obj) {
