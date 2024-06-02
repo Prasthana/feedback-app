@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
-
 
 class SplashScreenView extends StatefulWidget {
   const SplashScreenView({super.key});
@@ -19,9 +20,9 @@ class SplashScreenView extends StatefulWidget {
 }
 
 class _SplashScreenViewState extends State<SplashScreenView> {
-    var isLogedIn = false;
+  var isLogedIn = false;
 
-void setLoginStatus(bool newValue) {
+  void setLoginStatus(bool newValue) {
     setState(() {
       isLogedIn = newValue;
     });
@@ -29,20 +30,24 @@ void setLoginStatus(bool newValue) {
 
   checkLoginstatus() {
     var sm = StorageManager();
-   sm.getData(constants.loginTokenResponse).then((val) {          
-          if(val != constants.noDataFound){
-            Map<String, dynamic>  json = jsonDecode(val);
-            var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
-            logger.d('val -- $json');
-            if(mLoginTokenResponse.user != null){
-              setLoginStatus(true);
-            } else {
-              setLoginStatus(false);
-            }
+    sm.getData(constants.loginTokenResponse).then((val) async {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
+        logger.d('val -- $json');
+
+      var refreshTokenStatus = await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
+
+          if (refreshTokenStatus == true) {
+            setLoginStatus(true);
           } else {
-           setLoginStatus(false);
+            setLoginStatus(false);
           }
-        });
+        
+      } else {
+        setLoginStatus(false);
+      }
+    });
   }
 
 /*
@@ -70,10 +75,9 @@ void setLoginStatus(bool newValue) {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    isLogedIn? const MainTabView() : const LoginView(),
+                    isLogedIn ? const MainTabView() : const LoginView(),
                 //LoginView(),
-                fullscreenDialog: true))
-                );
+                fullscreenDialog: true)));
   }
 
   @override
@@ -93,5 +97,38 @@ void setLoginStatus(bool newValue) {
           'assets/splash-image.png',
         ) // Image.asset
         );
+  }
+
+  Future<bool>  refreshLoginToken(String refreshToken) async {
+    var request = LoginTokenRequest(
+        grantType: constants.grantTypeRefreshToken,
+        clientId: constants.clientId,
+        clientSecret: constants.clientSecret,
+        loginToken: null,
+        refreshToken: refreshToken);
+
+    var success = await ApiManager.public.generateLoginToken(request).then((val) {
+      // do some operation
+      logger.e('email response -- ${val.toJson()}');
+      String user = jsonEncode(val.toJson());
+      var sm = StorageManager();
+
+      sm.saveData(constants.loginTokenResponse, user);
+
+      return true;
+    }).catchError((obj) {
+      // non-200 error goes here.
+      switch (obj.runtimeType) {
+        case const (DioException):
+          // Here's the sample to get the failed response error code and message
+          final res = (obj as DioException).response;
+          logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+          break;
+        default:
+          break;
+      }
+      return false;
+    });
+    return success;
   }
 }

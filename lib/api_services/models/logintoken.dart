@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'logintoken.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class LoginTokenRequest {
   @JsonKey(name: 'grant_type')
   String grantType;
@@ -11,12 +11,15 @@ class LoginTokenRequest {
   @JsonKey(name: 'client_secret')
   String clientSecret;
   @JsonKey(name: 'login_token')
-  String loginToken;
+  String? loginToken;
+  @JsonKey(name: 'refresh_token')
+  String? refreshToken ;
 
   LoginTokenRequest({required this.grantType, 
                           required this.clientId, 
                           required this.clientSecret, 
-                          required this.loginToken, 
+                          this.loginToken, 
+                          this.refreshToken, 
                           });
 
   factory LoginTokenRequest.fromJson(Map<String, dynamic> json) => _$LoginTokenRequestFromJson(json);

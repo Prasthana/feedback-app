@@ -10,6 +10,7 @@ import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/screens/otp/otp_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:network_logger/network_logger.dart';
@@ -27,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
   String? _enteredEmail;
   var isEmailValidated = false;
 
-   @override
+  @override
   void initState() {
     NetworkLoggerOverlay.attachTo(context);
     super.initState();
@@ -80,7 +81,7 @@ class _LoginViewState extends State<LoginView> {
                           hintText: 'Enter email',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color:Color.fromARGB(255, 18, 17, 17),
+                              color: Color.fromARGB(255, 18, 17, 17),
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -107,10 +108,9 @@ class _LoginViewState extends State<LoginView> {
                         },
                         validator: (email) {
                           if (email != null && EmailValidator.validate(email)) {
-                          return null;
+                            return null;
                           }
-                            return constants.enterValidEmailText;
-                          
+                          return constants.enterValidEmailText;
                         },
                       ),
                       addVerticalSpace(45),
@@ -119,7 +119,7 @@ class _LoginViewState extends State<LoginView> {
                         height: 58.0,
                         onPressed: () {
                           if (_formState.currentState!.validate()) {
-                            _genarateOtp(_enteredEmail,context);
+                            _genarateOtp(_enteredEmail, context);
                           }
                         },
                         // ignore: sort_child_properties_last
@@ -127,7 +127,9 @@ class _LoginViewState extends State<LoginView> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        color: isEmailValidated ? const Color.fromRGBO(0, 0, 0, 1) : const Color.fromRGBO(173, 173, 173, 1),
+                        color: isEmailValidated
+                            ? const Color.fromRGBO(0, 0, 0, 1)
+                            : const Color.fromRGBO(173, 173, 173, 1),
                         //const Color.fromRGBO(173, 173, 173, 1),
                         textColor: Colors.white,
                       )
@@ -142,22 +144,20 @@ class _LoginViewState extends State<LoginView> {
 }
 
 showInvalidAlert(BuildContext context, String alertText) {
-    // set up the button
+  // set up the button
   Widget okButton = TextButton(
     child: const Text("OK"),
     onPressed: () {
-      Navigator.pop(context); 
-     },
+      Navigator.pop(context);
+    },
   );
 
-  AlertDialog alert = AlertDialog(
-    title: const Text(""),
+  CupertinoAlertDialog alert = CupertinoAlertDialog(
     content: Text(alertText),
     actions: [
       okButton,
     ],
   );
-
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -166,34 +166,30 @@ showInvalidAlert(BuildContext context, String alertText) {
   );
 }
 
-_genarateOtp(String? email,BuildContext context) async {
-  
+_genarateOtp(String? email, BuildContext context) async {
   var request = EmailOTPRequest(
-      email: email as String,
-      deviceType: Platform.operatingSystem
-    );
+      email: email as String, deviceType: Platform.operatingSystem);
 
   ApiManager.public.sendEmailOTP(request).then((val) {
     // do some operation
     logger.e('email response -- ${val.toJson()}');
 
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
-
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => OtpView(emailOTPResponse: val)));
   }).catchError((obj) {
     // non-200 error goes here.
     switch (obj.runtimeType) {
       case const (DioException):
         // Here's the sample to get the failed response error code and message
-        final res = (obj as DioException).response;
-        logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+        final res = ((obj as DioException).response as Response);
+        logger.e('Got error : ${res.statusCode} -> ${res.statusMessage}');
         // debugPrint('statusMessage ------>>> ${res?.statusMessage}');
-        showInvalidAlert(context, constants.inValidUserText);
+        final responseData = res.data as Map;
+        showInvalidAlert(
+            context, responseData['message'] ?? constants.inValidUserText);
         break;
       default:
         break;
     }
   });
-
-  
-
 }

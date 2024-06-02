@@ -11,16 +11,27 @@ LoginTokenRequest _$LoginTokenRequestFromJson(Map<String, dynamic> json) =>
       grantType: json['grant_type'] as String,
       clientId: json['client_id'] as String,
       clientSecret: json['client_secret'] as String,
-      loginToken: json['login_token'] as String,
+      loginToken: json['login_token'] as String?,
+      refreshToken: json['refresh_token'] as String?,
     );
 
-Map<String, dynamic> _$LoginTokenRequestToJson(LoginTokenRequest instance) =>
-    <String, dynamic>{
-      'grant_type': instance.grantType,
-      'client_id': instance.clientId,
-      'client_secret': instance.clientSecret,
-      'login_token': instance.loginToken,
-    };
+Map<String, dynamic> _$LoginTokenRequestToJson(LoginTokenRequest instance) {
+  final val = <String, dynamic>{
+    'grant_type': instance.grantType,
+    'client_id': instance.clientId,
+    'client_secret': instance.clientSecret,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('login_token', instance.loginToken);
+  writeNotNull('refresh_token', instance.refreshToken);
+  return val;
+}
 
 LoginTokenResponse _$LoginTokenResponseFromJson(Map<String, dynamic> json) =>
     LoginTokenResponse(

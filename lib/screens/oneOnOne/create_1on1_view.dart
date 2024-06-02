@@ -65,7 +65,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       context: context,
       builder: (BuildContext context) {
         String tempSelectedOption = _selectedOption;
-        return AlertDialog(
+        return CupertinoAlertDialog(
           content: StatefulBuilder(builder: (context, setState) {
             return Column(
               mainAxisSize: MainAxisSize.min,
