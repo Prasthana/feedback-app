@@ -1,13 +1,19 @@
+import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
+import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:flutter/widgets.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class UpdateOneoneOneView extends StatefulWidget {
   const UpdateOneoneOneView({super.key, required this.oneOnOneData});
@@ -22,14 +28,33 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   Future<OneOnOneCreateResponse>? oneOnOneCreateResponseFuture;
   String enteredNotes = "";
   OneOnOne? oneOnOneData;
+  TextEditingController _textFieldController = TextEditingController();
+  double _currentSliderValue = 0.0;
+  // ignore: prefer_final_fields
+  List<OneOnOnePointsAttribute> _oneOnOnePointsAttributes = [];
+  String enteredAddPoint = "";
 
   @override
   void initState() {
-     oneOnOneData = widget.oneOnOneData;
-    // checkLoginstatus(mEmployee?.id ?? 0);
+    oneOnOneData = widget.oneOnOneData;
     oneOnOneCreateResponseFuture =
         ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
     super.initState();
+  }
+
+  Widget showRatingBar() {
+    return Slider(
+      value: _currentSliderValue,
+      max: 5,
+      divisions: 10,
+      activeColor: Colors.black,
+      label: _currentSliderValue.toString(),
+      onChanged: (double value) {
+        setState(() {
+          _currentSliderValue = value;
+        });
+      },
+    );
   }
 
   @override
@@ -52,26 +77,31 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           ),
         ),
       ),
-      body: Center(
-        child: FutureBuilder<OneOnOneCreateResponse>(
-          future: oneOnOneCreateResponseFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else if (snapshot.hasData) {
-              final oneOneResponse = snapshot.data;
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: FutureBuilder<OneOnOneCreateResponse>(
+            future: oneOnOneCreateResponseFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasData) {
+                final oneOneResponse = snapshot.data;
 
-              var length =
-                  oneOneResponse?.oneOnOne.oneOnOneParticipants?.length ?? 0;
-              if (length > 0) {
-                return buildOneOnOneDetailsView(oneOneResponse?.oneOnOne);
+                var oneOnOne = oneOneResponse?.oneOnOne;
+                if (oneOnOne != null) {
+                  debugPrint("------>>> 1");
+                  return buildOneOnOneDetailsView(oneOnOne);
+                } else {
+                  debugPrint("------>>> 2");
+                  return buildEmptyView();
+                }
               } else {
-                return buildOneOnOneDetailsView(oneOneResponse?.oneOnOne);
+                debugPrint("------>>> 3");
+                return buildEmptyView();
               }
-            } else {
-              return buildEmptyView();
-            }
-          },
+            },
+          ),
         ),
       ),
     );
@@ -83,8 +113,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "hh:mm a");
     String meetingDate = getFormatedDateConvertion(
         oneOnOne?.startDateTime ?? "", "EEEE, dd MMM yyyy");
-    return Container(
-      color: Colors.white,
+
+    return SingleChildScrollView(
+      //color: Colors.white,
       padding: const EdgeInsets.all(12.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         addVerticalSpace(20),
@@ -162,6 +193,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         TextFormField(
             minLines: 2,
             maxLines: 5,
+            initialValue: oneOnOne?.notes ?? "",
             keyboardType: TextInputType.multiline,
             textInputAction: TextInputAction.done,
             decoration: const InputDecoration(
@@ -186,6 +218,158 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               enteredNotes = value;
             }),
         addVerticalSpace(20),
+        gootAtBottomView(oneOnOne?.goodAtPoints),
+        yetToImproveBottomView(oneOnOne?.yetToImprovePoints),
+        addVerticalSpace(20),
+        const Text(
+          "Rating:",
+          style: TextStyle(
+            fontFamily: constants.uberMoveFont,
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        addVerticalSpace(30),
+        showRatingBar(),
+        addVerticalSpace(20),
+        MaterialButton(
+          minWidth: double.infinity,
+          height: 58.0,
+          onPressed: () {
+            debugPrint("clicked on Save ----->>>> $_currentSliderValue");
+            _updateOneOnOneAPIcall(context);
+          },
+          // ignore: sort_child_properties_last
+          child: const Text("Save"),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          color: const Color.fromRGBO(0, 0, 0, 1),
+          textColor: Colors.white,
+        ),
+        addVerticalSpace(60),
+      ]),
+    );
+  }
+
+  _updateOneOnOneAPIcall(BuildContext context) async {
+    var oneOnOneObj = OneOnOne();
+    if (_currentSliderValue > 0) {
+      oneOnOneObj.feedbackRating = _currentSliderValue;
+    }
+    if (enteredNotes.isNotEmpty) {
+      oneOnOneObj.notes = enteredNotes;
+    }
+    if (_oneOnOnePointsAttributes.isNotEmpty) {
+      oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
+    }
+    var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
+    ApiManager.authenticated
+        .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
+        .then((val) {
+     
+      logger.e('update OneOnOne response -- ${val.toJson()}');
+      _oneOnOnePointsAttributes.clear();
+      oneOnOneCreateResponseFuture =
+        ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
+    }).catchError((obj) {
+      // non-200 error goes here.
+      switch (obj.runtimeType) {
+        case const (DioException):
+          // Here's the sample to get the failed response error code and message
+          final res = (obj as DioException).response;
+          logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  Widget yetToImproveBottomView(List<Point>? yetToImproveList) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Yet to Improve",
+              style: TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 21,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            TextButton(
+                onPressed: () {
+                  _displayTextInputDialog(false, "Yet to Improve", context);
+                },
+                child: const Text(
+                  "+ Add point",
+                  style: TextStyle(
+                    color: Color.fromRGBO(22, 97, 210, 1),
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 21,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ))
+          ],
+        ),
+        addVerticalSpace(10),
+        showRecordView()
+      ],
+    );
+  }
+
+  Widget showRecordView() {
+    return const ListTile(
+        leading: Icon(Icons.menu),
+        trailing: Icon(Icons.mic),
+        title: Text(
+          "Type here or click on Mic",
+          style: TextStyle(
+              fontFamily: constants.uberMoveFont,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              color: Color.fromRGBO(0, 0, 0, 1)),
+        ));
+  }
+
+  Widget buildYetToImproveList(List<Point>? yetToImproveList) {
+    return ListView.separated(
+      // Second list view
+      shrinkWrap: true,
+      itemCount: yetToImproveList?.length ?? 0,
+      separatorBuilder: (context, index) => Divider(), // Optional separator
+      itemBuilder: (context, index) {
+        var yetToImprovePoint = yetToImproveList?[index];
+        return SizedBox(
+          height: 56.0,
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.menu),
+                title: Text(
+                  yetToImprovePoint?.title ?? "",
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
+                ),
+                onTap: () {},
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget gootAtBottomView(List<Point>? goodAtList) {
+    return Column(
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -198,7 +382,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               ),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  _displayTextInputDialog(true, "Good at point", context);
+                },
                 child: const Text(
                   "+ Add point",
                   style: TextStyle(
@@ -209,8 +395,42 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                   ),
                 ))
           ],
-        )
-      ]),
+        ),
+        addVerticalSpace(10),
+        showRecordView(),
+        buildGoodAtList(goodAtList)
+      ],
+    );
+  }
+
+  Widget buildGoodAtList(List<Point>? goodAtList) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      itemCount: goodAtList?.length ?? 0,
+      separatorBuilder: (context, index) => const Divider(),
+      itemBuilder: (context, index) {
+        var goodAtPoint = goodAtList?[index];
+        return SizedBox(
+          height: 56.0,
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.menu),
+                title: Text(
+                  goodAtPoint?.title ?? "",
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
+                ),
+                onTap: () {},
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -227,6 +447,64 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             fontWeight: FontWeight.w600,
             color: Color.fromRGBO(255, 255, 255, 1)),
       ),
+    );
+  }
+
+  Future<void> _displayTextInputDialog(
+      bool isGoodAt, String text, BuildContext context) async {
+        var chngedText = "";
+
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(text),
+          content: TextFormField(
+              minLines: 4,
+              maxLines: 5,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.done,
+              decoration: const InputDecoration(
+                fillColor: Colors.white,
+                hintText: constants.notesHintText,
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: colorText,
+                  ),
+                ),
+              ),
+              style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+              onChanged: (value) {
+                 chngedText = value;
+              }),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                var pointType = isGoodAt ? "pt_good_at" : "pt_yet_to_improve";
+                var attr = OneOnOnePointsAttribute(
+                    pointType: pointType, title: chngedText);
+                _oneOnOnePointsAttributes.add(attr);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

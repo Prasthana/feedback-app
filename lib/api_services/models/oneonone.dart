@@ -1,7 +1,6 @@
 
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
-import 'package:feedbackapp/api_services/models/one_on_one_point.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'oneonone.g.dart';
@@ -15,34 +14,74 @@ class OneOnOne {
     String? endDateTime;
     String? status;
     String? notes;
+    @JsonKey(name: 'feedback_rating')
+    double? feedbackRating;
 
     @JsonKey(name: 'good_at_points')
-    List<OneOnOnePoint>? goodAtPoints;
+    List<Point>? goodAtPoints;
 
     @JsonKey(name: 'yet_to_improve_points')
-    List<OneOnOnePoint>? yetToImprovePoints;
+    List<Point>? yetToImprovePoints;
 
     @JsonKey(name: 'one_on_one_participants')
     List<OneOnOneParticipant>? oneOnOneParticipants;
 
     @JsonKey(name: 'one_on_one_participants_attributes')
     List<OneOnOneParticipantsAttribute>? oneOnOneParticipantsAttributes;
+    
+    @JsonKey(name: 'one_on_one_points_attributes')
+    List<OneOnOnePointsAttribute>? oneOnOnePointsAttributes;
 
     OneOnOne({
          this.id,
-        required this.startDateTime,
-        required this.endDateTime,
+         this.startDateTime,
+         this.endDateTime,
          this.status,
-        required this.notes,
+         this.notes,
+         this.feedbackRating,
          this.goodAtPoints,
          this.yetToImprovePoints,
          this.oneOnOneParticipants,
          this.oneOnOneParticipantsAttributes,
+         this.oneOnOnePointsAttributes,
     });
 
     factory OneOnOne.fromJson(Map<String, dynamic> json) =>
       _$OneOnOneFromJson(json);
     Map<String, dynamic> toJson() => _$OneOnOneToJson(this);
+}
+
+@JsonSerializable(includeIfNull: false)
+class OneOnOnePointsAttribute {
+    @JsonKey(name: 'point_type')
+    String pointType;
+    String title;
+
+    OneOnOnePointsAttribute({
+        required this.pointType,
+        required this.title,
+    });
+
+    factory OneOnOnePointsAttribute.fromJson(Map<String, dynamic> json) =>
+      _$OneOnOnePointsAttributeFromJson(json);
+    Map<String, dynamic> toJson() => _$OneOnOnePointsAttributeToJson(this);
+}
+
+@JsonSerializable()
+class Point {
+    int id;
+    dynamic completionComment;
+    String title;
+
+    Point({
+        required this.id,
+        required this.completionComment,
+        required this.title,
+    });
+
+    factory Point.fromJson(Map<String, dynamic> json) =>
+      _$PointFromJson(json);
+    Map<String, dynamic> toJson() => _$PointToJson(this);
 }
 
 @JsonSerializable()
