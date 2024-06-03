@@ -50,7 +50,7 @@ class _MainTabViewState extends State<MainTabView> {
   List<BottomNavigationBarItem> bottomNavItems() {
     List<BottomNavigationBarItem> bottomNavItems = [
        BottomNavigationBarItem(
-        icon: Image.asset('assets/bottomcalender.png',width: 24,height: 24,),
+        icon: Image.asset('assets/bottomBarCalendarIcon.png',width: 24,height: 24,),
         label: '',
         activeIcon: Image.asset('assets/icOneonOne.png',width: 24,height: 24,)
       ),
