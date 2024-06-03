@@ -71,7 +71,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
 
     checkLoginstatus();
     Timer(
-        const Duration(seconds: 2),
+        const Duration(seconds: 3),
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(

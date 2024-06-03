@@ -139,7 +139,8 @@ class _LoginViewState extends State<LoginView> {
                         textColor: Colors.white,
                       )
                     ],
-                  )),
+                  )
+                  ),
             ],
           ),
         ),
