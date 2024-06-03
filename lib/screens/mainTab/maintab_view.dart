@@ -29,8 +29,7 @@ class _MainTabViewState extends State<MainTabView> {
 
   @override
   void initState() {
-
-        super.initState();
+    super.initState();
 
     NetworkLoggerOverlay.attachTo(context);
 
@@ -55,7 +54,6 @@ class _MainTabViewState extends State<MainTabView> {
         updatePermissions(response);
         setState(() {
           _isLoading = false;
-          // _mPostList.addAll(response);
         });
       } else {
         //when response is null most cases are when status code becomes 204
@@ -66,24 +64,23 @@ class _MainTabViewState extends State<MainTabView> {
         });
       }
     });
-    
   }
 
   updatePermissions(PrepareCallResponse? response) {
-            var sm = StorageManager();
-        String prepareResponce = jsonEncode(response?.toJson());
-        sm.saveData(constants.prepareCallResponse, prepareResponce);
-  
-        Permission? tabTabAccess = response?.user?.permissions?["teams.tab"];
+    var sm = StorageManager();
+    String prepareResponce = jsonEncode(response?.toJson());
+    sm.saveData(constants.prepareCallResponse, prepareResponce);
 
-        if (tabTabAccess?.access == Access.enabled) {
-          hasAccessForTeamTab = true;
-        } else {
-          hasAccessForTeamTab = false;
-        }
-        setState(() {
-          _isLoading = false;
-        });
+    Permission? tabTabAccess = response?.user?.permissions?["teams.tab"];
+
+    if (tabTabAccess?.access == Access.enabled) {
+      hasAccessForTeamTab = true;
+    } else {
+      hasAccessForTeamTab = false;
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   void _onItemTapped(int index) {
