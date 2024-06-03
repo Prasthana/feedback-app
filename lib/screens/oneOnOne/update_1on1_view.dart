@@ -32,8 +32,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   Future<OneOnOneCreateResponse>? oneOnOneCreateResponseFuture;
   String enteredNotes = "";
   OneOnOne? oneOnOneData;
-  //TextEditingController _textFieldController = TextEditingController();
-  double _currentSliderValue = 2.0;
+  double _currentSliderValue = 0.0;
   // ignore: prefer_final_fields
   List<OneOnOnePointsAttribute> _oneOnOnePointsAttributes = [];
   List<Point> localGoodAtList = [];
@@ -50,7 +49,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     super.initState();
   }
 
-    void setCanUpdate1On1(bool newValue) {
+  void setCanUpdate1On1(bool newValue) {
     setState(() {
       hasAccessForUpdate1on1 = newValue;
     });
@@ -63,8 +62,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         Map<String, dynamic> json = jsonDecode(val);
         var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
         logger.d('val -- $json');
-        Permission? tabCreate1On1Access = mPrepareCallResponse.user?.permissions?["one_on_ones.update"];
-        if (tabCreate1On1Access?.access == Access.enabled ) {
+        Permission? tabCreate1On1Access =
+            mPrepareCallResponse.user?.permissions?["one_on_ones.update"];
+        if (tabCreate1On1Access?.access == Access.enabled) {
           setCanUpdate1On1(true);
         } else {
           setCanUpdate1On1(false);
@@ -122,6 +122,16 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             fontWeight: FontWeight.w700,
           ),
         ),
+        actions: <Widget>[
+          hasAccessForUpdate1on1 ?
+          IconButton(
+            icon: const Icon(Icons.more_vert_outlined),
+            onPressed: () {
+              debugPrint("more clicked ----->>>>");
+            },
+          )
+          : const Text(""),
+        ],
       ),
       body: Container(
         color: Colors.white,
@@ -269,7 +279,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(20),
         hasAccessForUpdate1on1
             ? saveButtonAndshowRatingView()
-            : employeeReadRatingView()
+            : employeeReadRatingView(),
+        addVerticalSpace(50)
       ]),
     );
   }
@@ -468,37 +479,37 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           height: 56.0,
           child: Column(
             children: <Widget>[
-              !hasAccessForUpdate1on1 ?
-              ListTile(
-                leading: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                     Icon(Icons.menu),
-                     SizedBox(width: 12.0),
-                     Icon(Icons.check_box_outline_blank),
-                  ],
-                ),
-                title: Text(
-                  yetToImprovePoint.title,
-                  style: const TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(0, 0, 0, 1)),
-                ),
-                onTap: () {},
-              )
-              : ListTile(
-                leading: const Icon(Icons.menu),
-                title: Text(
-                  yetToImprovePoint.title,
-                  style: const TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(0, 0, 0, 1)),
-                ),
-              )
+              !hasAccessForUpdate1on1
+                  ? ListTile(
+                      leading: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.menu),
+                          SizedBox(width: 12.0),
+                          Icon(Icons.check_box_outline_blank),
+                        ],
+                      ),
+                      title: Text(
+                        yetToImprovePoint.title,
+                        style: const TextStyle(
+                            fontFamily: constants.uberMoveFont,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color.fromRGBO(0, 0, 0, 1)),
+                      ),
+                      onTap: () {},
+                    )
+                  : ListTile(
+                      leading: const Icon(Icons.menu),
+                      title: Text(
+                        yetToImprovePoint.title,
+                        style: const TextStyle(
+                            fontFamily: constants.uberMoveFont,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color.fromRGBO(0, 0, 0, 1)),
+                      ),
+                    )
             ],
           ),
         );
