@@ -184,7 +184,7 @@ Widget _tab(String text, {bool isAllow = false}) {
                    showCupertinoModalBottomSheet(
                       context: context,
                       builder: (context) => UpdateOneoneOneView(oneOnOneData: oneOnOne),
-                      enableDrag: true,
+                      enableDrag: false,
                     );
                 }, 
               ),
