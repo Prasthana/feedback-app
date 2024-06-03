@@ -30,6 +30,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   double _currentSliderValue = 0.0;
   // ignore: prefer_final_fields
   List<OneOnOnePointsAttribute> _oneOnOnePointsAttributes = [];
+  List<Point> localGoodAtList = [];
+  List<Point> localYetToImproveList = [];
   String enteredAddPoint = "";
 
   @override
@@ -43,7 +45,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   void setUpdateOneOnOneFuture(Future<OneOnOneCreateResponse>? newValue) {
     setState(() {
       oneOnOneCreateResponseFuture = newValue;
-     // isUpdating = true;
+      // isUpdating = true;
     });
   }
 
@@ -265,6 +267,23 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     if (enteredNotes.isNotEmpty) {
       oneOnOneObj.notes = enteredNotes;
     }
+
+    if (localGoodAtList.isNotEmpty) {
+      for (Point pnt in localGoodAtList) {
+        var attr =
+            OneOnOnePointsAttribute(pointType: "pt_good_at", title: pnt.title);
+        _oneOnOnePointsAttributes.add(attr);
+      }
+    }
+
+    if (localYetToImproveList.isNotEmpty) {
+      for (Point pnt in localYetToImproveList) {
+        var attr = OneOnOnePointsAttribute(
+            pointType: "pt_yet_to_improve", title: pnt.title);
+        _oneOnOnePointsAttributes.add(attr);
+      }
+    }
+
     if (_oneOnOnePointsAttributes.isNotEmpty) {
       oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
     }
@@ -274,9 +293,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         .then((val) {
       logger.e('update OneOnOne response -- ${val.toJson()}');
       _oneOnOnePointsAttributes.clear();
-      var newFuture = 
+      var newFuture =
           ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
-          setUpdateOneOnOneFuture(newFuture);
+      setUpdateOneOnOneFuture(newFuture);
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {
@@ -308,7 +327,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             ),
             TextButton(
                 onPressed: () {
-                  _displayTextInputDialog(false, "Yet to Improve", context);
+                  _displayTextInputDialog(false, "Yet to Improve", context, yetToImproveList ?? []);
                 },
                 child: const Text(
                   "+ Add point",
@@ -390,7 +409,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             ),
             TextButton(
                 onPressed: () {
-                  _displayTextInputDialog(true, "Good at point", context);
+                  _displayTextInputDialog(true, "Good at point", context, goodAtList ?? []);
                 },
                 child: const Text(
                   "+ Add point",
@@ -405,19 +424,28 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         ),
         addVerticalSpace(10),
         showRecordView(),
-        buildGoodAtList(goodAtList)
+        buildGoodAtList(goodAtList),
       ],
     );
   }
 
   Widget buildGoodAtList(List<Point>? goodAtList) {
+    
+    debugPrint("goodAtList length ------>>> ${goodAtList?.length}");
+    debugPrint("localGoodAtList length ------>>> ${localGoodAtList.length}");
+    List<Point>goodPointsList = [];
+    goodPointsList.addAll(localGoodAtList);
+    goodPointsList.addAll(goodAtList ?? []);
+    
+    //final goodPointsList =  goodAtList ?? [] + ;
+    debugPrint("goodPointsList length ------>>> ${goodPointsList.length}");
     return ListView.separated(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
-      itemCount: goodAtList?.length ?? 0,
+      itemCount: goodPointsList.length,
       separatorBuilder: (context, index) => const Divider(),
       itemBuilder: (context, index) {
-        var goodAtPoint = goodAtList?[index];
+        var goodAtPoint = goodPointsList[index];
         return SizedBox(
           height: 56.0,
           child: Column(
@@ -425,7 +453,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               ListTile(
                 leading: const Icon(Icons.menu),
                 title: Text(
-                  goodAtPoint?.title ?? "",
+                  goodAtPoint.title,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 18,
@@ -458,9 +486,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Future<void> _displayTextInputDialog(
-      bool isGoodAt, String text, BuildContext context) async {
+      bool isGoodAt, String text, BuildContext context, List<Point> apiList) async {
     var chngedText = "";
-
+    debugPrint("apiList length ------>>> ${apiList.length}");
     return showDialog(
       context: context,
       builder: (context) {
@@ -505,10 +533,23 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                var pointType = isGoodAt ? "pt_good_at" : "pt_yet_to_improve";
-                var attr = OneOnOnePointsAttribute(
-                    pointType: pointType, title: chngedText);
-                _oneOnOnePointsAttributes.add(attr);
+                // var pointType = isGoodAt ? "pt_good_at" : "pt_yet_to_improve";
+                // var attr = OneOnOnePointsAttribute(
+                //     pointType: pointType, title: chngedText);
+                // _oneOnOnePointsAttributes.add(attr);
+
+                if (isGoodAt) {
+                  var gaPoint = Point(title: chngedText);
+                  localGoodAtList.add(gaPoint);
+                  debugPrint("localGoodAtList length ------>>> ${localGoodAtList.length}");
+                  
+                  setState(() {
+                    buildGoodAtList(apiList);
+                  });
+                } else {
+                  var iyPoint = Point(title: chngedText);
+                  localYetToImproveList.add(iyPoint);
+                }
                 Navigator.pop(context);
               },
             ),
