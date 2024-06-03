@@ -236,7 +236,17 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        addVerticalSpace(30),
+        addVerticalSpace(10),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("0.0"),
+              Text("5.0")
+            ],
+          ),
+        ),
         showRatingBar(),
         addVerticalSpace(20),
         MaterialButton(
