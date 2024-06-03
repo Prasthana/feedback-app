@@ -4,12 +4,12 @@ import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
-import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/1on1_success_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/snackbar_helper.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -35,11 +35,11 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
 
   @override
   void initState() {
+    super.initState();
     selectedEmployee = widget.mEmployee!;
     if(selectedEmployee.id != null){
       isEmployeeEdite = false;
     }
-    super.initState();
     _updateTime();
   }
 
@@ -328,7 +328,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
                   if (selectedEmployee.name == null) {
-                    showInvalidAlert(
+                    displaySnackbar(
                         context, constants.selectEmployeeValidationText);
                   } else {
                           var utcStartTime = toUtcDateTime(selectedStartTime).toUtc();

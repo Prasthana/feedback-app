@@ -27,6 +27,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     setState(() {
       isLogedIn = newValue;
     });
+    navigateToAppScreen();
   }
 
   checkLoginstatus() {
@@ -51,34 +52,11 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     });
   }
 
-/*
-  saveTempToken() {
-    var sm = StorageManager();
-    sm.saveData('TOKEN',
-        'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJmZWVkYmFjay1hcGkiLCJpYXQiOjE3MTY1NTQyMTUsImp0aSI6Ijc1MDU1ODhiLTRkNjYtNDMzMi04NTE0LTJiOTk1OTBlYTEzZSJ9.pBvXYMgj6y7TbSwQOYL3-XjMGtseLhgGywjZ9hXWugmhMEx4EpWAwIn8SIQd2OeI8RhQS_nBSY5m2VTwcS4j4g');
-    logger.d('Key A value is');
-    // print(
-    sm.getData('A').then((val) {
-      // do some operation
-      logger.d('val -- $val');
-    });
-  }
-  */
 
   @override
   void initState() {
     super.initState();
-
     checkLoginstatus();
-    Timer(
-        const Duration(seconds: 2),
-        () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    isLogedIn ? const MainTabView() : const LoginView(),
-                //LoginView(),
-                fullscreenDialog: true)));
   }
 
   @override
@@ -107,7 +85,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         clientSecret: constants.clientSecret,
         refreshToken: refreshToken);
 
-    var success = await ApiManager.public.generateLoginToken(request).then((val) {
+    var success = await ApiManager.authenticated.generateLoginToken(request).then((val) {
       // do some operation
       logger.e('email response -- ${val.toJson()}');
       String user = jsonEncode(val.toJson());
@@ -132,5 +110,19 @@ class _SplashScreenViewState extends State<SplashScreenView> {
       return false;
     });
     return success;
+  }
+
+  navigateToAppScreen() {
+
+        Timer(
+        const Duration(seconds: 1),
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    isLogedIn ? const MainTabView() : const LoginView(),
+                //LoginView(),
+                fullscreenDialog: true)));
+
   }
 }

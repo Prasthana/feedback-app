@@ -70,7 +70,7 @@ class OneOnOnePointsAttribute {
 @JsonSerializable(includeIfNull: false)
 class Point {
     int? id;
-    dynamic? completionComment;
+    dynamic completionComment;
     String title;
 
     Point({
