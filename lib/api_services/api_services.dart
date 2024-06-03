@@ -46,7 +46,7 @@ abstract class RestClient {
 // *********************** API's for One - On - One ***********************
 
   @GET("/one_on_ones")
-  Future<OneOnOnesResponse> fetchOneOnOnesList();
+  Future<OneOnOnesResponse> fetchOneOnOnesList(@Query("time_period") String timePeriod);
 
   @GET("/one_on_ones/{oneononeid}")
   Future<OneOnOneCreateResponse> fetchOneOnOneDetails(@Path("oneononeid") int oneononeid);

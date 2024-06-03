@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import 'package:feedbackapp/api_services/models/employee.dart';
@@ -7,55 +8,46 @@ import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/employees/employee_details_view.dart';
-import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
+import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:network_logger/network_logger.dart';
+import 'package:feedbackapp/utils/utilities.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:system_date_time_format/system_date_time_format.dart';
 
-class MainHomePageView extends StatefulWidget {
-  const MainHomePageView({super.key});
+class HistoryPageView extends StatefulWidget {
+  const HistoryPageView({super.key});
 
   @override
-  State<MainHomePageView> createState() => _MainHomePageViewState();
+  State<HistoryPageView> createState() => _HistoryPageViewState();
 }
 
-class _MainHomePageViewState extends State<MainHomePageView> {
+
+class _HistoryPageViewState extends State<HistoryPageView> {
   // variable to call and store future list of posts
-  Future<OneOnOnesResponse> oneOnOnesFuture =
-      ApiManager.authenticated.fetchOneOnOnesList();
+  late String systemFormateDateTime;
+
+  late Future<OneOnOnesResponse> oneOnOnesHistory;
 
   @override
   void initState() {
-    NetworkLoggerOverlay.attachTo(context);
+    getSystemFormateDateTime();
+    oneOnOnesHistory = ApiManager.authenticated.fetchOneOnOnesList(constants.historyOneOnOnes);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text(constants.oneOneOnScreenTitle),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.account_circle_outlined),
-              onPressed: () {
-                // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This is a snackbar')));
-                navigateToMyProfile();
-              },
-            )
-          ]),
       body: Center(
         child: FutureBuilder<OneOnOnesResponse>(
-          future: oneOnOnesFuture,
+          future: oneOnOnesHistory,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child:  CircularProgressIndicator());
+              return const CircularProgressIndicator();
             } else if (snapshot.hasData) {
               final oneOnOnesResponse = snapshot.data;
               var listCount = oneOnOnesResponse?.oneononesList?.length ?? 0;
@@ -71,22 +63,19 @@ class _MainHomePageViewState extends State<MainHomePageView> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          debugPrint('clickeed on calender ------>>>');
-      // used modal_bottom_sheet - to model present
-      showCupertinoModalBottomSheet(
-        context: context,
-        builder: (context) => CreateOneOnOneView(mEmployee: Employee(),),
-        enableDrag: true,
-      );  
-
-
-        },
-        backgroundColor: Colors.black,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.calendar_month_outlined,color: Colors.white,),  
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     debugPrint('clickeed on calender ------>>>');
+      // // used modal_bottom_sheet - to model present
+      // showCupertinoModalBottomSheet(
+      //   context: context,
+      //   builder: (context) => CreateOneOnOneView(mEmployee: Employee(),),
+      //   enableDrag: true,
+      // );  
+      //   },
+      //   shape: const CircleBorder(),
+      //   child: const Icon(Icons.calendar_month_outlined),
+      // ),
     );
   }
 
@@ -96,7 +85,8 @@ class _MainHomePageViewState extends State<MainHomePageView> {
         itemCount: oneOnOnesResponse?.oneononesList?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
         final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
-
+         String startTime = getFormatedDateConvertion(
+              oneOnOne?.startDateTime ?? "", systemFormateDateTime);
         var employeeName = oneOnOne?.oneOnOneParticipants?.first.employee.name ?? "No Employee";
 
           return Column(
@@ -126,9 +116,9 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                 ),
                 subtitle: Text(
 
-                  DateFormat.yMMMMEEEEd().format(DateTime.now()),
+                  // DateFormat.yMMMMEEEEd().format(DateTime.now()),
 
-                  // oneOnOne?.scheduledDate?.toString() ?? "",
+                  startTime,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 13,
@@ -139,7 +129,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                    showCupertinoModalBottomSheet(
                       context: context,
                       builder: (context) => UpdateOneoneOneView(oneOnOneData: oneOnOne),
-                      enableDrag: false,
+                      enableDrag: true,
                     );
                 }, 
               ),
@@ -205,5 +195,12 @@ class _MainHomePageViewState extends State<MainHomePageView> {
         } 
       } 
     });
+  }
+
+   Future getSystemFormateDateTime() async {
+    final datePattern = await SystemDateTimeFormat().getLongDatePattern();
+    final timePattern = await SystemDateTimeFormat().getTimePattern();
+    systemFormateDateTime = "$datePattern $timePattern";
+    systemFormateDateTime;
   }
 }

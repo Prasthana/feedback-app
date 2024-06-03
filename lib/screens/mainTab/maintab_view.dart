@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/employees/employee_list_view.dart';
 import 'package:feedbackapp/screens/home/mainhome_page.dart';
 import 'package:flutter/material.dart';
+import 'package:feedbackapp/utils/constants.dart' as constants;
+
+
 
 class MainTabView extends StatefulWidget {
   const MainTabView({super.key});
@@ -25,6 +31,11 @@ class _MainTabViewState extends State<MainTabView> {
       _isLoading = true;
     });
     ApiManager.authenticated.performPrepareCall().then((val) {
+
+      String prepareResponce = jsonEncode(val.toJson());
+      var sm = StorageManager();
+      sm.saveData(constants.prepareCallResponse, prepareResponce).then((val) {
+      });
 
      Permission? tabTabAccess = val.user?.permissions?["teams.tab"];
 
@@ -49,16 +60,17 @@ class _MainTabViewState extends State<MainTabView> {
 
   List<BottomNavigationBarItem> bottomNavItems() {
     List<BottomNavigationBarItem> bottomNavItems = [
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Home',
+       BottomNavigationBarItem(
+        icon: Image.asset('assets/bottomBarCalendarIcon.png',width: 24,height: 24,),
+        label: '',
+        activeIcon: Image.asset('assets/icOneonOne.png',width: 24,height: 24,)
       ),
     ];
 
     if (hasAccessForTeamTab) {
       bottomNavItems.add(const BottomNavigationBarItem(
         icon: Icon(Icons.people),
-        label: 'People',
+        label: '',
       ));
     }
 
@@ -88,7 +100,7 @@ class _MainTabViewState extends State<MainTabView> {
           ? BottomNavigationBar(
               items: bottomNavigationItems,
               currentIndex: currentPageIndex,
-              selectedItemColor: Colors.amber[800],
+              selectedItemColor: Colors.black,
               onTap: _onItemTapped,
             )
           : null,
