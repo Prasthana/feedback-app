@@ -40,6 +40,13 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     super.initState();
   }
 
+  void setUpdateOneOnOneFuture(Future<OneOnOneCreateResponse>? newValue) {
+    setState(() {
+      oneOnOneCreateResponseFuture = newValue;
+     // isUpdating = true;
+    });
+  }
+
   Widget showRatingBar() {
     return Slider(
       value: _currentSliderValue,
@@ -266,9 +273,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
       logger.e('update OneOnOne response -- ${val.toJson()}');
-     // _oneOnOnePointsAttributes.clear();
-      oneOnOneCreateResponseFuture =
+      _oneOnOnePointsAttributes.clear();
+      var newFuture = 
           ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
+          setUpdateOneOnOneFuture(newFuture);
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {
