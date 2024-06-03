@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:feedbackapp/api_services/models/employee.dart';
@@ -19,7 +18,9 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
 import 'package:network_logger/network_logger.dart';
+import 'package:notification_center/notification_center.dart';
 import 'package:system_date_time_format/system_date_time_format.dart';
+import 'package:feedbackapp/utils/notification_constants.dart' as notificationconstants;
 
 class UpcommingPageView extends StatefulWidget {
   const UpcommingPageView({super.key});
@@ -27,7 +28,6 @@ class UpcommingPageView extends StatefulWidget {
   @override
   State<UpcommingPageView> createState() => _UpcommingPageViewState();
 }
-
 
 class _UpcommingPageViewState extends State<UpcommingPageView> {
   // variable to call and store future list of posts
@@ -49,8 +49,26 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
     NetworkLoggerOverlay.attachTo(context);
     checkCanCreate1On1();
     getSystemFormateDateTime();
-    oneOnOnesFuture = ApiManager.authenticated.fetchOneOnOnesList(constants.upcomingOneOnOnes);
-}
+    oneOnOnesFuture = ApiManager.authenticated
+        .fetchOneOnOnesList(constants.upcomingOneOnOnes);
+
+    NotificationCenter().subscribe(notificationconstants.oneOnOnesUpdated, reloadOneOnOnes);
+  }
+
+  @override
+  void dispose() {
+    NotificationCenter().unsubscribe(notificationconstants.oneOnOnesUpdated);
+    super.dispose();
+  }
+
+  void reloadOneOnOnes(data) async {
+    oneOnOnesFuture = ApiManager.authenticated
+        .fetchOneOnOnesList(constants.upcomingOneOnOnes);
+
+        setState(() {
+          
+        });
+  }
 
   void setCanCreate1On1(bool newValue) {
     setState(() {
@@ -65,8 +83,9 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
         Map<String, dynamic> json = jsonDecode(val);
         var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
         logger.d('val -- $json');
-        Permission? tabCreate1On1Access = mPrepareCallResponse.user?.permissions?["one_on_ones.create"];
-        if (tabCreate1On1Access?.access == Access.enabled ) {
+        Permission? tabCreate1On1Access =
+            mPrepareCallResponse.user?.permissions?["one_on_ones.create"];
+        if (tabCreate1On1Access?.access == Access.enabled) {
           setCanCreate1On1(true);
         } else {
           setCanCreate1On1(false);
@@ -81,7 +100,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(   
+      body: Center(
         child: FutureBuilder<OneOnOnesResponse>(
           future: oneOnOnesFuture,
           builder: (context, snapshot) {
@@ -101,39 +120,37 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           },
         ),
       ),
-
-    
-      floatingActionButton: Visibility( 
+      floatingActionButton: Visibility(
         visible: hasAccessToCreate1On1,
-        child:
-      FloatingActionButton(
-        onPressed: () {
-          debugPrint('clickeed on calender ------>>>');
-      // used modal_bottom_sheet - to model present
-      showCupertinoModalBottomSheet(
-        context: context,
-        builder: (context) => CreateOneOnOneView(mEmployee: Employee(),),
-        enableDrag: true,
-      );  
-
-
-        },
-        shape: const CircleBorder(),
-        child: const Icon(Icons.calendar_month_outlined),
-      ),
+        child: FloatingActionButton(
+          onPressed: () {
+            debugPrint('clickeed on calender ------>>>');
+            // used modal_bottom_sheet - to model present
+            showCupertinoModalBottomSheet(
+              context: context,
+              builder: (context) => CreateOneOnOneView(
+                mEmployee: Employee(),
+              ),
+              enableDrag: true,
+            );
+          },
+          shape: const CircleBorder(),
+          child: const Icon(Icons.calendar_month_outlined),
+        ),
       ),
     );
   }
-
 
   Widget buildoneOnOnesList(OneOnOnesResponse? oneOnOnesResponse) {
     return ListView.builder(
         itemCount: oneOnOnesResponse?.oneononesList?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-        final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
-        String startTime = getFormatedDateConvertion(
+          final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
+          String startTime = getFormatedDateConvertion(
               oneOnOne?.startDateTime ?? "", systemFormateDateTime);
-        var employeeName = oneOnOne?.oneOnOneParticipants?.first.employee.name ?? "No Employee";
+          var employeeName =
+              oneOnOne?.oneOnOneParticipants?.first.employee.name ??
+                  "No Employee";
 
           return Column(
             children: <Widget>[
@@ -153,7 +170,8 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
                   ),
                 ),
                 trailing: const Icon(Icons.chevron_right),
-                title: Text(employeeName,
+                title: Text(
+                  employeeName,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 17,
@@ -161,7 +179,6 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 subtitle: Text(
-
                   // DateFormat.yMMMMEEEEd().format(DateTime.now()),
 
                   startTime,
@@ -172,12 +189,13 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                   showCupertinoModalBottomSheet(
-                      context: context,
-                      builder: (context) => UpdateOneoneOneView(oneOnOneData: oneOnOne),
-                      enableDrag: true,
-                    );
-                }, 
+                  showCupertinoModalBottomSheet(
+                    context: context,
+                    builder: (context) =>
+                        UpdateOneoneOneView(oneOnOneData: oneOnOne),
+                    enableDrag: true,
+                  );
+                },
               ),
               const Divider(
                 color: Color.fromRGBO(195, 195, 195, 1),
@@ -190,7 +208,6 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           );
         });
   }
-
 
   Widget buildEmptyListView() {
     return Padding(
@@ -237,9 +254,13 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           var employee = Employee();
           employee.id = mLoginTokenResponse.user?.employeeId ?? 0;
           employee.mobileNumber = mLoginTokenResponse.user?.mobileNumber ?? "";
-          Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employee)),);  
-        } 
-      } 
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EmployeeDetailsView(mEmployee: employee)),
+          );
+        }
+      }
     });
   }
 }

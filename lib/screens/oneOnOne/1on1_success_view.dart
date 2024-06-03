@@ -4,6 +4,8 @@ import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:notification_center/notification_center.dart';
+import 'package:feedbackapp/utils/notification_constants.dart' as notificationconstants;
 
 class OneonOneSuccessView extends StatefulWidget {
   OneonOneSuccessView({super.key, required this.oneOnOneResp});
@@ -54,6 +56,8 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
               minWidth: double.infinity,
               height: 58.0,
               onPressed: () {
+                NotificationCenter().notify(notificationconstants.oneOnOnesUpdated);
+
                 Navigator.pop(context);
               },
               // ignore: sort_child_properties_last

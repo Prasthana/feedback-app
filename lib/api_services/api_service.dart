@@ -33,7 +33,6 @@ class ApiService {
 
 Future<ApiResult<PrepareCallResponse?>> makePrepareCall() async {
  
-    PrepareCallResponse? response;
     try {
       dynamic jsonResponse = await _apiPublicClient.performPrepareCall();
 
