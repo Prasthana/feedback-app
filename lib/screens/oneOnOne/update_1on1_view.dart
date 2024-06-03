@@ -438,12 +438,13 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           height: 56.0,
           child: Column(
             children: <Widget>[
+              !hasAccessForUpdate1on1 ?
               ListTile(
-                leading: Row(
+                leading: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.menu),
-                    hasAccessForUpdate1on1 ?  Text("") :  SizedBox(width: 12.0),
+                     Icon(Icons.menu),
+                     SizedBox(width: 12.0),
                      Icon(Icons.check_box_outline_blank),
                   ],
                 ),
@@ -456,6 +457,17 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {},
+              )
+              : ListTile(
+                leading: const Icon(Icons.menu),
+                title: Text(
+                  yetToImprovePoint.title,
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
+                ),
               )
             ],
           ),
