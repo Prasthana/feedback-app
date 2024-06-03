@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:feedbackapp/api_services/api_services.dart';
+import 'package:feedbackapp/api_services/api_client.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/verifyotp.dart';
@@ -292,7 +292,7 @@ class _OtpViewState extends State<OtpView> {
 
   _genarateOtp(String? email, BuildContext context) async {
     final client =
-        RestClient(Dio(BaseOptions(contentType: "application/json")));
+        ApiClient(Dio(BaseOptions(contentType: "application/json")));
 
     var request = EmailOTPRequest(
         email: email as String, deviceType: Platform.operatingSystem);

@@ -107,7 +107,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         clientSecret: constants.clientSecret,
         refreshToken: refreshToken);
 
-    var success = await ApiManager.public.generateLoginToken(request).then((val) {
+    var success = await ApiManager.authenticated.generateLoginToken(request).then((val) {
       // do some operation
       logger.e('email response -- ${val.toJson()}');
       String user = jsonEncode(val.toJson());
