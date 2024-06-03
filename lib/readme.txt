@@ -12,6 +12,12 @@ Once we change to "api_services.dart" file we need to execute below command to g
 flutter pub run build_runner build    
 
 ############################################################################################################
+
+Flutter Retrofit — Effective error handling with Generic class
+
+
+https://medium.com/@muhmmdshabeer/flutter-retrofit-effective-error-handling-with-generic-class-71958c9b2e74
+
 ############################################################################################################
 ############################################################################################################
 ############################################################################################################
