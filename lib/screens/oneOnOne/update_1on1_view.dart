@@ -5,6 +5,7 @@ import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart'
 import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -27,7 +28,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   String enteredNotes = "";
   OneOnOne? oneOnOneData;
   //TextEditingController _textFieldController = TextEditingController();
-  double _currentSliderValue = 0.0;
+  double _currentSliderValue = 2.0;
   // ignore: prefer_final_fields
   List<OneOnOnePointsAttribute> _oneOnOnePointsAttributes = [];
   List<Point> localGoodAtList = [];
@@ -71,7 +72,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: colorText),
           onPressed: () {
-            Navigator.pop(context);
+            if (localGoodAtList.isNotEmpty || localYetToImproveList.isNotEmpty) {
+              showValidationAlert(context, "Added 1-on-1 Good at/Yet to Improve points will not be saved");
+            } else {
+              Navigator.pop(context);
+            }
           },
         ),
         backgroundColor: Colors.white,
@@ -305,9 +310,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       localGoodAtList.clear();
       localYetToImproveList.clear();
       _oneOnOnePointsAttributes.clear();
-      var newFuture =
-          ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
-      setUpdateOneOnOneFuture(newFuture);
+      // var newFuture =
+      //     ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
+      // setUpdateOneOnOneFuture(newFuture);
+      Navigator.pop(context);
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {
@@ -339,7 +345,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             ),
             TextButton(
                 onPressed: () {
-                  _displayTextInputDialog(false, "Yet to Improve", context, yetToImproveList ?? []);
+                  _displayTextInputDialog(false, "Yet to Improve point", context, yetToImproveList ?? []);
                 },
                 child: const Text(
                   "+ Add point",
@@ -547,7 +553,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               },
             ),
             TextButton(
-              child: const Text('OK'),
+              child: const Text('Add'),
               onPressed: () {
                 if (isGoodAt) {
                   localGoodAtList.add(Point(title: chngedText));
@@ -603,4 +609,36 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           ),
         ));
   }
+
+  showValidationAlert(BuildContext context, String alertText) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: const Text("OK"),
+    onPressed: () {
+       Navigator.pop(context);
+        Navigator.pop(context);
+    },
+  );
+
+    Widget cancelButton = TextButton(
+    child: const Text("Cancel"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+
+  CupertinoAlertDialog alert = CupertinoAlertDialog(
+    content: Text(alertText),
+    actions: [
+      okButton,
+      cancelButton
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
 }
