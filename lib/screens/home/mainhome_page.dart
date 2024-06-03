@@ -55,7 +55,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
           future: oneOnOnesFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const Center(child:  CircularProgressIndicator());
             } else if (snapshot.hasData) {
               final oneOnOnesResponse = snapshot.data;
               var listCount = oneOnOnesResponse?.oneononesList?.length ?? 0;
@@ -83,8 +83,9 @@ class _MainHomePageViewState extends State<MainHomePageView> {
 
 
         },
+        backgroundColor: Colors.black,
         shape: const CircleBorder(),
-        child: const Icon(Icons.calendar_month_outlined),
+        child: const Icon(Icons.calendar_month_outlined,color: Colors.white,),  
       ),
     );
   }
