@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
+import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
@@ -35,14 +39,40 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   List<Point> localGoodAtList = [];
   List<Point> localYetToImproveList = [];
   String enteredAddPoint = "";
-  bool hasAccessForUpdate1on1 = true;
+  bool hasAccessForUpdate1on1 = false;
 
   @override
   void initState() {
+    checkCanUpdate1On1();
     oneOnOneData = widget.oneOnOneData;
     oneOnOneCreateResponseFuture =
         ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
     super.initState();
+  }
+
+    void setCanUpdate1On1(bool newValue) {
+    setState(() {
+      hasAccessForUpdate1on1 = newValue;
+    });
+  }
+
+  void checkCanUpdate1On1() {
+    var sm = StorageManager();
+    sm.getData(constants.prepareCallResponse).then((val) {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
+        logger.d('val -- $json');
+        Permission? tabCreate1On1Access = mPrepareCallResponse.user?.permissions?["one_on_ones.update"];
+        if (tabCreate1On1Access?.access == Access.enabled ) {
+          setCanUpdate1On1(true);
+        } else {
+          setCanUpdate1On1(false);
+        }
+      } else {
+        setCanUpdate1On1(false);
+      }
+    });
   }
 
   void setUpdateOneOnOneFuture(Future<OneOnOneCreateResponse>? newValue) {
