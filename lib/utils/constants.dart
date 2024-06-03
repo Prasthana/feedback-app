@@ -14,7 +14,7 @@ const String loginTokenResponse = "login_token_response";
 const String barearToken = "barear_token";
 const String noDataFound = "No data found!";
 const String historyOneOnOnes = "history";
-
+const String upcomingOneOnOnes = "upcoming";
 
 ///  This is for Screen level Hard coded strings. 
 
@@ -56,6 +56,8 @@ const String meetingSuccessDescriptionText = "We have sent an email to your empl
 
 // 1-1 List SCREEN Strings
 const String oneOneOnScreenTitle = "Schedule";
+const String upcoming = "Upcoming";
+const String history = "History";
 
 // Reprorting Team SCREEN Strings
 const String reportingTeamTitle = "Reporting Team";
