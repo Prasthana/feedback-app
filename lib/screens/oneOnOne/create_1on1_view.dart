@@ -35,11 +35,11 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
 
   @override
   void initState() {
+    super.initState();
     selectedEmployee = widget.mEmployee!;
     if(selectedEmployee.id != null){
       isEmployeeEdite = false;
     }
-    super.initState();
     _updateTime();
   }
 

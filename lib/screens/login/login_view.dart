@@ -30,8 +30,8 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
-    NetworkLoggerOverlay.attachTo(context);
     super.initState();
+    NetworkLoggerOverlay.attachTo(context);
   }
 
   @override

@@ -9,7 +9,6 @@ import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -17,7 +16,6 @@ import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
-import 'package:flutter/widgets.dart';
 
 class UpdateOneoneOneView extends StatefulWidget {
   const UpdateOneoneOneView({super.key, required this.oneOnOneData});
@@ -42,11 +40,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
 
   @override
   void initState() {
+    super.initState();
     checkCanUpdate1On1();
     oneOnOneData = widget.oneOnOneData;
     oneOnOneCreateResponseFuture =
         ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
-    super.initState();
   }
 
   void setCanUpdate1On1(bool newValue) {

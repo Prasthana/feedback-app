@@ -34,14 +34,15 @@ class _HistoryPageViewState extends State<HistoryPageView> {
 
   @override
   void initState() {
+    super.initState();
     getSystemFormateDateTime();
     oneOnOnesHistory = ApiManager.authenticated.fetchOneOnOnesList(constants.historyOneOnOnes);
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: FutureBuilder<OneOnOnesResponse>(
           future: oneOnOnesHistory,

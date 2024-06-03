@@ -129,6 +129,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   @override
   void initState() {
+    super.initState();
     mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
     checkCanCreate1On1();
@@ -137,7 +138,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     employeeFuture =
         ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
 
-    super.initState();
   }
 
   void checkCanCreate1On1() {
@@ -559,7 +559,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       addVerticalSpace(8),
-                      new Visibility( 
+                      Visibility( 
                       visible: hasAccessToCreate1On1,
                       child: SizedBox(
                         width: 144.0,

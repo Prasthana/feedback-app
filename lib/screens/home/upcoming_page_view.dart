@@ -18,6 +18,7 @@ import 'package:feedbackapp/utils/utilities.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
+import 'package:network_logger/network_logger.dart';
 import 'package:system_date_time_format/system_date_time_format.dart';
 
 class UpcommingPageView extends StatefulWidget {
@@ -44,11 +45,12 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
 
   @override
   void initState() {
+    super.initState();
+    NetworkLoggerOverlay.attachTo(context);
     checkCanCreate1On1();
     getSystemFormateDateTime();
     oneOnOnesFuture = ApiManager.authenticated.fetchOneOnOnesList(constants.upcomingOneOnOnes);
-    super.initState();
-  }
+}
 
   void setCanCreate1On1(bool newValue) {
     setState(() {
@@ -78,6 +80,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(   
         child: FutureBuilder<OneOnOnesResponse>(
           future: oneOnOnesFuture,
@@ -100,7 +103,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
       ),
 
     
-      floatingActionButton: new Visibility( 
+      floatingActionButton: Visibility( 
         visible: hasAccessToCreate1On1,
         child:
       FloatingActionButton(
