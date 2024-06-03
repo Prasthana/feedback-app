@@ -10,19 +10,20 @@ class RequestInterceptor extends Interceptor {
   RequestInterceptor();
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     // options.headers['API-REQUEST-FROM'] = Platform.isIOS?"IOS":"Android";
 
    // Add the authorization token to every request
-    StorageManager().getData(constants.loginTokenResponse).then((token) {
+    var token = await StorageManager().getData(constants.loginTokenResponse);
+    //.then((token) {
       if (token != constants.noDataFound) {
         Map<String, dynamic> json = jsonDecode(token);
         var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
         var accessToken = mLoginTokenResponse.accessToken;
         options.headers['Authorization'] = 'Bearer $accessToken';
       }
-      return handler.next(options); // Continue
-    });
+      // return handler.next(options); // Continue
+    // });
      
     super.onRequest(options, handler);
   }
