@@ -138,7 +138,7 @@ class _MainHomePageViewState extends State<MainHomePageView> {
                    showCupertinoModalBottomSheet(
                       context: context,
                       builder: (context) => UpdateOneoneOneView(oneOnOneData: oneOnOne),
-                      enableDrag: true,
+                      enableDrag: false,
                     );
                 }, 
               ),

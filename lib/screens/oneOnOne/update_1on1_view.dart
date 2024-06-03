@@ -364,14 +364,17 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildYetToImproveList(List<Point>? yetToImproveList) {
+    List<Point>improvePointsList = [];
+    improvePointsList.addAll(localYetToImproveList.reversed);
+    improvePointsList.addAll(yetToImproveList ?? []);
+
     return ListView.separated(
-      // Second list view
       shrinkWrap: true,
-      itemCount: yetToImproveList?.length ?? 0,
+      itemCount: improvePointsList.length,
       separatorBuilder: (context, index) =>
-          const Divider(), // Optional separator
+      const SizedBox(height: 0.0), // Optional separator
       itemBuilder: (context, index) {
-        var yetToImprovePoint = yetToImproveList?[index];
+        var yetToImprovePoint = improvePointsList[index];
         return SizedBox(
           height: 56.0,
           child: Column(
@@ -379,7 +382,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               ListTile(
                 leading: const Icon(Icons.menu),
                 title: Text(
-                  yetToImprovePoint?.title ?? "",
+                  yetToImprovePoint.title,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 18,
@@ -445,7 +448,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       itemCount: goodPointsList.length,
-      separatorBuilder: (context, index) => const Divider(),
+      separatorBuilder: (context, index) => 
+      const SizedBox(height: 0.0) ,
       itemBuilder: (context, index) {
         var goodAtPoint = goodPointsList[index];
         return SizedBox(
@@ -538,12 +542,14 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 if (isGoodAt) {
                   localGoodAtList.add(Point(title: chngedText));
                   debugPrint("localGoodAtList length ------>>> ${localGoodAtList.length}");
-                  
                   setState(() {
                     buildGoodAtList(apiList);
                   });
                 } else {
                   localYetToImproveList.add(Point(title: chngedText));
+                  setState(() {
+                    buildYetToImproveList(apiList);
+                  });
                 }
                 Navigator.pop(context);
               },
