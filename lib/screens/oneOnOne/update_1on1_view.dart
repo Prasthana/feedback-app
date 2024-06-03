@@ -13,6 +13,7 @@ import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:flutter/widgets.dart';
 
 class UpdateOneoneOneView extends StatefulWidget {
   const UpdateOneoneOneView({super.key, required this.oneOnOneData});
@@ -34,6 +35,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   List<Point> localGoodAtList = [];
   List<Point> localYetToImproveList = [];
   String enteredAddPoint = "";
+  bool hasAccessForUpdate1on1 = true;
 
   @override
   void initState() {
@@ -72,8 +74,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: colorText),
           onPressed: () {
-            if (localGoodAtList.isNotEmpty || localYetToImproveList.isNotEmpty) {
-              showValidationAlert(context, "Added 1-on-1 Good at/Yet to Improve points will not be saved");
+            if (localGoodAtList.isNotEmpty ||
+                localYetToImproveList.isNotEmpty) {
+              showValidationAlert(context,
+                  "Added 1-on-1 Good at/Yet to Improve points will not be saved");
             } else {
               Navigator.pop(context);
             }
@@ -233,6 +237,46 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         gootAtBottomView(oneOnOne?.goodAtPoints),
         yetToImproveBottomView(oneOnOne?.yetToImprovePoints),
         addVerticalSpace(20),
+        hasAccessForUpdate1on1
+            ? saveButtonAndshowRatingView()
+            : employeeReadRatingView()
+      ]),
+    );
+  }
+
+  Widget employeeReadRatingView() {
+    return Row(
+      children: [
+        const Text(
+          "Your Rating : ",
+          style: TextStyle(
+            fontFamily: constants.uberMoveFont,
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            border: Border.all(color: colorText, width: 1.5),
+          ),
+          child: const Text(
+            " 3.5/5.0 ",
+            style: TextStyle(
+              fontFamily: constants.uberMoveFont,
+              fontSize: 21,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget saveButtonAndshowRatingView() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         const Text(
           "Rating:",
           style: TextStyle(
@@ -246,10 +290,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           padding: EdgeInsets.symmetric(horizontal: 24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("0.0"),
-              Text("5.0")
-            ],
+            children: [Text("0.0"), Text("5.0")],
           ),
         ),
         showRatingBar(),
@@ -270,7 +311,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           textColor: Colors.white,
         ),
         addVerticalSpace(60),
-      ]),
+      ],
     );
   }
 
@@ -343,23 +384,26 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            TextButton(
-                onPressed: () {
-                  _displayTextInputDialog(false, "Yet to Improve point", context, yetToImproveList ?? []);
-                },
-                child: const Text(
-                  "+ Add point",
-                  style: TextStyle(
-                    color: Color.fromRGBO(22, 97, 210, 1),
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 21,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ))
+            hasAccessForUpdate1on1
+                ? TextButton(
+                    onPressed: () {
+                      _displayTextInputDialog(false, "Yet to Improve point",
+                          context, yetToImproveList ?? []);
+                    },
+                    child: const Text(
+                      "+ Add point",
+                      style: TextStyle(
+                        color: Color.fromRGBO(22, 97, 210, 1),
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 21,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ))
+                : const Text(""),
           ],
         ),
         addVerticalSpace(10),
-        showRecordView(),
+        // showRecordView(),
         buildYetToImproveList(yetToImproveList),
       ],
     );
@@ -380,15 +424,14 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildYetToImproveList(List<Point>? yetToImproveList) {
-    List<Point>improvePointsList = [];
+    List<Point> improvePointsList = [];
     improvePointsList.addAll(localYetToImproveList.reversed);
     improvePointsList.addAll(yetToImproveList ?? []);
 
     return ListView.separated(
       shrinkWrap: true,
       itemCount: improvePointsList.length,
-      separatorBuilder: (context, index) =>
-      const SizedBox(height: 0.0), // Optional separator
+      separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var yetToImprovePoint = improvePointsList[index];
         return SizedBox(
@@ -396,7 +439,14 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           child: Column(
             children: <Widget>[
               ListTile(
-                leading: const Icon(Icons.menu),
+                leading: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.menu),
+                    hasAccessForUpdate1on1 ?  Text("") :  SizedBox(width: 12.0),
+                     Icon(Icons.check_box_outline_blank),
+                  ],
+                ),
                 title: Text(
                   yetToImprovePoint.title,
                   style: const TextStyle(
@@ -414,6 +464,13 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
+  showodd() {
+    return const Row(children: [
+      SizedBox(width: 12.0),
+      Icon(Icons.check_box_outline_blank),
+    ]);
+  }
+
   Widget gootAtBottomView(List<Point>? goodAtList) {
     return Column(
       children: [
@@ -428,44 +485,45 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            TextButton(
-                onPressed: () {
-                  _displayTextInputDialog(true, "Good at point", context, goodAtList ?? []);
-                },
-                child: const Text(
-                  "+ Add point",
-                  style: TextStyle(
-                    color: Color.fromRGBO(22, 97, 210, 1),
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 21,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ))
+            hasAccessForUpdate1on1
+                ? TextButton(
+                    onPressed: () {
+                      _displayTextInputDialog(
+                          true, "Good at point", context, goodAtList ?? []);
+                    },
+                    child: const Text(
+                      "+ Add point",
+                      style: TextStyle(
+                        color: Color.fromRGBO(22, 97, 210, 1),
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 21,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ))
+                : const Text(""),
           ],
         ),
         addVerticalSpace(10),
-        showRecordView(),
+        // showRecordView(),
         buildGoodAtList(goodAtList),
       ],
     );
   }
 
   Widget buildGoodAtList(List<Point>? goodAtList) {
-    
     debugPrint("goodAtList length ------>>> ${goodAtList?.length}");
     debugPrint("localGoodAtList length ------>>> ${localGoodAtList.length}");
-    List<Point>goodPointsList = [];
+    List<Point> goodPointsList = [];
     goodPointsList.addAll(localGoodAtList.reversed);
     goodPointsList.addAll(goodAtList ?? []);
-    
+
     //final goodPointsList =  goodAtList ?? [] + ;
     debugPrint("goodPointsList length ------>>> ${goodPointsList.length}");
     return ListView.separated(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       itemCount: goodPointsList.length,
-      separatorBuilder: (context, index) => 
-      const SizedBox(height: 0.0) ,
+      separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var goodAtPoint = goodPointsList[index];
         return SizedBox(
@@ -507,8 +565,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  Future<void> _displayTextInputDialog(
-      bool isGoodAt, String text, BuildContext context, List<Point> apiList) async {
+  Future<void> _displayTextInputDialog(bool isGoodAt, String text,
+      BuildContext context, List<Point> apiList) async {
     var chngedText = "";
     debugPrint("apiList length ------>>> ${apiList.length}");
     return showDialog(
@@ -557,7 +615,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               onPressed: () {
                 if (isGoodAt) {
                   localGoodAtList.add(Point(title: chngedText));
-                  debugPrint("localGoodAtList length ------>>> ${localGoodAtList.length}");
+                  debugPrint(
+                      "localGoodAtList length ------>>> ${localGoodAtList.length}");
                   setState(() {
                     buildGoodAtList(apiList);
                   });
@@ -611,34 +670,31 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   showValidationAlert(BuildContext context, String alertText) {
-  // set up the button
-  Widget okButton = TextButton(
-    child: const Text("OK"),
-    onPressed: () {
-       Navigator.pop(context);
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () {
         Navigator.pop(context);
-    },
-  );
+        Navigator.pop(context);
+      },
+    );
 
     Widget cancelButton = TextButton(
-    child: const Text("Cancel"),
-    onPressed: () {
-      Navigator.pop(context);
-    },
-  );
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
 
-  CupertinoAlertDialog alert = CupertinoAlertDialog(
-    content: Text(alertText),
-    actions: [
-      okButton,
-      cancelButton
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
+    CupertinoAlertDialog alert = CupertinoAlertDialog(
+      content: Text(alertText),
+      actions: [okButton, cancelButton],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
