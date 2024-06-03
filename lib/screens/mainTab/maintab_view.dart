@@ -60,16 +60,17 @@ class _MainTabViewState extends State<MainTabView> {
 
   List<BottomNavigationBarItem> bottomNavItems() {
     List<BottomNavigationBarItem> bottomNavItems = [
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Home',
+       BottomNavigationBarItem(
+        icon: Image.asset('assets/bottomBarCalendarIcon.png',width: 24,height: 24,),
+        label: '',
+        activeIcon: Image.asset('assets/icOneonOne.png',width: 24,height: 24,)
       ),
     ];
 
     if (hasAccessForTeamTab) {
       bottomNavItems.add(const BottomNavigationBarItem(
         icon: Icon(Icons.people),
-        label: 'People',
+        label: '',
       ));
     }
 
@@ -99,7 +100,7 @@ class _MainTabViewState extends State<MainTabView> {
           ? BottomNavigationBar(
               items: bottomNavigationItems,
               currentIndex: currentPageIndex,
-              selectedItemColor: Colors.amber[800],
+              selectedItemColor: Colors.black,
               onTap: _onItemTapped,
             )
           : null,

@@ -4,10 +4,10 @@ import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/employees/employee_details_view.dart';
-import 'package:feedbackapp/screens/home/history_page_view.dart';
-import 'package:feedbackapp/screens/home/upcoming_page_view.dart';
+import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
@@ -25,66 +25,15 @@ class MainHomePageView extends StatefulWidget {
   State<MainHomePageView> createState() => _MainHomePageViewState();
 }
 
-class _MainHomePageViewState extends State<MainHomePageView> with SingleTickerProviderStateMixin {
-  late TabController controller;
+class _MainHomePageViewState extends State<MainHomePageView> {
+  // variable to call and store future list of posts
+  Future<OneOnOnesResponse> oneOnOnesFuture =
+      ApiManager.authenticated.fetchOneOnOnesList();
 
   @override
   void initState() {
-    super.initState();
     NetworkLoggerOverlay.attachTo(context);
-    controller = TabController(length: 2, vsync: this);
-    controller.addListener(() {
-      setState(() { });
-    });
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  // variable to call and store future list of posts
-  // Future<OneOnOnesResponse> oneOnOnesFuture =
-      // ApiManager.authenticated.fetchOneOnOnesList();
-
-  // @override
-  // void initState() {
-  //   NetworkLoggerOverlay.attachTo(context);
-  //   super.initState();
-  // }
-
-  TabBar get _tabBar => TabBar(
-    controller: controller,
-    indicatorColor: Colors.transparent,
-          unselectedLabelStyle: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Color.fromRGBO(111, 111, 111, 1),
-                        ),
-          labelStyle : const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        ),
-  tabs: [
-    _tab(constants.upcoming, isAllow: true),
-    _tab(constants.history,),
-  ],
-);
-
-Widget _tab(String text, {bool isAllow = false}) {
-    return Container(
-      padding: const EdgeInsets.all(0),
-      width: double.infinity,
-      decoration: BoxDecoration(
-          border: Border(right: BorderSide(color: isAllow ? const Color.fromRGBO(1, 57, 98, 1): Colors.transparent, width: 1, style: BorderStyle.solid))) ,
-      child: Tab(
-        text: text,
-      ),
-    );
+    super.initState();
   }
 
   @override
@@ -100,38 +49,44 @@ Widget _tab(String text, {bool isAllow = false}) {
                 navigateToMyProfile();
               },
             )
-          ],
-
-          bottom: PreferredSize(
-          preferredSize: _tabBar.preferredSize,
-          child: ColoredBox(
-            color: const Color.fromRGBO(0, 0, 0, 1),
-            child: _tabBar,
-          ),
-        ), 
-          ),
-
-      body: TabBarView(
-        controller: controller,
-        children: const [
-          UpcommingPageView(),
-          HistoryPageView(),
-        ],
+          ]),
+      body: Center(
+        child: FutureBuilder<OneOnOnesResponse>(
+          future: oneOnOnesFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child:  CircularProgressIndicator());
+            } else if (snapshot.hasData) {
+              final oneOnOnesResponse = snapshot.data;
+              var listCount = oneOnOnesResponse?.oneononesList?.length ?? 0;
+              if (listCount > 0) {
+                return buildoneOnOnesList(oneOnOnesResponse);
+              } else {
+                return buildEmptyListView();
+              }
+            } else {
+              return const Text("No data available");
+            }
+          },
+        ),
       ),
 
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     debugPrint('clickeed on calender ------>>>');
-      // // used modal_bottom_sheet - to model present
-      // showCupertinoModalBottomSheet(
-      //   context: context,
-      //   builder: (context) => CreateOneOnOneView(mEmployee: Employee(),),
-      //   enableDrag: true,
-      // );  
-      //   },
-      //   shape: const CircleBorder(),
-      //   child: const Icon(Icons.calendar_month_outlined),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint('clickeed on calender ------>>>');
+      // used modal_bottom_sheet - to model present
+      showCupertinoModalBottomSheet(
+        context: context,
+        builder: (context) => CreateOneOnOneView(mEmployee: Employee(),),
+        enableDrag: true,
+      );  
+
+
+        },
+        backgroundColor: Colors.black,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.calendar_month_outlined,color: Colors.white,),  
+      ),
     );
   }
 

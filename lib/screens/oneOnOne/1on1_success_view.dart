@@ -28,12 +28,10 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
     String oneOn1Date = getFormatedDate(dateStr ?? "");
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(18.0),
+        child : SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -41,7 +39,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
             meetingSuccessImage(),
             addVerticalSpace(60),
             multiFontText(empName, oneOn1Date, oneOn1Time),
-            addVerticalSpace(40),
+            addVerticalSpace(20),
             const Text(
               constants.meetingSuccessDescriptionText,
               textAlign: TextAlign.center,
@@ -51,7 +49,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            addVerticalSpace(90),
+            addVerticalSpace(30),
             MaterialButton(
               minWidth: double.infinity,
               height: 58.0,
@@ -74,7 +72,8 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
               textColor: Colors.white,
             )
           ],
-        ),
+        )
+      ),
       ),
     );
   }
@@ -93,7 +92,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
       children: [
                    Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: [              
                 const Text(
                   '1-on-1 with ',
                   style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
@@ -106,7 +105,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
                   ' for',
                   style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
                 ),
-              ],
+              ],                  
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

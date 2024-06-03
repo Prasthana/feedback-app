@@ -36,7 +36,11 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+    child :MaterialApp(
       theme: lightTheme,
       darkTheme: darkTheme,
       home: Scaffold(
@@ -71,6 +75,7 @@ class _LoginViewState extends State<LoginView> {
                   child: Column(
                     children: [
                       TextFormField(
+                        autofocus: true,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
@@ -139,6 +144,7 @@ class _LoginViewState extends State<LoginView> {
           ),
         ),
       ),
+    ),
     );
   }
 }
