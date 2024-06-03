@@ -266,7 +266,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
       logger.e('update OneOnOne response -- ${val.toJson()}');
-      _oneOnOnePointsAttributes.clear();
+     // _oneOnOnePointsAttributes.clear();
       oneOnOneCreateResponseFuture =
           ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
     }).catchError((obj) {
@@ -314,7 +314,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           ],
         ),
         addVerticalSpace(10),
-        showRecordView()
+        showRecordView(),
+        buildYetToImproveList(yetToImproveList),
       ],
     );
   }
