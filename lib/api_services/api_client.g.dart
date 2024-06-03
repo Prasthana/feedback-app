@@ -134,9 +134,9 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<OneOnOnesResponse> fetchOneOnOnesList() async {
+  Future<OneOnOnesResponse> fetchOneOnOnesList(String timePeriod) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'time_period': timePeriod};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio

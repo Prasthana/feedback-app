@@ -32,6 +32,7 @@ class _OtpViewState extends State<OtpView> {
   String enteredOTP = "";
   String resendText = constants.resend;
   var counterForResend = constants.resendTime;
+  List<TextEditingController?> otpControllers = [];
 
   void setEnableConfirmBtn(bool newValue) {
     setState(() {
@@ -43,6 +44,9 @@ class _OtpViewState extends State<OtpView> {
     setState(() {
       isNotValidOTP = newValue;
     });
+    if(isNotValidOTP){
+      clearOtpFields();
+    }
   }
 
   void setEnableResendBtn(bool newValue) {
@@ -61,6 +65,12 @@ class _OtpViewState extends State<OtpView> {
     setState(() {
       resendText = newValue;
     });
+  }
+  
+  void clearOtpFields() {
+    for (var controller in otpControllers) {
+      controller?.clear();
+    }
   }
 
   @override
@@ -122,6 +132,10 @@ class _OtpViewState extends State<OtpView> {
                   borderWidth: 1.0,
                   fillColor: Colors.white,
                   filled: true,
+                  autoFocus: true,
+                  handleControllers: (controllers) {
+                    otpControllers = controllers;
+                  },
                   onCodeChanged: (value) => {
                     setEnteredOTP(""),
                     setEnableConfirmBtn(false),
@@ -145,7 +159,7 @@ class _OtpViewState extends State<OtpView> {
                       fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(255, 69, 69, 1)),
                 ),
-              ),
+              ),   
               addVerticalSpace(24),
               SizedBox(
                 width: double.infinity,
@@ -166,7 +180,7 @@ class _OtpViewState extends State<OtpView> {
                         // );
                         // });
                         _validateOTP(
-                            widget.emailOTPResponse.userLogin?.id ?? -1, enteredOTP, context);
+                            widget.emailOTPResponse.userLogin?.id ?? -1, enteredOTP, context);                        
                       }
                     },
                     child: Text(constants.confirm,
@@ -195,6 +209,7 @@ class _OtpViewState extends State<OtpView> {
                     if (isEnableResendBtn == true) {
                       setEnableResendBtn(false);
                       _genarateOtp(widget.emailOTPResponse.userLogin?.email, context);
+                      clearOtpFields();
                       Timer.periodic(const Duration(seconds: 1), (timer) {
                         // print(timer.tick);
                         counterForResend--;

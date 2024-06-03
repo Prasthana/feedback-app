@@ -8,6 +8,7 @@ import 'package:feedbackapp/api_services/models/employeerequest.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
+import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
@@ -42,6 +43,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   bool isLoginEmployee = false;
   bool isUpdating = false;
   bool addMobileNumber = false;
+  bool hasAccessToCreate1On1 = false;
   String mobileNumber = "";
 
   Employee? mEmployee;
@@ -119,16 +121,42 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     });
   }
 
+  void setCanCreate1On1(bool newValue) {
+    setState(() {
+      hasAccessToCreate1On1 = newValue;
+    });
+  }
+
   @override
   void initState() {
     mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
+    checkCanCreate1On1();
     setMobileNumber(mEmployee?.mobileNumber ?? "");
 
     employeeFuture =
         ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
 
     super.initState();
+  }
+
+  void checkCanCreate1On1() {
+    var sm = StorageManager();
+    sm.getData(constants.prepareCallResponse).then((val) {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
+        logger.d('val -- $json');
+        Permission? tabCreate1On1Access = mPrepareCallResponse.user?.permissions?["one_on_ones.create"];
+        if (tabCreate1On1Access?.access == Access.enabled ) {
+          setCanCreate1On1(true);
+        } else {
+          setCanCreate1On1(false);
+        }
+      } else {
+        setCanCreate1On1(false);
+      }
+    });
   }
 
   void checkLoginstatus(int employeeId) {
@@ -404,7 +432,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             addVerticalSpace(8),
             Visibility(
               visible: isLoginEmployee &&
-                  !employee!.mobileNumber!.isNotEmpty &&
+                  !(employee?.mobileNumber ??"" ).isNotEmpty &&
                   addMobileNumber == false,
               child: Center(
                 child: TextButton(
@@ -426,7 +454,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             ),
             Visibility(
               visible: isLoginEmployee &&
-                  (employee!.mobileNumber!.isNotEmpty ||
+                  ((employee?.mobileNumber ??"" ).isNotEmpty ||
                       addMobileNumber == true),
               child: Center(
                   child: SizedBox(
@@ -531,7 +559,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       addVerticalSpace(8),
-                      SizedBox(
+                      new Visibility( 
+                      visible: hasAccessToCreate1On1,
+                      child: SizedBox(
                         width: 144.0,
                         height: 40.0,
                         child: TextButton(
@@ -577,6 +607,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             ]),
                           ),
                         ),
+                      ),
                       ),
                     ],
                   ),
