@@ -8,7 +8,6 @@ import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/employees/employee_details_view.dart';
 import 'package:feedbackapp/screens/home/history_page_view.dart';
 import 'package:feedbackapp/screens/home/upcoming_page_view.dart';
-import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';

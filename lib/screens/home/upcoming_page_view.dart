@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
+import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
@@ -30,6 +31,7 @@ class UpcommingPageView extends StatefulWidget {
 class _UpcommingPageViewState extends State<UpcommingPageView> {
   // variable to call and store future list of posts
   String systemFormateDateTime = "";
+  bool hasAccessToCreate1On1 = false;
 
   late Future<OneOnOnesResponse> oneOnOnesFuture;
 
@@ -42,15 +44,41 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
 
   @override
   void initState() {
+    checkCanCreate1On1();
     getSystemFormateDateTime();
     oneOnOnesFuture = ApiManager.authenticated.fetchOneOnOnesList(constants.upcomingOneOnOnes);
     super.initState();
   }
 
+  void setCanCreate1On1(bool newValue) {
+    setState(() {
+      hasAccessToCreate1On1 = newValue;
+    });
+  }
+
+  void checkCanCreate1On1() {
+    var sm = StorageManager();
+    sm.getData(constants.prepareCallResponse).then((val) {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
+        logger.d('val -- $json');
+        Permission? tabCreate1On1Access = mPrepareCallResponse.user?.permissions?["one_on_ones.create"];
+        if (tabCreate1On1Access?.access == Access.enabled ) {
+          setCanCreate1On1(true);
+        } else {
+          setCanCreate1On1(false);
+        }
+      } else {
+        setCanCreate1On1(false);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: Center(   
         child: FutureBuilder<OneOnOnesResponse>(
           future: oneOnOnesFuture,
           builder: (context, snapshot) {
@@ -71,7 +99,11 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
+    
+      floatingActionButton: new Visibility( 
+        visible: hasAccessToCreate1On1,
+        child:
+      FloatingActionButton(
         onPressed: () {
           debugPrint('clickeed on calender ------>>>');
       // used modal_bottom_sheet - to model present
@@ -85,6 +117,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
         },
         shape: const CircleBorder(),
         child: const Icon(Icons.calendar_month_outlined),
+      ),
       ),
     );
   }

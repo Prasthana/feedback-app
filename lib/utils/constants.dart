@@ -11,6 +11,8 @@ const int nameInitLength = 2;
 
 // this is for shared preference's key's
 const String loginTokenResponse = "login_token_response";
+const String prepareCallResponse = "prepare_call_responce";
+
 const String barearToken = "barear_token";
 const String noDataFound = "No data found!";
 const String historyOneOnOnes = "history";
