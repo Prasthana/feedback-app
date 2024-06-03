@@ -10,6 +10,7 @@ import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/screens/otp/otp_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/snackbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -36,10 +37,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text(constants.txtLogin),
           // backgroundColor: Colors.white,
@@ -138,33 +136,11 @@ class _LoginViewState extends State<LoginView> {
             ],
           ),
         ),
-      ),
     );
   }
 }
 
-showInvalidAlert(BuildContext context, String alertText) {
-  // set up the button
-  Widget okButton = TextButton(
-    child: const Text("OK"),
-    onPressed: () {
-      Navigator.pop(context);
-    },
-  );
 
-  CupertinoAlertDialog alert = CupertinoAlertDialog(
-    content: Text(alertText),
-    actions: [
-      okButton,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
 
 _genarateOtp(String? email, BuildContext context) async {
   var request = EmailOTPRequest(
@@ -185,7 +161,7 @@ _genarateOtp(String? email, BuildContext context) async {
         logger.e('Got error : ${res.statusCode} -> ${res.statusMessage}');
         // debugPrint('statusMessage ------>>> ${res?.statusMessage}');
         final responseData = res.data as Map;
-        showInvalidAlert(
+        displayErrorToUser(
             context, responseData['message'] ?? constants.inValidUserText);
         break;
       default:

@@ -10,6 +10,7 @@ import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/snackbar_helper.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -328,7 +329,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
                   if (selectedEmployee.name == null) {
-                    showInvalidAlert(
+                    displayErrorToUser(
                         context, constants.selectEmployeeValidationText);
                   } else {
                           var utcStartTime = toUtcDateTime(selectedStartTime).toUtc();

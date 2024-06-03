@@ -23,6 +23,8 @@ void main() {
   bugsnag_performance.measureRunApp(() async => runApp(const MyApp()));
 }
 
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
 class MyApp extends StatelessWidget {
    const MyApp({super.key});
    
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
       title: 'Feedback App',
       theme: lightTheme,
       themeMode: ThemeMode.light,
