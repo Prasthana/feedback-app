@@ -455,7 +455,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     return showDialog(
       context: context,
       builder: (context) {
-        return CupertinoAlertDialog(
+        return AlertDialog(
           title: Text(text),
           content: TextFormField(
               minLines: 4,
