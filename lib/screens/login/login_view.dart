@@ -161,7 +161,7 @@ _genarateOtp(String? email, BuildContext context) async {
         logger.e('Got error : ${res.statusCode} -> ${res.statusMessage}');
         // debugPrint('statusMessage ------>>> ${res?.statusMessage}');
         final responseData = res.data as Map;
-        displayErrorToUser(
+        displaySnackbar(
             context, responseData['message'] ?? constants.inValidUserText);
         break;
       default:

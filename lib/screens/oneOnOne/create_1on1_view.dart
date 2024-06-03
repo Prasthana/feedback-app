@@ -329,7 +329,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
                   if (selectedEmployee.name == null) {
-                    displayErrorToUser(
+                    displaySnackbar(
                         context, constants.selectEmployeeValidationText);
                   } else {
                           var utcStartTime = toUtcDateTime(selectedStartTime).toUtc();
