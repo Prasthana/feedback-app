@@ -292,6 +292,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
       logger.e('update OneOnOne response -- ${val.toJson()}');
+      localGoodAtList.clear();
+      localYetToImproveList.clear();
       _oneOnOnePointsAttributes.clear();
       var newFuture =
           ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
@@ -434,7 +436,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     debugPrint("goodAtList length ------>>> ${goodAtList?.length}");
     debugPrint("localGoodAtList length ------>>> ${localGoodAtList.length}");
     List<Point>goodPointsList = [];
-    goodPointsList.addAll(localGoodAtList);
+    goodPointsList.addAll(localGoodAtList.reversed);
     goodPointsList.addAll(goodAtList ?? []);
     
     //final goodPointsList =  goodAtList ?? [] + ;
@@ -498,7 +500,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           ),
           title: Text(text),
           content: TextFormField(
-              minLines: 4,
+              minLines: 2,
               maxLines: 5,
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.done,
@@ -533,22 +535,15 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                // var pointType = isGoodAt ? "pt_good_at" : "pt_yet_to_improve";
-                // var attr = OneOnOnePointsAttribute(
-                //     pointType: pointType, title: chngedText);
-                // _oneOnOnePointsAttributes.add(attr);
-
                 if (isGoodAt) {
-                  var gaPoint = Point(title: chngedText);
-                  localGoodAtList.add(gaPoint);
+                  localGoodAtList.add(Point(title: chngedText));
                   debugPrint("localGoodAtList length ------>>> ${localGoodAtList.length}");
                   
                   setState(() {
                     buildGoodAtList(apiList);
                   });
                 } else {
-                  var iyPoint = Point(title: chngedText);
-                  localYetToImproveList.add(iyPoint);
+                  localYetToImproveList.add(Point(title: chngedText));
                 }
                 Navigator.pop(context);
               },
