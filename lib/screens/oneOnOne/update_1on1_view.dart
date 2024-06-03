@@ -265,11 +265,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
-     
       logger.e('update OneOnOne response -- ${val.toJson()}');
       _oneOnOnePointsAttributes.clear();
       oneOnOneCreateResponseFuture =
-        ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
+          ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {
@@ -339,7 +338,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       // Second list view
       shrinkWrap: true,
       itemCount: yetToImproveList?.length ?? 0,
-      separatorBuilder: (context, index) => const Divider(), // Optional separator
+      separatorBuilder: (context, index) =>
+          const Divider(), // Optional separator
       itemBuilder: (context, index) {
         var yetToImprovePoint = yetToImproveList?[index];
         return SizedBox(
@@ -450,12 +450,15 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
 
   Future<void> _displayTextInputDialog(
       bool isGoodAt, String text, BuildContext context) async {
-        var chngedText = "";
+    var chngedText = "";
 
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
           title: Text(text),
           content: TextFormField(
               minLines: 4,
@@ -481,7 +484,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
               onChanged: (value) {
-                 chngedText = value;
+                chngedText = value;
               }),
           actions: <Widget>[
             TextButton(
