@@ -68,7 +68,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   Future getImage(String type) async {
     XFile? image;
-    if(type == constants.delete){
+    if (type == constants.delete) {
       // ToDo : implement delete profile pic api integration
     } else if (type == constants.camera) {
       image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -139,7 +139,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
     employeeFuture =
         ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
-
   }
 
   void checkCanCreate1On1() {
@@ -329,7 +328,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Row(
+                                      const Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
@@ -346,77 +345,88 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                                         0, 0, 0, 1)),
                                               ),
                                             ),
-                                            Align(
-                                              alignment: Alignment.centerRight,
-                                              child: IconButton(
-                                                iconSize: 24.0,
-                                                icon: const Icon(Icons.delete),
-                                                tooltip:
-                                                    constants.profilePicture,
-                                                onPressed: () {
-                                                  getImage(constants.delete);
-                                                  Navigator.pop(context);
-                                                },
-                                              ),
-                                            )
+                                             // ToDo : Once api done need to integrate
+                                            // Align(
+                                            //   alignment: Alignment.centerRight,
+                                            //   child: IconButton(
+                                            //     iconSize: 24.0,
+                                            //     icon: const Icon(Icons.delete),
+                                            //     tooltip:
+                                            //         constants.profilePicture,
+                                            //     onPressed: () {
+                                            //       getImage(constants.delete);
+                                            //       Navigator.pop(context);
+                                            //     },
+                                            //   ),
+                                            // )
                                           ]),
                                       addVerticalSpace(24),
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: <Widget>[
-                                             Column(children: <Widget>[
+                                            Column(children: <Widget>[
                                               Align(
-                                              alignment: Alignment.centerRight,
-                                              child: IconButton(
-                                                iconSize: 36.0,
-                                                icon: Icon(Icons.camera),
-                                                tooltip:
-                                                    constants.profilePicture,
-                                                onPressed: () {
-                                                  getImage(constants.camera);
-                                                  Navigator.pop(context);
-                                                },
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: IconButton(
+                                                  iconSize: 36.0,
+                                                  icon: Icon(Icons.camera),
+                                                  tooltip:
+                                                      constants.profilePicture,
+                                                  onPressed: () {
+                                                    getImage(constants.camera);
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                             GestureDetector(
-                                              child: const Text(constants.camera,
-                                              style: TextStyle(
-                                              fontFamily: constants.uberMoveFont,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color.fromRGBO(4, 4, 4, 1))),
-                                              onTap: () {
-                                                getImage(constants.camera);
-                                                Navigator.pop(context);
-                                              })
+                                              GestureDetector(
+                                                  child: const Text(
+                                                      constants.camera,
+                                                      style: TextStyle(
+                                                          fontFamily: constants
+                                                              .uberMoveFont,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Color.fromRGBO(
+                                                              4, 4, 4, 1))),
+                                                  onTap: () {
+                                                    getImage(constants.camera);
+                                                    Navigator.pop(context);
+                                                  })
                                             ]),
                                             addVerticalSpace(24),
-                                             Column(children: <Widget>[
+                                            Column(children: <Widget>[
                                               Align(
-                                              alignment: Alignment.centerRight,
-                                              child: IconButton(
-                                                iconSize: 36.0,
-                                                icon: Icon(Icons.image),
-                                                tooltip:
-                                                    constants.profilePicture,
-                                                onPressed: () {
-                                                  getImage(constants.gallery);
-                                                  Navigator.pop(context);
-                                                },
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: IconButton(
+                                                  iconSize: 36.0,
+                                                  icon: Icon(Icons.image),
+                                                  tooltip:
+                                                      constants.profilePicture,
+                                                  onPressed: () {
+                                                    getImage(constants.gallery);
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                getImage(constants.gallery);
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text(constants.gallery,
-                                              style: TextStyle(
-                                              fontFamily: constants.uberMoveFont,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color.fromRGBO(4, 4, 4, 1)))),
+                                              GestureDetector(
+                                                  onTap: () {
+                                                    getImage(constants.gallery);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text(
+                                                      constants.gallery,
+                                                      style: TextStyle(
+                                                          fontFamily: constants
+                                                              .uberMoveFont,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Color.fromRGBO(
+                                                              4, 4, 4, 1)))),
                                             ]),
                                           ])
                                     ]),
@@ -543,7 +553,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   child: SizedBox(
                 width: 160.0,
                 child: TextField(
-                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.go,
+                  keyboardType: TextInputType.numberWithOptions(signed: true),
                   onSubmitted: (value) {
                     updateMobileNumber(value);
                   },
@@ -642,72 +653,38 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       addVerticalSpace(8),
-// <<<<<<< HEAD
-//                       new Visibility(
-//                         visible: hasAccessToCreate1On1,
-//                         child: SizedBox(
-//                           width: 144.0,
-//                           height: 40.0,
-//                           child: TextButton(
-//                             onPressed: () {
-//                               Navigator.push(
-//                                 context,
-//                                 MaterialPageRoute(
-//                                     builder: (context) => CreateOneOnOneView(
-//                                         mEmployee: employee)),
-//                               );
-//                             },
-//                             style: OutlinedButton.styleFrom(
-//                               shape: RoundedRectangleBorder(
-//                                 borderRadius: BorderRadius.circular(8.0),
-// =======
-                      Visibility( 
-                      visible: hasAccessToCreate1On1,
-                      child: SizedBox(
-                        width: 144.0,
-                        height: 40.0,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CreateOneOnOneView(mEmployee: employee)),
-                            );
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            side:
-                                const BorderSide(color: colorText, width: 1.0),
-                          ),
-                          child: const Align(
-                            alignment: Alignment.center,
-                            child: Stack(children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: ImageIcon(
-                                  AssetImage('assets/icOneonOne.png'),
-                                  size: 24,
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                ),
-// >>>>>>> dev
+                      Visibility(
+                        visible: hasAccessToCreate1On1,
+                        child: SizedBox(
+                          width: 144.0,
+                          height: 40.0,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateOneOnOneView(
+                                        mEmployee: employee)),
+                              );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                            //   side: const BorderSide(
-                            //       color: colorText, width: 1.0),
-                            // ),
-                            // child: const Align(
-                            //   alignment: Alignment.center,
-                            //   child: Stack(children: [
-                            //     Align(
-                            //       alignment: Alignment.centerLeft,
-                            //       child: ImageIcon(
-                            //         AssetImage('assets/icOneonOne.png'),
-                            //         size: 24,
-                            //         color: Color.fromRGBO(0, 0, 0, 1),
-                            //       ),
-                            //     ),
+                              side: const BorderSide(
+                                  color: colorText, width: 1.0),
+                            ),
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Stack(children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: ImageIcon(
+                                    AssetImage('assets/icOneonOne.png'),
+                                    size: 24,
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                  ),
+                                ),
                                 Align(
                                   alignment: Alignment.center,
                                   child: Text(
@@ -747,35 +724,36 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               ),
             ),
             addVerticalSpace(6),
-            Visibility(
-                visible: isLoginEmployee,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ListTile(
-                      leading: Image.asset('assets/icApplock.png', height: 38),
-                      trailing: const Icon(Icons.chevron_right),
-                      title: const Text(
-                        constants.appLock,
-                        style: TextStyle(
-                            fontFamily: constants.uberMoveFont,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(0, 0, 0, 1)),
-                      ),
-                      onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
-                      },
-                    ),
-                    const Divider(
-                      color: Color.fromRGBO(195, 195, 195, 1),
-                      height: 3.0,
-                      thickness: 1.0,
-                      indent: 68.0,
-                      endIndent: 0,
-                    ),
-                  ],
-                )),
+            // ToDo : V 1.0 its hidden
+            // Visibility(
+            //     visible: isLoginEmployee,
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.center,
+            //       children: [
+            //         ListTile(
+            //           leading: Image.asset('assets/icApplock.png', height: 38),
+            //           trailing: const Icon(Icons.chevron_right),
+            //           title: const Text(
+            //             constants.appLock,
+            //             style: TextStyle(
+            //                 fontFamily: constants.uberMoveFont,
+            //                 fontSize: 17,
+            //                 fontWeight: FontWeight.w500,
+            //                 color: Color.fromRGBO(0, 0, 0, 1)),
+            //           ),
+            //           onTap: () {
+            //             // Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsView(mEmployee: employeeList![index])),);
+            //           },
+            //         ),
+            //         const Divider(
+            //           color: Color.fromRGBO(195, 195, 195, 1),
+            //           height: 3.0,
+            //           thickness: 1.0,
+            //           indent: 68.0,
+            //           endIndent: 0,
+            //         ),
+            //       ],
+            //     )),
             Visibility(
                 visible: isLoginEmployee,
                 child: Column(
@@ -825,7 +803,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   void showNoMailAppsDialog(BuildContext context) {
-    showDialog( 
+    showDialog(
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
