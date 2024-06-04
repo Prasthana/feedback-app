@@ -67,16 +67,16 @@ class OneOnOnePointsAttribute {
     Map<String, dynamic> toJson() => _$OneOnOnePointsAttributeToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class Point {
-    int id;
+    int? id;
     dynamic completionComment;
     String title;
 
     Point({
-        required this.id,
-        required this.completionComment,
-        required this.title,
+       this.id,
+       this.completionComment,
+       required this.title,
     });
 
     factory Point.fromJson(Map<String, dynamic> json) =>

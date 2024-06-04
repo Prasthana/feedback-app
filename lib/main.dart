@@ -1,5 +1,6 @@
 import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:bugsnag_flutter_performance/bugsnag_flutter_performance.dart';
+import 'package:feedbackapp/api_services/dio-addOns/token_interceptor.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/screens/splash/splashscreen_view.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ void main() {
   bugsnag_performance.measureRunApp(() async => runApp(const MyApp()));
 }
 
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
 class MyApp extends StatelessWidget {
    const MyApp({super.key});
    
@@ -31,7 +34,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
       title: 'Feedback App',
+      navigatorKey: navigatorKey,
       theme: lightTheme,
       themeMode: ThemeMode.light,
       // darkTheme: darkTheme,

@@ -20,12 +20,12 @@ import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'api_services.g.dart';
+part 'api_client.g.dart';
  
 @RestApi(baseUrl: ApiManager.baseURL)
-abstract class RestClient {
+abstract class ApiClient {
 
-  factory RestClient(Dio dio) = _RestClient;
+  factory ApiClient(Dio dio) = _ApiClient;
 
 // ************************************************************************
 // *********************** API's for Login ***********************

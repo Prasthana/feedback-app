@@ -44,16 +44,6 @@ class _MainHomePageViewState extends State<MainHomePageView> with SingleTickerPr
     super.dispose();
   }
 
-  // variable to call and store future list of posts
-  // Future<OneOnOnesResponse> oneOnOnesFuture =
-      // ApiManager.authenticated.fetchOneOnOnesList();
-
-  // @override
-  // void initState() {
-  //   NetworkLoggerOverlay.attachTo(context);
-  //   super.initState();
-  // }
-
   TabBar get _tabBar => TabBar(
     controller: controller,
     indicatorColor: Colors.transparent,
@@ -90,11 +80,13 @@ Widget _tab(String text, {bool isAllow = false}) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
           title: const Text(constants.oneOneOnScreenTitle),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.account_circle_outlined),
+              iconSize: 32.0,
               onPressed: () {
                 // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This is a snackbar')));
                 navigateToMyProfile();
@@ -118,20 +110,6 @@ Widget _tab(String text, {bool isAllow = false}) {
           HistoryPageView(),
         ],
       ),
-
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     debugPrint('clickeed on calender ------>>>');
-      // // used modal_bottom_sheet - to model present
-      // showCupertinoModalBottomSheet(
-      //   context: context,
-      //   builder: (context) => CreateOneOnOneView(mEmployee: Employee(),),
-      //   enableDrag: true,
-      // );  
-      //   },
-      //   shape: const CircleBorder(),
-      //   child: const Icon(Icons.calendar_month_outlined),
-      // ),
     );
   }
 
@@ -147,7 +125,6 @@ Widget _tab(String text, {bool isAllow = false}) {
           return Column(
             children: <Widget>[
               ListTile(
-                // leading:  TextDrawable(text: employee?.name ?? ""),
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
@@ -184,7 +161,7 @@ Widget _tab(String text, {bool isAllow = false}) {
                    showCupertinoModalBottomSheet(
                       context: context,
                       builder: (context) => UpdateOneoneOneView(oneOnOneData: oneOnOne),
-                      enableDrag: true,
+                      enableDrag: false,
                     );
                 }, 
               ),

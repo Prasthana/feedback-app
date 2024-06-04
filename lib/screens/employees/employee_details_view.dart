@@ -131,6 +131,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   @override
   void initState() {
+    super.initState();
     mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
     checkCanCreate1On1();
@@ -139,7 +140,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     employeeFuture =
         ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
 
-    super.initState();
   }
 
   void checkCanCreate1On1() {
@@ -642,38 +642,72 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       addVerticalSpace(8),
-                      new Visibility(
-                        visible: hasAccessToCreate1On1,
-                        child: SizedBox(
-                          width: 144.0,
-                          height: 40.0,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CreateOneOnOneView(
-                                        mEmployee: employee)),
-                              );
-                            },
-                            style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              side: const BorderSide(
-                                  color: colorText, width: 1.0),
+// <<<<<<< HEAD
+//                       new Visibility(
+//                         visible: hasAccessToCreate1On1,
+//                         child: SizedBox(
+//                           width: 144.0,
+//                           height: 40.0,
+//                           child: TextButton(
+//                             onPressed: () {
+//                               Navigator.push(
+//                                 context,
+//                                 MaterialPageRoute(
+//                                     builder: (context) => CreateOneOnOneView(
+//                                         mEmployee: employee)),
+//                               );
+//                             },
+//                             style: OutlinedButton.styleFrom(
+//                               shape: RoundedRectangleBorder(
+//                                 borderRadius: BorderRadius.circular(8.0),
+// =======
+                      Visibility( 
+                      visible: hasAccessToCreate1On1,
+                      child: SizedBox(
+                        width: 144.0,
+                        height: 40.0,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CreateOneOnOneView(mEmployee: employee)),
+                            );
+                          },
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: const Align(
-                              alignment: Alignment.center,
-                              child: Stack(children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: ImageIcon(
-                                    AssetImage('assets/icOneonOne.png'),
-                                    size: 24,
-                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                  ),
+                            side:
+                                const BorderSide(color: colorText, width: 1.0),
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Stack(children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: ImageIcon(
+                                  AssetImage('assets/icOneonOne.png'),
+                                  size: 24,
+                                  color: Color.fromRGBO(0, 0, 0, 1),
                                 ),
+// >>>>>>> dev
+                              ),
+                            //   side: const BorderSide(
+                            //       color: colorText, width: 1.0),
+                            // ),
+                            // child: const Align(
+                            //   alignment: Alignment.center,
+                            //   child: Stack(children: [
+                            //     Align(
+                            //       alignment: Alignment.centerLeft,
+                            //       child: ImageIcon(
+                            //         AssetImage('assets/icOneonOne.png'),
+                            //         size: 24,
+                            //         color: Color.fromRGBO(0, 0, 0, 1),
+                            //       ),
+                            //     ),
                                 Align(
                                   alignment: Alignment.center,
                                   child: Text(
@@ -791,7 +825,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   void showNoMailAppsDialog(BuildContext context) {
-    showDialog(
+    showDialog( 
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(

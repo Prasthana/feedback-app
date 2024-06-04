@@ -4,6 +4,8 @@ import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:notification_center/notification_center.dart';
+import 'package:feedbackapp/utils/notification_constants.dart' as notificationconstants;
 
 class OneonOneSuccessView extends StatefulWidget {
   OneonOneSuccessView({super.key, required this.oneOnOneResp});
@@ -15,6 +17,13 @@ class OneonOneSuccessView extends StatefulWidget {
 }
 
 class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
+
+  @override
+  void dispose() {
+    super.dispose();
+    NotificationCenter().notify(notificationconstants.oneOnOnesUpdated);
+  }
+
   @override
   Widget build(BuildContext context) {
     var empName = widget.oneOnOneResp.oneOnOne.oneOnOneParticipants?.first.employee.name ?? "";
@@ -54,6 +63,8 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
               minWidth: double.infinity,
               height: 58.0,
               onPressed: () {
+                NotificationCenter().notify(notificationconstants.oneOnOnesUpdated);
+
                 Navigator.pop(context);
               },
               // ignore: sort_child_properties_last
@@ -88,47 +99,44 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
   }
 
   Widget multiFontText(String name, String date, String time) {
-    return Column(
+    return  Padding(padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+    child : Column(
       children: [
-                   Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [              
-                const Text(
-                  '1-on-1 with ',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-                Text(
-                  name,
-                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  ' for',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-              ],                  
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-              Text(
-                  date,
-                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  ' at ',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-                Text(
-                  time,
-                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  ' created',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-              ],
+         Wrap(
+          alignment: WrapAlignment.center,
+          children: [              
+            const Text(
+              '1-on-1 with ',
+              style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
               ),
+              Text(
+                name,
+                style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
+              ),
+              const Text(
+                ' for ',
+                style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+              ),
+              Text(
+                date,
+                style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
+              ),
+              const Text(
+                ' at ',
+                style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+              ),
+              Text(
+                time,
+                style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
+              ),
+              const Text(
+                ' created',
+                style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
       ],
+    ),
     );
   }
 }
