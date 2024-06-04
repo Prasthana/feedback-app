@@ -62,21 +62,34 @@ Map<String, dynamic> _$OneOnOneToJson(OneOnOne instance) {
 OneOnOnePointsAttribute _$OneOnOnePointsAttributeFromJson(
         Map<String, dynamic> json) =>
     OneOnOnePointsAttribute(
+      id: (json['id'] as num?)?.toInt(),
       pointType: json['point_type'] as String,
-      title: json['title'] as String,
+      title: json['title'] as String?,
+      markAsDone: json['mark_as_done'] as bool?,
     );
 
 Map<String, dynamic> _$OneOnOnePointsAttributeToJson(
-        OneOnOnePointsAttribute instance) =>
-    <String, dynamic>{
-      'point_type': instance.pointType,
-      'title': instance.title,
-    };
+    OneOnOnePointsAttribute instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['point_type'] = instance.pointType;
+  writeNotNull('title', instance.title);
+  writeNotNull('mark_as_done', instance.markAsDone);
+  return val;
+}
 
 Point _$PointFromJson(Map<String, dynamic> json) => Point(
       id: (json['id'] as num?)?.toInt(),
       completionComment: json['completionComment'],
       title: json['title'] as String,
+      markAsDone: json['mark_as_done'] as bool?,
     );
 
 Map<String, dynamic> _$PointToJson(Point instance) {
@@ -91,6 +104,7 @@ Map<String, dynamic> _$PointToJson(Point instance) {
   writeNotNull('id', instance.id);
   writeNotNull('completionComment', instance.completionComment);
   val['title'] = instance.title;
+  writeNotNull('mark_as_done', instance.markAsDone);
   return val;
 }
 

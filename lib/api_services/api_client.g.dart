@@ -219,6 +219,37 @@ class _ApiClient implements ApiClient {
   }
 
   @override
+  Future<PointResponse> updateOneOnOnePoints(
+    PointRequest request,
+    int pointid,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<PointResponse>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'one_on_one_points/${pointid}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = PointResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<OneOnOneCreateResponse> createOneOnOne(
       OneOnOneCreateRequest request) async {
     final _extra = <String, dynamic>{};
