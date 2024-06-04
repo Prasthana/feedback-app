@@ -1,0 +1,2 @@
+
+part of 'pointResponse.dart';

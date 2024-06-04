@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:feedbackapp/api_services/api_errohandler.dart';
+import 'package:feedbackapp/api_services/api_service.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
+import 'package:feedbackapp/api_services/models/pointRequest.dart';
+import 'package:feedbackapp/api_services/models/pointResponse.dart';
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
@@ -12,6 +16,7 @@ import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/snackbar_helper.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +42,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   List<Point> localYetToImproveList = [];
   String enteredAddPoint = "";
   bool hasAccessForUpdate1on1 = false;
+    //initializing the API Service class
+  final ApiService _apiService = ApiService();
 
   @override
   void initState() {
@@ -280,13 +287,13 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(20),
         hasAccessForUpdate1on1
             ? managerWriteRatingView()
-            : employeeReadRatingView(),
+            : employeeReadRatingView(oneOnOne?.feedbackRating ?? 0.0),
         addVerticalSpace(50)
       ]),
     );
   }
 
-  Widget employeeReadRatingView() {
+  Widget employeeReadRatingView(double rating) {
     return Row(
       children: [
         const Text(
@@ -302,9 +309,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
             border: Border.all(color: colorText, width: 1.5),
           ),
-          child: const Text(
-            " 3.5/5.0 ",
-            style: TextStyle(
+          child: Text(
+            " $rating/5.0 ",
+            style: const TextStyle(
               fontFamily: constants.uberMoveFont,
               fontSize: 21,
               fontWeight: FontWeight.w500,
@@ -321,7 +328,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       children: [
         Row(
           children: [
-             const Text(
+            const Text(
               "Rating :",
               style: TextStyle(
                 fontFamily: constants.uberMoveFont,
@@ -330,20 +337,20 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               ),
             ),
             addHorizontalSpace(8),
-          DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-            border: Border.all(color: colorText, width: 1.2),
-          ),
-          child: Text(
-            "  $_currentSliderValue/5.0  ",
-            style: const TextStyle(
-              fontFamily: constants.uberMoveFont,
-              fontSize: 21,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        )
+            DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                border: Border.all(color: colorText, width: 1.2),
+              ),
+              child: Text(
+                "  $_currentSliderValue/5.0  ",
+                style: const TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 21,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            )
           ],
         ),
         addVerticalSpace(10),
@@ -404,18 +411,16 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     if (_oneOnOnePointsAttributes.isNotEmpty) {
       oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
     }
+    
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
       logger.e('update OneOnOne response -- ${val.toJson()}');
-      localGoodAtList.clear();
-      localYetToImproveList.clear();
-      _oneOnOnePointsAttributes.clear();
-      // var newFuture =
-      //     ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
-      // setUpdateOneOnOneFuture(newFuture);
-      Navigator.pop(context);
+        localGoodAtList.clear();
+        localYetToImproveList.clear();
+        _oneOnOnePointsAttributes.clear();
+        Navigator.pop(context);
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {
@@ -445,47 +450,45 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-                 Visibility(
-                  visible: hasAccessForUpdate1on1,
-                   child: TextButton(
-                      onPressed: () {
-                        _displayTextInputDialog(false, "Yet to Improve point",
-                            context, yetToImproveList ?? []);
-                      },
-                      child: const Text(
-                        "+ Add point",
-                        style: TextStyle(
-                          color: Color.fromRGBO(22, 97, 210, 1),
-                          fontFamily: constants.uberMoveFont,
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )),
-                 )  
+            Visibility(
+              visible: hasAccessForUpdate1on1,
+              child: TextButton(
+                  onPressed: () {
+                    _displayTextInputDialog(false, "Yet to Improve point",
+                        context, yetToImproveList ?? []);
+                  },
+                  child: const Text(
+                    "+ Add point",
+                    style: TextStyle(
+                      color: Color.fromRGBO(22, 97, 210, 1),
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )),
+            )
           ],
         ),
         addVerticalSpace(10),
         // showRecordView(),
         Visibility(
-          visible: yetToImproveList!.isEmpty && localYetToImproveList.isEmpty,
-          child: 
-        showEmptyPointsView("Yet To Improve points")
-        ),
+            visible: yetToImproveList!.isEmpty && localYetToImproveList.isEmpty,
+            child: showEmptyPointsView("Yet To Improve points")),
         buildYetToImproveList(yetToImproveList),
       ],
     );
   }
 
-    Widget showEmptyPointsView(String pointTypeText) {
+  Widget showEmptyPointsView(String pointTypeText) {
     return ListTile(
         title: Text(
-          "Click on + to add $pointTypeText",
-          style: const TextStyle(
-              fontFamily: constants.uberMoveFont,
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Color.fromRGBO(0, 0, 0, 1)),
-        ));
+      hasAccessForUpdate1on1 ? "Click on + to add $pointTypeText" : "not available",
+      style: const TextStyle(
+          fontFamily: constants.uberMoveFont,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: Color.fromRGBO(0, 0, 0, 1)),
+    ));
   }
 
   Widget showRecordView() {
@@ -509,49 +512,85 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
 
     return ListView.separated(
       shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
       itemCount: improvePointsList.length,
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var yetToImprovePoint = improvePointsList[index];
+        var isMarked = yetToImprovePoint.markAsDone ?? false;
+
         return Flexible(
           child: Column(
             children: <Widget>[
-              !hasAccessForUpdate1on1
-                  ? ListTile(
-                      leading: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.menu),
-                          SizedBox(width: 12.0),
-                          Icon(Icons.check_box_outline_blank),
-                        ],
+              if (!hasAccessForUpdate1on1)
+                ListTile(
+                  leading: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.menu),
+                      const SizedBox(width: 12.0),
+                      InkWell(
+                        onTap: () {
+                          _employeeYetToImprovePointStatuUpdate(context, !isMarked, yetToImprovePoint.id ?? 0);
+                        },
+                        child: isMarked
+                            ? const Icon(Icons.check_box_outlined)
+                            : const Icon(Icons.check_box_outline_blank),
                       ),
-                      title: Text(
-                        yetToImprovePoint.title,
-                        style: const TextStyle(
-                            fontFamily: constants.uberMoveFont,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(0, 0, 0, 1)),
-                      ),
-                      onTap: () {},
-                    )
-                  : ListTile(
-                      leading: const Icon(Icons.menu),
-                      title: Text(
-                        yetToImprovePoint.title,
-                        style: const TextStyle(
-                            fontFamily: constants.uberMoveFont,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(0, 0, 0, 1)),
-                      ),
-                    )
+                    ],
+                  ),
+                  title: Text(
+                    yetToImprovePoint.title,
+                    style: const TextStyle(
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(0, 0, 0, 1)),
+                  ),
+                  onTap: () {},
+                )
+              else
+                ListTile(
+                  leading: const Icon(Icons.menu),
+                  title: Text(
+                    yetToImprovePoint.title,
+                    style: const TextStyle(
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(0, 0, 0, 1)),
+                  ),
+                )
             ],
           ),
         );
       },
     );
+  }
+
+  _employeeYetToImprovePointStatuUpdate(BuildContext context, bool status,int pointId) async {
+    var oneOnOnePoint = OneOnOnePoint(markAsDone: status);
+    PointRequest request = PointRequest(oneOnOnePoint: oneOnOnePoint);
+    _apiService.updateOneOnOnePointStatus(request, pointId).then((value) {
+      PointResponse? response = value.data;
+      if (value.getException != null) {
+        //if there is any error ,it will trigger here and shown in snack-bar
+        ErrorHandler errorHandler = value.getException;
+        String msg = errorHandler.getErrorMessage();
+
+        displaySnackbar(context, msg);
+      } else if (response != null) {
+        refreshScreen();
+      } else {
+        refreshScreen();
+      }
+    });
+  }
+
+  refreshScreen() {
+            var newFuture = ApiManager.authenticated
+            .fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
+        setUpdateOneOnOneFuture(newFuture);
   }
 
   Widget gootAtBottomView(List<Point>? goodAtList) {
@@ -568,33 +607,30 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-
             Visibility(
               visible: hasAccessForUpdate1on1,
               child: TextButton(
-                      onPressed: () {
-                        _displayTextInputDialog(
-                            true, "Good at point", context, goodAtList ?? []);
-                      },
-                      child: const Text(
-                        "+ Add point",
-                        style: TextStyle(
-                          color: Color.fromRGBO(22, 97, 210, 1),
-                          fontFamily: constants.uberMoveFont,
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )),
+                  onPressed: () {
+                    _displayTextInputDialog(
+                        true, "Good at point", context, goodAtList ?? []);
+                  },
+                  child: const Text(
+                    "+ Add point",
+                    style: TextStyle(
+                      color: Color.fromRGBO(22, 97, 210, 1),
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )),
             )
           ],
         ),
         addVerticalSpace(10),
         // showRecordView(),
         Visibility(
-          visible: goodAtList!.isEmpty && localGoodAtList.isEmpty,
-          child: 
-        showEmptyPointsView("Good At points")
-        ),
+            visible: goodAtList!.isEmpty && localGoodAtList.isEmpty,
+            child: showEmptyPointsView("Good At points")),
         buildGoodAtList(goodAtList),
       ],
     );
