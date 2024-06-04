@@ -513,18 +513,24 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var yetToImprovePoint = improvePointsList[index];
+        var isMarked = true;
         return SizedBox(
           height: 56.0,
           child: Column(
             children: <Widget>[
-              !hasAccessForUpdate1on1
-                  ? ListTile(
-                      leading: const Row(
+              if (!hasAccessForUpdate1on1) ListTile(
+                      leading: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.menu),
-                          SizedBox(width: 12.0),
-                          Icon(Icons.check_box_outline_blank),
+                          const Icon(Icons.menu),
+                          const SizedBox(width: 12.0),
+                          InkWell(
+                            onTap: () {
+                              debugPrint("check_box clicked ------->> ${yetToImprovePoint.id ?? 0}");
+                            },
+                            child: isMarked ?  Icon(Icons.check_box_outlined) : Icon(Icons.check_box_outline_blank),
+                            ),
+                    
                         ],
                       ),
                       title: Text(
@@ -536,8 +542,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                             color: Color.fromRGBO(0, 0, 0, 1)),
                       ),
                       onTap: () {},
-                    )
-                  : ListTile(
+                    ) else ListTile(
                       leading: const Icon(Icons.menu),
                       title: Text(
                         yetToImprovePoint.title,
