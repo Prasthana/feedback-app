@@ -280,13 +280,13 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(20),
         hasAccessForUpdate1on1
             ? managerWriteRatingView()
-            : employeeReadRatingView(),
+            : employeeReadRatingView(oneOnOne?.feedbackRating ?? 0.0),
         addVerticalSpace(50)
       ]),
     );
   }
 
-  Widget employeeReadRatingView() {
+  Widget employeeReadRatingView(double rating) {
     return Row(
       children: [
         const Text(
@@ -302,9 +302,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
             border: Border.all(color: colorText, width: 1.5),
           ),
-          child: const Text(
-            " 3.5/5.0 ",
-            style: TextStyle(
+          child:Text(
+            " $rating/5.0 ",
+            style: const TextStyle(
               fontFamily: constants.uberMoveFont,
               fontSize: 21,
               fontWeight: FontWeight.w500,
