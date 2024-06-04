@@ -160,7 +160,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: const NetworkImage(""),
+                  foregroundImage: NetworkImage(oneOnOne?.oneOnOneParticipants?.first.employee.avatarAttachmentUrl ?? ""),
                   child: Text(
                     getInitials(employeeName, 2),
                     style: const TextStyle(

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:feedbackapp/api_services/api_client.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
@@ -84,7 +85,8 @@ class _OtpViewState extends State<OtpView> {
         ),
         title: const Text(constants.txtLogin),
       ),
-      body: Container(
+      body: SingleChildScrollView(
+      child: Container(
         padding: const EdgeInsets.all(36.0),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,6 +240,7 @@ class _OtpViewState extends State<OtpView> {
                 ),
               ),
             ]),
+      ),
       ),
     );
   }
