@@ -8,6 +8,7 @@ import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/screens/otp/otp_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/snackbar_helper.dart';
+import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:network_logger/network_logger.dart';
@@ -42,10 +43,7 @@ class _LoginViewState extends State<LoginView> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: MaterialApp(
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        home: Scaffold(
+      child: Scaffold(
           appBar: AppBar(
             title: const Text(constants.txtLogin),
             // backgroundColor: Colors.white,
@@ -127,6 +125,7 @@ class _LoginViewState extends State<LoginView> {
                           height: 58.0,
                           onPressed: () {
                             if (_formState.currentState!.validate()) {
+                              showLoader(context);
                               _genarateOtp(_enteredEmail, context);
                             }
                           },
@@ -147,7 +146,7 @@ class _LoginViewState extends State<LoginView> {
             ),
           ),
         ),
-      ),
+      
     );
   }
 
@@ -156,6 +155,8 @@ class _LoginViewState extends State<LoginView> {
         email: email as String, deviceType: Platform.operatingSystem);
 
     _apiService.sendOTP(request).then((value) {
+        hideLoader();
+
       EmailOTPResponse? response = value.data;
       if (value.getException != null) {
         //if there is any error ,it will trigger here and shown in snack-bar
