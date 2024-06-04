@@ -92,7 +92,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
   }
 
   Widget multiFontText(String name, String date, String time) {
-    return Padding(padding: const EdgeInsets.only(left: 12.0,right: 12.0),
+    return  Padding(padding: const EdgeInsets.only(left: 8.0,right: 8.0),
     child : Column(
       children: [
          Wrap(
