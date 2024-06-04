@@ -668,32 +668,36 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           title: Text(text),
-          content: TextFormField(
-              minLines: 2,
-              maxLines: 5,
-              keyboardType: TextInputType.multiline,
-              textInputAction: TextInputAction.done,
-              decoration: const InputDecoration(
-                fillColor: Colors.white,
-                hintText: constants.notesHintText,
-                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: colorText,
+          content: Container(
+            width: 300,
+            height: 80,
+            child: TextFormField(
+                minLines: 2,
+                maxLines: 5,
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(
+                  fillColor: Colors.white,
+                  hintText: constants.notesHintText,
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: colorText,
+                    ),
                   ),
                 ),
-              ),
-              style: const TextStyle(
-                fontFamily: constants.uberMoveFont,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-              onChanged: (value) {
-                chngedText = value;
-              }),
+                style: const TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                onChanged: (value) {
+                  chngedText = value;
+                }),
+          ),
           actions: <Widget>[
             TextButton(
               child: const Text('Cancel'),
