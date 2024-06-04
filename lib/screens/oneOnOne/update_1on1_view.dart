@@ -412,7 +412,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       if (yetToImprovePoint != null) {
         markAsDoneVal = yetToImprovePoint.markAsDone ?? false;
       }
-      var attr = OneOnOnePointsAttribute(
+      var attr = OneOnOnePointsAttribute(id: yetToImprovePoint?.id ?? 0,
           pointType: "pt_yet_to_improve", markAsDone: !markAsDoneVal);
       _oneOnOnePointsAttributes.add(attr);
       oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;

@@ -53,6 +53,7 @@ class OneOnOne {
 
 @JsonSerializable(includeIfNull: false)
 class OneOnOnePointsAttribute {
+     int? id;
     @JsonKey(name: 'point_type')
     String pointType;
     String? title;
@@ -60,6 +61,7 @@ class OneOnOnePointsAttribute {
     bool? markAsDone;
 
     OneOnOnePointsAttribute({
+        this.id,
         required this.pointType,
         this.title,
         this.markAsDone

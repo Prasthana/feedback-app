@@ -62,6 +62,7 @@ Map<String, dynamic> _$OneOnOneToJson(OneOnOne instance) {
 OneOnOnePointsAttribute _$OneOnOnePointsAttributeFromJson(
         Map<String, dynamic> json) =>
     OneOnOnePointsAttribute(
+      id: (json['id'] as num?)?.toInt(),
       pointType: json['point_type'] as String,
       title: json['title'] as String?,
       markAsDone: json['mark_as_done'] as bool?,
@@ -69,9 +70,7 @@ OneOnOnePointsAttribute _$OneOnOnePointsAttributeFromJson(
 
 Map<String, dynamic> _$OneOnOnePointsAttributeToJson(
     OneOnOnePointsAttribute instance) {
-  final val = <String, dynamic>{
-    'point_type': instance.pointType,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -79,6 +78,8 @@ Map<String, dynamic> _$OneOnOnePointsAttributeToJson(
     }
   }
 
+  writeNotNull('id', instance.id);
+  val['point_type'] = instance.pointType;
   writeNotNull('title', instance.title);
   writeNotNull('mark_as_done', instance.markAsDone);
   return val;
