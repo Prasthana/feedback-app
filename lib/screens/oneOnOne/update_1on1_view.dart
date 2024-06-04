@@ -479,10 +479,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     Widget showEmptyPointsView(String pointTypeText) {
     return ListTile(
         title: Text(
-          "Click on + to Add $pointTypeText",
+          "Click on + to add $pointTypeText",
           style: const TextStyle(
               fontFamily: constants.uberMoveFont,
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.w400,
               color: Color.fromRGBO(0, 0, 0, 1)),
         ));
@@ -554,7 +554,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       },
     );
   }
-  
+
   Widget gootAtBottomView(List<Point>? goodAtList) {
     return Column(
       children: [
