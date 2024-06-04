@@ -11,6 +11,7 @@ import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:dio/dio.dart';
@@ -179,6 +180,7 @@ class _OtpViewState extends State<OtpView> {
                         //     content: Text('Code entered is $enteredOTP'),
                         // );
                         // });
+                        showLoader(context);
                         _validateOTP(
                             widget.emailOTPResponse.userLogin?.id ?? -1, enteredOTP, context);                        
                       }
@@ -245,15 +247,16 @@ class _OtpViewState extends State<OtpView> {
   _validateOTP(int id, String authCode, BuildContext context) async {
     var request = VerifyEmailOTPRequest(id: id, emailAuthCode: authCode);
 
+    setValidOTPStatus(false);
     ApiManager.public.verifyEmailOTP(request).then((val) {
       // do some operation
       logger.e('email response -- ${val.toJson()}');
-      setValidOTPStatus(false);
       _getLoginToken(val, context);
 
       // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  OtpView(emailOTPResponse: val)));
     }).catchError((obj) {
       // non-200 error goes here.
+      hideLoader();
       switch (obj.runtimeType) {
         case const (DioException):
           // Here's the sample to get the failed response error code and message
@@ -280,6 +283,7 @@ class _OtpViewState extends State<OtpView> {
       logger.e('email response -- ${val.toJson()}');
       String user = jsonEncode(val.toJson());
       var sm = StorageManager();
+      hideLoader();
 
       sm.saveData(constants.loginTokenResponse, user).then((val) {
         // do some operation
@@ -293,7 +297,8 @@ class _OtpViewState extends State<OtpView> {
     
     }).catchError((obj) {
       // non-200 error goes here.
-      switch (obj.runtimeType) {
+       hideLoader();
+     switch (obj.runtimeType) {
         case const (DioException):
           // Here's the sample to get the failed response error code and message
           final res = (obj as DioException).response;

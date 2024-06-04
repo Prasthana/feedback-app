@@ -323,7 +323,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                padding: EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(16),
                                 child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -332,7 +332,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Align(
+                                            Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
                                                 constants.profilePicture,
@@ -371,7 +371,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                                     Alignment.centerRight,
                                                 child: IconButton(
                                                   iconSize: 36.0,
-                                                  icon: Icon(Icons.camera),
+                                                  icon: const Icon(Icons.camera),
                                                   tooltip:
                                                       constants.profilePicture,
                                                   onPressed: () {
@@ -554,7 +554,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 width: 160.0,
                 child: TextField(
                   textInputAction: TextInputAction.go,
-                  keyboardType: TextInputType.numberWithOptions(signed: true),
+                  keyboardType: const TextInputType.numberWithOptions(signed: true),
                   onSubmitted: (value) {
                     updateMobileNumber(value);
                   },
