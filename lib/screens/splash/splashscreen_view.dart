@@ -38,13 +38,13 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
         logger.d('val -- $json');
 
-      var refreshTokenStatus = await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
+        var refreshTokenStatus = await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
 
-          if (refreshTokenStatus == true) {
-            setLoginStatus(true);
-          } else {
-            setLoginStatus(false);
-          }
+        if (refreshTokenStatus == true) {
+          setLoginStatus(true);
+        } else {
+          setLoginStatus(false);
+        }
         
       } else {
         setLoginStatus(false);

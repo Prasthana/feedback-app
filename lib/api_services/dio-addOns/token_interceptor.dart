@@ -1,7 +1,15 @@
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:feedbackapp/api_services/api_errohandler.dart';
+import 'package:feedbackapp/api_services/api_result.dart';
+import 'package:feedbackapp/api_services/api_service.dart';
+import 'package:feedbackapp/api_services/models/logintoken.dart';
+import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:flutter/material.dart';
+import 'package:feedbackapp/utils/constants.dart' as constants;
 
 /// using this key when we don't have direct access with Build context
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -10,8 +18,9 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 /// other errors handling in Api Result Generic class
 class TokenInterceptor extends Interceptor {
   final Dio dio;
+  final ApiService? _apiService;
 
-  TokenInterceptor(this.dio);
+  TokenInterceptor(this.dio,this._apiService);
 
   void navigateToLogin() {
     // //clearing data
@@ -39,13 +48,41 @@ class TokenInterceptor extends Interceptor {
       if (!err.requestOptions.extra.containsKey('retry')) {
         err.requestOptions.extra['retry'] = true;
 
+        var sm = StorageManager();
+        sm.getData(constants.loginTokenResponse).then((val) async {
+          if (val != constants.noDataFound) {
+            Map<String, dynamic> json = jsonDecode(val);
+            var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
+            logger.d('val -- $json');
 
+            ApiResult<LoginTokenResponse?> value = await _apiService!
+                .makeRefreshTokenCall(mLoginTokenResponse.refreshToken ?? "");
 
+            dynamic response = value.data;
+            if (response != null) {
+              // Save the token information
+              // TO DO
+
+              // Retry API Call
+              try {
+                // retry the API call
+                final response = await dio.fetch(err.requestOptions);
+                handler.resolve(response);
+              } on DioException catch (e) {
+                logger.e("api:: called retry exception $e");
+                // If an error occurs during the api call , reject the handler and sending to error to API Result generic class
+                //errors like any validation issue from API or whatever
+                return handler.reject(e);
+              }
+            } else {
+              navigateToLogin();
+            }
+          }
+        });
       } else {
         // if the API status code not contains sending to API Result class
         return handler.next(err);
       }
     }
-
   }
 }
