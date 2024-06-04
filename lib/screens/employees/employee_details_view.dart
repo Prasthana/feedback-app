@@ -771,7 +771,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             color: Color.fromRGBO(0, 0, 0, 1)),
                       ),
                       onTap: () {
-                        logoutUser();
+                        showLogoutAlertDialog(context, constants.logoutDialogText);
+                        // logoutUser();
                       },
                     ),
                     const Divider(
@@ -850,5 +851,37 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     }
 
     return buffer.toString();
+  }
+
+
+showLogoutAlertDialog(BuildContext context, String alertText) {
+    // set up the button
+    Widget cancelButton = TextButton(
+      child: const Text(constants.cancel),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    Widget yesButton = TextButton(
+      child: const Text(constants.yes),
+      onPressed: () {
+        logoutUser();
+      },
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.red, // Set the text color here
+        ),
+    );
+
+    CupertinoAlertDialog alert = CupertinoAlertDialog(
+      content: Text(alertText),
+      actions: [cancelButton, yesButton],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
