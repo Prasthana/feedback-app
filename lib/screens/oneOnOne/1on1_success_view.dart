@@ -99,47 +99,44 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
   }
 
   Widget multiFontText(String name, String date, String time) {
-    return Column(
+    return  Padding(padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+    child : Column(
       children: [
-                   Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [              
-                const Text(
-                  '1-on-1 with ',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-                Text(
-                  name,
-                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  ' for',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-              ],                  
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-              Text(
-                  date,
-                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  ' at ',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-                Text(
-                  time,
-                  style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  ' created',
-                  style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
-                ),
-              ],
+         Wrap(
+          alignment: WrapAlignment.center,
+          children: [              
+            const Text(
+              '1-on-1 with ',
+              style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
               ),
+              Text(
+                name,
+                style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
+              ),
+              const Text(
+                ' for ',
+                style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+              ),
+              Text(
+                date,
+                style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
+              ),
+              const Text(
+                ' at ',
+                style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+              ),
+              Text(
+                time,
+                style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
+              ),
+              const Text(
+                ' created',
+                style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
       ],
+    ),
     );
   }
 }
