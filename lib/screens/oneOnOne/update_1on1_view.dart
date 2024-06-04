@@ -496,7 +496,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   Widget showEmptyPointsView(String pointTypeText) {
     return ListTile(
         title: Text(
-      "Click on + to add $pointTypeText",
+      hasAccessForUpdate1on1 ? "Click on + to add $pointTypeText" : "not available",
       style: const TextStyle(
           fontFamily: constants.uberMoveFont,
           fontSize: 16,
