@@ -526,6 +526,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
 
     return ListView.separated(
       shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
       itemCount: improvePointsList.length,
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
