@@ -617,8 +617,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var goodAtPoint = goodPointsList[index];
-        return SizedBox(
-          height: 56.0,
+        return Container(
           child: Column(
             children: <Widget>[
               ListTile(
