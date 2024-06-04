@@ -17,6 +17,13 @@ class OneonOneSuccessView extends StatefulWidget {
 }
 
 class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
+
+  @override
+  void dispose() {
+    super.dispose();
+    NotificationCenter().notify(notificationconstants.oneOnOnesUpdated);
+  }
+
   @override
   Widget build(BuildContext context) {
     var empName = widget.oneOnOneResp.oneOnOne.oneOnOneParticipants?.first.employee.name ?? "";
