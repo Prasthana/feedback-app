@@ -18,6 +18,8 @@ displayAlert(BuildContext context, String alertText) {
       okButton,
     ],
   );
+
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -29,7 +31,7 @@ displayAlert(BuildContext context, String alertText) {
 
 
 displaySnackbar(BuildContext context, String alertText) {
- 
+  rootScaffoldMessengerKey.currentState?.hideCurrentSnackBar();
   var mySnackBar = SnackBar(content: Text(alertText));
   rootScaffoldMessengerKey.currentState?.showSnackBar(mySnackBar);
 }
