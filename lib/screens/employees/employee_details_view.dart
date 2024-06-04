@@ -708,7 +708,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   void showNoMailAppsDialog(BuildContext context) {
-    showDialog(
+    showDialog( 
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
