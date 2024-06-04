@@ -302,7 +302,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
             border: Border.all(color: colorText, width: 1.5),
           ),
-          child:Text(
+          child: Text(
             " $rating/5.0 ",
             style: const TextStyle(
               fontFamily: constants.uberMoveFont,
@@ -321,7 +321,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       children: [
         Row(
           children: [
-             const Text(
+            const Text(
               "Rating :",
               style: TextStyle(
                 fontFamily: constants.uberMoveFont,
@@ -330,20 +330,20 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               ),
             ),
             addHorizontalSpace(8),
-          DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-            border: Border.all(color: colorText, width: 1.2),
-          ),
-          child: Text(
-            "  $_currentSliderValue/5.0  ",
-            style: const TextStyle(
-              fontFamily: constants.uberMoveFont,
-              fontSize: 21,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        )
+            DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                border: Border.all(color: colorText, width: 1.2),
+              ),
+              child: Text(
+                "  $_currentSliderValue/5.0  ",
+                style: const TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 21,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            )
           ],
         ),
         addVerticalSpace(10),
@@ -376,7 +376,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  _updateOneOnOneAPIcall(BuildContext context) async {
+  _updateOneOnOneAPIcall(BuildContext context, [Point? yetToImprovePoint]) async {
     var oneOnOneObj = OneOnOne();
     if (_currentSliderValue > 0) {
       oneOnOneObj.feedbackRating = _currentSliderValue;
@@ -404,18 +404,37 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     if (_oneOnOnePointsAttributes.isNotEmpty) {
       oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
     }
+    
+
+  // *************** employee update point **************** trilok
+    var markAsDoneVal = false;
+    if (!hasAccessForUpdate1on1) {
+      if (yetToImprovePoint != null) {
+        markAsDoneVal = yetToImprovePoint.markAsDone ?? false;
+      }
+      var attr = OneOnOnePointsAttribute(
+          pointType: "pt_yet_to_improve", markAsDone: !markAsDoneVal);
+      _oneOnOnePointsAttributes.add(attr);
+      oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
+    }
+     // *************** employee update point ****************
+
+
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
       logger.e('update OneOnOne response -- ${val.toJson()}');
-      localGoodAtList.clear();
-      localYetToImproveList.clear();
-      _oneOnOnePointsAttributes.clear();
-      // var newFuture =
-      //     ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
-      // setUpdateOneOnOneFuture(newFuture);
-      Navigator.pop(context);
+      if (hasAccessForUpdate1on1) {
+        localGoodAtList.clear();
+        localYetToImproveList.clear();
+        _oneOnOnePointsAttributes.clear();
+        Navigator.pop(context);
+      } else {
+        var newFuture = ApiManager.authenticated
+            .fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
+        setUpdateOneOnOneFuture(newFuture);
+      }
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {
@@ -445,47 +464,45 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-                 Visibility(
-                  visible: hasAccessForUpdate1on1,
-                   child: TextButton(
-                      onPressed: () {
-                        _displayTextInputDialog(false, "Yet to Improve point",
-                            context, yetToImproveList ?? []);
-                      },
-                      child: const Text(
-                        "+ Add point",
-                        style: TextStyle(
-                          color: Color.fromRGBO(22, 97, 210, 1),
-                          fontFamily: constants.uberMoveFont,
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )),
-                 )  
+            Visibility(
+              visible: hasAccessForUpdate1on1,
+              child: TextButton(
+                  onPressed: () {
+                    _displayTextInputDialog(false, "Yet to Improve point",
+                        context, yetToImproveList ?? []);
+                  },
+                  child: const Text(
+                    "+ Add point",
+                    style: TextStyle(
+                      color: Color.fromRGBO(22, 97, 210, 1),
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )),
+            )
           ],
         ),
         addVerticalSpace(10),
         // showRecordView(),
         Visibility(
-          visible: yetToImproveList!.isEmpty && localYetToImproveList.isEmpty,
-          child: 
-        showEmptyPointsView("Yet To Improve points")
-        ),
+            visible: yetToImproveList!.isEmpty && localYetToImproveList.isEmpty,
+            child: showEmptyPointsView("Yet To Improve points")),
         buildYetToImproveList(yetToImproveList),
       ],
     );
   }
 
-    Widget showEmptyPointsView(String pointTypeText) {
+  Widget showEmptyPointsView(String pointTypeText) {
     return ListTile(
         title: Text(
-          "Click on + to add $pointTypeText",
-          style: const TextStyle(
-              fontFamily: constants.uberMoveFont,
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Color.fromRGBO(0, 0, 0, 1)),
-        ));
+      "Click on + to add $pointTypeText",
+      style: const TextStyle(
+          fontFamily: constants.uberMoveFont,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: Color.fromRGBO(0, 0, 0, 1)),
+    ));
   }
 
   Widget showRecordView() {
@@ -513,52 +530,60 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var yetToImprovePoint = improvePointsList[index];
-        var isMarked = true;
+        var isMarked = yetToImprovePoint.markAsDone ?? false;
         return SizedBox(
           height: 56.0,
           child: Column(
             children: <Widget>[
-              if (!hasAccessForUpdate1on1) ListTile(
-                      leading: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.menu),
-                          const SizedBox(width: 12.0),
-                          InkWell(
-                            onTap: () {
-                              debugPrint("check_box clicked ------->> ${yetToImprovePoint.id ?? 0}");
-                            },
-                            child: isMarked ?  Icon(Icons.check_box_outlined) : Icon(Icons.check_box_outline_blank),
-                            ),
-                    
-                        ],
+              if (!hasAccessForUpdate1on1)
+                ListTile(
+                  leading: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.menu),
+                      const SizedBox(width: 12.0),
+                      InkWell(
+                        onTap: () {
+                          _updateOneOnOneAPIcall(context, yetToImprovePoint);
+                          debugPrint(
+                              "check_box clicked ------->> ${yetToImprovePoint.id ?? 0}");
+                        },
+                        child: isMarked
+                            ? const Icon(Icons.check_box_outlined)
+                            : const Icon(Icons.check_box_outline_blank),
                       ),
-                      title: Text(
-                        yetToImprovePoint.title,
-                        style: const TextStyle(
-                            fontFamily: constants.uberMoveFont,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(0, 0, 0, 1)),
-                      ),
-                      onTap: () {},
-                    ) else ListTile(
-                      leading: const Icon(Icons.menu),
-                      title: Text(
-                        yetToImprovePoint.title,
-                        style: const TextStyle(
-                            fontFamily: constants.uberMoveFont,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color.fromRGBO(0, 0, 0, 1)),
-                      ),
-                    )
+                    ],
+                  ),
+                  title: Text(
+                    yetToImprovePoint.title,
+                    style: const TextStyle(
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(0, 0, 0, 1)),
+                  ),
+                  onTap: () {},
+                )
+              else
+                ListTile(
+                  leading: const Icon(Icons.menu),
+                  title: Text(
+                    yetToImprovePoint.title,
+                    style: const TextStyle(
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(0, 0, 0, 1)),
+                  ),
+                )
             ],
           ),
         );
       },
     );
   }
+
+  _markAsDoneAPIcall() {}
 
   Widget gootAtBottomView(List<Point>? goodAtList) {
     return Column(
@@ -574,33 +599,30 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-
             Visibility(
               visible: hasAccessForUpdate1on1,
               child: TextButton(
-                      onPressed: () {
-                        _displayTextInputDialog(
-                            true, "Good at point", context, goodAtList ?? []);
-                      },
-                      child: const Text(
-                        "+ Add point",
-                        style: TextStyle(
-                          color: Color.fromRGBO(22, 97, 210, 1),
-                          fontFamily: constants.uberMoveFont,
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )),
+                  onPressed: () {
+                    _displayTextInputDialog(
+                        true, "Good at point", context, goodAtList ?? []);
+                  },
+                  child: const Text(
+                    "+ Add point",
+                    style: TextStyle(
+                      color: Color.fromRGBO(22, 97, 210, 1),
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )),
             )
           ],
         ),
         addVerticalSpace(10),
         // showRecordView(),
         Visibility(
-          visible: goodAtList!.isEmpty && localGoodAtList.isEmpty,
-          child: 
-        showEmptyPointsView("Good At points")
-        ),
+            visible: goodAtList!.isEmpty && localGoodAtList.isEmpty,
+            child: showEmptyPointsView("Good At points")),
         buildGoodAtList(goodAtList),
       ],
     );

@@ -55,11 +55,14 @@ class OneOnOne {
 class OneOnOnePointsAttribute {
     @JsonKey(name: 'point_type')
     String pointType;
-    String title;
+    String? title;
+    @JsonKey(name: 'mark_as_done')
+    bool? markAsDone;
 
     OneOnOnePointsAttribute({
         required this.pointType,
-        required this.title,
+        this.title,
+        this.markAsDone
     });
 
     factory OneOnOnePointsAttribute.fromJson(Map<String, dynamic> json) =>
@@ -72,11 +75,14 @@ class Point {
     int? id;
     dynamic completionComment;
     String title;
+    @JsonKey(name: 'mark_as_done')
+    bool? markAsDone;
 
     Point({
        this.id,
        this.completionComment,
        required this.title,
+       this.markAsDone,
     });
 
     factory Point.fromJson(Map<String, dynamic> json) =>
