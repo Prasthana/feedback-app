@@ -173,6 +173,7 @@ class _LoginViewState extends State<LoginView> {
         //   _isLoading = false;
         //   _mPostList.addAll(response);
         // });
+        navigateToOTPScreen(response);
       } else {
         //when response is null most cases are when status code becomes 204
         //disabling the loader
@@ -180,10 +181,15 @@ class _LoginViewState extends State<LoginView> {
         //   _isLoading = false;
         // });
 
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                OtpView(emailOTPResponse: response ?? EmailOTPResponse())));
+        navigateToOTPScreen(response);
       }
     });
+  }
+
+  navigateToOTPScreen(EmailOTPResponse? response) {
+            Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                OtpView(emailOTPResponse: response ?? EmailOTPResponse())));
+
   }
 }
