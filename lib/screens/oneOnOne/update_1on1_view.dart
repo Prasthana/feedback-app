@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:feedbackapp/api_services/api_errohandler.dart';
+import 'package:feedbackapp/api_services/api_service.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
+import 'package:feedbackapp/api_services/models/pointRequest.dart';
+import 'package:feedbackapp/api_services/models/pointResponse.dart';
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
@@ -12,6 +16,7 @@ import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/snackbar_helper.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +42,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   List<Point> localYetToImproveList = [];
   String enteredAddPoint = "";
   bool hasAccessForUpdate1on1 = false;
+    //initializing the API Service class
+  final ApiService _apiService = ApiService();
 
   @override
   void initState() {
@@ -376,7 +383,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  _updateOneOnOneAPIcall(BuildContext context, [Point? yetToImprovePoint]) async {
+  _updateOneOnOneAPIcall(BuildContext context) async {
     var oneOnOneObj = OneOnOne();
     if (_currentSliderValue > 0) {
       oneOnOneObj.feedbackRating = _currentSliderValue;
@@ -405,36 +412,15 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
     }
     
-
-  // *************** employee update point **************** trilok
-    var markAsDoneVal = false;
-    if (!hasAccessForUpdate1on1) {
-      if (yetToImprovePoint != null) {
-        markAsDoneVal = yetToImprovePoint.markAsDone ?? false;
-      }
-      var attr = OneOnOnePointsAttribute(id: yetToImprovePoint?.id ?? 0,
-          pointType: "pt_yet_to_improve", markAsDone: !markAsDoneVal);
-      _oneOnOnePointsAttributes.add(attr);
-      oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
-    }
-     // *************** employee update point ****************
-
-
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
       logger.e('update OneOnOne response -- ${val.toJson()}');
-      if (hasAccessForUpdate1on1) {
         localGoodAtList.clear();
         localYetToImproveList.clear();
         _oneOnOnePointsAttributes.clear();
         Navigator.pop(context);
-      } else {
-        var newFuture = ApiManager.authenticated
-            .fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
-        setUpdateOneOnOneFuture(newFuture);
-      }
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {
@@ -545,9 +531,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                       const SizedBox(width: 12.0),
                       InkWell(
                         onTap: () {
-                          _updateOneOnOneAPIcall(context, yetToImprovePoint);
-                          debugPrint(
-                              "check_box clicked ------->> ${yetToImprovePoint.id ?? 0}");
+                          _employeeYetToImprovePointStatuUpdate(context, !isMarked, yetToImprovePoint.id ?? 0);
                         },
                         child: isMarked
                             ? const Icon(Icons.check_box_outlined)
@@ -584,7 +568,30 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  _markAsDoneAPIcall() {}
+  _employeeYetToImprovePointStatuUpdate(BuildContext context, bool status,int pointId) async {
+    var oneOnOnePoint = OneOnOnePoint(markAsDone: status);
+    PointRequest request = PointRequest(oneOnOnePoint: oneOnOnePoint);
+    _apiService.updateOneOnOnePointStatus(request, pointId).then((value) {
+      PointResponse? response = value.data;
+      if (value.getException != null) {
+        //if there is any error ,it will trigger here and shown in snack-bar
+        ErrorHandler errorHandler = value.getException;
+        String msg = errorHandler.getErrorMessage();
+
+        displaySnackbar(context, msg);
+      } else if (response != null) {
+        refreshScreen();
+      } else {
+        refreshScreen();
+      }
+    });
+  }
+
+  refreshScreen() {
+            var newFuture = ApiManager.authenticated
+            .fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
+        setUpdateOneOnOneFuture(newFuture);
+  }
 
   Widget gootAtBottomView(List<Point>? goodAtList) {
     return Column(
