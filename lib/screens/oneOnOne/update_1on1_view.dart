@@ -120,16 +120,19 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             fontWeight: FontWeight.w700,
           ),
         ),
+        /*
         actions: <Widget>[
-          hasAccessForUpdate1on1 ?
-          IconButton(
-            icon: const Icon(Icons.more_vert_outlined),
-            onPressed: () {
-              debugPrint("more clicked ----->>>>");
-            },
+          Visibility(
+            visible: hasAccessForUpdate1on1,
+            child: IconButton(
+              icon: const Icon(Icons.more_vert_outlined),
+              onPressed: () {
+                debugPrint("more clicked ----->>>>");
+              },
+            ),
           )
-          : const Text(""),
         ],
+        */
       ),
       body: Container(
         color: Colors.white,
@@ -276,7 +279,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         yetToImproveBottomView(oneOnOne?.yetToImprovePoints),
         addVerticalSpace(20),
         hasAccessForUpdate1on1
-            ? saveButtonAndshowRatingView()
+            ? managerWriteRatingView()
             : employeeReadRatingView(),
         addVerticalSpace(50)
       ]),
@@ -312,21 +315,40 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  Widget saveButtonAndshowRatingView() {
+  Widget managerWriteRatingView() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Rating:",
-          style: TextStyle(
-            fontFamily: constants.uberMoveFont,
-            fontSize: 21,
-            fontWeight: FontWeight.w500,
+        Row(
+          children: [
+             const Text(
+              "Rating :",
+              style: TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 21,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            addHorizontalSpace(8),
+          DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            border: Border.all(color: colorText, width: 1.2),
           ),
+          child: Text(
+            "  $_currentSliderValue/5.0  ",
+            style: const TextStyle(
+              fontFamily: constants.uberMoveFont,
+              fontSize: 21,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        )
+          ],
         ),
         addVerticalSpace(10),
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [Text("0.0"), Text("5.0")],
@@ -423,29 +445,47 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            hasAccessForUpdate1on1
-                ? TextButton(
-                    onPressed: () {
-                      _displayTextInputDialog(false, "Yet to Improve point",
-                          context, yetToImproveList ?? []);
-                    },
-                    child: const Text(
-                      "+ Add point",
-                      style: TextStyle(
-                        color: Color.fromRGBO(22, 97, 210, 1),
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 21,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ))
-                : const Text(""),
+                 Visibility(
+                  visible: hasAccessForUpdate1on1,
+                   child: TextButton(
+                      onPressed: () {
+                        _displayTextInputDialog(false, "Yet to Improve point",
+                            context, yetToImproveList ?? []);
+                      },
+                      child: const Text(
+                        "+ Add point",
+                        style: TextStyle(
+                          color: Color.fromRGBO(22, 97, 210, 1),
+                          fontFamily: constants.uberMoveFont,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
+                 )  
           ],
         ),
         addVerticalSpace(10),
         // showRecordView(),
+        Visibility(
+          visible: yetToImproveList!.isEmpty && localYetToImproveList.isEmpty,
+          child: 
+        showEmptyPointsView("Yet To Improve points")
+        ),
         buildYetToImproveList(yetToImproveList),
       ],
     );
+  }
+
+    Widget showEmptyPointsView(String pointTypeText) {
+    return ListTile(
+        title: Text(
+          "Click on + to Add $pointTypeText",
+          style: const TextStyle(
+              fontFamily: constants.uberMoveFont,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              color: Color.fromRGBO(0, 0, 0, 1)),
+        ));
   }
 
   Widget showRecordView() {
@@ -514,14 +554,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       },
     );
   }
-
-  showodd() {
-    return const Row(children: [
-      SizedBox(width: 12.0),
-      Icon(Icons.check_box_outline_blank),
-    ]);
-  }
-
+  
   Widget gootAtBottomView(List<Point>? goodAtList) {
     return Column(
       children: [
@@ -536,26 +569,33 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            hasAccessForUpdate1on1
-                ? TextButton(
-                    onPressed: () {
-                      _displayTextInputDialog(
-                          true, "Good at point", context, goodAtList ?? []);
-                    },
-                    child: const Text(
-                      "+ Add point",
-                      style: TextStyle(
-                        color: Color.fromRGBO(22, 97, 210, 1),
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 21,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ))
-                : const Text(""),
+
+            Visibility(
+              visible: hasAccessForUpdate1on1,
+              child: TextButton(
+                      onPressed: () {
+                        _displayTextInputDialog(
+                            true, "Good at point", context, goodAtList ?? []);
+                      },
+                      child: const Text(
+                        "+ Add point",
+                        style: TextStyle(
+                          color: Color.fromRGBO(22, 97, 210, 1),
+                          fontFamily: constants.uberMoveFont,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
+            )
           ],
         ),
         addVerticalSpace(10),
         // showRecordView(),
+        Visibility(
+          visible: goodAtList!.isEmpty && localGoodAtList.isEmpty,
+          child: 
+        showEmptyPointsView("Good At points")
+        ),
         buildGoodAtList(goodAtList),
       ],
     );
