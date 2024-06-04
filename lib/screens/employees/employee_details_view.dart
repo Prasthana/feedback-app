@@ -68,7 +68,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   Future getImage(String type) async {
     XFile? image;
-    if (type == constants.camera) {
+    if(type == constants.delete){
+      // ToDo : implement delete profile pic api integration
+    } else if (type == constants.camera) {
       image = await ImagePicker().pickImage(source: ImageSource.camera);
     } else {
       image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -147,8 +149,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         Map<String, dynamic> json = jsonDecode(val);
         var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
         logger.d('val -- $json');
-        Permission? tabCreate1On1Access = mPrepareCallResponse.user?.permissions?["one_on_ones.create"];
-        if (tabCreate1On1Access?.access == Access.enabled ) {
+        Permission? tabCreate1On1Access =
+            mPrepareCallResponse.user?.permissions?["one_on_ones.create"];
+        if (tabCreate1On1Access?.access == Access.enabled) {
           setCanCreate1On1(true);
         } else {
           setCanCreate1On1(false);
@@ -320,24 +323,104 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              ListTile(
-                                leading: const Icon(Icons.camera),
-                                title: const Text(constants.camera),
-                                onTap: () => {
-                                  getImage(constants.camera),
-                                  // this is how you dismiss the modal bottom sheet after making a choice
-                                  Navigator.pop(context),
-                                },
-                              ),
-                              ListTile(
-                                leading: const Icon(Icons.image),
-                                title: const Text(constants.gallery),
-                                onTap: () => {
-                                  getImage(constants.gallery),
-                                  // dismiss the modal sheet
-                                  Navigator.pop(context),
-                                },
-                              ),
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                constants.profilePicture,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        constants.uberMoveFont,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color.fromRGBO(
+                                                        0, 0, 0, 1)),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                iconSize: 24.0,
+                                                icon: const Icon(Icons.delete),
+                                                tooltip:
+                                                    constants.profilePicture,
+                                                onPressed: () {
+                                                  getImage(constants.delete);
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            )
+                                          ]),
+                                      addVerticalSpace(24),
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                             Column(children: <Widget>[
+                                              Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                iconSize: 36.0,
+                                                icon: Icon(Icons.camera),
+                                                tooltip:
+                                                    constants.profilePicture,
+                                                onPressed: () {
+                                                  getImage(constants.camera);
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            ),
+                                             GestureDetector(
+                                              child: const Text(constants.camera,
+                                              style: TextStyle(
+                                              fontFamily: constants.uberMoveFont,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color.fromRGBO(4, 4, 4, 1))),
+                                              onTap: () {
+                                                getImage(constants.camera);
+                                                Navigator.pop(context);
+                                              })
+                                            ]),
+                                            addVerticalSpace(24),
+                                             Column(children: <Widget>[
+                                              Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                iconSize: 36.0,
+                                                icon: Icon(Icons.image),
+                                                tooltip:
+                                                    constants.profilePicture,
+                                                onPressed: () {
+                                                  getImage(constants.gallery);
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                getImage(constants.gallery);
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text(constants.gallery,
+                                              style: TextStyle(
+                                              fontFamily: constants.uberMoveFont,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color.fromRGBO(4, 4, 4, 1)))),
+                                            ]),
+                                          ])
+                                    ]),
+                              )
                             ],
                           ),
                         );
@@ -432,7 +515,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             addVerticalSpace(8),
             Visibility(
               visible: isLoginEmployee &&
-                  !(employee?.mobileNumber ??"" ).isNotEmpty &&
+                  !(employee?.mobileNumber ?? "").isNotEmpty &&
                   addMobileNumber == false,
               child: Center(
                 child: TextButton(
@@ -454,7 +537,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             ),
             Visibility(
               visible: isLoginEmployee &&
-                  ((employee?.mobileNumber ??"" ).isNotEmpty ||
+                  ((employee?.mobileNumber ?? "").isNotEmpty ||
                       addMobileNumber == true),
               child: Center(
                   child: SizedBox(
@@ -499,23 +582,23 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         height: 40.0,
                         child: TextButton(
                           onPressed: () async {
-                          // Android: Will open mail app or show native picker.
-                          // iOS: Will open mail app if single mail app found.
-                          var result = await OpenMailApp.openMailApp(
-                            nativePickerTitle: 'Select email app to open',
-                          );
-                          if (!result.didOpen && !result.canOpen) {
-                            showNoMailAppsDialog(context);
-                          } else if (!result.didOpen && result.canOpen) {
-                            showDialog(
-                              context: context,
-                              builder: (_) {
-                                return MailAppPickerDialog(
-                                  mailApps: result.options,
-                                );
-                              },
+                            // Android: Will open mail app or show native picker.
+                            // iOS: Will open mail app if single mail app found.
+                            var result = await OpenMailApp.openMailApp(
+                              nativePickerTitle: 'Select email app to open',
                             );
-                          }
+                            if (!result.didOpen && !result.canOpen) {
+                              showNoMailAppsDialog(context);
+                            } else if (!result.didOpen && result.canOpen) {
+                              showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return MailAppPickerDialog(
+                                    mailApps: result.options,
+                                  );
+                                },
+                              );
+                            }
                           },
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -559,55 +642,55 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       addVerticalSpace(8),
-                      new Visibility( 
-                      visible: hasAccessToCreate1On1,
-                      child: SizedBox(
-                        width: 144.0,
-                        height: 40.0,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CreateOneOnOneView(mEmployee: employee)),
-                            );
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            side:
-                                const BorderSide(color: colorText, width: 1.0),
-                          ),
-                          child: const Align(
-                            alignment: Alignment.center,
-                            child: Stack(children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: ImageIcon(
-                                  AssetImage('assets/icOneonOne.png'),
-                                  size: 24,
-                                  color: Color.fromRGBO(0, 0, 0, 1),
-                                ),
+                      new Visibility(
+                        visible: hasAccessToCreate1On1,
+                        child: SizedBox(
+                          width: 144.0,
+                          height: 40.0,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateOneOnOneView(
+                                        mEmployee: employee)),
+                              );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  constants.create1On1,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: colorText,
-                                    fontFamily: constants.uberMoveFont,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
+                              side: const BorderSide(
+                                  color: colorText, width: 1.0),
+                            ),
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Stack(children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: ImageIcon(
+                                    AssetImage('assets/icOneonOne.png'),
+                                    size: 24,
+                                    color: Color.fromRGBO(0, 0, 0, 1),
                                   ),
                                 ),
-                              ),
-                            ]),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    constants.create1On1,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: colorText,
+                                      fontFamily: constants.uberMoveFont,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                            ),
                           ),
                         ),
-                      ),
                       ),
                     ],
                   ),
