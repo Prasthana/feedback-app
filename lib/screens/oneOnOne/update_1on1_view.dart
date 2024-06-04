@@ -513,8 +513,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var yetToImprovePoint = improvePointsList[index];
-        return SizedBox(
-          height: 56.0,
+        return Flexible(
           child: Column(
             children: <Widget>[
               !hasAccessForUpdate1on1
