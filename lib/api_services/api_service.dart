@@ -15,11 +15,9 @@ class ApiService {
     try {
       dynamic jsonResponse = await _apiPublicClient.sendEmailOTP(request);
 
-      // Parse each JSON object into a SampleResponse object
-      response =
-          jsonResponse.map((json) => EmailOTPResponse.fromJson(json));
+      // return ApiResult()..setData(response);
+      return ApiResult()..setData(jsonResponse);
 
-      return ApiResult()..setData(response);
     } catch (e, _) {
       //checking if the exception from dio then set the dio otherwise set other exception
       if (e is DioException) {
