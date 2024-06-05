@@ -7,6 +7,7 @@ import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
@@ -51,9 +52,9 @@ class TokenInterceptor extends Interceptor {
             Map<String, dynamic> json = jsonDecode(val);
             var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
             logger.d('val -- $json');
-
             var refreshTokenStatus =
                 await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
+                logger.d("refreshTokenStatus $refreshTokenStatus");
             try {
               // retry the API call
               final response = await dio.fetch(err.requestOptions);
@@ -62,15 +63,15 @@ class TokenInterceptor extends Interceptor {
               logger.e("api:: called retry exception $e");
               // If an error occurs during the api call , reject the handler and sending to error to API Result generic class
               //errors like any validation issue from API or whatever
+              navigateToLogin();
               return handler.reject(e);
             }
           }
         });
-      } else {
-        // if the API status code not contains sending to API Result class
-        return handler.next(err);
       }
     }
+    // if the API status code not contains sending to API Result class
+    return handler.next(err);
   }
 
   Future<bool> refreshLoginToken(String refreshToken) async {

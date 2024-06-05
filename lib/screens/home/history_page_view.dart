@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
@@ -11,6 +12,7 @@ import 'package:feedbackapp/screens/employees/employee_details_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -29,6 +31,7 @@ class HistoryPageView extends StatefulWidget {
 class _HistoryPageViewState extends State<HistoryPageView> {
   // variable to call and store future list of posts
   late String systemFormateDateTime;
+  int loginUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
 
   late Future<OneOnOnesResponse> oneOnOnesHistory;
 
@@ -88,7 +91,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
         final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
          String startTime = getFormatedDateConvertion(
               oneOnOne?.startDateTime ?? "", systemFormateDateTime);
-        var employeeName = oneOnOne?.oneOnOneParticipants?.first.employee.name ?? "No Employee";
+        var employeeName = oneOnOne?.getOpponentUser(loginUserId)?.name ?? "No Employee";
 
           return Column(
             children: <Widget>[

@@ -42,6 +42,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   List<Point> localYetToImproveList = [];
   String enteredAddPoint = "";
   bool hasAccessForUpdate1on1 = false;
+  bool hasAccessForUpdatePoints = false;
+  bool initialData = true;
     //initializing the API Service class
   final ApiService _apiService = ApiService();
 
@@ -49,6 +51,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   void initState() {
     super.initState();
     checkCanUpdate1On1();
+    checkCanUpdate1On1Point();
     oneOnOneData = widget.oneOnOneData;
     oneOnOneCreateResponseFuture =
         ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
@@ -57,6 +60,32 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   void setCanUpdate1On1(bool newValue) {
     setState(() {
       hasAccessForUpdate1on1 = newValue;
+    });
+  }
+
+  void setCanUpdate1On1Point(bool newValue) {
+    setState(() {
+      hasAccessForUpdatePoints = newValue;
+    });
+  }
+
+  void checkCanUpdate1On1Point() {
+    var sm = StorageManager();
+    sm.getData(constants.prepareCallResponse).then((val) {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
+        logger.d('val -- $json');
+        Permission? tabCreate1On1Access =
+            mPrepareCallResponse.user?.permissions?["one_on_one_points.update"];
+        if (tabCreate1On1Access?.access == Access.enabled) {
+          setCanUpdate1On1Point(true);
+        } else {
+          setCanUpdate1On1Point(false);
+        }
+      } else {
+        setCanUpdate1On1Point(false);
+      }
     });
   }
 
@@ -87,15 +116,17 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     });
   }
 
-  Widget showRatingBar() {
+  Widget showRatingBar(OneOnOne? oneOnOne) {
+    var ratingValue = initialData ?  oneOnOne?.feedbackRating ?? 0.0 : _currentSliderValue;
     return Slider(
-      value: _currentSliderValue,
+      value: ratingValue,
       max: 5,
       divisions: 10,
       activeColor: Colors.black,
-      label: _currentSliderValue.toString(),
+      label: ratingValue.toString(),
       onChanged: (double value) {
         setState(() {
+          initialData = false;
           _currentSliderValue = value;
         });
       },
@@ -177,7 +208,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "hh:mm a");
     String meetingDate = getFormatedDateConvertion(
         oneOnOne?.startDateTime ?? "", "EEEE, dd MMM yyyy");
-
+        
     return SingleChildScrollView(
       //color: Colors.white,
       padding: const EdgeInsets.all(12.0),
@@ -255,6 +286,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         ),
         addVerticalSpace(8),
         TextFormField(
+          readOnly: !hasAccessForUpdate1on1,
             minLines: 2,
             maxLines: 5,
             initialValue: oneOnOne?.notes ?? "",
@@ -286,7 +318,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         yetToImproveBottomView(oneOnOne?.yetToImprovePoints),
         addVerticalSpace(20),
         hasAccessForUpdate1on1
-            ? managerWriteRatingView()
+            ? managerWriteRatingView(oneOnOne)
             : employeeReadRatingView(oneOnOne?.feedbackRating ?? 0.0),
         addVerticalSpace(50)
       ]),
@@ -322,7 +354,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  Widget managerWriteRatingView() {
+  Widget managerWriteRatingView(OneOnOne? oneOnOne) {
+    var ratingValue = initialData ?  oneOnOne?.feedbackRating ?? 0.0 : _currentSliderValue;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -343,7 +376,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 border: Border.all(color: colorText, width: 1.2),
               ),
               child: Text(
-                "  $_currentSliderValue/5.0  ",
+                "  $ratingValue/5.0  ",
                 style: const TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 21,
@@ -361,13 +394,12 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             children: [Text("0.0"), Text("5.0")],
           ),
         ),
-        showRatingBar(),
+        showRatingBar(oneOnOne),
         addVerticalSpace(20),
         MaterialButton(
           minWidth: double.infinity,
           height: 58.0,
           onPressed: () {
-            debugPrint("clicked on Save ----->>>> $_currentSliderValue");
             _updateOneOnOneAPIcall(context);
           },
           // ignore: sort_child_properties_last
@@ -384,12 +416,16 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   _updateOneOnOneAPIcall(BuildContext context) async {
+    var dataUpdated = false;
+
     var oneOnOneObj = OneOnOne();
     if (_currentSliderValue > 0) {
       oneOnOneObj.feedbackRating = _currentSliderValue;
+      dataUpdated = true;
     }
     if (enteredNotes.isNotEmpty) {
       oneOnOneObj.notes = enteredNotes;
+      dataUpdated = true;
     }
 
     if (localGoodAtList.isNotEmpty) {
@@ -398,6 +434,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             OneOnOnePointsAttribute(pointType: "pt_good_at", title: pnt.title);
         _oneOnOnePointsAttributes.add(attr);
       }
+      dataUpdated = true;
     }
 
     if (localYetToImproveList.isNotEmpty) {
@@ -406,16 +443,22 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             pointType: "pt_yet_to_improve", title: pnt.title);
         _oneOnOnePointsAttributes.add(attr);
       }
+      dataUpdated = true;
     }
 
     if (_oneOnOnePointsAttributes.isNotEmpty) {
       oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
+      dataUpdated = true;
     }
-    
+    if (dataUpdated == false) {
+      return;
+    }
+    showLoader(context);
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
+          hideLoader();
       logger.e('update OneOnOne response -- ${val.toJson()}');
         localGoodAtList.clear();
         localYetToImproveList.clear();
@@ -522,7 +565,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         return Flexible(
           child: Column(
             children: <Widget>[
-              if (!hasAccessForUpdate1on1)
+              if (hasAccessForUpdatePoints)
                 ListTile(
                   leading: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -571,17 +614,20 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   _employeeYetToImprovePointStatuUpdate(BuildContext context, bool status,int pointId) async {
     var oneOnOnePoint = OneOnOnePoint(markAsDone: status);
     PointRequest request = PointRequest(oneOnOnePoint: oneOnOnePoint);
+    showLoader(context);
     _apiService.updateOneOnOnePointStatus(request, pointId).then((value) {
       PointResponse? response = value.data;
       if (value.getException != null) {
-        //if there is any error ,it will trigger here and shown in snack-bar
+        hideLoader();
         ErrorHandler errorHandler = value.getException;
         String msg = errorHandler.getErrorMessage();
 
         displaySnackbar(context, msg);
       } else if (response != null) {
+        hideLoader();
         refreshScreen();
       } else {
+        hideLoader();
         refreshScreen();
       }
     });

@@ -12,7 +12,7 @@ const String bugsnagappid = 'd36c56cbb6e60d544204211d24e9efe8';
 
 var logger = Logger(
   printer: PrettyPrinter(),
-  level: Level.all
+  level: Level.error
 );
 
 

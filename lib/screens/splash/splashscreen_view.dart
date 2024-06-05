@@ -10,6 +10,7 @@ import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
@@ -35,6 +36,9 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     sm.getData(constants.loginTokenResponse).then((val) async {
       if (val != constants.noDataFound) {
         try {
+          Map<String, dynamic> json = jsonDecode(val);
+          var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
+          LocalStorageManager.shared.loginUser = mLoginTokenResponse.user;
           logger.d('val -- $json');
           setLoginStatus(true);
         } catch (e) {
@@ -71,7 +75,6 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         ) // Image.asset
         );
   }
-
 
   navigateToAppScreen() {
     Timer(
