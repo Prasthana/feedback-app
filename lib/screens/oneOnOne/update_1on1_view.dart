@@ -43,6 +43,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   String enteredAddPoint = "";
   bool hasAccessForUpdate1on1 = false;
   bool hasAccessForUpdatePoints = false;
+  bool initialData = true;
     //initializing the API Service class
   final ApiService _apiService = ApiService();
 
@@ -115,15 +116,17 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     });
   }
 
-  Widget showRatingBar() {
+  Widget showRatingBar(OneOnOne? oneOnOne) {
+    var ratingValue = initialData ?  oneOnOne?.feedbackRating ?? 0.0 : _currentSliderValue;
     return Slider(
-      value: _currentSliderValue,
+      value: ratingValue,
       max: 5,
       divisions: 10,
       activeColor: Colors.black,
-      label: _currentSliderValue.toString(),
+      label: ratingValue.toString(),
       onChanged: (double value) {
         setState(() {
+          initialData = false;
           _currentSliderValue = value;
         });
       },
@@ -351,7 +354,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget managerWriteRatingView(OneOnOne? oneOnOne) {
-    
+    var ratingValue = initialData ?  oneOnOne?.feedbackRating ?? 0.0 : _currentSliderValue;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -372,7 +375,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 border: Border.all(color: colorText, width: 1.2),
               ),
               child: Text(
-                "  $_currentSliderValue/5.0  ",
+                "  $ratingValue/5.0  ",
                 style: const TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 21,
@@ -390,7 +393,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             children: [Text("0.0"), Text("5.0")],
           ),
         ),
-        showRatingBar(),
+        showRatingBar(oneOnOne),
         addVerticalSpace(20),
         MaterialButton(
           minWidth: double.infinity,
