@@ -36,6 +36,9 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     sm.getData(constants.loginTokenResponse).then((val) async {
       if (val != constants.noDataFound) {
         try {
+          Map<String, dynamic> json = jsonDecode(val);
+          var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
+          LocalStorageManager.shared.loginUser = mLoginTokenResponse.user;
           logger.d('val -- $json');
           setLoginStatus(true);
         } catch (e) {
