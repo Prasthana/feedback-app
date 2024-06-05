@@ -11,6 +11,7 @@ import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -284,7 +285,8 @@ class _OtpViewState extends State<OtpView> {
       String user = jsonEncode(val.toJson());
       var sm = StorageManager();
       hideLoader();
-
+      
+      LocalStorageManager.shared.loginUser = val.user;
       sm.saveData(constants.loginTokenResponse, user).then((val) {
         // do some operation
         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MainTabView()));

@@ -7,6 +7,7 @@ import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
@@ -51,7 +52,6 @@ class TokenInterceptor extends Interceptor {
             Map<String, dynamic> json = jsonDecode(val);
             var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
             logger.d('val -- $json');
-
             var refreshTokenStatus =
                 await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
             try {
