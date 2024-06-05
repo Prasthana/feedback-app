@@ -286,7 +286,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         ),
         addVerticalSpace(8),
         TextFormField(
-          enabled: hasAccessForUpdate1on1,
+          readOnly: !hasAccessForUpdate1on1,
             minLines: 2,
             maxLines: 5,
             initialValue: oneOnOne?.notes ?? "",
