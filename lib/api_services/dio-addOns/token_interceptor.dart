@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/api_services/api_errohandler.dart';
 import 'package:feedbackapp/api_services/api_result.dart';
 import 'package:feedbackapp/api_services/api_service.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
@@ -55,8 +54,7 @@ class TokenInterceptor extends Interceptor {
             var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
             logger.d('val -- $json');
 
-            ApiResult<LoginTokenResponse?> value = await _apiService!
-                .makeRefreshTokenCall(mLoginTokenResponse.refreshToken ?? "");
+            ApiResult<LoginTokenResponse?> value = await ApiService.sharedInstance.makeRefreshTokenCall(mLoginTokenResponse.refreshToken ?? "");
 
             dynamic response = value.data;
             if (response != null) {

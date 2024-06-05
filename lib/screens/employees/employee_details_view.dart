@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:feedbackapp/api_services/api_errohandler.dart';
+import 'package:feedbackapp/api_services/api_result.dart';
+import 'package:feedbackapp/api_services/api_service.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/employeerequest.dart';
@@ -18,6 +21,7 @@ import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/snackbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -38,8 +42,8 @@ class EmployeeDetailsView extends StatefulWidget {
 }
 
 class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
-  Future<EmployeeDetailsResponse>? employeeFuture;
-  Future<OneOnOnesListResponse>? oneOnOneFuture;
+  Future<ApiResult<EmployeeDetailsResponse?>>? employeeFuture;
+  Future<ApiResult<OneOnOnesListResponse?>>? oneOnOneFuture;
   bool isLoginEmployee = false;
   bool isUpdating = false;
   bool addMobileNumber = false;
@@ -91,14 +95,16 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
       File file1 = File(result!.path);
 
-      var employeeFuture = ApiManager.authenticated
-          .updateEmployeesDetails(mEmployee?.id ?? 0, file1);
+      var employeeFuture =  ApiService.sharedInstance.updateEmployeesDetails(mEmployee?.id ?? 0, file1);
+      
+      // ApiManager.authenticated
+      //     .updateEmployeesDetails(mEmployee?.id ?? 0, file1);
 
       setEmployeeFuture(employeeFuture);
     }
   }
 
-  void setEmployeeFuture(Future<EmployeeDetailsResponse>? newValue) {
+  void setEmployeeFuture(Future< EmployeeDetailsResponse>? newValue) {
     setState(() {
       employeeFuture = newValue;
       isUpdating = true;
@@ -130,15 +136,23 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
     mEmployee = widget.mEmployee;
-    checkLoginstatus(mEmployee?.id ?? 0);
+    checkLoginstatus(context,mEmployee?.id ?? 0);
     checkCanCreate1On1();
     setMobileNumber(mEmployee?.mobileNumber ?? "");
-
-    employeeFuture =
-        ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
+    
+    var response = 
+        await ApiService.sharedInstance.makeFetchEmployeesDetails(mEmployee?.id ?? 0);
+        if ( response.getException != null) {
+                // Handle exception cases
+                  ErrorHandler errorHandler = response.getException;
+                  String msg = errorHandler.getErrorMessage();
+                  displaySnackbar(context, msg);
+              } else {
+                employeeFuture = response.data;
+              }
   }
 
   void checkCanCreate1On1() {
@@ -161,9 +175,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     });
   }
 
-  void checkLoginstatus(int employeeId) {
+  void checkLoginstatus(BuildContext context,int employeeId) {
     var sm = StorageManager();
-    sm.getData(constants.loginTokenResponse).then((val) {
+    sm.getData(constants.loginTokenResponse).then((val) async {
       if (val != constants.noDataFound) {
         Map<String, dynamic> json = jsonDecode(val);
         var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
@@ -173,8 +187,17 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           setIsLoginEmployee(true);
         } else {
           setIsLoginEmployee(false);
-          oneOnOneFuture = ApiManager.authenticated.fetchEmployeePastOneOnOns(
+          var response = await ApiService.sharedInstance.makeFetchEmployeePastOneOnOns(
               constants.historyOneOnOnes, mEmployee?.id ?? 0);
+
+              if ( response.getException != null) {
+                // Handle exception cases
+                  ErrorHandler errorHandler = response.getException;
+                  String msg = errorHandler.getErrorMessage();
+                  displaySnackbar(context, msg);
+              } else {
+                oneOnOneFuture = response.data;
+              }
         }
       } else {
         setIsLoginEmployee(false);
@@ -185,6 +208,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   @override
   Widget build(BuildContext context) {
     Theme.of(context);
+    
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -197,8 +221,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       ),
       body: SingleChildScrollView(
           child: Column(children: [
-        FutureBuilder<EmployeeDetailsResponse>(
-          future: employeeFuture,
+        FutureBuilder<ApiResult<EmployeeDetailsResponse>>(
+          future: employeeFuture?.data ?? EmployeeDetailsResponse(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return isUpdating

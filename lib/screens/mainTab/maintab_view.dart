@@ -24,8 +24,6 @@ class _MainTabViewState extends State<MainTabView> {
   // Example condition flags
   bool hasAccessForTeamTab = false;
 
-  //initializing the API Service class
-  final ApiService _apiService = ApiService();
 
   @override
   void initState() {
@@ -37,7 +35,7 @@ class _MainTabViewState extends State<MainTabView> {
       _isLoading = true;
     });
 
-    _apiService.makePrepareCall().then((value) {
+    ApiService.sharedInstance.makePrepareCall().then((value) {
       PrepareCallResponse? response = value.data;
       if (value.getException != null) {
         //if there is any error ,it will trigger here and shown in snack-bar

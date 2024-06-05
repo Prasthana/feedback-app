@@ -11,8 +11,12 @@ import 'package:feedbackapp/utils/constants.dart' as constants;
 
 
 class ApiService {
+
+  static ApiService sharedInstance = ApiService();
+
   final ApiClient _apiPublicClient = ApiManager.public;
-  final ApiClient _apiAuthenticatedClient = ApiManager.authenticated;
+
+
 
   Future<ApiResult<EmailOTPResponse?>> sendOTP(EmailOTPRequest request) async {
     EmailOTPResponse? response;
@@ -35,8 +39,10 @@ class ApiService {
 
 Future<ApiResult<PrepareCallResponse?>> makePrepareCall() async {
  
+    ApiClient apiAuthenticatedClient = ApiManager.authenticatedManager(this);
+
     try {
-      dynamic jsonResponse = await _apiAuthenticatedClient.performPrepareCall();
+      dynamic jsonResponse = await apiAuthenticatedClient.performPrepareCall();
 
       return ApiResult()..setData(jsonResponse);
     } catch (e, _) {
@@ -54,13 +60,14 @@ Future<ApiResult<PrepareCallResponse?>> makePrepareCall() async {
 
 Future<ApiResult<LoginTokenResponse?>> makeRefreshTokenCall(String loginToken) async {
  
+    ApiClient apiAuthenticatedClient = ApiManager.authenticatedManager(this);
     try {
       var request = LoginTokenRequest(
         grantType: constants.grantTypePassword,
         clientId: constants.clientId,
         clientSecret: constants.clientSecret,
         loginToken: loginToken);
-      dynamic jsonResponse = await _apiAuthenticatedClient.generateLoginToken(request);
+      dynamic jsonResponse = await apiAuthenticatedClient.generateLoginToken(request);
 
       return ApiResult()..setData(jsonResponse);
     } catch (e, _) {

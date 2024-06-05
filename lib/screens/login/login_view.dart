@@ -27,9 +27,6 @@ class _LoginViewState extends State<LoginView> {
   String? _enteredEmail;
   var isEmailValidated = false;
 
-  //initializing the API Service class
-  final ApiService _apiService = ApiService();
-
   @override
   void initState() {
     super.initState();
@@ -155,7 +152,7 @@ class _LoginViewState extends State<LoginView> {
     var request = EmailOTPRequest(
         email: email as String, deviceType: Platform.operatingSystem);
 
-    _apiService.sendOTP(request).then((value) {
+    ApiService.sharedInstance.sendOTP(request).then((value) {
       EmailOTPResponse? response = value.data;
       if (value.getException != null) {
         //if there is any error ,it will trigger here and shown in snack-bar

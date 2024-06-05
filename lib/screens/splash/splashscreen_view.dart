@@ -1,11 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/main.dart';
-import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
@@ -38,13 +35,9 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
         logger.d('val -- $json');
 
-        var refreshTokenStatus = await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
+        // var refreshTokenStatus = await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
 
-        if (refreshTokenStatus == true) {
-          setLoginStatus(true);
-        } else {
-          setLoginStatus(false);
-        }
+       setLoginStatus(true);
         
       } else {
         setLoginStatus(false);
@@ -78,39 +71,41 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         );
   }
 
-  Future<bool>  refreshLoginToken(String refreshToken) async {
-    var request = LoginTokenRequest(
-        grantType: constants.grantTypeRefreshToken,
-        clientId: constants.clientId,
-        clientSecret: constants.clientSecret,
-        refreshToken: refreshToken);
 
-    var success = await ApiManager.authenticated.generateLoginToken(request).then((val) {
-      // do some operation
-      logger.e('email response -- ${val.toJson()}');
-      String user = jsonEncode(val.toJson());
-      var sm = StorageManager();
+  // Future<bool>  refreshLoginToken(String refreshToken) async {
+  //   var request = LoginTokenRequest(
+  //       grantType: constants.grantTypeRefreshToken,
+  //       clientId: constants.clientId,
+  //       clientSecret: constants.clientSecret,
+  //       refreshToken: refreshToken);
 
-      sm.saveData(constants.loginTokenResponse, user);
+  //   var success = await ApiManager.authenticated.generateLoginToken(request).then((val) {
+  //     // do some operation
+  //     logger.e('email response -- ${val.toJson()}');
+  //     String user = jsonEncode(val.toJson());
+  //     var sm = StorageManager();
 
-      sleep(const Duration(seconds: 1));
+  //     sm.saveData(constants.loginTokenResponse, user);
 
-      return true;
-    }).catchError((obj) {
-      // non-200 error goes here.
-      switch (obj.runtimeType) {
-        case const (DioException):
-          // Here's the sample to get the failed response error code and message
-          final res = (obj as DioException).response;
-          logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
-          break;
-        default:
-          break;
-      }
-      return false;
-    });
-    return success;
-  }
+  //     sleep(const Duration(seconds: 1));
+
+  //     return true;
+  //   }).catchError((obj) {
+  //     // non-200 error goes here.
+  //     switch (obj.runtimeType) {
+  //       case const (DioException):
+  //         // Here's the sample to get the failed response error code and message
+  //         final res = (obj as DioException).response;
+  //         logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     return false;
+  //   });
+  //   return success;
+  // }
+
 
   navigateToAppScreen() {
 
