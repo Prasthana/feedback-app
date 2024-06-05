@@ -550,8 +550,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
 
   Widget buildYetToImproveList(List<Point>? yetToImproveList) {
     List<Point> improvePointsList = [];
-    improvePointsList.addAll(localYetToImproveList.reversed);
     improvePointsList.addAll(yetToImproveList ?? []);
+    improvePointsList.addAll(localYetToImproveList);
+    
 
     return ListView.separated(
       shrinkWrap: true,
@@ -686,8 +687,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     debugPrint("goodAtList length ------>>> ${goodAtList?.length}");
     debugPrint("localGoodAtList length ------>>> ${localGoodAtList.length}");
     List<Point> goodPointsList = [];
-    goodPointsList.addAll(localGoodAtList.reversed);
     goodPointsList.addAll(goodAtList ?? []);
+    goodPointsList.addAll(localGoodAtList);
+    
 
     //final goodPointsList =  goodAtList ?? [] + ;
     debugPrint("goodPointsList length ------>>> ${goodPointsList.length}");
