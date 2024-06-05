@@ -52,7 +52,7 @@ class TokenInterceptor extends Interceptor {
             Map<String, dynamic> json = jsonDecode(val);
             var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
             logger.d('val -- $json');
-
+            LocalStorageManager.shared.loginUser = val.user;
             var refreshTokenStatus =
                 await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
             try {
@@ -88,7 +88,6 @@ class TokenInterceptor extends Interceptor {
       String user = jsonEncode(val.toJson());
       var sm = StorageManager();
 
-      LocalStorageManager.shared.loginUser = val.user;
       sm.saveData(constants.loginTokenResponse, user);
 
       sleep(const Duration(seconds: 1));
