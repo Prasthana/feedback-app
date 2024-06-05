@@ -37,7 +37,7 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
       _isLoading = true;
     });
 
-   onResumed();
+   onPrepareApiCall();
   }
 
   @override
@@ -50,14 +50,14 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
   void didChangeAppLifecycleState(AppLifecycleState state) {
       if (state == AppLifecycleState.resumed) {
       setState(() {
-        onResumed();
+        onPrepareApiCall();
       });
     } else{
       print(state.toString());
     }
   }
 
-  void onResumed(){
+  void onPrepareApiCall(){
      _apiService.makePrepareCall().then((value) {
       PrepareCallResponse? response = value.data;
       if (value.getException != null) {
