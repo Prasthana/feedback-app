@@ -18,7 +18,7 @@ class MainTabView extends StatefulWidget {
   State<MainTabView> createState() => _MainTabViewState();
 }
 
-class _MainTabViewState extends State<MainTabView> {
+class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
   int currentPageIndex = 0;
   bool _isLoading = false;
   // Example condition flags
@@ -30,14 +30,35 @@ class _MainTabViewState extends State<MainTabView> {
   @override
   void initState() {
     super.initState();
-
+    WidgetsBinding.instance.addObserver(this);
     NetworkLoggerOverlay.attachTo(context);
 
     setState(() {
       _isLoading = true;
     });
 
-    _apiService.makePrepareCall().then((value) {
+   onResumed();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+      if (state == AppLifecycleState.resumed) {
+      setState(() {
+        onResumed();
+      });
+    } else{
+      print(state.toString());
+    }
+  }
+
+  void onResumed(){
+     _apiService.makePrepareCall().then((value) {
       PrepareCallResponse? response = value.data;
       if (value.getException != null) {
         //if there is any error ,it will trigger here and shown in snack-bar
