@@ -81,6 +81,12 @@ const String appLock = "App Lock";
 const String logOut = "Log Out";
 // End of Reporting Team
 
+// Logout AlertDialog Strings
+const String logoutDialogText = "Are you sure you want to logout from this device?";
+const String yes = "Yes";
+const String cancel = "Cancel";
+// End of Logout AlertDialog Strings
+
 
 
 
