@@ -416,12 +416,16 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   _updateOneOnOneAPIcall(BuildContext context) async {
+    var dataUpdated = false;
+
     var oneOnOneObj = OneOnOne();
     if (_currentSliderValue > 0) {
       oneOnOneObj.feedbackRating = _currentSliderValue;
+      dataUpdated = true;
     }
     if (enteredNotes.isNotEmpty) {
       oneOnOneObj.notes = enteredNotes;
+      dataUpdated = true;
     }
 
     if (localGoodAtList.isNotEmpty) {
@@ -430,6 +434,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             OneOnOnePointsAttribute(pointType: "pt_good_at", title: pnt.title);
         _oneOnOnePointsAttributes.add(attr);
       }
+      dataUpdated = true;
     }
 
     if (localYetToImproveList.isNotEmpty) {
@@ -438,12 +443,16 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             pointType: "pt_yet_to_improve", title: pnt.title);
         _oneOnOnePointsAttributes.add(attr);
       }
+      dataUpdated = true;
     }
 
     if (_oneOnOnePointsAttributes.isNotEmpty) {
       oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
+      dataUpdated = true;
     }
-    
+    if (dataUpdated == false) {
+      return;
+    }
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
