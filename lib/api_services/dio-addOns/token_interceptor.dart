@@ -7,6 +7,7 @@ import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
@@ -87,6 +88,7 @@ class TokenInterceptor extends Interceptor {
       String user = jsonEncode(val.toJson());
       var sm = StorageManager();
 
+      LocalStorageManager.shared.loginUser = val.user;
       sm.saveData(constants.loginTokenResponse, user);
 
       sleep(const Duration(seconds: 1));
