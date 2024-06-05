@@ -285,9 +285,7 @@ class _OtpViewState extends State<OtpView> {
       String user = jsonEncode(val.toJson());
       var sm = StorageManager();
       hideLoader();
-      int userId = val.user?.employeeId ?? 0;
-
-      sm.saveData(constants.loginUserId, userId.toString());
+      
       LocalStorageManager.shared.loginUser = val.user;
       sm.saveData(constants.loginTokenResponse, user).then((val) {
         // do some operation

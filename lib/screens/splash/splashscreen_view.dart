@@ -91,9 +91,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
       logger.e('email response -- ${val.toJson()}');
       String user = jsonEncode(val.toJson());
       var sm = StorageManager();
-      int userId = val.user?.employeeId ?? 0;
-
-      sm.saveData(constants.loginUserId, userId.toString());
+    
       LocalStorageManager.shared.loginUser = val.user;
       sm.saveData(constants.loginTokenResponse, user);
 

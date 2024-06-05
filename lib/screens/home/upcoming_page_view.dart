@@ -103,7 +103,6 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
   @override
   Widget build(BuildContext context) {
 
-    debugPrint("----loginId ------>>>> $loggedInUserId");
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
