@@ -13,6 +13,7 @@ import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -37,6 +38,8 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
   bool hasAccessToCreate1On1 = false;
 
   late Future<OneOnOnesResponse> oneOnOnesFuture;
+  var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
+  
 
   Future getSystemFormateDateTime() async {
     final datePattern = await SystemDateTimeFormat().getLongDatePattern();
@@ -99,6 +102,8 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
 
   @override
   Widget build(BuildContext context) {
+
+    debugPrint("----loginId ------>>>> $loggedInUserId");
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -154,8 +159,8 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           String startTime = getFormatedDateConvertion(
               oneOnOne?.startDateTime ?? "", systemFormateDateTime);
 
-          Employee? employee =  oneOnOne?.getOpponentUser1() ?? Employee();
-          
+          String employeeName =  oneOnOne?.getOpponentUser(loggedInUserId)?.name ?? "NA";
+
           debugPrint("---- employeeName ------>>> $employeeName");
 
           return Column(

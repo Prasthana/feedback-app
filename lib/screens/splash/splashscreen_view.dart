@@ -10,6 +10,7 @@ import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
@@ -37,7 +38,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         Map<String, dynamic> json = jsonDecode(val);
         var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
         logger.d('val -- $json');
-
+       
       var refreshTokenStatus = await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
 
           if (refreshTokenStatus == true) {
@@ -93,6 +94,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
       int userId = val.user?.employeeId ?? 0;
 
       sm.saveData(constants.loginUserId, userId.toString());
+      LocalStorageManager.shared.loginUser = val.user;
       sm.saveData(constants.loginTokenResponse, user);
 
       sleep(const Duration(seconds: 1));

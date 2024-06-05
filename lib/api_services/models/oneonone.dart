@@ -107,26 +107,11 @@ class OneOnOneParticipant {
 }
 
 extension OneOnOneExtension on OneOnOne {
-
-    Employee? getOpponentUser1()  async {
-    }
-  Future<Employee?> getOpponentUser()  async {
-    var sm = StorageManager();
-    var val = await sm.getData(constants.loginUserId);
-    // .then((val) {
-      if (val != constants.noDataFound) {
-        var loginUserId = int.parse(val);
-        debugPrint("userIdddd ---->>>$val");
-        var oneOnOneParticipantsList = oneOnOneParticipants ?? [];
-        OneOnOneParticipant opponentParticipant =  oneOnOneParticipantsList
-            .firstWhere((item) => item.employee.id != loginUserId);
-      
-        return opponentParticipant.employee;
-      } else {
-        debugPrint("noDataFound ---->>>");
-        return null;
-      }
-    // });
-    // return null;
+  Employee? getOpponentUser(int loginUserId) {
+    var oneOnOneParticipantsList = oneOnOneParticipants ?? [];
+    OneOnOneParticipant opponentParticipant = oneOnOneParticipantsList
+        .firstWhere((item) => item.employee.id != loginUserId);
+        debugPrint("employee name ----->>> ${opponentParticipant.employee.name}");
+    return opponentParticipant.employee;
   }
 }
