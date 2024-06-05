@@ -19,6 +19,7 @@ import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/snackbar_helper.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 
@@ -45,7 +46,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   bool hasAccessForUpdate1on1 = false;
   bool hasAccessForUpdatePoints = false;
   bool initialData = true;
-  bool isPointEdited = false;
     //initializing the API Service class
   final ApiService _apiService = ApiService();
   final TextEditingController _textController = TextEditingController();
@@ -143,8 +143,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: colorText),
           onPressed: () {
-            if (localGoodAtList.isNotEmpty ||
-                localYetToImproveList.isNotEmpty) {
+            bool areEqual = listEquals(localGoodAtList, apiGoodPoints);
+            if (!areEqual) {
               showValidationAlert(context,
                   "Added 1-on-1 Good at/Yet to Improve points will not be saved");
             } else {
@@ -442,6 +442,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       dataUpdated = true;
     }
 
+/*
     if (localGoodAtList.length != apiGoodPoints.length || isPointEdited ) { // trilok
      
             debugPrint("localGoodAtList before ----->>11>${localGoodAtList.length}");
@@ -479,8 +480,18 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     if (dataUpdated == false) {
       return;
     }
-    showLoader(context);
+*/
+      debugPrint("localGoodAtList after ----->>11>${localGoodAtList.length}");
+      for (Point pnt in localGoodAtList) {
+            var attr =
+            OneOnOnePointsAttribute(id: pnt.id, title: pnt.title, pointType: "pt_good_at");
+        _oneOnOnePointsAttributes.add(attr);
+      }
+      
+   oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
+    debugPrint("request ----->>11>$request");
+     showLoader(context);
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
@@ -489,7 +500,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         localGoodAtList.clear();
         localYetToImproveList.clear();
         _oneOnOnePointsAttributes.clear();
-        isPointEdited = false;
         Navigator.pop(context);
     }).catchError((obj) {
       // non-200 error goes here.
@@ -738,8 +748,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                  var pointToEdit = localGoodAtList[index].title ;
-                  _displayTextInputDialog(false, true, "Good At point", context, poinToEdit: pointToEdit, editIndex: index);
+                
+                  _displayTextInputDialog(false, true, "Good At point", context, poinToEdit: goodAtPoint, editIndex: index);
                 },
               ),
             ],
@@ -766,8 +776,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Future<void> _displayTextInputDialog(bool isFromAdd, bool isGoodAt, String text,
-      BuildContext context, {List<Point>? apiList, String? poinToEdit, int? editIndex}) async {
-        _textController.text = isFromAdd ? "" : poinToEdit ?? "";
+      BuildContext context, {List<Point>? apiList, Point? poinToEdit, int? editIndex}) async {
+        var pointTitle =  poinToEdit?.title ?? "";
+        _textController.text = isFromAdd ? "" : pointTitle;
     var chngedText = "";
     var indexToEdit = editIndex ?? 0;
     debugPrint("apiList length ------>>> ${apiList?.length ?? 0}");
@@ -827,8 +838,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                   } else { // trilok
                     debugPrint("indexToEdit ------>>> $indexToEdit");
                     debugPrint("chngedText ------>>11> $chngedText");
-                    localGoodAtList[indexToEdit] = Point(title: chngedText);
-                    isPointEdited = true;
+                    var pointId = poinToEdit?.id ?? 0;
+                    var editedText = chngedText.isEmpty ? pointTitle : chngedText;
+                    localGoodAtList[indexToEdit] = Point(id: pointId, title: editedText);
                   }
                   
                   setState(() {
