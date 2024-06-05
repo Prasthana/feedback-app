@@ -286,6 +286,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         ),
         addVerticalSpace(8),
         TextFormField(
+          enabled: hasAccessForUpdate1on1,
             minLines: 2,
             maxLines: 5,
             initialValue: oneOnOne?.notes ?? "",
@@ -399,7 +400,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           minWidth: double.infinity,
           height: 58.0,
           onPressed: () {
-            debugPrint("clicked on Save ----->>>> $_currentSliderValue");
             _updateOneOnOneAPIcall(context);
           },
           // ignore: sort_child_properties_last
@@ -453,10 +453,12 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     if (dataUpdated == false) {
       return;
     }
+    showLoader(context);
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
+          hideLoader();
       logger.e('update OneOnOne response -- ${val.toJson()}');
         localGoodAtList.clear();
         localYetToImproveList.clear();
@@ -612,17 +614,20 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   _employeeYetToImprovePointStatuUpdate(BuildContext context, bool status,int pointId) async {
     var oneOnOnePoint = OneOnOnePoint(markAsDone: status);
     PointRequest request = PointRequest(oneOnOnePoint: oneOnOnePoint);
+    showLoader(context);
     _apiService.updateOneOnOnePointStatus(request, pointId).then((value) {
       PointResponse? response = value.data;
       if (value.getException != null) {
-        //if there is any error ,it will trigger here and shown in snack-bar
+        hideLoader();
         ErrorHandler errorHandler = value.getException;
         String msg = errorHandler.getErrorMessage();
 
         displaySnackbar(context, msg);
       } else if (response != null) {
+        hideLoader();
         refreshScreen();
       } else {
+        hideLoader();
         refreshScreen();
       }
     });
