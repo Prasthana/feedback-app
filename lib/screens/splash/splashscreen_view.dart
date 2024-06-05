@@ -34,24 +34,18 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     var sm = StorageManager();
     sm.getData(constants.loginTokenResponse).then((val) async {
       if (val != constants.noDataFound) {
-        Map<String, dynamic> json = jsonDecode(val);
-        var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
-        logger.d('val -- $json');
-
-      var refreshTokenStatus = await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
-
-          if (refreshTokenStatus == true) {
-            setLoginStatus(true);
-          } else {
-            setLoginStatus(false);
-          }
-        
+        try {
+          logger.d('val -- $json');
+          setLoginStatus(true);
+        } catch (e) {
+          logger.e("Exception is $e");
+          setLoginStatus(false);
+        }
       } else {
         setLoginStatus(false);
       }
     });
   }
-
 
   @override
   void initState() {
@@ -78,43 +72,9 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         );
   }
 
-  Future<bool>  refreshLoginToken(String refreshToken) async {
-    var request = LoginTokenRequest(
-        grantType: constants.grantTypeRefreshToken,
-        clientId: constants.clientId,
-        clientSecret: constants.clientSecret,
-        refreshToken: refreshToken);
-
-    var success = await ApiManager.authenticated.generateLoginToken(request).then((val) {
-      // do some operation
-      logger.e('email response -- ${val.toJson()}');
-      String user = jsonEncode(val.toJson());
-      var sm = StorageManager();
-
-      sm.saveData(constants.loginTokenResponse, user);
-
-      sleep(const Duration(seconds: 1));
-
-      return true;
-    }).catchError((obj) {
-      // non-200 error goes here.
-      switch (obj.runtimeType) {
-        case const (DioException):
-          // Here's the sample to get the failed response error code and message
-          final res = (obj as DioException).response;
-          logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
-          break;
-        default:
-          break;
-      }
-      return false;
-    });
-    return success;
-  }
 
   navigateToAppScreen() {
-
-        Timer(
+    Timer(
         const Duration(seconds: 1),
         () => Navigator.pushReplacement(
             context,
@@ -123,6 +83,5 @@ class _SplashScreenViewState extends State<SplashScreenView> {
                     isLogedIn ? const MainTabView() : const LoginView(),
                 //LoginView(),
                 fullscreenDialog: true)));
-
   }
 }
