@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/main.dart';
@@ -20,7 +21,8 @@ import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
 import 'package:network_logger/network_logger.dart';
 import 'package:notification_center/notification_center.dart';
 import 'package:system_date_time_format/system_date_time_format.dart';
-import 'package:feedbackapp/utils/notification_constants.dart' as notificationconstants;
+import 'package:feedbackapp/utils/notification_constants.dart'
+    as notificationconstants;
 
 class UpcommingPageView extends StatefulWidget {
   const UpcommingPageView({super.key});
@@ -52,7 +54,8 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
     oneOnOnesFuture = ApiManager.authenticated
         .fetchOneOnOnesList(constants.upcomingOneOnOnes);
 
-    NotificationCenter().subscribe(notificationconstants.oneOnOnesUpdated, reloadOneOnOnes);
+    NotificationCenter()
+        .subscribe(notificationconstants.oneOnOnesUpdated, reloadOneOnOnes);
   }
 
   @override
@@ -65,9 +68,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
     oneOnOnesFuture = ApiManager.authenticated
         .fetchOneOnOnesList(constants.upcomingOneOnOnes);
 
-        setState(() {
-          
-        });
+    setState(() {});
   }
 
   void setCanCreate1On1(bool newValue) {
@@ -136,7 +137,10 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           },
           shape: const CircleBorder(),
           backgroundColor: Colors.black,
-          child: const Icon(Icons.calendar_month_outlined,color: Colors.white,),
+          child: const Icon(
+            Icons.calendar_month_outlined,
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -149,9 +153,10 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
           String startTime = getFormatedDateConvertion(
               oneOnOne?.startDateTime ?? "", systemFormateDateTime);
-          var employeeName =
-              oneOnOne?.oneOnOneParticipants?.first.employee.name ??
-                  "No Employee";
+
+          Employee? employee =  oneOnOne?.getOpponentUser1() ?? Employee();
+          
+          debugPrint("---- employeeName ------>>> $employeeName");
 
           return Column(
             children: <Widget>[
