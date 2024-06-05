@@ -42,6 +42,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   List<Point> localYetToImproveList = [];
   String enteredAddPoint = "";
   bool hasAccessForUpdate1on1 = false;
+  bool hasAccessForUpdatePoints = false;
     //initializing the API Service class
   final ApiService _apiService = ApiService();
 
@@ -49,6 +50,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   void initState() {
     super.initState();
     checkCanUpdate1On1();
+    checkCanUpdate1On1Point();
     oneOnOneData = widget.oneOnOneData;
     oneOnOneCreateResponseFuture =
         ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
@@ -57,6 +59,32 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   void setCanUpdate1On1(bool newValue) {
     setState(() {
       hasAccessForUpdate1on1 = newValue;
+    });
+  }
+
+  void setCanUpdate1On1Point(bool newValue) {
+    setState(() {
+      hasAccessForUpdatePoints = newValue;
+    });
+  }
+
+  void checkCanUpdate1On1Point() {
+    var sm = StorageManager();
+    sm.getData(constants.prepareCallResponse).then((val) {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
+        logger.d('val -- $json');
+        Permission? tabCreate1On1Access =
+            mPrepareCallResponse.user?.permissions?["one_on_one_points.update"];
+        if (tabCreate1On1Access?.access == Access.enabled) {
+          setCanUpdate1On1Point(true);
+        } else {
+          setCanUpdate1On1Point(false);
+        }
+      } else {
+        setCanUpdate1On1Point(false);
+      }
     });
   }
 
@@ -177,7 +205,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "hh:mm a");
     String meetingDate = getFormatedDateConvertion(
         oneOnOne?.startDateTime ?? "", "EEEE, dd MMM yyyy");
-
+        
     return SingleChildScrollView(
       //color: Colors.white,
       padding: const EdgeInsets.all(12.0),
@@ -286,7 +314,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         yetToImproveBottomView(oneOnOne?.yetToImprovePoints),
         addVerticalSpace(20),
         hasAccessForUpdate1on1
-            ? managerWriteRatingView()
+            ? managerWriteRatingView(oneOnOne)
             : employeeReadRatingView(oneOnOne?.feedbackRating ?? 0.0),
         addVerticalSpace(50)
       ]),
@@ -322,7 +350,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  Widget managerWriteRatingView() {
+  Widget managerWriteRatingView(OneOnOne? oneOnOne) {
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -522,7 +551,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         return Flexible(
           child: Column(
             children: <Widget>[
-              if (!hasAccessForUpdate1on1)
+              if (hasAccessForUpdatePoints)
                 ListTile(
                   leading: Row(
                     mainAxisSize: MainAxisSize.min,
