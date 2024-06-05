@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
+import 'package:network_logger/network_logger.dart';
 
 String getInitials(String string, [int limitTo = 2]) {
   if (string.isEmpty) {
@@ -33,4 +34,8 @@ showLoader(BuildContext context) {
 
 hideLoader() {
   Loader.hide();
+}
+
+showNetworkLogger(BuildContext context) {
+      NetworkLoggerOverlay.attachTo(context,bottom: 400,right: 10);
 }

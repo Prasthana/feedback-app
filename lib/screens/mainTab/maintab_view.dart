@@ -7,6 +7,7 @@ import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/employees/employee_list_view.dart';
 import 'package:feedbackapp/screens/home/mainhome_page.dart';
 import 'package:feedbackapp/utils/snackbar_helper.dart';
+import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:network_logger/network_logger.dart';
@@ -31,7 +32,7 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    NetworkLoggerOverlay.attachTo(context);
+    showNetworkLogger(context);
 
     setState(() {
       _isLoading = true;

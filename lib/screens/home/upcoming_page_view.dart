@@ -51,7 +51,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
   @override
   void initState() {
     super.initState();
-    NetworkLoggerOverlay.attachTo(context);
+    showNetworkLogger(context);
     checkCanCreate1On1();
     getSystemFormateDateTime();
     oneOnOnesFuture = ApiManager.authenticated

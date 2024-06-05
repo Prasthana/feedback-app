@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeesresponse.dart';
+import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
+import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:feedbackapp/screens/employees/create_employee_view.dart';
 import 'package:feedbackapp/screens/employees/employee_details_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
 import 'package:feedbackapp/utils/utilities.dart';
@@ -18,13 +23,47 @@ class EmployeeListView extends StatefulWidget {
 }
 
 class _EmployeeListViewState extends State<EmployeeListView> {
+  bool hasAccessToCreateEmployee = false;
+
   Future<EmployeesResponse> employeesFuture =
       ApiManager.authenticated.fetchEmployeesList();
+
+  @override
+  void initState() {
+    super.initState();
+    checkCanCreateEmployee();
+  }
 
   FutureOr onRefresh(dynamic value) {
     Future<EmployeesResponse> refEmployeesFuture = ApiManager.authenticated.fetchEmployeesList();
     setState(() {
       employeesFuture = refEmployeesFuture;
+    });
+  }
+
+  void setCanCreateEmployee(bool newValue) {
+    setState(() {
+      hasAccessToCreateEmployee = newValue;
+    });
+  }
+
+  void checkCanCreateEmployee() {
+    var sm = StorageManager();
+    sm.getData(constants.prepareCallResponse).then((val) {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
+        logger.d('val -- $json');
+        Permission? tabCreate1On1Access =
+            mPrepareCallResponse.user?.permissions?["employees.create"];
+        if (tabCreate1On1Access?.access == Access.enabled) {
+          setCanCreateEmployee(true);
+        } else {
+          setCanCreateEmployee(false);
+        }
+      } else {
+        setCanCreateEmployee(false);
+      }
     });
   }
 
@@ -53,6 +92,26 @@ class _EmployeeListViewState extends State<EmployeeListView> {
               return buildEmptyListView();
             }
           },
+        ),
+      ),
+      floatingActionButton: Visibility(
+        visible: hasAccessToCreateEmployee,
+        child: FloatingActionButton(
+          onPressed: () {
+            debugPrint('clickeed on calender ------>>>');
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateEployeeView(),));
+            // used modal_bottom_sheet - to model present
+            // showCupertinoModalBottomSheet(
+            //   context: context,
+            //   builder: (context) => CreateOneOnOneView(
+            //     mEmployee: Employee(),
+            //   ),
+            //   enableDrag: true,
+            // );
+          },
+          shape: const CircleBorder(),
+          backgroundColor: Colors.black,
+          child: const Icon(Icons.add, color: Colors.white,),
         ),
       ),
     );

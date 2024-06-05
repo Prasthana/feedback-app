@@ -55,6 +55,23 @@ const String meetingSuccessDescriptionText = "We have sent an email to your empl
 
 // End of 1-on-1 Screen
 
+// Create Employee Screen Strings
+const String name = "Name";
+const String dummyName = "Charles Leclerc";
+const String role = "Role";
+const String dummyRole = "Software Engineer..";
+const String empId = "Emp ID";
+const String dummyEmpId = "EMP0001";
+const String emailId = "Email ID";
+const String dummyEmailId = "xyz@prasthana.com";
+const String mobileNumber = "Mobile Number";
+const String dummyMobileNumber = "9876543210";
+const String selectReportingManager = "Select Reporting Manager";
+const String serachManager = "Search Manager";
+const String screenDiscription = "We will send an invite link to the member’s mail to login.";
+const String add = "Add";
+
+// End of Create Employee Screen
 
 // 1-1 List SCREEN Strings
 const String oneOneOnScreenTitle = "Schedule";
@@ -63,6 +80,7 @@ const String history = "History";
 
 // Reprorting Team SCREEN Strings
 const String reportingTeamTitle = "Reporting Team";
+const String addEmployee = "Add Employee";
 const String noDataAvailable= "No data available";
 const String noEmployeeAdded= "No Employees Added";
 const String addEmployeeMsg= "You can add employees by clicking on the plus icon below.";
