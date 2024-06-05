@@ -31,7 +31,7 @@ class _MainHomePageViewState extends State<MainHomePageView> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    NetworkLoggerOverlay.attachTo(context);
+    showNetworkLogger(context);
     controller = TabController(length: 2, vsync: this);
     controller.addListener(() {
       setState(() { });
