@@ -26,7 +26,7 @@ showLoader(BuildContext context) {
     context,
     overlayColor: Colors.black54,
     progressIndicator:
-        const CircularProgressIndicator(backgroundColor: Colors.red),
+        const CircularProgressIndicator(backgroundColor: Colors.white),
   );
 }
 

@@ -331,6 +331,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     displaySnackbar(
                         context, constants.selectEmployeeValidationText);
                   } else {
+                    showLoader(context);
                           var utcStartTime = toUtcDateTime(selectedStartTime).toUtc();
                           var utcEndTime = toUtcDateTime(selectedEndTime).toUtc();
 
@@ -491,7 +492,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
 
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
     ApiManager.authenticated.createOneOnOne(request).then((val) {
-      // do some operation
+      hideLoader();
       logger.e('createOneOnOne response -- ${val.toJson()}');
       Navigator.pop(context);
       showCupertinoModalBottomSheet(
@@ -500,7 +501,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
         enableDrag: true,
       );
     }).catchError((obj) {
-      // non-200 error goes here.
+      hideLoader();
       switch (obj.runtimeType) {
         case const (DioException):
           // Here's the sample to get the failed response error code and message
