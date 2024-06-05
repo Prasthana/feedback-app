@@ -361,14 +361,6 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          // Text(
-                          //   '*',
-                          //   style: TextStyle(
-                          //       color: Colors.red, fontWeight: FontWeight.w900),
-                          // ),
                         ],
                       ),
                       addVerticalSpace(8.0),
@@ -392,7 +384,7 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                           },
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4.0),
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                             side:
                                 const BorderSide(color: colorText, width: 1.0),
