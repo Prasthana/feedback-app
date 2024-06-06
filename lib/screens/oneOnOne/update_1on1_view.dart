@@ -753,7 +753,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       maxRadius: 58.0,
       foregroundImage: CachedNetworkImageProvider(selectedEmployee.avatarAttachmentUrl ?? ""),
       child: Text(
-        getInitials(selectedEmployee.name?.toUpperCase() ?? "No Particiapnt", 2),
+        getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
         style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 30,

@@ -477,7 +477,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      getInitials(employee?.name?.toUpperCase() ?? "",
+                      getInitials(employee?.name?? "",
                           employee?.avatarAttachmentUrl == null ? 2 : 0),
                       style: const TextStyle(
                           fontFamily: constants.uberMoveFont,

@@ -12,11 +12,11 @@ String getInitials(String string, [int limitTo = 2]) {
 
   //For one word
   if (split.length == 1) {
-    return string.substring(0, 1);
+    return string.substring(0, 1).toUpperCase();
   }
 
   for (var i = 0; i < (limitTo); i++) {
-    buffer.write(split[i][0]);
+    buffer.write(split[i][0].toUpperCase());
   }
 
   return buffer.toString().toUpperCase();

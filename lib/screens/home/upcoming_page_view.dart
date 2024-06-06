@@ -172,7 +172,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
                   maxRadius: 28.0,
                   foregroundImage:  CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
                   child: Text(
-                    getInitials(employeeName.toUpperCase(), 2),
+                    getInitials(employeeName, 2),
                     style: const TextStyle(
                         fontFamily: constants.uberMoveFont,
                         fontSize: 17,

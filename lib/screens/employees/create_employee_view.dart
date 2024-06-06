@@ -597,7 +597,7 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
       maxRadius: 18.0,
       foregroundImage: CachedNetworkImageProvider(selectedEmployee.avatarAttachmentUrl ?? ""),
       child: Text(
-        getInitials(selectedEmployee.name?.toUpperCase() ?? "", 2),
+        getInitials(selectedEmployee.name ?? "", 2),
         style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 17,

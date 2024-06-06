@@ -134,7 +134,7 @@ Widget _tab(String text, {bool isAllow = false}) {
                   maxRadius: 28.0,
                   foregroundImage: const CachedNetworkImageProvider(""),
                   child: Text(
-                    getInitials(employeeName.toUpperCase(), 2),
+                    getInitials(employeeName, 2),
                     style: const TextStyle(
                         fontFamily: constants.uberMoveFont,
                         fontSize: 17,
