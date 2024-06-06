@@ -29,7 +29,7 @@ class User {
         this.id,
         this.email,
         this.permissions,
-        required this.employee,
+        this.employee,
     });
 
   factory User.fromJson(Map<String, dynamic> json) =>
