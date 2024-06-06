@@ -105,15 +105,17 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                         if (name!.isNotEmpty) {
                           return null;
                         } else {
-                          return 'Enter valid Name';
+                          return constants.nameValidMsg;
                         }
                       },
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         hintText: constants.dummyName,
                         hintStyle: TextStyle(
-                            color: Color.fromRGBO(111, 111, 111, 1),
-                            fontSize: 14),
+                                    fontFamily: constants.uberMoveFont,
+                                    color: Color.fromRGBO(111, 111, 111, 1),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         ),
@@ -124,10 +126,11 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                         ),
                       ),
                       style: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                                fontFamily: constants.uberMoveFont,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
+                              ),
                     ),
                   ]),
                   addVerticalSpace(8),
@@ -180,15 +183,17 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                                 if (role!.isNotEmpty) {
                                   return null;
                                 } else {
-                                  return 'Enter valid Role';
+                                  return constants.roleValidMsg;
                                 }
                               },
                               decoration: const InputDecoration(
                                 fillColor: Colors.white,
                                 hintText: constants.dummyRole,
                                 hintStyle: TextStyle(
+                                    fontFamily: constants.uberMoveFont,
                                     color: Color.fromRGBO(111, 111, 111, 1),
-                                    fontSize: 14),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                                 border: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
@@ -202,7 +207,8 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                               style: const TextStyle(
                                 fontFamily: constants.uberMoveFont,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
                               ),
                             ),
                           ),
@@ -255,15 +261,17 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                                 if (empId!.isNotEmpty) {
                                   return null;
                                 } else {
-                                  return 'Enter valid Emp ID';
+                                  return constants.empIdValidMsg;
                                 }
                               },
                               decoration: const InputDecoration(
                                 fillColor: Colors.white,
                                 hintText: constants.dummyEmpId,
                                 hintStyle: TextStyle(
+                                    fontFamily: constants.uberMoveFont,
                                     color: Color.fromRGBO(111, 111, 111, 1),
-                                    fontSize: 14),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                                 border: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
@@ -277,7 +285,8 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                               style: const TextStyle(
                                 fontFamily: constants.uberMoveFont,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
                               ),
                             ),
                           ),
@@ -322,6 +331,11 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                               fontFamily: constants.uberMoveFont,
                             ),
                             hintText: constants.dummyEmailId,
+                            hintStyle: TextStyle(
+                                    fontFamily: constants.uberMoveFont,
+                                    color: Color.fromRGBO(111, 111, 111, 1),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color.fromARGB(255, 18, 17, 17),
@@ -339,9 +353,10 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                             ),
                           ),
                           style: const TextStyle(
-                            fontFamily: constants.uberMoveFont,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
+                                fontFamily: constants.uberMoveFont,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
                           ),
                           onChanged: (email) {
                             setState(() {
@@ -401,15 +416,17 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                         if (mobile != null && mobile.isValidPhone) {
                           return null;
                         } else {
-                          return 'Enter valid Mobile number';
+                          return constants.mobileValidMsg;
                         }
                       },
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         hintText: constants.dummyMobileNumber,
                         hintStyle: TextStyle(
-                            color: Color.fromRGBO(111, 111, 111, 1),
-                            fontSize: 14),
+                                    fontFamily: constants.uberMoveFont,
+                                    color: Color.fromRGBO(111, 111, 111, 1),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         ),
@@ -420,10 +437,11 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                         ),
                       ),
                       style: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                                fontFamily: constants.uberMoveFont,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
+                              ),
                     ),
                   ]),
                   addVerticalSpace(8),
@@ -479,7 +497,7 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                                 Text(
                                   selectedEmployee.name != null
                                       ? selectedEmployee.name ?? ""
-                                      : constants.searchEmployeeText,
+                                      : constants.serachManager,
                                   style: const TextStyle(
                                     color: colorText,
                                     fontFamily: constants.uberMoveFont,

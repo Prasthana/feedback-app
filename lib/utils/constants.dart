@@ -70,6 +70,10 @@ const String selectReportingManager = "Select Reporting Manager";
 const String serachManager = "Search Manager";
 const String screenDiscription = "We will send an invite link to the member’s mail to login.";
 const String add = "Add";
+const String nameValidMsg = "Enter valid Name";
+const String roleValidMsg ="Enter valid Role";
+const String empIdValidMsg = "Enter valid Emp ID";
+const String mobileValidMsg = "Enter valid Mobile number";
 
 // End of Create Employee Screen
 
