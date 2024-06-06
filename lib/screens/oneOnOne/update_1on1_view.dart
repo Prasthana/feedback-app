@@ -17,6 +17,7 @@ import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:feedbackapp/utils/snackbar_helper.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,6 +52,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   //initializing the API Service class
   final ApiService _apiService = ApiService();
   final TextEditingController _textController = TextEditingController();
+  var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
 
   @override
   void initState() {
@@ -229,7 +231,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildOneOnOneDetailsView(OneOnOne? oneOnOne) {
-    var employee = oneOnOne?.oneOnOneParticipants?.first.employee ?? Employee();
+    Employee? employee = oneOnOne!.getOpponentUser(loggedInUserId);
     String meetingStartTime =
         getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "hh:mm a");
     String meetingDate = getFormatedDateConvertion(
@@ -241,12 +243,12 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         addVerticalSpace(20),
         Center(
-          child: showEmployeeAvatar(employee),
+          child: showEmployeeAvatar(employee!),
         ),
         addVerticalSpace(12),
         Center(
           child: Text(
-            employee.name ?? "",
+            employee?.name ?? "",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 24,
@@ -257,7 +259,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(8),
         Center(
           child: Text(
-            employee.email ?? "",
+            employee?.email ?? "",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 16,
