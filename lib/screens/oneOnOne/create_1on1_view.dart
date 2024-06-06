@@ -363,7 +363,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 58.0,
                 onPressed: () {
                   debugPrint("clicked on create ----->>>>");
-                  if (selectedEmployee.name == null) {
+                  if (selectedEmployee.name == null && !isEmployee) {
                     displaySnackbar(
                         context, constants.selectEmployeeValidationText);
                   } else {
@@ -380,7 +380,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     var endDateTime =
                         "${DateFormat('yyyy-MM-dd').format(selectedDate)}T$onlyEndTime";
                     _createOneOnOneRequest(startDateTime, endDateTime,
-                        enteredNotes, selectedEmployee.id ?? 0, context);
+                        enteredNotes, !isEmployee? selectedEmployee.id ?? 0 : employee.manager?.id ?? 0, context);
                   }
                 },
                 // ignore: sort_child_properties_last
