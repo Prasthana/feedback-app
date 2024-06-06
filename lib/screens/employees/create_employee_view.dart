@@ -540,12 +540,17 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
   }
 
    _createEmployeeRequest(BuildContext context) async {
+
     var employeeObj = Employee(
         name: _enteredName,
         designation: _enteredRole,
         employeeNo: _enteredEmpId,
         email: _enteredEmail,
         mobileNumber: _enteredMobile);
+
+        if(selectedEmployee.id != null){
+          employeeObj.reportingManagerId = selectedEmployee.id;
+        }
 
     var request = EmployeeCreateRequest(employee: employeeObj);
     ApiManager.authenticated.createEmployee(request).then((val) {
