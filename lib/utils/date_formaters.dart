@@ -6,12 +6,11 @@ const String hoursMinutes24 = "HH:mm";
 const String dateMonthYear = "dd-MM-yyyy";
 const String yearMonthDate = "yyyy-MM-dd";
 
-
-String getFormatedTime(String dateTimeString) {
-  DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
-  final DateFormat formatter = DateFormat.jm();
-  return formatter.format(dateTime);
-}
+// String getFormatedTime(String dateTimeString) {
+//   DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
+//   final DateFormat formatter = DateFormat.jm();
+//   return formatter.format(dateTime);
+// }
 
 String getFormatedDate(String dateTimeString) {
   DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
@@ -47,16 +46,23 @@ DateTime toUtcDateTime(TimeOfDay timeOfDay) {
   return utcDateTime;
 }
 
-DateTime stringToUtcDateObj(String dateTimeString, String inputDateformat) {
-  final DateFormat dateFormatter = DateFormat(inputDateformat);
-  DateTime dateObj = dateFormatter.parse(dateTimeString);
-  var utcDate = dateObj.toUtc();
-  return utcDate;
-}
+// DateTime stringToUtcDateObj(String dateTimeString, String inputDateformat) {
+//   final DateFormat dateFormatter = DateFormat(inputDateformat);
+//   DateTime dateObj = dateFormatter.parse(dateTimeString);
+//   var utcDate = dateObj.toUtc();
+//   return utcDate;
+// }
 
 extension DateConverssionExtension on String {
   String utcToLocalDate(String outputFormate) {
-      DateTime dateTime = DateTime.parse(this).toLocal();
-      return DateFormat(outputFormate).format(dateTime);
+    DateTime dateTime = DateTime.parse(this).toLocal();
+    return DateFormat(outputFormate).format(dateTime);
+  }
+
+  DateTime utcDateObj(String inputDateformat) {
+    final DateFormat dateFormatter = DateFormat(inputDateformat);
+    DateTime dateObj = dateFormatter.parse(this);
+    var utcDate = dateObj.toUtc();
+    return utcDate;
   }
 }

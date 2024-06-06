@@ -363,13 +363,11 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     var onlyEndTime = getTimeFromUtcDateTime(utcEndTime);
                     var dateStr = DateFormat(yearMonthDate).format(selectedDate);
                     var startDateTimeStr = "$dateStr $onlyStartTime";
-                    var utcStartDateTime = stringToUtcDateObj(
-                        startDateTimeStr, "$yearMonthDate $hoursMinutes24");
-
+                    var utcStartDateTime = startDateTimeStr.utcDateObj("$yearMonthDate $hoursMinutes24");
+         
                     var endDateTimeStr = "$dateStr $onlyEndTime";
-                    var utcEndDateTime =
-                        stringToUtcDateObj(endDateTimeStr, "$yearMonthDate $hoursMinutes24");
-
+                    var utcEndDateTime = endDateTimeStr.utcDateObj("$yearMonthDate $hoursMinutes24");
+                        
                     _createOneOnOneRequest(
                         utcStartDateTime.toString(),
                         utcEndDateTime.toString(),
