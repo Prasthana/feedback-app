@@ -1,4 +1,5 @@
 
+import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'preparecallresponse.g.dart';
@@ -22,11 +23,13 @@ class User {
     int? id;
     String? email;
     Map<String, Permission>? permissions;
+    Employee employee;
 
-    User({
+     User({
         this.id,
         this.email,
         this.permissions,
+        required this.employee,
     });
 
   factory User.fromJson(Map<String, dynamic> json) =>

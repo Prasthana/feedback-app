@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
+import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/screens/oneOnOne/1on1_success_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
@@ -31,11 +35,15 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   String enteredNotes = "";
   Employee selectedEmployee = Employee();
   bool isEmployeeEdite = true;
+  Employee employee = Employee();
+  bool isEmployee = false;
+
   //String _selectedOption = constants.doesNotRepeatText;
 
   @override
   void initState() {
     super.initState();
+    checkEmployeeOrManager();
     selectedEmployee = widget.mEmployee!;
     if(selectedEmployee.id != null){
       isEmployeeEdite = false;
@@ -48,6 +56,32 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     final newTime = addOneHour(now);
     setState(() {
       selectedEndTime = newTime;
+    });
+  }
+
+  void setEmployee(bool newValue) {
+    setState(() {
+      isEmployee= newValue;
+    });
+  }
+
+  void checkEmployeeOrManager() {
+    var sm = StorageManager();
+    sm.getData(constants.prepareCallResponse).then((val) {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
+        logger.d('val -- $json');
+        Permission? tabCreate1On1Access =mPrepareCallResponse.user?.permissions?["teams.tab"];
+        employee = mPrepareCallResponse.user?.employee as Employee;
+        if (tabCreate1On1Access?.access == Access.enabled) {
+          setEmployee(true);
+        } else {
+          setEmployee(false);
+        }
+      } else {
+        setEmployee(false);
+      }
     });
   }
 
@@ -166,18 +200,18 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
             children: [
               addVerticalSpace(10.0),
               meetingImage(),
-              const Row(
+              Row(
                 children: [
                   Text(
-                    constants.selectEmployeeText,
-                    style: TextStyle(
+                    isEmployee ? constants.selectEmployeeText : "Your Manager",
+                    style:  const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 21,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(width: 4,),
-                   Text(
+                  const SizedBox(width: 4,),
+                  const Text(
                     '*',
                     style: TextStyle(color: Colors.red,
                             fontWeight: FontWeight.w900),
@@ -189,7 +223,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 width: MediaQuery.of(context).size.width,
                 height: 51.0,
                 child: TextButton(
-                  onPressed: () async {
+                  onPressed: isEmployee ?() async {
                     if(isEmployeeEdite == true) {
                       final result = await showCupertinoModalBottomSheet(
                       context: context,
@@ -202,7 +236,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     });
                     logger.e("result - ${selectedEmployee.name}");
                     }                  
-                  },
+                  } : null ,
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
@@ -214,14 +248,16 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        (selectedEmployee.name != null)
+                      isEmployee ? 
+                          (selectedEmployee.name != null)
                             ? showEmployeeAvatar()
-                            : const Text(''),
-                        addHorizontalSpace(5),
+                            : const Text('') : showEmployeeAvatar(),
+                        addHorizontalSpace(5), 
                         Text(
+                          isEmployee ?
                           selectedEmployee.name != null
                               ? selectedEmployee.name ?? ""
-                              : constants.searchEmployeeText,
+                              : constants.searchEmployeeText : employee?.manager?.name ?? "",
                           style: const TextStyle(
                             color: colorText,
                             fontFamily: constants.uberMoveFont,
@@ -457,9 +493,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 18.0,
-      foregroundImage: NetworkImage(selectedEmployee.avatarAttachmentUrl ?? ""),
+      foregroundImage: NetworkImage(isEmployee ? selectedEmployee.avatarAttachmentUrl ?? "" : employee?.manager?.avatarAttachmentUrl ??""),
       child: Text(
-        getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
+        getInitials(isEmployee ? selectedEmployee.name ?? "" : employee?.manager?.name ?? "", 2),
         style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 17,

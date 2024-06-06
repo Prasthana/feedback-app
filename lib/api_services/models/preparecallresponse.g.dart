@@ -24,13 +24,15 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       email: json['email'] as String?,
       permissions: (json['permissions'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, Permission.fromJson(e as Map<String, dynamic>)),
-      ),
+      ), 
+      employee: Employee.fromJson(json["employee"]),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'email': instance.email,
       'permissions': instance.permissions,
+      "employee": instance.employee.toJson(),
     };
 
 Permission _$PermissionFromJson(Map<String, dynamic> json) => Permission(
