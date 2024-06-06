@@ -361,14 +361,14 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
 
                     var onlyStartTime = getTimeFromUtcDateTime(utcStartTime);
                     var onlyEndTime = getTimeFromUtcDateTime(utcEndTime);
-                    var dateStr = DateFormat('yyyy-MM-dd').format(selectedDate);
+                    var dateStr = DateFormat(yearMonthDate).format(selectedDate);
                     var startDateTimeStr = "$dateStr $onlyStartTime";
                     var utcStartDateTime = stringToUtcDateObj(
-                        startDateTimeStr, 'yyyy-MM-dd HH:mm');
+                        startDateTimeStr, "$yearMonthDate $hoursMinutes24");
 
                     var endDateTimeStr = "$dateStr $onlyEndTime";
                     var utcEndDateTime =
-                        stringToUtcDateObj(endDateTimeStr, 'yyyy-MM-dd HH:mm');
+                        stringToUtcDateObj(endDateTimeStr, "$yearMonthDate $hoursMinutes24");
 
                     _createOneOnOneRequest(
                         utcStartDateTime.toString(),
@@ -422,7 +422,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                DateFormat('dd-MM-yyyy').format(selectedDate),
+                DateFormat(dateMonthYear).format(selectedDate),
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: colorText,

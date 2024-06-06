@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 const String hoursMinutes12 = "hh:mm a";
 const String hoursMinutes24 = "HH:mm";
 const String dateMonthYear = "dd-MM-yyyy";
+const String yearMonthDate = "yyyy-MM-dd";
+
 
 String getFormatedTime(String dateTimeString) {
   DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
