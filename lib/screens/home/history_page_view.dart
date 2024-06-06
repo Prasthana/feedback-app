@@ -89,9 +89,9 @@ class _HistoryPageViewState extends State<HistoryPageView> {
     return ListView.builder(
         itemCount: oneOnOnesResponse?.oneononesList?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-        final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
-         String startTime = getFormatedDateConvertion(
-              oneOnOne?.startDateTime ?? "", systemFormateDateTime);
+        final oneOnOne = oneOnOnesResponse?.oneononesList?[index];       
+        var startDateTime = oneOnOne?.startDateTime ?? "";
+        String startTime = startDateTime.utcToLocalDate(systemFormateDateTime);
         Employee? employee = oneOnOne?.getOpponentUser(loginUserId);
         var employeeName = employee?.name ?? "No Employee";
 

@@ -231,9 +231,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildOneOnOneDetailsView(OneOnOne? oneOnOne) {
-    Employee? employee = oneOnOne?.getOpponentUser(loggedInUserId);
-    String meetingStartTime =
-        getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "hh:mm a");
+    var employee = oneOnOne?.oneOnOneParticipants?.first.employee ?? Employee();
+    var startDateTime = oneOnOne?.startDateTime ?? "";
+    String meetingStartTime = startDateTime.utcToLocalDate("hh:mm a");
     String meetingDate = getFormatedDateConvertion(
         oneOnOne?.startDateTime ?? "", "EEEE, dd MMM yyyy");
 
