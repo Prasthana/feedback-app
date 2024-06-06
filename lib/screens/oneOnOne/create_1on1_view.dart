@@ -72,9 +72,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
         Map<String, dynamic> json = jsonDecode(val);
         var mPrepareCallResponse = PrepareCallResponse.fromJson(json);
         logger.d('val -- $json');
-        Permission? tabCreate1On1Access =mPrepareCallResponse.user?.permissions?["teams.tab"];
+        Permission? teamTabAccess =mPrepareCallResponse.user?.permissions?["teams.tab"];
         employee = mPrepareCallResponse.user?.employee as Employee;
-        if (tabCreate1On1Access?.access == Access.enabled) {
+        if (teamTabAccess?.access == Access.enabled) {
           setEmployee(true);
         } else {
           setEmployee(false);
