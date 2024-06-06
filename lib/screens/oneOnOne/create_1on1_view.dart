@@ -75,12 +75,12 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
         Permission? teamTabAccess =mPrepareCallResponse.user?.permissions?["teams.tab"];
         employee = mPrepareCallResponse.user?.employee as Employee;
         if (teamTabAccess?.access == Access.enabled) {
-          setEmployee(true);
-        } else {
           setEmployee(false);
+        } else {
+          setEmployee(true);
         }
       } else {
-        setEmployee(false);
+        setEmployee(true);
       }
     });
   }
@@ -203,7 +203,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
               Row(
                 children: [
                   Text(
-                    isEmployee ? constants.selectEmployeeText : "Your Manager",
+                    !isEmployee ? constants.selectEmployeeText : "Your Manager",
                     style:  const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 21,
@@ -223,7 +223,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 width: MediaQuery.of(context).size.width,
                 height: 51.0,
                 child: TextButton(
-                  onPressed: isEmployee ?() async {
+                  onPressed: !isEmployee ?() async {
                     if(isEmployeeEdite == true) {
                       final result = await showCupertinoModalBottomSheet(
                       context: context,
@@ -248,13 +248,13 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                      isEmployee ? 
+                      !isEmployee ? 
                           (selectedEmployee.name != null)
                             ? showEmployeeAvatar()
                             : const Text('') : showEmployeeAvatar(),
                         addHorizontalSpace(5), 
                         Text(
-                          isEmployee ?
+                          !isEmployee ?
                           selectedEmployee.name != null
                               ? selectedEmployee.name ?? ""
                               : constants.searchEmployeeText : employee?.manager?.name ?? "",
@@ -493,9 +493,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 18.0,
-      foregroundImage: NetworkImage(isEmployee ? selectedEmployee.avatarAttachmentUrl ?? "" : employee?.manager?.avatarAttachmentUrl ??""),
+      foregroundImage: NetworkImage(!isEmployee ? selectedEmployee.avatarAttachmentUrl ?? "" : employee?.manager?.avatarAttachmentUrl ??""),
       child: Text(
-        getInitials(isEmployee ? selectedEmployee.name ?? "" : employee?.manager?.name ?? "", 2),
+        getInitials(!isEmployee ? selectedEmployee.name ?? "" : employee?.manager?.name ?? "", 2),
         style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 17,
