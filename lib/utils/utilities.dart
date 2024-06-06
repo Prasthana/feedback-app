@@ -16,7 +16,7 @@ String getInitials(String string, [int limitTo = 2]) {
   }
 
   for (var i = 0; i < (limitTo); i++) {
-    buffer.write(split[i][0].toUpperCase());
+    buffer.write(split[i][0]);
   }
 
   return buffer.toString().toUpperCase();
