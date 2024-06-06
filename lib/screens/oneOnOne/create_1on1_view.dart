@@ -224,7 +224,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 height: 51.0,
                 child: TextButton(
                   onPressed: !isEmployee ? () async {
-                    await selectEmployee();
+                    selectEmployee();
                   } : null,
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -540,7 +540,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     });
   }
 
-  Future<void> selectEmployee() async {
+  void selectEmployee() async {
     if (isEmployeeEdite == true) {
       final result = await showCupertinoModalBottomSheet(
         context: context,
