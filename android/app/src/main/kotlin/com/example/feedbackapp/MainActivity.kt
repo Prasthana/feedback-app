@@ -1,4 +1,4 @@
-package com.prasthana.feedbackapp
+package com.prasthana.oneononetalks
 
 import io.flutter.embedding.android.FlutterActivity
 
