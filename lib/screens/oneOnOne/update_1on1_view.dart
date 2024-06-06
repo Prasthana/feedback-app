@@ -574,10 +574,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildYetToImproveList() {
-    // List<Point> improvePointsList = [];
-    // improvePointsList.addAll(yetToImproveList ?? []);
-    // improvePointsList.addAll(localYetToImproveList);
-
     return ListView.separated(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
@@ -714,11 +710,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildGoodAtList() {
-    // debugPrint("apiGoodPoints2 length ------>>> ${apiGoodPoints.length}");
-    // List<Point> goodPointsList = [];
-    // goodPointsList.addAll(apiGoodPoints);
-    // goodPointsList.addAll(localGoodAtList);
-
+ 
     debugPrint("localGoodAtList2 length ------>>11> ${localGoodAtList.length}");
     return ListView.separated(
       shrinkWrap: true,
