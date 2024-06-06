@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
@@ -11,6 +12,7 @@ import 'package:feedbackapp/screens/home/history_page_view.dart';
 import 'package:feedbackapp/screens/home/upcoming_page_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +29,8 @@ class MainHomePageView extends StatefulWidget {
 
 class _MainHomePageViewState extends State<MainHomePageView> with SingleTickerProviderStateMixin {
   late TabController controller;
+    var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
+
 
   @override
   void initState() {
@@ -120,7 +124,7 @@ Widget _tab(String text, {bool isAllow = false}) {
         itemBuilder: (BuildContext context, int index) {
         final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
 
-        var employeeName = oneOnOne?.oneOnOneParticipants?.first.employee.name ?? "No Employee";
+        var employeeName = oneOnOne?.getOpponentUser(loggedInUserId)?.name ?? "No Employee";
 
           return Column(
             children: <Widget>[
