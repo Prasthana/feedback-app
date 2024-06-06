@@ -243,7 +243,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         addVerticalSpace(20),
         Center(
-          child: showEmployeeAvatar(employee!),
+          child: showEmployeeAvatar(employee),
         ),
         addVerticalSpace(12),
         Center(
@@ -747,13 +747,13 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  Widget showEmployeeAvatar(Employee selectedEmployee) {
+  Widget showEmployeeAvatar(Employee? selectedEmployee) {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 58.0,
-      foregroundImage: CachedNetworkImageProvider(selectedEmployee.avatarAttachmentUrl ?? ""),
+      foregroundImage: CachedNetworkImageProvider(selectedEmployee?.avatarAttachmentUrl ?? ""),
       child: Text(
-        getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
+        getInitials(selectedEmployee?.name ?? "No Particiapnt", 2),
         style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 30,
