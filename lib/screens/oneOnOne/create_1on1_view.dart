@@ -374,7 +374,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                         utcStartDateTime.toString(),
                         utcEndDateTime.toString(),
                         enteredNotes,
-                        selectedEmployee.id ?? 0,
+                        !isEmployee ? selectedEmployee.id ?? 0 : employee.manager?.id ?? 0,
                         context);
                   }
                 },

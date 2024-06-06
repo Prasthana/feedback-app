@@ -1,7 +1,9 @@
 import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
+import 'package:feedbackapp/api_services/models/oneonone.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:notification_center/notification_center.dart';
@@ -17,6 +19,8 @@ class OneonOneSuccessView extends StatefulWidget {
 }
 
 class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
+    var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
+
 
   @override
   void dispose() {
@@ -26,13 +30,13 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
 
   @override
   Widget build(BuildContext context) {
-    var empName = widget.oneOnOneResp.oneOnOne.oneOnOneParticipants?.first.employee.name ?? "";
+    var empName = widget.oneOnOneResp.oneOnOne.getOpponentUser(loggedInUserId)?.name ?? "";
     var dateStr = widget.oneOnOneResp.oneOnOne.startDateTime;  
     var startDateTime = widget.oneOnOneResp.oneOnOne.startDateTime;
     var endDateTime = widget.oneOnOneResp.oneOnOne.endDateTime;
-    String startTime = getFormatedTime(startDateTime ?? "");
-    String endTime = getFormatedTime(endDateTime ?? "");
-
+    String startTime = startDateTime.toString().utcToLocalDate(hoursMinutes12);
+    String endTime = endDateTime.toString().utcToLocalDate(hoursMinutes12);
+ 
     var oneOn1Time = "$startTime - $endTime";
     String oneOn1Date = getFormatedDate(dateStr ?? "");
 
