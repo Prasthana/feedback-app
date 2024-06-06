@@ -135,7 +135,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                   maxRadius: 28.0,
                   foregroundImage: CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
                   child: Text(
-                    getInitials(employee?.name ?? "", 2),
+                    getInitials(employee?.name ?? "", 2).toUpperCase(),
                     style: const TextStyle(
                         fontFamily: constants.uberMoveFont,
                         fontSize: 17,

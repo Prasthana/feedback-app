@@ -492,7 +492,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       maxRadius: 18.0,
       foregroundImage: CachedNetworkImageProvider(!isEmployee ? selectedEmployee.avatarAttachmentUrl ?? "" : employee.manager?.avatarAttachmentUrl ??""),
       child: Text(
-        getInitials(!isEmployee ? selectedEmployee.name ?? "" : employee.manager?.name ?? "", 2),
+        getInitials(!isEmployee ? selectedEmployee.name ?? "" : employee.manager?.name ?? "", 2).toUpperCase(),
         style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 17,

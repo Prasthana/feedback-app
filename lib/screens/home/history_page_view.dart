@@ -104,7 +104,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
                   maxRadius: 28.0,
                   foregroundImage: CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
                   child: Text(
-                    getInitials(employeeName, 2),
+                    getInitials(employeeName, 2).toUpperCase(),
                     style: const TextStyle(
                         fontFamily: constants.uberMoveFont,
                         fontSize: 17,
