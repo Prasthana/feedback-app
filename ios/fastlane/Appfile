@@ -1,4 +1,6 @@
-app_identifier("com.prasthana.feedbackapp") # The bundle identifier of your app
+# app_identifier("com.prasthana.feedbackapp") # The bundle identifier of your app
+app_identifier("com.prasthana.oneononetalks") # The bundle identifier of your app
+
 apple_id("appdev@prasthana.com") # Your Apple Developer Portal username
 
 itc_team_id("121001639") # App Store Connect Team ID
