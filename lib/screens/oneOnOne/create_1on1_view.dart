@@ -1,3 +1,5 @@
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -488,6 +490,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 18.0,
+      foregroundImage: CachedNetworkImageProvider(selectedEmployee.avatarAttachmentUrl ?? ""),
       foregroundImage: NetworkImage(!isEmployee ? selectedEmployee.avatarAttachmentUrl ?? "" : employee?.manager?.avatarAttachmentUrl ??""),
       child: Text(
         getInitials(!isEmployee ? selectedEmployee.name ?? "" : employee?.manager?.name ?? "", 2),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/main.dart';
@@ -459,7 +460,7 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 18.0,
-      foregroundImage: NetworkImage(selectedEmployee.avatarAttachmentUrl ?? ""),
+      foregroundImage: CachedNetworkImageProvider(selectedEmployee.avatarAttachmentUrl ?? ""),
       child: Text(
         getInitials(selectedEmployee.name ?? "", 2),
         style: const TextStyle(

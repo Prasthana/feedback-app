@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
@@ -157,8 +158,8 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
           String startTime = getFormatedDateConvertion(
               oneOnOne?.startDateTime ?? "", systemFormateDateTime);
-
-          String employeeName =  oneOnOne?.getOpponentUser(loggedInUserId)?.name ?? "NA";
+          Employee? employee = oneOnOne?.getOpponentUser(loggedInUserId);
+          String employeeName =  employee?.name ?? "NA";
 
           debugPrint("---- employeeName ------>>> $employeeName");
 
@@ -169,7 +170,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: const NetworkImage(""),
+                  foregroundImage:  CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
                   child: Text(
                     getInitials(employeeName, 2),
                     style: const TextStyle(

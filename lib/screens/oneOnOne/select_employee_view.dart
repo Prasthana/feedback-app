@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
@@ -89,7 +90,7 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
                 leading: CircleAvatar(
                   backgroundColor: colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
+                  foregroundImage: CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
                   child: Text(
                     getInitials(employee?.name ?? "", 2),
                     style: const TextStyle(
