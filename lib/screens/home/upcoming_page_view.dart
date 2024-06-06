@@ -156,8 +156,8 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
         itemCount: oneOnOnesResponse?.oneononesList?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
           final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
-          String startTime = getFormatedDateConvertion(
-              oneOnOne?.startDateTime ?? "", systemFormateDateTime);
+          var startDateTime = oneOnOne?.startDateTime ?? "";
+          String startTime = startDateTime.utcToLocalDate(systemFormateDateTime);
           Employee? employee = oneOnOne?.getOpponentUser(loggedInUserId);
           String employeeName =  employee?.name ?? "NA";
 

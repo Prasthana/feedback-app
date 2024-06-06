@@ -30,9 +30,9 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
     var dateStr = widget.oneOnOneResp.oneOnOne.startDateTime;  
     var startDateTime = widget.oneOnOneResp.oneOnOne.startDateTime;
     var endDateTime = widget.oneOnOneResp.oneOnOne.endDateTime;
-    String startTime = getFormatedTime(startDateTime ?? "");
-    String endTime = getFormatedTime(endDateTime ?? "");
-
+    String startTime = startDateTime.toString().utcToLocalDate(hoursMinutes12);
+    String endTime = endDateTime.toString().utcToLocalDate(hoursMinutes12);
+ 
     var oneOn1Time = "$startTime - $endTime";
     String oneOn1Date = getFormatedDate(dateStr ?? "");
 
