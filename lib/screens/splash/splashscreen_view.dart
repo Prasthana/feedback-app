@@ -1,11 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:oneononetalks/api_services/models/logintoken.dart';
 import 'package:oneononetalks/main.dart';
-import 'package:oneononetalks/managers/apiservice_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/login/login_view.dart';
 import 'package:oneononetalks/screens/mainTab/maintab_view.dart';

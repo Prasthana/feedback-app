@@ -24,7 +24,7 @@ import 'package:intl/intl.dart';
 
 class CreateOneOnOneView extends StatefulWidget {
   final Employee? mEmployee;
-  CreateOneOnOneView({super.key, required this.mEmployee});
+  const CreateOneOnOneView({super.key, required this.mEmployee});
 
   @override
   State<CreateOneOnOneView> createState() => _CreateOneOnOneViewState();
@@ -248,7 +248,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                           !isEmployee ?
                           selectedEmployee.name != null
                               ? selectedEmployee.name ?? ""
-                              : constants.searchEmployeeText : employee?.manager?.name ?? "",
+                              : constants.searchEmployeeText : employee.manager?.name ?? "",
                           style: const TextStyle(
                             color: colorText,
                             fontFamily: constants.uberMoveFont,

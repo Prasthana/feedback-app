@@ -10,7 +10,6 @@ import 'package:oneononetalks/utils/snackbar_helper.dart';
 import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
-import 'package:network_logger/network_logger.dart';
 
 class MainTabView extends StatefulWidget {
   const MainTabView({super.key});
@@ -54,7 +53,7 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
         onPrepareApiCall();
       });
     } else{
-      print(state.toString());
+      //print(state.toString());
     }
   }
 
@@ -71,20 +70,14 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
         });
         // SnackBarUtils.showErrorSnackBar(context, msg);
         displaySnackbar(context, msg);
-      } else if (response != null) {
-        //got the response and disabling the loader
-        updatePermissions(response);
-        setState(() {
-          _isLoading = false;
-        });
       } else {
-        //when response is null most cases are when status code becomes 204
-        //disabling the loader
-        updatePermissions(response);
-        setState(() {
-          _isLoading = false;
-        });
+        //got the response and disabling the loader
+      updatePermissions(response);
       }
+      setState(() {
+        _isLoading = false;
+      });
+    
     });
   }
 

@@ -20,7 +20,6 @@ import 'package:oneononetalks/utils/utilities.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:oneononetalks/theme/theme_constants.dart' as themeconstants;
-import 'package:network_logger/network_logger.dart';
 import 'package:notification_center/notification_center.dart';
 import 'package:system_date_time_format/system_date_time_format.dart';
 import 'package:oneononetalks/utils/notification_constants.dart'

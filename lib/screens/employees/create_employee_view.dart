@@ -14,7 +14,7 @@ import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CreateEmployeeView extends StatefulWidget {
-  CreateEmployeeView({super.key});
+  const CreateEmployeeView({super.key});
 
   @override
   State<CreateEmployeeView> createState() => _CreateEmployeeViewState();
@@ -624,7 +624,7 @@ extension validateFormStrings on String {
 
   bool get isValidName {
     final nameRegExp =
-        new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+        RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
     return nameRegExp.hasMatch(this);
   }
 

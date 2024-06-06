@@ -7,7 +7,6 @@ import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/login/login_view.dart';
-import 'package:oneononetalks/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 

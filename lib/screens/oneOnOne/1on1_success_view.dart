@@ -10,7 +10,7 @@ import 'package:notification_center/notification_center.dart';
 import 'package:oneononetalks/utils/notification_constants.dart' as notificationconstants;
 
 class OneonOneSuccessView extends StatefulWidget {
-  OneonOneSuccessView({super.key, required this.oneOnOneResp});
+  const OneonOneSuccessView({super.key, required this.oneOnOneResp});
 
   final OneOnOneCreateResponse oneOnOneResp;
 

@@ -248,7 +248,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(12),
         Center(
           child: Text(
-            employee?.name ?? "",
+            employee.name ?? "",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 24,
@@ -259,7 +259,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(8),
         Center(
           child: Text(
-            employee?.email ?? "",
+            employee.email ?? "",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 16,
@@ -653,13 +653,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         String msg = errorHandler.getErrorMessage();
 
         displaySnackbar(context, msg);
-      } else if (response != null) {
-        hideLoader();
-        refreshScreen();
       } else {
         hideLoader();
-        refreshScreen();
       }
+      refreshScreen();
+    
     });
   }
 
@@ -778,7 +776,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           title: Text(text),
-          content: Container(
+          content: SizedBox(
             width: 300,
             height: 80,
             child: TextFormField(

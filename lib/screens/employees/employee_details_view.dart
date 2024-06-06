@@ -2,30 +2,30 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:feedbackapp/api_services/api_errohandler.dart';
-import 'package:feedbackapp/api_services/api_service.dart';
-import 'package:feedbackapp/api_services/models/employee.dart';
-import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
-import 'package:feedbackapp/api_services/models/employeerequest.dart';
-import 'package:feedbackapp/api_services/models/logintoken.dart';
-import 'package:feedbackapp/api_services/models/one_on_ones_list_response.dart';
-import 'package:feedbackapp/api_services/models/oneonone.dart';
-import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
-import 'package:feedbackapp/main.dart';
-import 'package:feedbackapp/managers/apiservice_manager.dart';
-import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/screens/employees/create_employee_view.dart';
-import 'package:feedbackapp/screens/login/login_view.dart';
-import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
-import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
-import 'package:feedbackapp/theme/theme_constants.dart';
-import 'package:feedbackapp/utils/date_formaters.dart';
-import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/utilities.dart';
+import 'package:oneononetalks/api_services/api_errohandler.dart';
+import 'package:oneononetalks/api_services/api_service.dart';
+import 'package:oneononetalks/api_services/models/employee.dart';
+import 'package:oneononetalks/api_services/models/employeedetailsresponse.dart';
+import 'package:oneononetalks/api_services/models/employeerequest.dart';
+import 'package:oneononetalks/api_services/models/logintoken.dart';
+import 'package:oneononetalks/api_services/models/one_on_ones_list_response.dart';
+import 'package:oneononetalks/api_services/models/oneonone.dart';
+import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
+import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/screens/employees/create_employee_view.dart';
+import 'package:oneononetalks/screens/login/login_view.dart';
+import 'package:oneononetalks/screens/oneOnOne/create_1on1_view.dart';
+import 'package:oneononetalks/screens/oneOnOne/update_1on1_view.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/utils/date_formaters.dart';
+import 'package:oneononetalks/utils/helper_widgets.dart';
+import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
-import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
+import 'package:oneononetalks/theme/theme_constants.dart' as themeconstants;
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
@@ -417,7 +417,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                                     Alignment.centerRight,
                                                 child: IconButton(
                                                   iconSize: 36.0,
-                                                  icon: Icon(Icons.image),
+                                                  icon: const Icon(Icons.image),
                                                   tooltip:
                                                       constants.profilePicture,
                                                   onPressed: () {
@@ -878,13 +878,13 @@ showLogoutAlertDialog(BuildContext context, String alertText) {
     );
 
     Widget yesButton = TextButton(
-      child: const Text(constants.yes),
       onPressed: () {
         logoutUser();
       },
       style: TextButton.styleFrom(
         foregroundColor: Colors.red, // Set the text color here
         ),
+      child: const Text(constants.yes),
     );
 
     CupertinoAlertDialog alert = CupertinoAlertDialog(
