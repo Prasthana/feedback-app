@@ -223,20 +223,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                 width: MediaQuery.of(context).size.width,
                 height: 51.0,
                 child: TextButton(
-                  onPressed: !isEmployee ?() async {
-                    if(isEmployeeEdite == true) {
-                      final result = await showCupertinoModalBottomSheet(
-                      context: context,
-                      builder: (context) => const SelectEmployeeView(),
-                    );
-                    setState(() {
-                      if (result != null) {
-                        selectedEmployee = result as Employee;
-                      }
-                    });
-                    logger.e("result - ${selectedEmployee.name}");
-                    }                  
-                  } : null ,
+                  onPressed: !isEmployee ? () async {
+                    await selectEmployee();
+                  } : null,
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
@@ -549,5 +538,20 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
           break;
       }
     });
+  }
+
+  Future<void> selectEmployee() async {
+    if (isEmployeeEdite == true) {
+      final result = await showCupertinoModalBottomSheet(
+        context: context,
+        builder: (context) => const SelectEmployeeView(),
+      );
+      setState(() {
+        if (result != null) {
+          selectedEmployee = result as Employee;
+          }
+        });
+        logger.e("result - ${selectedEmployee.name}");
+    }
   }
 }

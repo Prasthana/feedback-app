@@ -32,7 +32,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'email': instance.email,
       'permissions': instance.permissions,
-      "employee": instance.employee.toJson(),
+      "employee": instance.employee?.toJson(),
     };
 
 Permission _$PermissionFromJson(Map<String, dynamic> json) => Permission(

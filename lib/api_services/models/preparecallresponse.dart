@@ -23,7 +23,7 @@ class User {
     int? id;
     String? email;
     Map<String, Permission>? permissions;
-    Employee employee;
+    Employee? employee;
 
      User({
         this.id,
