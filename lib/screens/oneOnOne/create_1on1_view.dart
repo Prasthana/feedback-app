@@ -45,7 +45,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     super.initState();
     checkEmployeeOrManager();
     selectedEmployee = widget.mEmployee!;
-    if(selectedEmployee.id != null){
+    if (selectedEmployee.id != null) {
       isEmployeeEdite = false;
     }
     _updateTime();
@@ -160,10 +160,10 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       initialTime: TimeOfDay.now(),
     );
 
-    if (pickedTime != null) { 
+    if (pickedTime != null) {
       setState(() {
         if (isStartTime) {
-          selectedStartTime = pickedTime ;
+          selectedStartTime = pickedTime;
           selectedEndTime = addOneHour(pickedTime);
         } else {
           selectedEndTime = pickedTime;
@@ -171,7 +171,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       });
     }
   }
-    
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,8 +213,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   const SizedBox(width: 4,),
                   const Text(
                     '*',
-                    style: TextStyle(color: Colors.red,
-                            fontWeight: FontWeight.w900),
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.w900),
                   ),
                 ],
               ),
@@ -315,9 +315,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-
               addVerticalSpace(8),
-
               TextFormField(
                   minLines: 3,
                   maxLines: 5,
@@ -326,7 +324,8 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   decoration: const InputDecoration(
                     fillColor: Colors.white,
                     hintText: constants.notesHintText,
-                    hintStyle: TextStyle(color: Color.fromRGBO(111, 111, 111, 1), fontSize: 14),
+                    hintStyle: TextStyle(
+                        color: Color.fromRGBO(111, 111, 111, 1), fontSize: 14),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
@@ -344,9 +343,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                   onChanged: (value) {
                     enteredNotes = value;
                   }),
-
               addVerticalSpace(20),
-
               MaterialButton(
                 minWidth: double.infinity,
                 height: 58.0,
@@ -357,19 +354,26 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                         context, constants.selectEmployeeValidationText);
                   } else {
                     showLoader(context);
-                          var utcStartTime = toUtcDateTime(selectedStartTime).toUtc();
-                          var utcEndTime = toUtcDateTime(selectedEndTime).toUtc();
+                    var utcStartTime = toUtcDateTime(selectedStartTime).toUtc();
+                    var utcEndTime = toUtcDateTime(selectedEndTime).toUtc();
 
-                          var onlyStartTime = getTimeFromUtcDateTime(utcStartTime);
-                          var onlyEndTime = getTimeFromUtcDateTime(utcEndTime);
-                          
+                    var onlyStartTime = getTimeFromUtcDateTime(utcStartTime);
+                    var onlyEndTime = getTimeFromUtcDateTime(utcEndTime);
+                    var dateStr = DateFormat('yyyy-MM-dd').format(selectedDate);
+                    var startDateTimeStr = "$dateStr $onlyStartTime";
+                    var utcStartDateTime = stringToUtcDateObj(
+                        startDateTimeStr, 'yyyy-MM-dd HH:mm');
 
-                    var startDateTime =
-                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T$onlyStartTime";
-                    var endDateTime =
-                        "${DateFormat('yyyy-MM-dd').format(selectedDate)}T$onlyEndTime";
-                    _createOneOnOneRequest(startDateTime, endDateTime,
-                        enteredNotes, !isEmployee? selectedEmployee.id ?? 0 : employee.manager?.id ?? 0, context);
+                    var endDateTimeStr = "$dateStr $onlyEndTime";
+                    var utcEndDateTime =
+                        stringToUtcDateObj(endDateTimeStr, 'yyyy-MM-dd HH:mm');
+
+                    _createOneOnOneRequest(
+                        utcStartDateTime.toString(),
+                        utcEndDateTime.toString(),
+                        enteredNotes,
+                        selectedEmployee.id ?? 0,
+                        context);
                   }
                 },
                 // ignore: sort_child_properties_last
@@ -436,7 +440,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         Text(
+        Text(
           isStarTime ? constants.startTimeText : constants.endTimeText,
           style: const TextStyle(
             fontFamily: constants.uberMoveFont,
@@ -452,7 +456,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
             onPressed: () {
               debugPrint("select date ------>>>>");
               _selectTime(isStarTime);
-             // showTimePicker(context: context, initialTime: TimeOfDay.now());
+              // showTimePicker(context: context, initialTime: TimeOfDay.now());
             },
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -462,7 +466,9 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
             ),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(formatTimeOfDay(isStarTime ? selectedStartTime : selectedEndTime),
+              child: Text(
+                formatTimeOfDay(
+                    isStarTime ? selectedStartTime : selectedEndTime),
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: colorText,
