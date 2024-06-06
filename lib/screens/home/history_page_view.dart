@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneonone.dart';
@@ -91,7 +92,8 @@ class _HistoryPageViewState extends State<HistoryPageView> {
         final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
          String startTime = getFormatedDateConvertion(
               oneOnOne?.startDateTime ?? "", systemFormateDateTime);
-        var employeeName = oneOnOne?.getOpponentUser(loginUserId)?.name ?? "No Employee";
+        Employee? employee = oneOnOne?.getOpponentUser(loginUserId);
+        var employeeName = employee?.name ?? "No Employee";
 
           return Column(
             children: <Widget>[
@@ -100,7 +102,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: const NetworkImage(""),
+                  foregroundImage: CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
                   child: Text(
                     getInitials(employeeName, 2),
                     style: const TextStyle(
@@ -172,6 +174,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
               addVerticalSpace(20),
               const Text(
                 'You can create a 1-on-1 meeting by clicking on the calendar icon below.',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 15,
