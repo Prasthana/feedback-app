@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/main.dart';
+import 'package:oneononetalks/main.dart';
 import 'package:flutter/foundation.dart';
 
 /// Handling  all errors

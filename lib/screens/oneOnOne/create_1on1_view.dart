@@ -3,28 +3,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/api_services/models/employee.dart';
-import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
-import 'package:feedbackapp/api_services/models/oneonone.dart';
-import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
-import 'package:feedbackapp/main.dart';
-import 'package:feedbackapp/managers/apiservice_manager.dart';
-import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/screens/oneOnOne/1on1_success_view.dart';
-import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
-import 'package:feedbackapp/theme/theme_constants.dart';
-import 'package:feedbackapp/utils/date_formaters.dart';
-import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/snackbar_helper.dart';
-import 'package:feedbackapp/utils/utilities.dart';
+import 'package:oneononetalks/api_services/models/employee.dart';
+import 'package:oneononetalks/api_services/models/one_on_one_create_request.dart';
+import 'package:oneononetalks/api_services/models/oneonone.dart';
+import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
+import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/screens/oneOnOne/1on1_success_view.dart';
+import 'package:oneononetalks/screens/oneOnOne/select_employee_view.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/utils/date_formaters.dart';
+import 'package:oneononetalks/utils/helper_widgets.dart';
+import 'package:oneononetalks/utils/snackbar_helper.dart';
+import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 
 class CreateOneOnOneView extends StatefulWidget {
   final Employee? mEmployee;
-  CreateOneOnOneView({super.key, required this.mEmployee});
+  const CreateOneOnOneView({super.key, required this.mEmployee});
 
   @override
   State<CreateOneOnOneView> createState() => _CreateOneOnOneViewState();
@@ -248,7 +248,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
                           !isEmployee ?
                           selectedEmployee.name != null
                               ? selectedEmployee.name ?? ""
-                              : constants.searchEmployeeText : employee?.manager?.name ?? "",
+                              : constants.searchEmployeeText : employee.manager?.name ?? "",
                           style: const TextStyle(
                             color: colorText,
                             fontFamily: constants.uberMoveFont,

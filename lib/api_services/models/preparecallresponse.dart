@@ -1,5 +1,5 @@
 
-import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:oneononetalks/api_services/models/employee.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'preparecallresponse.g.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/main.dart';
+import 'package:oneononetalks/main.dart';
 
 displayAlert(BuildContext context, String alertText) {
 

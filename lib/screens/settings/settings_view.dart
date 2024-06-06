@@ -1,4 +1,4 @@
-import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:flutter/material.dart';
 
 class SettingsView extends StatefulWidget {

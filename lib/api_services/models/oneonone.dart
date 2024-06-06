@@ -1,5 +1,5 @@
-import 'package:feedbackapp/api_services/models/employee.dart';
-import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
+import 'package:oneononetalks/api_services/models/employee.dart';
+import 'package:oneononetalks/api_services/models/one_on_one_create_request.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 

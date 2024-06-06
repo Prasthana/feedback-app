@@ -1,20 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:feedbackapp/api_services/models/employee.dart';
-import 'package:feedbackapp/api_services/models/employee_create_request.dart';
-import 'package:feedbackapp/main.dart';
-import 'package:feedbackapp/managers/apiservice_manager.dart';
-import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
-import 'package:feedbackapp/theme/theme_constants.dart';
-import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/utilities.dart';
+import 'package:oneononetalks/api_services/models/employee.dart';
+import 'package:oneononetalks/api_services/models/employee_create_request.dart';
+import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/screens/oneOnOne/select_employee_view.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/utils/helper_widgets.dart';
+import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CreateEmployeeView extends StatefulWidget {
-  CreateEmployeeView({super.key});
+  const CreateEmployeeView({super.key});
 
   @override
   State<CreateEmployeeView> createState() => _CreateEmployeeViewState();
@@ -624,7 +624,7 @@ extension validateFormStrings on String {
 
   bool get isValidName {
     final nameRegExp =
-        new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+        RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
     return nameRegExp.hasMatch(this);
   }
 

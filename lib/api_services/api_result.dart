@@ -1,4 +1,4 @@
-import 'package:feedbackapp/api_services/api_errohandler.dart';
+import 'package:oneononetalks/api_services/api_errohandler.dart';
 
 /// Adding all API success/error response in to this generic class
 class ApiResult<T> {

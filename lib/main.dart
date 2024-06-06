@@ -1,8 +1,8 @@
 import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:bugsnag_flutter_performance/bugsnag_flutter_performance.dart';
-import 'package:feedbackapp/api_services/dio-addOns/token_interceptor.dart';
-import 'package:feedbackapp/theme/theme_constants.dart';
-import 'package:feedbackapp/screens/splash/splashscreen_view.dart';
+import 'package:oneononetalks/api_services/dio-addOns/token_interceptor.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/screens/splash/splashscreen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/web.dart';

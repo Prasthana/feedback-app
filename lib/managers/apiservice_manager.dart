@@ -1,6 +1,6 @@
 
-import 'package:feedbackapp/api_services/api_client.dart';
-import 'package:feedbackapp/api_services/dio-addOns/dio_client.dart';
+import 'package:oneononetalks/api_services/api_client.dart';
+import 'package:oneononetalks/api_services/dio-addOns/dio_client.dart';
 
 
 

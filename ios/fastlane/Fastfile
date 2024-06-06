@@ -18,9 +18,12 @@ default_platform(:ios)
 platform :ios do
 
   BUILD_NUMBER = 1
-  APP_VERSION = "0.6"
-  APP_IDENTIFIER = "com.prasthana.feedbackapp"
-  APP_NAME = "Feedback"
+  #APP_VERSION = "0.6"
+  APP_VERSION = "0.7"
+  # APP_IDENTIFIER = "com.prasthana.feedbackapp"
+  APP_IDENTIFIER = "com.prasthana.oneononetalks"
+  # APP_NAME = "Feedback"
+  APP_NAME = "OneOnOne Talks"
   XCODE_PROJECT = "Runner.xcodeproj"
   XCODE_WORKSPACE = "Runner.xcworkspace"
   XCODE_SCHEME = "Runner"

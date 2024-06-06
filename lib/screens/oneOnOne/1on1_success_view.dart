@@ -1,16 +1,16 @@
-import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
-import 'package:feedbackapp/api_services/models/oneonone.dart';
-import 'package:feedbackapp/theme/theme_constants.dart';
-import 'package:feedbackapp/utils/date_formaters.dart';
-import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/local_storage_manager.dart';
+import 'package:oneononetalks/api_services/models/one_on_one_create_response.dart';
+import 'package:oneononetalks/api_services/models/oneonone.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/utils/date_formaters.dart';
+import 'package:oneononetalks/utils/helper_widgets.dart';
+import 'package:oneononetalks/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:notification_center/notification_center.dart';
-import 'package:feedbackapp/utils/notification_constants.dart' as notificationconstants;
+import 'package:oneononetalks/utils/notification_constants.dart' as notificationconstants;
 
 class OneonOneSuccessView extends StatefulWidget {
-  OneonOneSuccessView({super.key, required this.oneOnOneResp});
+  const OneonOneSuccessView({super.key, required this.oneOnOneResp});
 
   final OneOnOneCreateResponse oneOnOneResp;
 

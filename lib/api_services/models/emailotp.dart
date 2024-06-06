@@ -1,4 +1,4 @@
-import 'package:feedbackapp/api_services/models/userlogin.dart';
+import 'package:oneononetalks/api_services/models/userlogin.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'emailotp.g.dart';

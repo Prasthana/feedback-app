@@ -1,18 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:dio/dio.dart';
-import 'package:feedbackapp/api_services/models/logintoken.dart';
-import 'package:feedbackapp/main.dart';
-import 'package:feedbackapp/managers/apiservice_manager.dart';
-import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/screens/login/login_view.dart';
-import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
-import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/local_storage_manager.dart';
+import 'package:oneononetalks/api_services/models/logintoken.dart';
+import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/screens/login/login_view.dart';
+import 'package:oneononetalks/screens/mainTab/maintab_view.dart';
+import 'package:oneononetalks/utils/helper_widgets.dart';
+import 'package:oneononetalks/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
 
 class SplashScreenView extends StatefulWidget {
   const SplashScreenView({super.key});

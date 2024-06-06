@@ -2,28 +2,28 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/api_services/api_errohandler.dart';
-import 'package:feedbackapp/api_services/api_service.dart';
-import 'package:feedbackapp/api_services/models/employee.dart';
-import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
-import 'package:feedbackapp/api_services/models/one_on_one_create_response.dart';
-import 'package:feedbackapp/api_services/models/oneonone.dart';
-import 'package:feedbackapp/api_services/models/pointRequest.dart';
-import 'package:feedbackapp/api_services/models/pointResponse.dart';
-import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
-import 'package:feedbackapp/main.dart';
-import 'package:feedbackapp/managers/apiservice_manager.dart';
-import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/theme/theme_constants.dart';
-import 'package:feedbackapp/utils/date_formaters.dart';
-import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/local_storage_manager.dart';
-import 'package:feedbackapp/utils/snackbar_helper.dart';
-import 'package:feedbackapp/utils/utilities.dart';
+import 'package:oneononetalks/api_services/api_errohandler.dart';
+import 'package:oneononetalks/api_services/api_service.dart';
+import 'package:oneononetalks/api_services/models/employee.dart';
+import 'package:oneononetalks/api_services/models/one_on_one_create_request.dart';
+import 'package:oneononetalks/api_services/models/one_on_one_create_response.dart';
+import 'package:oneononetalks/api_services/models/oneonone.dart';
+import 'package:oneononetalks/api_services/models/pointRequest.dart';
+import 'package:oneononetalks/api_services/models/pointResponse.dart';
+import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
+import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/utils/date_formaters.dart';
+import 'package:oneononetalks/utils/helper_widgets.dart';
+import 'package:oneononetalks/utils/local_storage_manager.dart';
+import 'package:oneononetalks/utils/snackbar_helper.dart';
+import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
 
 class UpdateOneoneOneView extends StatefulWidget {
   const UpdateOneoneOneView({super.key, required this.oneOnOneData});
@@ -248,7 +248,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(12),
         Center(
           child: Text(
-            employee?.name ?? "",
+            employee.name ?? "",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 24,
@@ -259,7 +259,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(8),
         Center(
           child: Text(
-            employee?.email ?? "",
+            employee.email ?? "",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 16,
@@ -653,13 +653,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         String msg = errorHandler.getErrorMessage();
 
         displaySnackbar(context, msg);
-      } else if (response != null) {
-        hideLoader();
-        refreshScreen();
       } else {
         hideLoader();
-        refreshScreen();
       }
+      refreshScreen();
+    
     });
   }
 
@@ -778,7 +776,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           title: Text(text),
-          content: Container(
+          content: SizedBox(
             width: 300,
             height: 80,
             child: TextFormField(

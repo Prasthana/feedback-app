@@ -1,6 +1,6 @@
 {
-    "name": "feedbackapp",
-    "short_name": "feedbackapp",
+    "name": "oneononetalks",
+    "short_name": "oneononetalks",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
