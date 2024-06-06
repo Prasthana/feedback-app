@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/one_on_one_create_request.dart';
@@ -466,7 +467,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 18.0,
-      foregroundImage: NetworkImage(selectedEmployee.avatarAttachmentUrl ?? ""),
+      foregroundImage: CachedNetworkImageProvider(selectedEmployee.avatarAttachmentUrl ?? ""),
       child: Text(
         getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
         style: const TextStyle(

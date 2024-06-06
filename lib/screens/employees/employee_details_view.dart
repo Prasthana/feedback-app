@@ -440,7 +440,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               child: CircleAvatar(
                 backgroundColor: themeconstants.colorPrimary,
                 maxRadius: 64.0,
-                // backgroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
+                // backgroundImage: CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
 
                 child: Stack(children: [
                   Visibility(

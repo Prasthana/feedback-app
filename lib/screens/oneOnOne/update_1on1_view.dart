@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/api_errohandler.dart';
 import 'package:feedbackapp/api_services/api_service.dart';
@@ -748,7 +749,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 58.0,
-      foregroundImage: NetworkImage(selectedEmployee.avatarAttachmentUrl ?? ""),
+      foregroundImage: CachedNetworkImageProvider(selectedEmployee.avatarAttachmentUrl ?? ""),
       child: Text(
         getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
         style: const TextStyle(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/logintoken.dart';
 import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
@@ -127,7 +128,7 @@ Widget _tab(String text, {bool isAllow = false}) {
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: const NetworkImage(""),
+                  foregroundImage: const CachedNetworkImageProvider(""),
                   child: Text(
                     getInitials(employeeName, 2),
                     style: const TextStyle(

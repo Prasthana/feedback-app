@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeesresponse.dart';
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
@@ -132,7 +133,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: NetworkImage(employee?.avatarAttachmentUrl ?? ""),
+                  foregroundImage: CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
                   child: Text(
                     getInitials(employee?.name ?? "", 2),
                     style: const TextStyle(
