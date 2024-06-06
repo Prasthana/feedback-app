@@ -1,7 +1,7 @@
 
 import 'package:feedbackapp/api_services/models/one_on_one_point.dart';
 
-part 'pointResponse.g.dart';
+
 
 class PointResponse {
     OneOnOnePoint oneOnOnePoint;

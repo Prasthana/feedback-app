@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/employee_create_request.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/employeerequest.dart';
 import 'package:feedbackapp/api_services/models/employeesresponse.dart';
@@ -83,7 +84,7 @@ abstract class ApiClient {
 
 
   @POST("/employees")
-  Future<Employee> createEmployee(@Body() OneOnOne request);
+  Future<Employee> createEmployee(@Body() EmployeeCreateRequest request);
 
   @DELETE("/employees")
   Future<Employee> deleteEmployee(@Query("param1") String employeeId);
