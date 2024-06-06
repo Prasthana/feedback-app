@@ -18,7 +18,7 @@ String getFormatedDateConvertion(String dateTimeString, String outputFormate) {
 }
 
 String getTimeFromUtcDateTime(DateTime dateTime) {
-  final DateFormat formatter = DateFormat('HH:mm'); //HH:mm:ss.SSS z
+  final DateFormat formatter = DateFormat('HH:mm');
   return formatter.format(dateTime);
 }
 
