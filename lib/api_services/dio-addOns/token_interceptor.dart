@@ -54,6 +54,7 @@ class TokenInterceptor extends Interceptor {
             logger.d('val -- $json');
             var refreshTokenStatus =
                 await refreshLoginToken(mLoginTokenResponse.refreshToken ?? "");
+                logger.d("refreshTokenStatus $refreshTokenStatus");
             try {
               // retry the API call
               final response = await dio.fetch(err.requestOptions);
@@ -62,15 +63,15 @@ class TokenInterceptor extends Interceptor {
               logger.e("api:: called retry exception $e");
               // If an error occurs during the api call , reject the handler and sending to error to API Result generic class
               //errors like any validation issue from API or whatever
+              navigateToLogin();
               return handler.reject(e);
             }
           }
         });
-      } else {
-        // if the API status code not contains sending to API Result class
-        return handler.next(err);
       }
     }
+    // if the API status code not contains sending to API Result class
+    return handler.next(err);
   }
 
   Future<bool> refreshLoginToken(String refreshToken) async {

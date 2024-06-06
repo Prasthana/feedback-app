@@ -20,12 +20,21 @@ ThemeData lightTheme = ThemeData(
                                     shadowColor: Colors.grey,),    
     floatingActionButtonTheme:
         const FloatingActionButtonThemeData(backgroundColor: colorAccent),
+
     inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
             borderSide: BorderSide.none),
         filled: true,
-        fillColor: Colors.grey.withOpacity(0.1)));
+        fillColor: Colors.grey.withOpacity(0.1)),
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: Colors.red,
+                                           contentTextStyle: TextStyle (
+                                                    fontFamily: constants.uberMoveFont,
+                                                    fontSize: 18,
+                                                    fontStyle: FontStyle.normal)
+    ),
+        );
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,

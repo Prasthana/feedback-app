@@ -15,16 +15,13 @@ class RequestInterceptor extends Interceptor {
 
    // Add the authorization token to every request
     var token = await StorageManager().getData(constants.loginTokenResponse);
-    //.then((token) {
       if (token != constants.noDataFound) {
         Map<String, dynamic> json = jsonDecode(token);
         var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
         var accessToken = mLoginTokenResponse.accessToken;
         options.headers['Authorization'] = 'Bearer $accessToken';
       }
-      // return handler.next(options); // Continue
-    // });
-     
-    super.onRequest(options, handler);
+      return handler.next(options); // Continue
   }
+  
 }
