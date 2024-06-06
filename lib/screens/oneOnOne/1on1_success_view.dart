@@ -34,8 +34,8 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
     String endTime = endDateTime.toString().utcToLocalDate(hoursMinutes12);
  
     var oneOn1Time = "$startTime - $endTime";
-    String oneOn1Date = getFormatedDate(dateStr ?? "");
-
+    String oneOn1Date = getFormatedDateConvertion(dateStr ?? "", dateMonthYear);
+  
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
