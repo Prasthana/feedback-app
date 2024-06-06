@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
+import 'package:feedbackapp/api_services/models/employee_create_request.dart';
 import 'package:feedbackapp/main.dart';
+import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/screens/oneOnOne/select_employee_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
@@ -10,17 +13,27 @@ import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class CreateEployeeView extends StatefulWidget {
-  CreateEployeeView({super.key});
+class CreateEmployeeView extends StatefulWidget {
+  CreateEmployeeView({super.key});
 
   @override
-  State<CreateEployeeView> createState() => _CreateEployeeViewState();
+  State<CreateEmployeeView> createState() => _CreateEmployeeViewState();
 }
 
-class _CreateEployeeViewState extends State<CreateEployeeView> {
+class _CreateEmployeeViewState extends State<CreateEmployeeView> {
+  String? _enteredName;
+  var isNameValidated = false;
+  String? _enteredRole;
+  var isRoleValidated = false;
+  String? _enteredEmpId;
+  var isEmpIdValidated = false;
+  String? _enteredMobile;
+  var isMobileValidated = false;
   String? _enteredEmail;
   var isEmailValidated = false;
+
   Employee selectedEmployee = Employee();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +56,9 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
         ),
         backgroundColor: Colors.white,
         body: Padding(
-            padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
             child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,17 +88,34 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                     ),
                     addVerticalSpace(8),
                     TextFormField(
+                      autofocus: true,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       minLines: 1,
                       maxLines: 1,
                       maxLength: 30,
                       keyboardType: TextInputType.multiline,
                       textInputAction: TextInputAction.done,
+                      onChanged: (name) {
+                        setState(() {
+                          isNameValidated = name.isNotEmpty;
+                        });
+                        _enteredName = name;
+                      },
+                      validator: (name) {
+                        if (name!.isNotEmpty) {
+                          return null;
+                        } else {
+                          return constants.nameValidMsg;
+                        }
+                      },
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         hintText: constants.dummyName,
                         hintStyle: TextStyle(
-                            color: Color.fromRGBO(111, 111, 111, 1),
-                            fontSize: 14),
+                                    fontFamily: constants.uberMoveFont,
+                                    color: Color.fromRGBO(111, 111, 111, 1),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         ),
@@ -94,10 +126,11 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                         ),
                       ),
                       style: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                                fontFamily: constants.uberMoveFont,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
+                              ),
                     ),
                   ]),
                   addVerticalSpace(8),
@@ -132,17 +165,35 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                           SizedBox(
                             width: (MediaQuery.of(context).size.width / 2) - 28,
                             child: TextFormField(
+                              autofocus: false,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               minLines: 1,
                               maxLines: 1,
                               maxLength: 20,
                               keyboardType: TextInputType.multiline,
                               textInputAction: TextInputAction.done,
+                              onChanged: (role) {
+                                setState(() {
+                                  isRoleValidated = role.isNotEmpty;
+                                });
+                                _enteredRole = role;
+                              },
+                              validator: (role) {
+                                if (role!.isNotEmpty) {
+                                  return null;
+                                } else {
+                                  return constants.roleValidMsg;
+                                }
+                              },
                               decoration: const InputDecoration(
                                 fillColor: Colors.white,
                                 hintText: constants.dummyRole,
                                 hintStyle: TextStyle(
+                                    fontFamily: constants.uberMoveFont,
                                     color: Color.fromRGBO(111, 111, 111, 1),
-                                    fontSize: 14),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                                 border: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
@@ -156,7 +207,8 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                               style: const TextStyle(
                                 fontFamily: constants.uberMoveFont,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
                               ),
                             ),
                           ),
@@ -191,17 +243,35 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                           SizedBox(
                             width: (MediaQuery.of(context).size.width / 2) - 28,
                             child: TextFormField(
+                              autofocus: false,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               minLines: 1,
                               maxLines: 1,
                               maxLength: 10,
                               keyboardType: TextInputType.multiline,
                               textInputAction: TextInputAction.done,
+                              onChanged: (empId) {
+                                setState(() {
+                                  isEmpIdValidated = empId.isNotEmpty;
+                                });
+                                _enteredEmpId = empId;
+                              },
+                              validator: (empId) {
+                                if (empId!.isNotEmpty) {
+                                  return null;
+                                } else {
+                                  return constants.empIdValidMsg;
+                                }
+                              },
                               decoration: const InputDecoration(
                                 fillColor: Colors.white,
                                 hintText: constants.dummyEmpId,
                                 hintStyle: TextStyle(
+                                    fontFamily: constants.uberMoveFont,
                                     color: Color.fromRGBO(111, 111, 111, 1),
-                                    fontSize: 14),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                                 border: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(4.0)),
@@ -215,7 +285,8 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                               style: const TextStyle(
                                 fontFamily: constants.uberMoveFont,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
                               ),
                             ),
                           ),
@@ -251,15 +322,21 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                       SizedBox(
                         width: (MediaQuery.of(context).size.width),
                         child: TextFormField(
-                          autofocus: true,
+                          autofocus: false,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
+                            fillColor: Colors.white,
                             labelText: null,
                             errorStyle: TextStyle(
                               fontFamily: constants.uberMoveFont,
                             ),
                             hintText: constants.dummyEmailId,
+                            hintStyle: TextStyle(
+                                    fontFamily: constants.uberMoveFont,
+                                    color: Color.fromRGBO(111, 111, 111, 1),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color.fromARGB(255, 18, 17, 17),
@@ -277,9 +354,10 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                             ),
                           ),
                           style: const TextStyle(
-                            fontFamily: constants.uberMoveFont,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
+                                fontFamily: constants.uberMoveFont,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
                           ),
                           onChanged: (email) {
                             setState(() {
@@ -322,17 +400,34 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                     ),
                     addVerticalSpace(8),
                     TextFormField(
+                      autofocus: false,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       minLines: 1,
                       maxLines: 1,
                       maxLength: 10,
                       keyboardType: TextInputType.multiline,
                       textInputAction: TextInputAction.done,
+                      onChanged: (mobile) {
+                        setState(() {
+                          isMobileValidated = mobile.isValidPhone;
+                        });
+                        _enteredMobile = mobile;
+                      },
+                      validator: (mobile) {
+                        if (mobile != null && mobile.isValidPhone) {
+                          return null;
+                        } else {
+                          return constants.mobileValidMsg;
+                        }
+                      },
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         hintText: constants.dummyMobileNumber,
                         hintStyle: TextStyle(
-                            color: Color.fromRGBO(111, 111, 111, 1),
-                            fontSize: 14),
+                                    fontFamily: constants.uberMoveFont,
+                                    color: Color.fromRGBO(111, 111, 111, 1),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         ),
@@ -343,10 +438,11 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                         ),
                       ),
                       style: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                                fontFamily: constants.uberMoveFont,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(0, 0, 0, 1)
+                              ),
                     ),
                   ]),
                   addVerticalSpace(8),
@@ -402,7 +498,7 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                                 Text(
                                   selectedEmployee.name != null
                                       ? selectedEmployee.name ?? ""
-                                      : constants.searchEmployeeText,
+                                      : constants.serachManager,
                                   style: const TextStyle(
                                     color: colorText,
                                     fontFamily: constants.uberMoveFont,
@@ -440,7 +536,11 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                             height: 58.0,
                             onPressed: () {
                               debugPrint("clicked on create ----->>>>");
-                             
+                              if (_formKey.currentState!.validate()) {
+                                // Navigator.of(context).push();
+                                 showLoader(context);
+                                 _createEmployeeRequest(context);
+                              }
                             },
                             // ignore: sort_child_properties_last
                             child: const Text(constants.add),
@@ -453,7 +553,42 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                     ],
                   ),
                   addVerticalSpace(12),
-                ]))));
+                ])),
+          ),
+        ));
+  }
+
+   _createEmployeeRequest(BuildContext context) async {
+
+    var employeeObj = Employee(
+        name: _enteredName,
+        designation: _enteredRole,
+        employeeNo: _enteredEmpId,
+        email: _enteredEmail,
+        mobileNumber: _enteredMobile);
+
+        if(selectedEmployee.id != null){
+          employeeObj.reportingManagerId = selectedEmployee.id;
+        }
+
+    var request = EmployeeCreateRequest(employee: employeeObj);
+    ApiManager.authenticated.createEmployee(request).then((val) {
+      hideLoader();
+      logger.e('createOneOnOne response -- ${val.toJson()}');
+      Navigator.pop(context);
+    }).catchError((obj) {
+      hideLoader();
+      switch (obj.runtimeType) {
+        case const (DioException):
+          // Here's the sample to get the failed response error code and message
+          final res = (obj as DioException).response;
+          logger.e('Got error : ${res?.statusCode} -> ${res?.statusMessage}');
+
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   Widget showEmployeeAvatar() {
@@ -479,5 +614,22 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
           'assets/addEmployee.png',
         ) // Image.asset
         );
+  }
+}
+
+extension validateFormStrings on String {
+  bool get isNotNull {
+    return this != null;
+  }
+
+  bool get isValidName {
+    final nameRegExp =
+        new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+    return nameRegExp.hasMatch(this);
+  }
+
+  bool get isValidPhone {
+    final phoneRegExp = RegExp(r"[0-9]{10}$");
+    return phoneRegExp.hasMatch(this);
   }
 }
