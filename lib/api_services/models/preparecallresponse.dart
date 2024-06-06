@@ -23,13 +23,13 @@ class User {
     int? id;
     String? email;
     Map<String, Permission>? permissions;
-    Employee? employee;
+    
 
      User({
         this.id,
         this.email,
         this.permissions,
-        this.employee,
+      
     });
 
   factory User.fromJson(Map<String, dynamic> json) =>
