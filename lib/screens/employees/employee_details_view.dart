@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:feedbackapp/api_services/api_errohandler.dart';
+import 'package:feedbackapp/api_services/api_service.dart';
 import 'package:feedbackapp/api_services/models/employee.dart';
 import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/employeerequest.dart';
@@ -12,12 +14,14 @@ import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
 import 'package:feedbackapp/main.dart';
 import 'package:feedbackapp/managers/apiservice_manager.dart';
 import 'package:feedbackapp/managers/storage_manager.dart';
+import 'package:feedbackapp/screens/employees/create_employee_view.dart';
 import 'package:feedbackapp/screens/login/login_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/create_1on1_view.dart';
 import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
@@ -40,10 +44,12 @@ class EmployeeDetailsView extends StatefulWidget {
 class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   Future<EmployeeDetailsResponse>? employeeFuture;
   Future<OneOnOnesListResponse>? oneOnOneFuture;
+  final ApiService _apiService = ApiService();
   bool isLoginEmployee = false;
   bool isUpdating = false;
   bool addMobileNumber = false;
   bool hasAccessToCreate1On1 = false;
+  bool hasProfileUrl = false;
   String mobileNumber = "";
 
   Employee? mEmployee;
@@ -68,9 +74,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
 
   Future getImage(String type) async {
     XFile? image;
-    if (type == constants.delete) {
-      // ToDo : implement delete profile pic api integration
-    } else if (type == constants.camera) {
+    if (type == constants.camera) {
       image = await ImagePicker().pickImage(source: ImageSource.camera);
     } else {
       image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -98,6 +102,14 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     }
   }
 
+  void deleteProfilePic(int empId){
+     _apiService.deleteProfilePic(empId).then((value) {
+      HttpResponse? response = value.data;
+      var employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
+      setEmployeeFuture(employeeFuture);  
+    });
+  }
+ 
   void setEmployeeFuture(Future<EmployeeDetailsResponse>? newValue) {
     setState(() {
       employeeFuture = newValue;
@@ -305,6 +317,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     if (isUpdating) {
       employee?.avatarAttachmentUrl = "";
     }
+    hasProfileUrl = employee?.avatarAttachmentUrl?.isEmpty == false && employee?.avatarAttachmentUrl?.isNotNull == true;
     isUpdating = false;
     return Container(
         padding: const EdgeInsets.all(12.0),
@@ -328,11 +341,11 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      const Row(
+                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Align(
+                                           const Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
                                                 constants.profilePicture,
@@ -345,20 +358,21 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                                         0, 0, 0, 1)),
                                               ),
                                             ),
-                                             // ToDo : Once api done need to integrate
-                                            // Align(
-                                            //   alignment: Alignment.centerRight,
-                                            //   child: IconButton(
-                                            //     iconSize: 24.0,
-                                            //     icon: const Icon(Icons.delete),
-                                            //     tooltip:
-                                            //         constants.profilePicture,
-                                            //     onPressed: () {
-                                            //       getImage(constants.delete);
-                                            //       Navigator.pop(context);
-                                            //     },
-                                            //   ),
-                                            // )
+                                             Visibility(
+                                              visible: hasProfileUrl,
+                                              child: Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                iconSize: 24.0,
+                                                icon: const Icon(Icons.delete),
+                                                tooltip: constants.profilePicture,
+                                                onPressed: () {
+                                                  deleteProfilePic(mEmployee?.id ?? 0);
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            )
+                                            )
                                           ]),
                                       addVerticalSpace(24),
                                       Row(

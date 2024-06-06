@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:dio/dio.dart';
@@ -5,6 +6,7 @@ import 'package:feedbackapp/api_services/api_client.dart';
 import 'package:feedbackapp/api_services/api_errohandler.dart';
 import 'package:feedbackapp/api_services/api_result.dart';
 import 'package:feedbackapp/api_services/models/emailotp.dart';
+import 'package:feedbackapp/api_services/models/employeedetailsresponse.dart';
 import 'package:feedbackapp/api_services/models/pointRequest.dart';
 import 'package:feedbackapp/api_services/models/pointResponse.dart';
 import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
@@ -69,5 +71,21 @@ Future<ApiResult<PrepareCallResponse?>> makePrepareCall() async {
 
   }
 
-  performPrepareCall() {}
+  Future<ApiResult<HttpResponse?>> deleteProfilePic(int empID) async {
+ 
+    try {
+      dynamic jsonResponse = await _apiPublicClient.deleteEmployeeProfilePic(empID);
+
+      return ApiResult()..setData(jsonResponse);
+    } catch (e, _) {
+      //checking if the exception from dio then set the dio otherwise set other exception
+      if (e is DioException) {
+        logger.e("exception is $e and $_");
+        return ApiResult()
+          ..setException(ErrorHandler.dioException(error: e),);
+      }
+      return ApiResult()..setException(ErrorHandler.otherException(),);
+    }
+
+  }
 }

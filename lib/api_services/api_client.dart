@@ -82,9 +82,11 @@ abstract class ApiClient {
   @PUT("/employees/{employeeId}")
   Future<EmployeeDetailsResponse> updateEmployeesMobile(@Path("employeeId") int employeeId, @Body() EmployeeRequest request);
 
-
   @POST("/employees")
   Future<Employee> createEmployee(@Body() EmployeeCreateRequest request);
+
+  @DELETE("/employees/{employeeId}/destroy_avatar_file")
+  Future<HttpResponse> deleteEmployeeProfilePic(@Path("employeeId") int employeeId);
 
   @DELETE("/employees")
   Future<Employee> deleteEmployee(@Query("param1") String employeeId);
