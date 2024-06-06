@@ -256,8 +256,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         itemCount: oneOnOneList?.length,
         itemBuilder: (BuildContext context, int index) {
           var oneOnOne = oneOnOneList?[index];
-          String startTime = getFormatedDateConvertion(
-              oneOnOne?.startDateTime ?? "", systemFormateDateTime);
+          var startDateTime = oneOnOne?.startDateTime ?? "";
+          String startTime = startDateTime.utcToLocalDate(systemFormateDateTime);
           var yetToImprovePoints = oneOnOne?.yetToImprovePoints?.length ?? 0;
           return Column(
             children: <Widget>[
