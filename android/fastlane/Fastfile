@@ -35,7 +35,7 @@ end
   desc "Submit a new Beta Build to Playstore"
   lane :beta do
 
-    # increment_staging
+    increment_staging
     gradle(
       tasks: ["clean bundleRelease"],
       properties: { "android.injected.version.code" => APP_VERSION_CODE, 
