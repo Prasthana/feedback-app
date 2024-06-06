@@ -172,6 +172,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
               addVerticalSpace(20),
               const Text(
                 'You can create a 1-on-1 meeting by clicking on the calendar icon below.',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 15,
