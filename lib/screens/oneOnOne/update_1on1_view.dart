@@ -17,6 +17,7 @@ import 'package:feedbackapp/managers/storage_manager.dart';
 import 'package:feedbackapp/theme/theme_constants.dart';
 import 'package:feedbackapp/utils/date_formaters.dart';
 import 'package:feedbackapp/utils/helper_widgets.dart';
+import 'package:feedbackapp/utils/local_storage_manager.dart';
 import 'package:feedbackapp/utils/snackbar_helper.dart';
 import 'package:feedbackapp/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,6 +52,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   //initializing the API Service class
   final ApiService _apiService = ApiService();
   final TextEditingController _textController = TextEditingController();
+  var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
 
   @override
   void initState() {
@@ -246,7 +248,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(12),
         Center(
           child: Text(
-            employee.name ?? "",
+            employee?.name ?? "",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 24,
@@ -257,7 +259,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(8),
         Center(
           child: Text(
-            employee.email ?? "",
+            employee?.email ?? "",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 16,
@@ -745,13 +747,13 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  Widget showEmployeeAvatar(Employee selectedEmployee) {
+  Widget showEmployeeAvatar(Employee? selectedEmployee) {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 58.0,
-      foregroundImage: CachedNetworkImageProvider(selectedEmployee.avatarAttachmentUrl ?? ""),
+      foregroundImage: CachedNetworkImageProvider(selectedEmployee?.avatarAttachmentUrl ?? ""),
       child: Text(
-        getInitials(selectedEmployee.name ?? "No Particiapnt", 2),
+        getInitials(selectedEmployee?.name ?? "No Particiapnt", 2),
         style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 30,
