@@ -1,7 +1,7 @@
 
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/api_services/dio-addOns/request_interceptor.dart';
-import 'package:feedbackapp/api_services/dio-addOns/token_interceptor.dart';
+import 'package:oneononetalks/api_services/dio-addOns/request_interceptor.dart';
+import 'package:oneononetalks/api_services/dio-addOns/token_interceptor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:network_logger/network_logger.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';

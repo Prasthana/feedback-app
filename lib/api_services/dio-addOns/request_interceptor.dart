@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/api_services/models/logintoken.dart';
-import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/api_services/models/logintoken.dart';
+import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/utils/constants.dart' as constants;
 
 /// Interceptor for adding to know which platform
 class RequestInterceptor extends Interceptor {

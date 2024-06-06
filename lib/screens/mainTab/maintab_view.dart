@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:feedbackapp/api_services/api_errohandler.dart';
-import 'package:feedbackapp/api_services/api_service.dart';
-import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
-import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/screens/employees/employee_list_view.dart';
-import 'package:feedbackapp/screens/home/mainhome_page.dart';
-import 'package:feedbackapp/utils/snackbar_helper.dart';
-import 'package:feedbackapp/utils/utilities.dart';
+import 'package:oneononetalks/api_services/api_errohandler.dart';
+import 'package:oneononetalks/api_services/api_service.dart';
+import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
+import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/screens/employees/employee_list_view.dart';
+import 'package:oneononetalks/screens/home/mainhome_page.dart';
+import 'package:oneononetalks/utils/snackbar_helper.dart';
+import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:network_logger/network_logger.dart';
 
 class MainTabView extends StatefulWidget {

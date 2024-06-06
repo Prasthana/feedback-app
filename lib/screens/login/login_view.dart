@@ -3,17 +3,17 @@
 import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
-import 'package:feedbackapp/api_services/models/emailotp.dart';
-import 'package:feedbackapp/theme/theme_constants.dart';
-import 'package:feedbackapp/screens/otp/otp_view.dart';
-import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/snackbar_helper.dart';
-import 'package:feedbackapp/utils/utilities.dart';
+import 'package:oneononetalks/api_services/models/emailotp.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/screens/otp/otp_view.dart';
+import 'package:oneononetalks/utils/helper_widgets.dart';
+import 'package:oneononetalks/utils/snackbar_helper.dart';
+import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:network_logger/network_logger.dart';
-import 'package:feedbackapp/api_services/api_errohandler.dart';
-import 'package:feedbackapp/api_services/api_service.dart';
+import 'package:oneononetalks/api_services/api_errohandler.dart';
+import 'package:oneononetalks/api_services/api_service.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});

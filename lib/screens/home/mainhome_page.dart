@@ -1,24 +1,24 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:feedbackapp/api_services/models/employee.dart';
-import 'package:feedbackapp/api_services/models/logintoken.dart';
-import 'package:feedbackapp/api_services/models/oneonone.dart';
-import 'package:feedbackapp/api_services/models/oneononesresponse.dart';
-import 'package:feedbackapp/main.dart';
-import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/screens/employees/employee_details_view.dart';
-import 'package:feedbackapp/screens/home/history_page_view.dart';
-import 'package:feedbackapp/screens/home/upcoming_page_view.dart';
-import 'package:feedbackapp/screens/oneOnOne/update_1on1_view.dart';
-import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/local_storage_manager.dart';
-import 'package:feedbackapp/utils/utilities.dart';
+import 'package:oneononetalks/api_services/models/employee.dart';
+import 'package:oneononetalks/api_services/models/logintoken.dart';
+import 'package:oneononetalks/api_services/models/oneonone.dart';
+import 'package:oneononetalks/api_services/models/oneononesresponse.dart';
+import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/screens/employees/employee_details_view.dart';
+import 'package:oneononetalks/screens/home/history_page_view.dart';
+import 'package:oneononetalks/screens/home/upcoming_page_view.dart';
+import 'package:oneononetalks/screens/oneOnOne/update_1on1_view.dart';
+import 'package:oneononetalks/utils/helper_widgets.dart';
+import 'package:oneononetalks/utils/local_storage_manager.dart';
+import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
-import 'package:feedbackapp/theme/theme_constants.dart' as themeconstants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
+import 'package:oneononetalks/theme/theme_constants.dart' as themeconstants;
 
 class MainHomePageView extends StatefulWidget {
   const MainHomePageView({super.key});

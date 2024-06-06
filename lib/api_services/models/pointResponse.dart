@@ -1,5 +1,5 @@
 
-import 'package:feedbackapp/api_services/models/one_on_one_point.dart';
+import 'package:oneononetalks/api_services/models/one_on_one_point.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pointResponse.g.dart';

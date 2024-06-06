@@ -2,21 +2,21 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:feedbackapp/api_services/api_client.dart';
-import 'package:feedbackapp/api_services/models/emailotp.dart';
-import 'package:feedbackapp/api_services/models/logintoken.dart';
-import 'package:feedbackapp/api_services/models/verifyotp.dart';
-import 'package:feedbackapp/main.dart';
-import 'package:feedbackapp/managers/apiservice_manager.dart';
-import 'package:feedbackapp/managers/storage_manager.dart';
-import 'package:feedbackapp/screens/mainTab/maintab_view.dart';
-import 'package:feedbackapp/utils/helper_widgets.dart';
-import 'package:feedbackapp/utils/local_storage_manager.dart';
-import 'package:feedbackapp/utils/utilities.dart';
+import 'package:oneononetalks/api_services/api_client.dart';
+import 'package:oneononetalks/api_services/models/emailotp.dart';
+import 'package:oneononetalks/api_services/models/logintoken.dart';
+import 'package:oneononetalks/api_services/models/verifyotp.dart';
+import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/screens/mainTab/maintab_view.dart';
+import 'package:oneononetalks/utils/helper_widgets.dart';
+import 'package:oneononetalks/utils/local_storage_manager.dart';
+import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
 
 class OtpView extends StatefulWidget {
   OtpView({super.key, required this.emailOTPResponse});

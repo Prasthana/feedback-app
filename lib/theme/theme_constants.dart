@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:feedbackapp/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/constants.dart' as constants;
 
 
 const colorPrimary = Color.fromRGBO(60, 168, 216, 1);

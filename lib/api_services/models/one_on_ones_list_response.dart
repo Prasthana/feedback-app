@@ -1,4 +1,4 @@
-import 'package:feedbackapp/api_services/models/oneonone.dart';
+import 'package:oneononetalks/api_services/models/oneonone.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'one_on_ones_list_response.g.dart';

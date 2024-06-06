@@ -1,15 +1,15 @@
 import 'dart:math';
 
 import 'package:dio/dio.dart';
-import 'package:feedbackapp/api_services/api_client.dart';
-import 'package:feedbackapp/api_services/api_errohandler.dart';
-import 'package:feedbackapp/api_services/api_result.dart';
-import 'package:feedbackapp/api_services/models/emailotp.dart';
-import 'package:feedbackapp/api_services/models/pointRequest.dart';
-import 'package:feedbackapp/api_services/models/pointResponse.dart';
-import 'package:feedbackapp/api_services/models/preparecallresponse.dart';
-import 'package:feedbackapp/main.dart';
-import 'package:feedbackapp/managers/apiservice_manager.dart';
+import 'package:oneononetalks/api_services/api_client.dart';
+import 'package:oneononetalks/api_services/api_errohandler.dart';
+import 'package:oneononetalks/api_services/api_result.dart';
+import 'package:oneononetalks/api_services/models/emailotp.dart';
+import 'package:oneononetalks/api_services/models/pointRequest.dart';
+import 'package:oneononetalks/api_services/models/pointResponse.dart';
+import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
+import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/apiservice_manager.dart';
 
 class ApiService {
   final ApiClient _apiPublicClient = ApiManager.public;
