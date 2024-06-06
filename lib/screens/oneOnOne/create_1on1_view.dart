@@ -514,5 +514,4 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
       }
     });
   }
-  
 }
