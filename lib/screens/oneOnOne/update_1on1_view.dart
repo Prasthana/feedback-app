@@ -151,7 +151,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 listEquals(localYetToImproveList, apiYetToImprovePoints);
             if (!areEqualGoodAtList || !areEqualYetToImproveList) {
               showValidationAlert(context,
-                  "Added 1-on-1 Good at/Yet to Improve points will not be saved");
+                  "Good at/Yet to Improve points will not be saved");
             } else {
               Navigator.pop(context);
             }
