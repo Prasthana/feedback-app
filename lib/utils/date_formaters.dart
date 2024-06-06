@@ -18,7 +18,7 @@ String getFormatedDateConvertion(String dateTimeString, String outputFormate) {
 }
 
 String getTimeFromUtcDateTime(DateTime dateTime) {
-  final DateFormat formatter = DateFormat('HH:mm:ss.SSS z');
+  final DateFormat formatter = DateFormat('HH:mm'); //HH:mm:ss.SSS z
   return formatter.format(dateTime);
 }
 
@@ -39,4 +39,11 @@ DateTime toUtcDateTime(TimeOfDay timeOfDay) {
   final utcDateTime = DateTime.utc(
       now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
   return utcDateTime;
+}
+
+DateTime stringToUtcDateObj(String dateTimeString, String inputDateformat) {
+  final DateFormat dateFormatter = DateFormat(inputDateformat);
+  DateTime dateObj = dateFormatter.parse(dateTimeString);
+  var utcDate = dateObj.toUtc();
+  return utcDate;
 }
