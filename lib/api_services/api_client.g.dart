@@ -435,7 +435,7 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<Employee> createEmployee(OneOnOne request) async {
+  Future<Employee> createEmployee(EmployeeCreateRequest request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

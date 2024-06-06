@@ -17,6 +17,7 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
       manager: json['manager'] == null
           ? null
           : Employee.fromJson(json['manager'] as Map<String, dynamic>),
+      reportingManagerId: (json['reporting_manager_id'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
@@ -28,4 +29,5 @@ Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
       'mobile_number': instance.mobileNumber,
       'avatar_attachment_url': instance.avatarAttachmentUrl,
       'manager': instance.manager,
+      'reporting_manager_id': instance.reportingManagerId,
     };

@@ -8,7 +8,7 @@ String getInitials(String string, [int limitTo = 2]) {
   }
 
   var buffer = StringBuffer();
-  var split = string.split(' ');
+  var split = string.trim().split(' ');
 
   //For one word
   if (split.length == 1) {
