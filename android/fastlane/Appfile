@@ -1,5 +1,5 @@
 package_name("com.prasthana.oneononetalks") # The bundle identifier of your app
 
 # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
-ENV["PACKAGE_NAME"] = "com.prasthana.feedbackapp"
+ENV["PACKAGE_NAME"] = "com.prasthana.oneononetalks"
 ENV["JSON_FILE"] = "fastlane/feedback-424514-4ca662d00124.json"
