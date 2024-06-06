@@ -454,45 +454,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       dataUpdated = true;
     }
 
-/*
-    if (localGoodAtList.length != apiGoodPoints.length || isPointEdited ) { 
-     
-            debugPrint("localGoodAtList before ----->>11>${localGoodAtList.length}");
-            if (isPointEdited) {
-                 final Set<Point> matchedItems = apiGoodPoints.toSet(); // Convert list2 to a Set
-                 localGoodAtList.removeWhere((item) => matchedItems.contains(item));
-
-            } else {
-              localGoodAtList.removeWhere((item) => item.id != null);
-            }
-            
-      debugPrint("localGoodAtList after ----->>11>${localGoodAtList.length}");
-      for (Point pnt in localGoodAtList) {
-        debugPrint("--- pnt id ----->>11>${pnt.id}");
-        var attr =
-            OneOnOnePointsAttribute(pointType: "pt_good_at", title: pnt.title);
-        _oneOnOnePointsAttributes.add(attr);
-      }
-      dataUpdated = true;
-    }
-
-    if (localYetToImproveList.isNotEmpty) {
-      for (Point pnt in localYetToImproveList) {
-        var attr = OneOnOnePointsAttribute(
-            pointType: "pt_yet_to_improve", title: pnt.title);
-        _oneOnOnePointsAttributes.add(attr);
-      }
-      dataUpdated = true;
-    }
-
-    if (_oneOnOnePointsAttributes.isNotEmpty) {
-      oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
-      dataUpdated = true;
-    }
-    if (dataUpdated == false) {
-      return;
-    }
-*/
     debugPrint("localGoodAtList after ----->>11>${localGoodAtList.length}");
     for (Point pnt in localGoodAtList) {
       var attr = OneOnOnePointsAttribute(
@@ -501,7 +462,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     }
 
     for (Point pnt in localYetToImproveList) {
-      // trilok
       var attr = OneOnOnePointsAttribute(
           id: pnt.id, title: pnt.title, pointType: "pt_yet_to_improve");
       _oneOnOnePointsAttributes.add(attr);
@@ -515,9 +475,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       Navigator.pop(context);
       return;
     }
+    showLoader(context);
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
     debugPrint("request ----->>11>$request");
-    showLoader(context);
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
@@ -868,56 +828,40 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                   if (isFromAdd) {
                     if (chngedText.isNotEmpty) {
                       localGoodAtList.add(Point(title: chngedText));
-
-                      setState(() {
-                        buildGoodAtList();
-                      });
-                      Navigator.pop(context);
+                      refreshGoodAtList();
                     } else {
-                      debugPrint("add text empty1 ------");
+                      logger.d('add text empty1 ------');
                     }
                   } else {
                     if (chngedText.isNotEmpty) {
-                      var pointId = poinToEdit?.id ?? 0;
                       var editedText =
                           chngedText.isEmpty ? pointTitle : chngedText;
                       localGoodAtList[indexToEdit] =
-                          Point(id: pointId, title: editedText);
-                      setState(() {
-                        buildGoodAtList();
-                      });
-                      Navigator.pop(context);
+                          Point(id: poinToEdit?.id, title: editedText);
+                      refreshGoodAtList();
                     } else {
-                      debugPrint("edit text empty1 ------");
+                      logger.d('edit text empty1 ------');
                     }
                   }
                 } else {
                   if (isFromAdd) {
                     if (chngedText.isNotEmpty) {
                       localYetToImproveList.add(Point(title: chngedText));
-                      setState(() {
-                        buildYetToImproveList();
-                      });
-                      Navigator.pop(context);
+                      refreshYetToImproveList();
                     } else {
-                      debugPrint("add text empty2 ------");
+                      logger.d('add text empty2 ------');
                     }
                   } else {
-                    // trilok
                     if (chngedText.isNotEmpty) {
-                      var pointId = poinToEdit?.id ?? 0;
                       var editedText =
                           chngedText.isEmpty ? pointTitle : chngedText;
                       localYetToImproveList[indexToEdit] = Point(
-                          id: pointId,
+                          id: poinToEdit?.id,
                           title: editedText,
                           markAsDone: poinToEdit?.markAsDone);
-                      setState(() {
-                        buildYetToImproveList();
-                      });
-                      Navigator.pop(context);
+                      refreshYetToImproveList();
                     } else {
-                      debugPrint("edit text empty2 ------");
+                      logger.d('edit text empty2 ------');
                     }
                   }
                 }
@@ -927,6 +871,20 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         );
       },
     );
+  }
+
+  refreshGoodAtList() {
+    setState(() {
+      buildGoodAtList();
+    });
+    Navigator.pop(context);
+  }
+
+  refreshYetToImproveList() {
+    setState(() {
+      buildGoodAtList();
+    });
+    Navigator.pop(context);
   }
 
   Widget buildEmptyView() {
