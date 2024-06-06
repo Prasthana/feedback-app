@@ -13,14 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:feedbackapp/utils/constants.dart' as constants;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class CreateEployeeView extends StatefulWidget {
-  CreateEployeeView({super.key});
+class CreateEmployeeView extends StatefulWidget {
+  CreateEmployeeView({super.key});
 
   @override
-  State<CreateEployeeView> createState() => _CreateEployeeViewState();
+  State<CreateEmployeeView> createState() => _CreateEmployeeViewState();
 }
 
-class _CreateEployeeViewState extends State<CreateEployeeView> {
+class _CreateEmployeeViewState extends State<CreateEmployeeView> {
   String? _enteredName;
   var isNameValidated = false;
   String? _enteredRole;
@@ -326,6 +326,7 @@ class _CreateEployeeViewState extends State<CreateEployeeView> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
+                            fillColor: Colors.white,
                             labelText: null,
                             errorStyle: TextStyle(
                               fontFamily: constants.uberMoveFont,

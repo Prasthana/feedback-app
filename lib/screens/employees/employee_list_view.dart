@@ -100,7 +100,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
         child: FloatingActionButton(
           onPressed: () {
             debugPrint('clickeed on calender ------>>>');
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateEployeeView(),));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateEmployeeView(),));
             // used modal_bottom_sheet - to model present
             // showCupertinoModalBottomSheet(
             //   context: context,
