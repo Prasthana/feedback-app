@@ -42,11 +42,12 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   List<Point> localGoodAtList = [];
   List<Point> localYetToImproveList = [];
   List<Point> apiGoodPoints = [];
+  List<Point> apiYetToImprovePoints = [];
   String enteredAddPoint = "";
   bool hasAccessForUpdate1on1 = false;
   bool hasAccessForUpdatePoints = false;
   bool initialData = true;
-    //initializing the API Service class
+  //initializing the API Service class
   final ApiService _apiService = ApiService();
   final TextEditingController _textController = TextEditingController();
 
@@ -120,7 +121,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget showRatingBar(OneOnOne? oneOnOne) {
-    var ratingValue = initialData ?  oneOnOne?.feedbackRating ?? 0.0 : _currentSliderValue;
+    var ratingValue =
+        initialData ? oneOnOne?.feedbackRating ?? 0.0 : _currentSliderValue;
     return Slider(
       value: ratingValue,
       max: 5,
@@ -143,8 +145,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: colorText),
           onPressed: () {
-            bool areEqual = listEquals(localGoodAtList, apiGoodPoints);
-            if (!areEqual) {
+            bool areEqualGoodAtList =
+                listEquals(localGoodAtList, apiGoodPoints);
+            bool areEqualYetToImproveList =
+                listEquals(localYetToImproveList, apiYetToImprovePoints);
+            if (!areEqualGoodAtList || !areEqualYetToImproveList) {
               showValidationAlert(context,
                   "Added 1-on-1 Good at/Yet to Improve points will not be saved");
             } else {
@@ -187,16 +192,22 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 final oneOneResponse = snapshot.data;
 
                 var oneOnOne = oneOneResponse?.oneOnOne;
-                
+
                 if (apiGoodPoints.isEmpty) {
-                  debugPrint("--- came to add------>>11>");
                   apiGoodPoints.clear();
-                  apiGoodPoints.addAll(oneOnOne?.goodAtPoints ??[]);
+                  apiGoodPoints.addAll(oneOnOne?.goodAtPoints ?? []);
                 }
-                
-                 debugPrint("apiGoodPoints length ------>>11> ${apiGoodPoints.length}");
+
+                if (apiYetToImprovePoints.isEmpty) {
+                  apiYetToImprovePoints.clear();
+                  apiYetToImprovePoints
+                      .addAll(oneOnOne?.yetToImprovePoints ?? []);
+                }
+
+                // debugPrint("apiGoodPoints length ------>>11> ${apiGoodPoints.length}");
                 localGoodAtList = oneOnOne?.goodAtPoints ?? [];
-                debugPrint("localGoodAtList1 length ------>>11> ${localGoodAtList.length}");
+                localYetToImproveList = oneOnOne?.yetToImprovePoints ?? [];
+                // debugPrint("localGoodAtList1 length ------>>11> ${localGoodAtList.length}");
 
                 if (oneOnOne != null) {
                   debugPrint("------>>> 1");
@@ -222,7 +233,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         getFormatedDateConvertion(oneOnOne?.startDateTime ?? "", "hh:mm a");
     String meetingDate = getFormatedDateConvertion(
         oneOnOne?.startDateTime ?? "", "EEEE, dd MMM yyyy");
-        
+
     return SingleChildScrollView(
       //color: Colors.white,
       padding: const EdgeInsets.all(12.0),
@@ -300,7 +311,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         ),
         addVerticalSpace(8),
         TextFormField(
-          readOnly: !hasAccessForUpdate1on1,
+            readOnly: !hasAccessForUpdate1on1,
             minLines: 2,
             maxLines: 5,
             initialValue: oneOnOne?.notes ?? "",
@@ -329,7 +340,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             }),
         addVerticalSpace(20),
         gootAtBottomView(),
-        yetToImproveBottomView(oneOnOne?.yetToImprovePoints),
+        yetToImproveBottomView(),
         addVerticalSpace(20),
         hasAccessForUpdate1on1
             ? managerWriteRatingView(oneOnOne)
@@ -369,7 +380,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget managerWriteRatingView(OneOnOne? oneOnOne) {
-    var ratingValue = initialData ?  oneOnOne?.feedbackRating ?? 0.0 : _currentSliderValue;
+    var ratingValue =
+        initialData ? oneOnOne?.feedbackRating ?? 0.0 : _currentSliderValue;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -443,7 +455,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     }
 
 /*
-    if (localGoodAtList.length != apiGoodPoints.length || isPointEdited ) { // trilok
+    if (localGoodAtList.length != apiGoodPoints.length || isPointEdited ) { 
      
             debugPrint("localGoodAtList before ----->>11>${localGoodAtList.length}");
             if (isPointEdited) {
@@ -481,26 +493,40 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       return;
     }
 */
-      debugPrint("localGoodAtList after ----->>11>${localGoodAtList.length}");
-      for (Point pnt in localGoodAtList) {
-            var attr =
-            OneOnOnePointsAttribute(id: pnt.id, title: pnt.title, pointType: "pt_good_at");
-        _oneOnOnePointsAttributes.add(attr);
-      }
-      
-   oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
+    debugPrint("localGoodAtList after ----->>11>${localGoodAtList.length}");
+    for (Point pnt in localGoodAtList) {
+      var attr = OneOnOnePointsAttribute(
+          id: pnt.id, title: pnt.title, pointType: "pt_good_at");
+      _oneOnOnePointsAttributes.add(attr);
+    }
+
+    for (Point pnt in localYetToImproveList) {
+      // trilok
+      var attr = OneOnOnePointsAttribute(
+          id: pnt.id, title: pnt.title, pointType: "pt_yet_to_improve");
+      _oneOnOnePointsAttributes.add(attr);
+    }
+
+    if (_oneOnOnePointsAttributes.isNotEmpty) {
+      oneOnOneObj.oneOnOnePointsAttributes = _oneOnOnePointsAttributes;
+      dataUpdated = true;
+    }
+    if (dataUpdated == false) {
+      Navigator.pop(context);
+      return;
+    }
     var request = OneOnOneCreateRequest(oneOnOne: oneOnOneObj);
     debugPrint("request ----->>11>$request");
-     showLoader(context);
+    showLoader(context);
     ApiManager.authenticated
         .updateOneOnOneDetails(request, oneOnOneData?.id ?? 0)
         .then((val) {
-          hideLoader();
+      hideLoader();
       logger.e('update OneOnOne response -- ${val.toJson()}');
-        localGoodAtList.clear();
-        localYetToImproveList.clear();
-        _oneOnOnePointsAttributes.clear();
-        Navigator.pop(context);
+      localGoodAtList.clear();
+      localYetToImproveList.clear();
+      _oneOnOnePointsAttributes.clear();
+      Navigator.pop(context);
     }).catchError((obj) {
       // non-200 error goes here.
       switch (obj.runtimeType) {
@@ -516,7 +542,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     });
   }
 
-  Widget yetToImproveBottomView(List<Point>? yetToImproveList) {
+  Widget yetToImproveBottomView() {
     return Column(
       children: [
         Row(
@@ -534,8 +560,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               visible: hasAccessForUpdate1on1,
               child: TextButton(
                   onPressed: () {
-                    _displayTextInputDialog(true, false, "Yet to Improve point",
-                        context, apiList:yetToImproveList ?? []);
+                    _displayTextInputDialog(
+                        true, false, "Yet to Improve point", context);
                   },
                   child: const Text(
                     "+ Add point",
@@ -552,9 +578,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(10),
         // showRecordView(),
         Visibility(
-            visible: yetToImproveList!.isEmpty && localYetToImproveList.isEmpty,
+            visible: localYetToImproveList.isEmpty,
             child: showEmptyPointsView("Yet To Improve points")),
-        buildYetToImproveList(yetToImproveList),
+        buildYetToImproveList(),
       ],
     );
   }
@@ -562,7 +588,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   Widget showEmptyPointsView(String pointTypeText) {
     return ListTile(
         title: Text(
-      hasAccessForUpdate1on1 ? "Click on + to add $pointTypeText" : "not available",
+      hasAccessForUpdate1on1
+          ? "Click on + to add $pointTypeText"
+          : "not available",
       style: const TextStyle(
           fontFamily: constants.uberMoveFont,
           fontSize: 16,
@@ -585,19 +613,18 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         ));
   }
 
-  Widget buildYetToImproveList(List<Point>? yetToImproveList) {
-    List<Point> improvePointsList = [];
-    improvePointsList.addAll(yetToImproveList ?? []);
-    improvePointsList.addAll(localYetToImproveList);
-    
+  Widget buildYetToImproveList() {
+    // List<Point> improvePointsList = [];
+    // improvePointsList.addAll(yetToImproveList ?? []);
+    // improvePointsList.addAll(localYetToImproveList);
 
     return ListView.separated(
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
-      itemCount: improvePointsList.length,
+      itemCount: localYetToImproveList.length,
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
-        var yetToImprovePoint = improvePointsList[index];
+        var yetToImprovePoint = localYetToImproveList[index];
         var isMarked = yetToImprovePoint.markAsDone ?? false;
 
         return Flexible(
@@ -612,7 +639,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                       const SizedBox(width: 12.0),
                       InkWell(
                         onTap: () {
-                          _employeeYetToImprovePointStatuUpdate(context, !isMarked, yetToImprovePoint.id ?? 0);
+                          _employeeYetToImprovePointStatuUpdate(
+                              context, !isMarked, yetToImprovePoint.id ?? 0);
                         },
                         child: isMarked
                             ? const Icon(Icons.check_box_outlined)
@@ -628,7 +656,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                         fontWeight: FontWeight.w400,
                         color: Color.fromRGBO(0, 0, 0, 1)),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    _displayTextInputDialog(
+                        false, false, "Yet To Improve point", context,
+                        poinToEdit: yetToImprovePoint, editIndex: index);
+                  },
                 )
               else
                 ListTile(
@@ -649,7 +681,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  _employeeYetToImprovePointStatuUpdate(BuildContext context, bool status,int pointId) async {
+  _employeeYetToImprovePointStatuUpdate(
+      BuildContext context, bool status, int pointId) async {
     var oneOnOnePoint = OneOnOnePoint(markAsDone: status);
     PointRequest request = PointRequest(oneOnOnePoint: oneOnOnePoint);
     showLoader(context);
@@ -672,9 +705,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   refreshScreen() {
-            var newFuture = ApiManager.authenticated
-            .fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
-        setUpdateOneOnOneFuture(newFuture);
+    var newFuture =
+        ApiManager.authenticated.fetchOneOnOneDetails(oneOnOneData?.id ?? 0);
+    setUpdateOneOnOneFuture(newFuture);
   }
 
   Widget gootAtBottomView() {
@@ -725,7 +758,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     // List<Point> goodPointsList = [];
     // goodPointsList.addAll(apiGoodPoints);
     // goodPointsList.addAll(localGoodAtList);
-    
+
     debugPrint("localGoodAtList2 length ------>>11> ${localGoodAtList.length}");
     return ListView.separated(
       shrinkWrap: true,
@@ -748,8 +781,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                
-                  _displayTextInputDialog(false, true, "Good At point", context, poinToEdit: goodAtPoint, editIndex: index);
+                  _displayTextInputDialog(false, true, "Good At point", context,
+                      poinToEdit: goodAtPoint, editIndex: index);
                 },
               ),
             ],
@@ -775,13 +808,13 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  Future<void> _displayTextInputDialog(bool isFromAdd, bool isGoodAt, String text,
-      BuildContext context, {List<Point>? apiList, Point? poinToEdit, int? editIndex}) async {
-        var pointTitle =  poinToEdit?.title ?? "";
-        _textController.text = isFromAdd ? "" : pointTitle;
+  Future<void> _displayTextInputDialog(
+      bool isFromAdd, bool isGoodAt, String text, BuildContext context,
+      {Point? poinToEdit, int? editIndex}) async {
+    var pointTitle = poinToEdit?.title ?? "";
+    _textController.text = isFromAdd ? "" : pointTitle;
     var chngedText = "";
     var indexToEdit = editIndex ?? 0;
-    debugPrint("apiList length ------>>> ${apiList?.length ?? 0}");
     return showDialog(
       context: context,
       builder: (context) {
@@ -831,28 +864,63 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             TextButton(
               child: Text(isFromAdd ? 'Add' : 'Update'),
               onPressed: () {
-               
                 if (isGoodAt) {
                   if (isFromAdd) {
-                    localGoodAtList.add(Point(title: chngedText));
-                  } else { // trilok
-                    debugPrint("indexToEdit ------>>> $indexToEdit");
-                    debugPrint("chngedText ------>>11> $chngedText");
-                    var pointId = poinToEdit?.id ?? 0;
-                    var editedText = chngedText.isEmpty ? pointTitle : chngedText;
-                    localGoodAtList[indexToEdit] = Point(id: pointId, title: editedText);
+                    if (chngedText.isNotEmpty) {
+                      localGoodAtList.add(Point(title: chngedText));
+
+                      setState(() {
+                        buildGoodAtList();
+                      });
+                      Navigator.pop(context);
+                    } else {
+                      debugPrint("add text empty1 ------");
+                    }
+                  } else {
+                    if (chngedText.isNotEmpty) {
+                      var pointId = poinToEdit?.id ?? 0;
+                      var editedText =
+                          chngedText.isEmpty ? pointTitle : chngedText;
+                      localGoodAtList[indexToEdit] =
+                          Point(id: pointId, title: editedText);
+                      setState(() {
+                        buildGoodAtList();
+                      });
+                      Navigator.pop(context);
+                    } else {
+                      debugPrint("edit text empty1 ------");
+                    }
                   }
-                  
-                  setState(() {
-                    buildGoodAtList();
-                  });
                 } else {
-                  localYetToImproveList.add(Point(title: chngedText));
-                  setState(() {
-                    buildYetToImproveList(apiList);
-                  });
+                  if (isFromAdd) {
+                    if (chngedText.isNotEmpty) {
+                      localYetToImproveList.add(Point(title: chngedText));
+                      setState(() {
+                        buildYetToImproveList();
+                      });
+                      Navigator.pop(context);
+                    } else {
+                      debugPrint("add text empty2 ------");
+                    }
+                  } else {
+                    // trilok
+                    if (chngedText.isNotEmpty) {
+                      var pointId = poinToEdit?.id ?? 0;
+                      var editedText =
+                          chngedText.isEmpty ? pointTitle : chngedText;
+                      localYetToImproveList[indexToEdit] = Point(
+                          id: pointId,
+                          title: editedText,
+                          markAsDone: poinToEdit?.markAsDone);
+                      setState(() {
+                        buildYetToImproveList();
+                      });
+                      Navigator.pop(context);
+                    } else {
+                      debugPrint("edit text empty2 ------");
+                    }
+                  }
                 }
-                Navigator.pop(context);
               },
             ),
           ],
