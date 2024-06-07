@@ -585,63 +585,46 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         var yetToImprovePoint = localYetToImproveList[index];
         var isMarked = yetToImprovePoint.markAsDone ?? false;
 
-        return Column(
-          children: <Widget>[
-            if (hasAccessForUpdatePoints)
-              SizedBox(
-                height: 50,
-                child: ListTile(
-                  leading: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.menu),
-                      yetToImprovePoint.id != null ? const SizedBox(width:  12.0) : const Text(""),
-                      Visibility(
-                        visible: yetToImprovePoint.id != null,
-                        child: InkWell(
-                          onTap: () {
-                            if (yetToImprovePoint.id != null) {
-                              _employeeYetToImprovePointStatuUpdate(
-                                context, !isMarked, yetToImprovePoint.id ?? 0);
-                            }
-                          },
-                          child: isMarked
-                              ? const Icon(Icons.check_box_outlined)
-                              : const Icon(Icons.check_box_outline_blank),
-                        ),
-                      ),
-                    ],
+        return SizedBox(
+          height: 50,
+          child: ListTile(
+            leading: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.menu),
+                yetToImprovePoint.id != null ? const SizedBox(width:  12.0) : const Text(""),
+                Visibility(
+                  visible: yetToImprovePoint.id != null,
+                  child: InkWell(
+                    onTap: () {
+                      if (yetToImprovePoint.id != null) {
+                        _employeeYetToImprovePointStatuUpdate(
+                          context, !isMarked, yetToImprovePoint.id ?? 0);
+                      }
+                    },
+                    child: isMarked
+                        ? const Icon(Icons.check_box_outlined)
+                        : const Icon(Icons.check_box_outline_blank),
                   ),
-                  title: Text(
-                    yetToImprovePoint.title,
-                    style: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(0, 0, 0, 1)),
-                  ),
-                  onTap: () {
-                    if (hasAccessForUpdate1on1) {
-                    _displayTextInputDialog(
-                        false, false, "Yet To Improve point", context,
-                        poinToEdit: yetToImprovePoint, editIndex: index);
-                    }
-                  },
                 ),
-              )
-            else
-              ListTile(
-                leading: const Icon(Icons.menu),
-                title: Text(
-                  yetToImprovePoint.title,
-                  style: const TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(0, 0, 0, 1)),
-                ),
-              )
-          ],
+              ],
+            ),
+            title: Text(
+              yetToImprovePoint.title,
+              style: const TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromRGBO(0, 0, 0, 1)),
+            ),
+            onTap: () {
+              if (hasAccessForUpdate1on1) {
+              _displayTextInputDialog(
+                  false, false, "Yet To Improve point", context,
+                  poinToEdit: yetToImprovePoint, editIndex: index);
+              }
+            },
+          ),
         );
       },
     );
@@ -727,29 +710,25 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var goodAtPoint = localGoodAtList[index];
-        return Column(
-          children: <Widget>[
-            SizedBox(
-              height: 50,
-              child: ListTile(
-                leading: const Icon(Icons.menu),
-                title: Text(
-                  goodAtPoint.title,
-                  style: const TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(0, 0, 0, 1)),
-                ),
-                onTap: () {
-                  if (hasAccessForUpdate1on1) {
-                      _displayTextInputDialog(false, true, "Good At point", context,
-                      poinToEdit: goodAtPoint, editIndex: index);
-                  }
-                },
-              ),
+        return SizedBox(
+          height: 50,
+          child: ListTile(
+            leading: const Icon(Icons.menu),
+            title: Text(
+              goodAtPoint.title,
+              style: const TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromRGBO(0, 0, 0, 1)),
             ),
-          ],
+            onTap: () {
+              if (hasAccessForUpdate1on1) {
+                  _displayTextInputDialog(false, true, "Good At point", context,
+                  poinToEdit: goodAtPoint, editIndex: index);
+              }
+            },
+          ),
         );
       },
     );
