@@ -78,6 +78,7 @@ class _OtpViewState extends State<OtpView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
@@ -87,7 +88,8 @@ class _OtpViewState extends State<OtpView> {
         title: const Text(constants.txtLogin),
       ),
       body: Container(
-        padding: const EdgeInsets.all(36.0),
+        padding:   EdgeInsets.fromLTRB(16, 36, 16, 36),
+        //EdgeInsets.all(36.0),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -122,10 +124,11 @@ class _OtpViewState extends State<OtpView> {
               SizedBox(
                 width: double.infinity,
                 child: OtpTextField(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   numberOfFields: 6,
-                  fieldHeight: 56.0,
-                  fieldWidth: 48.0,
+                  fieldHeight: 52.0,
+                  fieldWidth: 44.0,
+                  keyboardType: TextInputType.number,
                   borderColor: const Color.fromARGB(255, 18, 17, 17),
                   focusedBorderColor: const Color.fromARGB(255, 18, 17, 17),
                   disabledBorderColor: const Color.fromARGB(255, 18, 17, 17),

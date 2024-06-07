@@ -110,8 +110,7 @@ class _LoginViewState extends State<LoginView> {
                             _enteredEmail = email;
                           },
                           validator: (email) {
-                            if (email != null &&
-                                EmailValidator.validate(email)) {
+                            if (email?.isEmpty == true || (email != null && EmailValidator.validate(email))) {
                               return null;
                             }
                             return constants.enterValidEmailText;
