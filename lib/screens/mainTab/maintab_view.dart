@@ -159,7 +159,7 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
             )
           : null,
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary)))
+          ? const Center(child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white)))
           : (numberOfItems >= 2 ? bottomWidgets() : const MainHomePageView()),
     );
   }
