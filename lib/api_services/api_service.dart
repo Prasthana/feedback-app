@@ -5,6 +5,7 @@ import 'package:oneononetalks/api_services/api_client.dart';
 import 'package:oneononetalks/api_services/api_errohandler.dart';
 import 'package:oneononetalks/api_services/api_result.dart';
 import 'package:oneononetalks/api_services/models/emailotp.dart';
+import 'package:oneononetalks/api_services/models/logout_request.dart';
 import 'package:oneononetalks/api_services/models/pointRequest.dart';
 import 'package:oneononetalks/api_services/models/pointResponse.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
@@ -73,6 +74,24 @@ Future<ApiResult<PrepareCallResponse?>> makePrepareCall() async {
  
     try {
       dynamic jsonResponse = await _apiPublicClient.deleteEmployeeProfilePic(empID);
+
+      return ApiResult()..setData(jsonResponse);
+    } catch (e, _) {
+      //checking if the exception from dio then set the dio otherwise set other exception
+      if (e is DioException) {
+        logger.e("exception is $e and $_");
+        return ApiResult()
+          ..setException(ErrorHandler.dioException(error: e),);
+      }
+      return ApiResult()..setException(ErrorHandler.otherException(),);
+    }
+
+  }
+
+  Future<ApiResult<HttpResponse?>> logoutFromApp(LogoutRequest mLogoutRequest) async {
+ 
+    try {
+      dynamic jsonResponse = await _apiPublicClient.revokeToken(mLogoutRequest);
 
       return ApiResult()..setData(jsonResponse);
     } catch (e, _) {
