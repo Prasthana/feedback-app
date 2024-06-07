@@ -265,6 +265,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     getSystemFormateDateTime();
     return ListView.builder(
         shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemCount: oneOnOneList?.length,
         itemBuilder: (BuildContext context, int index) {
           var oneOnOne = oneOnOneList?[index];
