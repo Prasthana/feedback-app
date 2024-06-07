@@ -39,7 +39,7 @@ class _SettingsViewState extends State<SettingsView> {
     return Center(
       child: _isLoading
           // ? const LinearProgressIndicator()
-          ? const RefreshProgressIndicator(semanticsValue: 'Logout',backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary))
+          ? const RefreshProgressIndicator(semanticsValue: 'Logout',backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
           // CircularProgressIndicator()
           : ElevatedButton(
               onPressed: _performAction,

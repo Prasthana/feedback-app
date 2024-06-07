@@ -189,7 +189,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             future: oneOnOneCreateResponseFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary));
+                return const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white));
               } else if (snapshot.hasData) {
                 final oneOneResponse = snapshot.data;
 

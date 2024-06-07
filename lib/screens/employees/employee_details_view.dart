@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:oneononetalks/api_services/api_service.dart';
@@ -53,6 +54,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   bool hasAccessToCreate1On1 = false;
   bool hasProfileUrl = false;
   String mobileNumber = "";
+  bool isNotValidMobileNumber = false;
+  
 
   Employee? mEmployee;
   late String systemFormateDateTime;
@@ -220,7 +223,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   : SizedBox(
                       height: MediaQuery.of(context).size.height / 1.3,
                       child: const Center(
-                        child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary)),
+                        child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
                       ),
                     );
             } else if (snapshot.hasData) {
@@ -243,7 +246,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               return SizedBox(
                 height: MediaQuery.of(context).size.height / 1.3,
                 child: const Center(
-                  child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary)),
+                  child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
                 ),
               );
             } else if (snapshot.hasData) {
@@ -474,7 +477,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             child: CircularProgressIndicator(backgroundColor: colorPrimary),
                           ),
                           errorWidget: (context, url, error) => url == ""
-                              ? const Center(child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary)))
+                              ? const Center(child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white)))
                               : const Icon(Icons.account_circle),
                         ),
                       ),
@@ -600,8 +603,20 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   keyboardType: const TextInputType.numberWithOptions(signed: true),
                   canRequestFocus: true,
                   onSubmitted: (value) {
-                    setAddMobileNumber(false);
-                    updateMobileNumber(value);
+                    if (isNotValidMobileNumber == false){
+                      setAddMobileNumber(false);
+                      updateMobileNumber(value);
+                    } else {
+                      setAddMobileNumber(false);
+                      employee?.mobileNumber = value;
+                    }
+                  },
+                  onChanged: (value) {
+                   if(value.length == 10 || value.isEmpty){
+                      isNotValidMobileNumber = false;
+                    } else {
+                      isNotValidMobileNumber = true;
+                    }
                   },
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(10),
@@ -621,6 +636,18 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       color: Color.fromRGBO(4, 4, 4, 1)),
                 ),
               )),
+            ),
+            addVerticalSpace(4),
+            Visibility(
+              visible: isNotValidMobileNumber,
+              child: const Text(
+                constants.mobileValidMsg,
+                style: TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromRGBO(255, 69, 69, 1)),
+              ),
             ),
             addVerticalSpace(8),
             Visibility(

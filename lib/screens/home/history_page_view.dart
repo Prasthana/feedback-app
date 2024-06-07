@@ -48,7 +48,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
           future: oneOnOnesHistory,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary));
+              return const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white));
             } else if (snapshot.hasData) {
               final oneOnOnesResponse = snapshot.data;
               var listCount = oneOnOnesResponse?.oneononesList?.length ?? 0;
