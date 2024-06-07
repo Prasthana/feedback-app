@@ -56,8 +56,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   String mobileNumber = "";
   bool isNotValidMobileNumber = false;
 
-  
-
   Employee? mEmployee;
   late String systemFormateDateTime;
 
