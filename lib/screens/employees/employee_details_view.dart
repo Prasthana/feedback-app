@@ -27,6 +27,7 @@ import 'package:oneononetalks/theme/theme_constants.dart' as themeconstants;
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:oneononetalks/utils/utilities.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:system_date_time_format/system_date_time_format.dart';
 
@@ -263,6 +264,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     getSystemFormateDateTime();
     return ListView.builder(
         shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemCount: oneOnOneList?.length,
         itemBuilder: (BuildContext context, int index) {
           var oneOnOne = oneOnOneList?[index];
@@ -557,17 +559,45 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 ),
               ),
             ),
+            
             Visibility(
-              visible: isLoginEmployee &&
-                  ((employee?.mobileNumber ?? "").isNotEmpty ||
-                      addMobileNumber == true),
+              visible: isLoginEmployee && ((employee?.mobileNumber ?? "").isNotEmpty && addMobileNumber == false),
+              child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    Text(
+                    mEmployee?.mobileNumber ?? "",
+                    style: const TextStyle(
+                        fontFamily: constants.uberMoveFont,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(4, 4, 4, 1)),
+                  ),
+
+                  IconButton(
+                  icon: const Icon(Icons.edit_square),
+                  color: const Color.fromRGBO(0, 0, 0, 1),
+                  onPressed: () {
+                    setAddMobileNumber(true);
+                  },
+                  )
+                ],
+              ),
+            ),
+            
+            Visibility(
+              visible: isLoginEmployee && addMobileNumber == true,
               child: Center(
                   child: SizedBox(
                 width: 160.0,
                 child: TextField(
+                  autofocus: true,
+                  showCursor: true,
                   textInputAction: TextInputAction.go,
                   keyboardType: const TextInputType.numberWithOptions(signed: true),
+                  canRequestFocus: true,
                   onSubmitted: (value) {
+                    setAddMobileNumber(false);
                     updateMobileNumber(value);
                   },
                   inputFormatters: [
@@ -577,10 +607,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   textAlign: TextAlign.center,
                   controller: TextEditingController(
                       text: mEmployee?.mobileNumber ?? ""),
-                  decoration: const InputDecoration(
-                      fillColor: Colors.white,
-                      suffixIcon: Icon(Icons.edit_square),
-                      suffixIconColor: Color.fromRGBO(0, 0, 0, 1)),
+                  decoration: const InputDecoration.collapsed(
+                    hintText: "",
+                    fillColor: Colors.white,),
                   style: const TextStyle(
                       backgroundColor: Colors.white,
                       fontFamily: constants.uberMoveFont,
