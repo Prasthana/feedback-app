@@ -21,7 +21,6 @@ import 'package:oneononetalks/screens/oneOnOne/create_1on1_view.dart';
 import 'package:oneononetalks/screens/oneOnOne/update_1on1_view.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
-import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/date_formaters.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +32,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oneononetalks/utils/utilities.dart';
 import 'package:open_mail_app/open_mail_app.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:system_date_time_format/system_date_time_format.dart';
 
 class EmployeeDetailsView extends StatefulWidget {
@@ -54,6 +54,10 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   bool hasAccessToCreate1On1 = false;
   bool hasProfileUrl = false;
   String mobileNumber = "";
+  String appName = "";
+  String appVertion = "";
+  String appBuildNumber = "";
+  String packageName = "";
   bool isNotValidMobileNumber = false;
 
   Employee? mEmployee;
@@ -150,11 +154,21 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     super.initState();
     mEmployee = widget.mEmployee;
     checkLoginstatus(mEmployee?.id ?? 0);
+    getPackageInfo();
     checkCanCreate1On1();
     setMobileNumber(mEmployee?.mobileNumber ?? "");
 
     employeeFuture =
         ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
+  }
+
+  void getPackageInfo(){
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      appName = packageInfo.appName;
+      packageName = packageInfo.packageName;
+      appVertion = packageInfo.version;
+      appBuildNumber = packageInfo.buildNumber;
+    });
   }
 
   void checkCanCreate1On1() {
@@ -211,7 +225,14 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
+      body:
+
+      Stack(
+
+      children: [
+
+      
+       SingleChildScrollView(
           child: Column(children: [
         FutureBuilder<EmployeeDetailsResponse>(
           future: employeeFuture,
@@ -261,7 +282,33 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             }
           },
         ),
-      ])),
+
+      ])
+      ),
+
+      Visibility(
+        visible: isLoginEmployee,
+        child: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Spacer(),
+         Align(
+          alignment: Alignment.bottomCenter,
+          child: Text(
+                  "Version $appVertion ($appBuildNumber)",
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
+                ),
+          ),
+          addVerticalSpace(36),
+        ],
+      ))
+
+      
+      ])
     );
   }
 
