@@ -32,8 +32,6 @@ class HistoryPageView extends StatefulWidget {
 class _HistoryPageViewState extends State<HistoryPageView> {
   // variable to call and store future list of posts
   late String systemFormateDateTime;
-  int loggedInEmployeeId = LocalStorageManager.shared.loginUser?.employeeId ?? 0;
-
   late Future<OneOnOnesResponse> oneOnOnesHistory;
 
   @override

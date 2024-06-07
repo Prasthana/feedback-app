@@ -37,7 +37,6 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
   bool hasAccessToCreate1On1 = false;
 
   late Future<OneOnOnesResponse> oneOnOnesFuture;
-  var loggedInEmployeeId = LocalStorageManager.shared.loginUser?.employeeId ?? 0;
   
   @override
   void initState() {
@@ -148,7 +147,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
           var startDateTime = oneOnOne?.startDateTime ?? "";
           String startTime = startDateTime.utcToLocalDate(fullDateWithDayName);
-          Employee? employee = oneOnOne?.getOpponentUser(loggedInEmployeeId);
+          Employee? employee = oneOnOne?.getOpponentUser();
           String employeeName =  employee?.name ?? "NA";
 
           debugPrint("---- employeeName ------>>> $employeeName");
