@@ -342,7 +342,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             }),
         addVerticalSpace(20),
         gootAtBottomView(),
-        yetToImproveBottomView(),
+       // yetToImproveBottomView(),
         addVerticalSpace(20),
         hasAccessForUpdate1on1
             ? managerWriteRatingView(oneOnOne)
@@ -711,10 +711,24 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         Visibility(
             visible: localGoodAtList.isEmpty,
             child: showEmptyPointsView("Good At points")),
-        buildGoodAtList(),
+        buildGoodAtList1(),
       ],
     );
   }
+
+    Widget buildGoodAtList1() {
+
+      return Column(
+        children: localGoodAtList.map((item) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Card(
+            child: ListTile(
+              title: Text(item.title),
+            ),
+          ),
+        )).toList());
+    }
+
 
   Widget buildGoodAtList() {
  
