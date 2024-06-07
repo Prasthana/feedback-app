@@ -891,14 +891,14 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
 
   refreshGoodAtList() {
     setState(() {
-      buildGoodAtList();
+      //buildGoodAtList();
     });
     Navigator.pop(context);
   }
 
   refreshYetToImproveList() {
     setState(() {
-      buildGoodAtList();
+     // buildGoodAtList();
     });
     Navigator.pop(context);
   }
