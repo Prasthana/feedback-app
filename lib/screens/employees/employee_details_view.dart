@@ -7,6 +7,7 @@ import 'package:oneononetalks/api_services/models/employee.dart';
 import 'package:oneononetalks/api_services/models/employeedetailsresponse.dart';
 import 'package:oneononetalks/api_services/models/employeerequest.dart';
 import 'package:oneononetalks/api_services/models/logintoken.dart';
+import 'package:oneononetalks/api_services/models/logout_request.dart';
 import 'package:oneononetalks/api_services/models/one_on_ones_list_response.dart';
 import 'package:oneononetalks/api_services/models/oneonone.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
@@ -829,6 +830,25 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         ));
   }
 
+  void revokeTokenFromApp(){
+    var sm = StorageManager();
+    sm.getData(constants.loginTokenResponse).then((val) {
+      if (val != constants.noDataFound) {
+        Map<String, dynamic> json = jsonDecode(val);
+        var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
+        logger.d('val -- $json');
+        var logoutRequest = LogoutRequest(clientId: constants.clientId,
+        clientSecret: constants.clientSecret,
+        loginToken: mLoginTokenResponse.accessToken ?? "NoTOKEN");
+        _apiService.logoutFromApp(logoutRequest).then((value) {
+          HttpResponse? response = value.data;
+          logoutUser();
+        });
+      }
+    });
+      
+  }
+
   logoutUser() {
     var sm = StorageManager();
 
@@ -885,7 +905,7 @@ showLogoutAlertDialog(BuildContext context, String alertText) {
 
     Widget yesButton = TextButton(
       onPressed: () {
-        logoutUser();
+        revokeTokenFromApp();
       },
       style: TextButton.styleFrom(
         foregroundColor: Colors.red, // Set the text color here

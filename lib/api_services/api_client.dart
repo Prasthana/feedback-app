@@ -9,6 +9,7 @@ import 'package:oneononetalks/api_services/models/employeedetailsresponse.dart';
 import 'package:oneononetalks/api_services/models/employeerequest.dart';
 import 'package:oneononetalks/api_services/models/employeesresponse.dart';
 import 'package:oneononetalks/api_services/models/logintoken.dart';
+import 'package:oneononetalks/api_services/models/logout_request.dart';
 import 'package:oneononetalks/api_services/models/one_on_one_create_request.dart';
 import 'package:oneononetalks/api_services/models/one_on_one_create_response.dart';
 import 'package:oneononetalks/api_services/models/one_on_ones_list_response.dart';
@@ -39,6 +40,9 @@ abstract class ApiClient {
 
   @POST("oauth/token")
   Future<LoginTokenResponse> generateLoginToken(@Body() LoginTokenRequest request);
+
+  @POST("oauth/revoke")
+  Future<HttpResponse> revokeToken(@Body() LogoutRequest request);
 
   @GET("users/prepare")
   Future<PrepareCallResponse> performPrepareCall();
