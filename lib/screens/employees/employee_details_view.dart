@@ -659,8 +659,21 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       const TextInputType.numberWithOptions(signed: true),
                   canRequestFocus: true,
                   onSubmitted: (value) {
-                    setAddMobileNumber(false);
-                    updateMobileNumber(value);
+                    if (isNotValidMobileNumber == false){
+                      setAddMobileNumber(false);
+                      updateMobileNumber(value);
+                    } else {
+                      setAddMobileNumber(false);
+                      mobileNumber = value;
+                      employee.mobileNumber = value;
+                    }
+                  },
+                  onChanged: (value) {
+                   if(value.length == 10 || value.isEmpty){
+                      isNotValidMobileNumber = false;
+                    } else {
+                      isNotValidMobileNumber = true;
+                    }
                   },
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(10),
@@ -682,6 +695,20 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 ),
               )),
             ),
+
+            addVerticalSpace(4),
+            Visibility(
+              visible: isNotValidMobileNumber,
+              child: const Text(
+                constants.mobileValidMsg,
+                style: TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromRGBO(255, 69, 69, 1)),
+              ),
+            ),
+
             addVerticalSpace(8),
             Visibility(
               visible: !isLoginEmployee,
