@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:oneononetalks/api_services/api_errohandler.dart';
 import 'package:oneononetalks/api_services/api_service.dart';
 import 'package:oneononetalks/api_services/models/employee.dart';
 import 'package:oneononetalks/api_services/models/employeedetailsresponse.dart';
@@ -21,7 +20,6 @@ import 'package:oneononetalks/screens/oneOnOne/update_1on1_view.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/date_formaters.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
-import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
@@ -874,27 +872,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     }
     return title;
   }
-
-  String getInitials(String string, [int limitTo = 2]) {
-    if (string.isEmpty) {
-      return '';
-    }
-
-    var buffer = StringBuffer();
-    var split = string.split(' ');
-
-    //For one word
-    if (split.length == 1) {
-      return string.substring(0, 1);
-    }
-
-    for (var i = 0; i < (limitTo); i++) {
-      buffer.write(split[i][0]);
-    }
-
-    return buffer.toString();
-  }
-
 
 showLogoutAlertDialog(BuildContext context, String alertText) {
     // set up the button

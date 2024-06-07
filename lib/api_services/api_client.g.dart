@@ -10,7 +10,9 @@ part of 'api_client.dart';
 
 class _ApiClient implements ApiClient {
   _ApiClient(
-    this._dio) {
+    this._dio, {
+    this.baseUrl,
+  }) {
     baseUrl ??= 'http://ec2-18-219-231-99.us-east-2.compute.amazonaws.com/';
   }
 

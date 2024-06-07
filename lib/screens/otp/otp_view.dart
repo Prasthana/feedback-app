@@ -88,7 +88,8 @@ class _OtpViewState extends State<OtpView> {
         title: const Text(constants.txtLogin),
       ),
       body: Container(
-        padding: const EdgeInsets.all(36.0),
+        padding:   EdgeInsets.fromLTRB(16, 36, 16, 36),
+        //EdgeInsets.all(36.0),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -123,7 +124,7 @@ class _OtpViewState extends State<OtpView> {
               SizedBox(
                 width: double.infinity,
                 child: OtpTextField(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   numberOfFields: 6,
                   fieldHeight: 52.0,
                   fieldWidth: 44.0,

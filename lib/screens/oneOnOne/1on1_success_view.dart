@@ -19,9 +19,7 @@ class OneonOneSuccessView extends StatefulWidget {
 }
 
 class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
-    var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
-
-
+   
   @override
   void dispose() {
     super.dispose();
@@ -30,7 +28,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
 
   @override
   Widget build(BuildContext context) {
-    var empName = widget.oneOnOneResp.oneOnOne.getOpponentUser(loggedInUserId)?.name ?? "";
+    var empName = widget.oneOnOneResp.oneOnOne.getOpponentUser()?.name ?? "";
     var dateStr = widget.oneOnOneResp.oneOnOne.startDateTime;  
     var startDateTime = widget.oneOnOneResp.oneOnOne.startDateTime;
     var endDateTime = widget.oneOnOneResp.oneOnOne.endDateTime;

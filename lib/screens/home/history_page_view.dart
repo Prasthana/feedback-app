@@ -13,13 +13,11 @@ import 'package:oneononetalks/screens/employees/employee_details_view.dart';
 import 'package:oneononetalks/screens/oneOnOne/update_1on1_view.dart';
 import 'package:oneononetalks/utils/date_formaters.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
-import 'package:oneononetalks/utils/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/utils/utilities.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:oneononetalks/theme/theme_constants.dart' as themeconstants;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:system_date_time_format/system_date_time_format.dart';
 
 class HistoryPageView extends StatefulWidget {
   const HistoryPageView({super.key});
@@ -32,14 +30,11 @@ class HistoryPageView extends StatefulWidget {
 class _HistoryPageViewState extends State<HistoryPageView> {
   // variable to call and store future list of posts
   late String systemFormateDateTime;
-  int loginUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
-
   late Future<OneOnOnesResponse> oneOnOnesHistory;
 
   @override
   void initState() {
     super.initState();
-    getSystemFormateDateTime();
     oneOnOnesHistory = ApiManager.authenticated.fetchOneOnOnesList(constants.historyOneOnOnes);
   }
 
@@ -91,8 +86,8 @@ class _HistoryPageViewState extends State<HistoryPageView> {
         itemBuilder: (BuildContext context, int index) {
         final oneOnOne = oneOnOnesResponse?.oneononesList?[index];       
         var startDateTime = oneOnOne?.startDateTime ?? "";
-        String startTime = startDateTime.utcToLocalDate(systemFormateDateTime);
-        Employee? employee = oneOnOne?.getOpponentUser(loginUserId);
+        String startTime = startDateTime.utcToLocalDate(fullDateWithDayName);
+        Employee? employee = oneOnOne?.getOpponentUser();
         var employeeName = employee?.name ?? "No Employee";
 
           return Column(
@@ -121,9 +116,6 @@ class _HistoryPageViewState extends State<HistoryPageView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 subtitle: Text(
-
-                  // DateFormat.yMMMMEEEEd().format(DateTime.now()),
-
                   startTime,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
@@ -202,12 +194,5 @@ class _HistoryPageViewState extends State<HistoryPageView> {
         } 
       } 
     });
-  }
-
-   Future getSystemFormateDateTime() async {
-    final datePattern = await SystemDateTimeFormat().getLongDatePattern();
-    final timePattern = await SystemDateTimeFormat().getTimePattern();
-    systemFormateDateTime = "$datePattern $timePattern";
-    systemFormateDateTime;
   }
 }
