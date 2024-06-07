@@ -61,7 +61,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
       feedbackLogo(),
       addVerticalSpace(30),
       // Add some space between the image and loader
-      const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary))
+      const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
     ]);
   }
 

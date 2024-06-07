@@ -81,7 +81,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
           future: employeesFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary));
+              return const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white));
             } else if (snapshot.hasData) {
               final employeesResponse = snapshot.data;
               var listCount = employeesResponse?.employeesList?.length ?? 0;
