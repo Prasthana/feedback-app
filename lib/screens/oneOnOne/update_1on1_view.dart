@@ -775,6 +775,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
+          backgroundColor: Colors.white,
           title: Text(text),
           content: SizedBox(
             width: 300,
