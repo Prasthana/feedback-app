@@ -39,7 +39,6 @@ class _HistoryPageViewState extends State<HistoryPageView> {
   @override
   void initState() {
     super.initState();
-    getSystemFormateDateTime();
     oneOnOnesHistory = ApiManager.authenticated.fetchOneOnOnesList(constants.historyOneOnOnes);
   }
 
@@ -91,7 +90,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
         itemBuilder: (BuildContext context, int index) {
         final oneOnOne = oneOnOnesResponse?.oneononesList?[index];       
         var startDateTime = oneOnOne?.startDateTime ?? "";
-        String startTime = startDateTime.utcToLocalDate(systemFormateDateTime);
+        String startTime = startDateTime.utcToLocalDate(fullDateWithDayName);
         Employee? employee = oneOnOne?.getOpponentUser(loginUserId);
         var employeeName = employee?.name ?? "No Employee";
 
@@ -121,9 +120,6 @@ class _HistoryPageViewState extends State<HistoryPageView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 subtitle: Text(
-
-                  // DateFormat.yMMMMEEEEd().format(DateTime.now()),
-
                   startTime,
                   style: const TextStyle(
                       fontFamily: constants.uberMoveFont,
@@ -202,12 +198,5 @@ class _HistoryPageViewState extends State<HistoryPageView> {
         } 
       } 
     });
-  }
-
-   Future getSystemFormateDateTime() async {
-    final datePattern = await SystemDateTimeFormat().getLongDatePattern();
-    final timePattern = await SystemDateTimeFormat().getTimePattern();
-    systemFormateDateTime = "$datePattern $timePattern";
-    systemFormateDateTime;
   }
 }

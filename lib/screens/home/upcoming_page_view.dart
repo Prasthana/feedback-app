@@ -34,26 +34,16 @@ class UpcommingPageView extends StatefulWidget {
 
 class _UpcommingPageViewState extends State<UpcommingPageView> {
   // variable to call and store future list of posts
-  String systemFormateDateTime = "";
   bool hasAccessToCreate1On1 = false;
 
   late Future<OneOnOnesResponse> oneOnOnesFuture;
   var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
   
-
-  Future getSystemFormateDateTime() async {
-    final datePattern = await SystemDateTimeFormat().getLongDatePattern();
-    final timePattern = await SystemDateTimeFormat().getTimePattern();
-    systemFormateDateTime = "$datePattern $timePattern";
-    systemFormateDateTime;
-  }
-
   @override
   void initState() {
     super.initState();
     showNetworkLogger(context);
     checkCanCreate1On1();
-    getSystemFormateDateTime();
     oneOnOnesFuture = ApiManager.authenticated
         .fetchOneOnOnesList(constants.upcomingOneOnOnes);
 
@@ -156,7 +146,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
         itemBuilder: (BuildContext context, int index) {
           final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
           var startDateTime = oneOnOne?.startDateTime ?? "";
-          String startTime = startDateTime.utcToLocalDate(systemFormateDateTime);
+          String startTime = startDateTime.utcToLocalDate(fullDateWithDayName);
           Employee? employee = oneOnOne?.getOpponentUser(loggedInUserId);
           String employeeName =  employee?.name ?? "NA";
 
