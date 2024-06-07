@@ -585,11 +585,12 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         var yetToImprovePoint = localYetToImproveList[index];
         var isMarked = yetToImprovePoint.markAsDone ?? false;
 
-        return Flexible(
-          child: Column(
-            children: <Widget>[
-              if (hasAccessForUpdatePoints)
-                ListTile(
+        return Column(
+          children: <Widget>[
+            if (hasAccessForUpdatePoints)
+              SizedBox(
+                height: 50,
+                child: ListTile(
                   leading: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -626,21 +627,21 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                         poinToEdit: yetToImprovePoint, editIndex: index);
                     }
                   },
-                )
-              else
-                ListTile(
-                  leading: const Icon(Icons.menu),
-                  title: Text(
-                    yetToImprovePoint.title,
-                    style: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(0, 0, 0, 1)),
-                  ),
-                )
-            ],
-          ),
+                ),
+              )
+            else
+              ListTile(
+                leading: const Icon(Icons.menu),
+                title: Text(
+                  yetToImprovePoint.title,
+                  style: const TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(0, 0, 0, 1)),
+                ),
+              )
+          ],
         );
       },
     );
@@ -726,10 +727,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var goodAtPoint = localGoodAtList[index];
-        return Flexible(
-          child: Column(
-            children: <Widget>[
-              ListTile(
+        return Column(
+          children: <Widget>[
+            SizedBox(
+              height: 50,
+              child: ListTile(
                 leading: const Icon(Icons.menu),
                 title: Text(
                   goodAtPoint.title,
@@ -746,8 +748,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                   }
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
@@ -877,14 +879,14 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
 
   refreshGoodAtList() {
     setState(() {
-      buildGoodAtList();
+     // buildGoodAtList();
     });
     Navigator.pop(context);
   }
 
   refreshYetToImproveList() {
     setState(() {
-      buildGoodAtList();
+      // buildYetToImproveList();
     });
     Navigator.pop(context);
   }
