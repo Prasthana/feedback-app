@@ -152,7 +152,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 listEquals(localGoodAtList, apiGoodPoints);
             bool areEqualYetToImproveList =
                 listEquals(localYetToImproveList, apiYetToImprovePoints);
-            if (!areEqualGoodAtList || !areEqualYetToImproveList) {
+            if (hasAccessForUpdate1on1 && (!areEqualGoodAtList || !areEqualYetToImproveList)) {
               showValidationAlert(context,
                   "Good at/Yet to Improve points will not be saved");
             } else {
@@ -616,9 +616,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                         color: Color.fromRGBO(0, 0, 0, 1)),
                   ),
                   onTap: () {
+                    if (hasAccessForUpdate1on1) {
                     _displayTextInputDialog(
                         false, false, "Yet To Improve point", context,
                         poinToEdit: yetToImprovePoint, editIndex: index);
+                    }
                   },
                 )
               else
@@ -734,8 +736,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                  _displayTextInputDialog(false, true, "Good At point", context,
+                  if (hasAccessForUpdate1on1) {
+                      _displayTextInputDialog(false, true, "Good At point", context,
                       poinToEdit: goodAtPoint, editIndex: index);
+                  }
                 },
               ),
             ],
