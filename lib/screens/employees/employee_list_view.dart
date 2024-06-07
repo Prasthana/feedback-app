@@ -134,7 +134,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
+                  foregroundImage:  employee?.getAvatarImage(),
                   child: Text(
                     getInitials(employee?.name ?? "", 2),
                     style: const TextStyle(

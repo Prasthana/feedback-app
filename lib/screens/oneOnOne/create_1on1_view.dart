@@ -488,7 +488,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 18.0,
-      foregroundImage: CachedNetworkImageProvider(!isEmployee ? selectedEmployee.avatarAttachmentUrl ?? "" : employee.manager?.avatarAttachmentUrl ??""),
+      foregroundImage: isEmployee ? employee.manager?.getAvatarImage()  : selectedEmployee.getAvatarImage(), 
       child: Text(
         getInitials(!isEmployee ? selectedEmployee.name ?? "" : employee.manager?.name ?? "", 2),
         style: const TextStyle(

@@ -110,14 +110,15 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     }
   }
 
-  void deleteProfilePic(int empId){
-     _apiService.deleteProfilePic(empId).then((value) {
+  void deleteProfilePic(int empId) {
+    _apiService.deleteProfilePic(empId).then((value) {
       HttpResponse? response = value.data;
-      var employeeFuture = ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
-      setEmployeeFuture(employeeFuture);  
+      var employeeFuture =
+          ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
+      setEmployeeFuture(employeeFuture);
     });
   }
- 
+
   void setEmployeeFuture(Future<EmployeeDetailsResponse>? newValue) {
     setState(() {
       employeeFuture = newValue;
@@ -162,7 +163,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         ApiManager.authenticated.fetchEmployeesDetails(mEmployee?.id ?? 0);
   }
 
-  void getPackageInfo(){
+  void getPackageInfo() {
     PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
       appName = packageInfo.appName;
       packageName = packageInfo.packageName;
@@ -217,99 +218,96 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body:
-
-      Stack(
-
-      children: [
-
-      
-       SingleChildScrollView(
-          child: Column(children: [
-        FutureBuilder<EmployeeDetailsResponse>(
-          future: employeeFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return isUpdating
-                  ? buildEmployeeDetailsView(mEmployee)
-                  : SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.3,
-                      child: const Center(
-                        child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                      ),
-                    );
-            } else if (snapshot.hasData) {
-              final employeeResponse = snapshot.data;
-              if (employeeResponse?.employee != null) {
-                mEmployee = employeeResponse?.employee;
-                return buildEmployeeDetailsView(employeeResponse?.employee);
-              } else {
-                return buildEmployeeDetailsView(mEmployee);
-              }
-            } else {
-              return buildEmployeeDetailsView(mEmployee);
-            }
-          },
-        ),
-        FutureBuilder<OneOnOnesListResponse>(
-          future: oneOnOneFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: const Center(
-                  child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                ),
-              );
-            } else if (snapshot.hasData) {
-              final oneOnOnesListResponse = snapshot.data;
-              var listCount = oneOnOnesListResponse?.oneononesList?.length ?? 0;
-              if (listCount > 0 && isLoginEmployee == false) {
-                return buildOneOnOnesView(oneOnOnesListResponse?.oneononesList);
-              } else {
-                return buildOneOnOnesView(List.empty());
-              }
-            } else {
-              return buildOneOnOnesView(List.empty());
-            }
-          },
-        ),
-
-      ])
-      ),
-
-      Visibility(
-        visible: isLoginEmployee,
-        child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Spacer(),
-         Align(
-          alignment: Alignment.bottomCenter,
-          child: Text(
-                  "Version $appVertion ($appBuildNumber)",
-                  style: const TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromRGBO(0, 0, 0, 1)),
-                ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon:
+                const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
+            onPressed: () => Navigator.pop(context),
           ),
-          addVerticalSpace(36),
-        ],
-      ))
-
-      
-      ])
-    );
+        ),
+        body: Stack(children: [
+          SingleChildScrollView(
+              child: Column(children: [
+            FutureBuilder<EmployeeDetailsResponse>(
+              future: employeeFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return isUpdating
+                      ? buildEmployeeDetailsView(mEmployee)
+                      : SizedBox(
+                          height: MediaQuery.of(context).size.height / 1.3,
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                                backgroundColor: colorPrimary,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    colorPrimary)),
+                          ),
+                        );
+                } else if (snapshot.hasData) {
+                  final employeeResponse = snapshot.data;
+                  if (employeeResponse?.employee != null) {
+                    mEmployee = employeeResponse?.employee;
+                    return buildEmployeeDetailsView(employeeResponse?.employee);
+                  } else {
+                    return buildEmployeeDetailsView(mEmployee);
+                  }
+                } else {
+                  return buildEmployeeDetailsView(mEmployee);
+                }
+              },
+            ),
+            FutureBuilder<OneOnOnesListResponse>(
+              future: oneOnOneFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.3,
+                    child: const Center(
+                      child: CircularProgressIndicator(
+                          backgroundColor: colorPrimary,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(colorPrimary)),
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  final oneOnOnesListResponse = snapshot.data;
+                  var listCount =
+                      oneOnOnesListResponse?.oneononesList?.length ?? 0;
+                  if (listCount > 0 && isLoginEmployee == false) {
+                    return buildOneOnOnesView(
+                        oneOnOnesListResponse?.oneononesList);
+                  } else {
+                    return buildOneOnOnesView(List.empty());
+                  }
+                } else {
+                  return buildOneOnOnesView(List.empty());
+                }
+              },
+            ),
+          ])),
+          Visibility(
+              visible: isLoginEmployee,
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Spacer(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      "Version $appVertion ($appBuildNumber)",
+                      style: const TextStyle(
+                          fontFamily: constants.uberMoveFont,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromRGBO(0, 0, 0, 1)),
+                    ),
+                  ),
+                  addVerticalSpace(36),
+                ],
+              ))
+        ]));
   }
 
   Widget buildOneOnOnesView(List<OneOnOne>? oneOnOneList) {
@@ -321,7 +319,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         itemBuilder: (BuildContext context, int index) {
           var oneOnOne = oneOnOneList?[index];
           var startDateTime = oneOnOne?.startDateTime ?? "";
-          String startTime = startDateTime.utcToLocalDate(systemFormateDateTime);
+          String startTime =
+              startDateTime.utcToLocalDate(systemFormateDateTime);
           var yetToImprovePoints = oneOnOne?.yetToImprovePoints?.length ?? 0;
           return Column(
             children: <Widget>[
@@ -369,9 +368,9 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     if (isUpdating) {
       employee?.avatarAttachmentUrl = "";
     }
-    hasProfileUrl = employee?.avatarAttachmentUrl?.isEmpty == false && employee?.avatarAttachmentUrl?.isNotNull == true;
+    hasProfileUrl = employee?.avatarAttachmentUrl?.isEmpty == false &&
+        employee?.avatarAttachmentUrl?.isNotNull == true;
     isUpdating = false;
-    mobileNumber = employee?.mobileNumber ?? "" ;
     return Container(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -394,11 +393,11 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                       Row(
+                                      Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                           const Align(
+                                            const Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
                                                 constants.profilePicture,
@@ -411,21 +410,24 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                                         0, 0, 0, 1)),
                                               ),
                                             ),
-                                             Visibility(
-                                              visible: hasProfileUrl,
-                                              child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: IconButton(
-                                                iconSize: 24.0,
-                                                icon: const Icon(Icons.delete),
-                                                tooltip: constants.profilePicture,
-                                                onPressed: () {
-                                                  deleteProfilePic(mEmployee?.id ?? 0);
-                                                  Navigator.pop(context);
-                                                },
-                                              ),
-                                            )
-                                            )
+                                            Visibility(
+                                                visible: hasProfileUrl,
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: IconButton(
+                                                    iconSize: 24.0,
+                                                    icon: const Icon(
+                                                        Icons.delete),
+                                                    tooltip: constants
+                                                        .profilePicture,
+                                                    onPressed: () {
+                                                      deleteProfilePic(
+                                                          mEmployee?.id ?? 0);
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ))
                                           ]),
                                       addVerticalSpace(24),
                                       Row(
@@ -438,7 +440,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                                                     Alignment.centerRight,
                                                 child: IconButton(
                                                   iconSize: 36.0,
-                                                  icon: const Icon(Icons.camera),
+                                                  icon:
+                                                      const Icon(Icons.camera),
                                                   tooltip:
                                                       constants.profilePicture,
                                                   onPressed: () {
@@ -507,7 +510,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               child: CircleAvatar(
                 backgroundColor: themeconstants.colorPrimary,
                 maxRadius: 64.0,
-                // backgroundImage: CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
 
                 child: Stack(children: [
                   Visibility(
@@ -515,18 +517,23 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                     child: ClipOval(
                       child: Align(
                         alignment: Alignment.center,
-                        child: CachedNetworkImage(
+                        child: (employee!.avatarAttachmentUrl?.isNotEmpty == true) ? CachedNetworkImage(
                           imageUrl: employee?.avatarAttachmentUrl ?? "",
                           height: 128.0,
                           width: 128.0,
                           fit: BoxFit.cover,
                           placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(backgroundColor: colorPrimary),
+                            child: CircularProgressIndicator(
+                                backgroundColor: colorPrimary),
                           ),
                           errorWidget: (context, url, error) => url == ""
-                              ? const Center(child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white)))
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                      backgroundColor: colorPrimary,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          colorPrimary)))
                               : const Icon(Icons.account_circle),
-                        ),
+                        ) : const Text(''),
                       ),
                     ),
                   ),
@@ -592,7 +599,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             addVerticalSpace(8),
             Visibility(
               visible: isLoginEmployee &&
-                  !(mobileNumber ?? "").isNotEmpty &&
+                  !(employee?.mobileNumber ?? "").isNotEmpty &&
                   addMobileNumber == false,
               child: Center(
                 child: TextButton(
@@ -612,13 +619,15 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                 ),
               ),
             ),
-            
+
             Visibility(
-              visible: isLoginEmployee && ((employee?.mobileNumber ?? "").isNotEmpty && addMobileNumber == false),
+              visible: isLoginEmployee &&
+                  ((employee?.mobileNumber ?? "").isNotEmpty &&
+                      addMobileNumber == false),
               child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                    Text(
+                  Text(
                     mEmployee?.mobileNumber ?? "",
                     style: const TextStyle(
                         fontFamily: constants.uberMoveFont,
@@ -626,18 +635,17 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                         fontWeight: FontWeight.w400,
                         color: Color.fromRGBO(4, 4, 4, 1)),
                   ),
-
                   IconButton(
-                  icon: const Icon(Icons.edit_square),
-                  color: const Color.fromRGBO(0, 0, 0, 1),
-                  onPressed: () {
-                    setAddMobileNumber(true);
-                  },
+                    icon: const Icon(Icons.edit_square),
+                    color: const Color.fromRGBO(0, 0, 0, 1),
+                    onPressed: () {
+                      setAddMobileNumber(true);
+                    },
                   )
                 ],
               ),
             ),
-            
+
             Visibility(
               visible: isLoginEmployee && addMobileNumber == true,
               child: Center(
@@ -647,24 +655,12 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   autofocus: true,
                   showCursor: true,
                   textInputAction: TextInputAction.go,
-                  keyboardType: const TextInputType.numberWithOptions(signed: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(signed: true),
                   canRequestFocus: true,
                   onSubmitted: (value) {
-                    if (isNotValidMobileNumber == false){
-                      setAddMobileNumber(false);
-                      updateMobileNumber(value);
-                    } else {
-                      setAddMobileNumber(false);
-                      mobileNumber = value;
-                      employee?.mobileNumber = value;
-                    }
-                  },
-                  onChanged: (value) {
-                   if(value.length == 10 || value.isEmpty){
-                      isNotValidMobileNumber = false;
-                    } else {
-                      isNotValidMobileNumber = true;
-                    }
+                    setAddMobileNumber(false);
+                    updateMobileNumber(value);
                   },
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(10),
@@ -675,7 +671,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       text: mEmployee?.mobileNumber ?? ""),
                   decoration: const InputDecoration.collapsed(
                     hintText: "",
-                    fillColor: Colors.white,),
+                    fillColor: Colors.white,
+                  ),
                   style: const TextStyle(
                       backgroundColor: Colors.white,
                       fontFamily: constants.uberMoveFont,
@@ -684,18 +681,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       color: Color.fromRGBO(4, 4, 4, 1)),
                 ),
               )),
-            ),
-            addVerticalSpace(4),
-            Visibility(
-              visible: isNotValidMobileNumber,
-              child: const Text(
-                constants.mobileValidMsg,
-                style: TextStyle(
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(255, 69, 69, 1)),
-              ),
             ),
             addVerticalSpace(8),
             Visibility(
@@ -890,7 +875,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             color: Color.fromRGBO(0, 0, 0, 1)),
                       ),
                       onTap: () {
-                        showLogoutAlertDialog(context, constants.logoutDialogText);
+                        showLogoutAlertDialog(
+                            context, constants.logoutDialogText);
                         // logoutUser();
                       },
                     ),
@@ -907,7 +893,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         ));
   }
 
-  void revokeTokenFromApp(){
+  void revokeTokenFromApp() {
     showLoader(context);
     var sm = StorageManager();
     sm.getData(constants.loginTokenResponse).then((val) {
@@ -915,9 +901,10 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         Map<String, dynamic> json = jsonDecode(val);
         var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
         logger.d('val -- $json');
-        var logoutRequest = LogoutRequest(clientId: constants.clientId,
-        clientSecret: constants.clientSecret,
-        loginToken: mLoginTokenResponse.accessToken ?? "NoTOKEN");
+        var logoutRequest = LogoutRequest(
+            clientId: constants.clientId,
+            clientSecret: constants.clientSecret,
+            loginToken: mLoginTokenResponse.accessToken ?? "NoTOKEN");
         _apiService.logoutFromApp(logoutRequest).then((value) {
           HttpResponse? response = value.data;
           hideLoader();
@@ -925,7 +912,6 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         });
       }
     });
-      
   }
 
   logoutUser() {
@@ -973,7 +959,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     return title;
   }
 
-showLogoutAlertDialog(BuildContext context, String alertText) {
+  showLogoutAlertDialog(BuildContext context, String alertText) {
     // set up the button
     Widget cancelButton = TextButton(
       child: const Text(constants.cancel),
@@ -989,7 +975,7 @@ showLogoutAlertDialog(BuildContext context, String alertText) {
       },
       style: TextButton.styleFrom(
         foregroundColor: Colors.red, // Set the text color here
-        ),
+      ),
       child: const Text(constants.yes),
     );
 

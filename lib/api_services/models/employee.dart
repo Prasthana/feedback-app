@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'employee.g.dart';
@@ -42,4 +43,16 @@ class Employee {
       _$EmployeeFromJson(json);
   Map<String, dynamic> toJson() => _$EmployeeToJson(this);
 
+}
+
+extension EmployeeExtension on Employee {
+
+  CachedNetworkImageProvider? getAvatarImage() {
+      if ( avatarAttachmentUrl?.isNotEmpty == true) {
+          var imageURL = avatarAttachmentUrl as String;
+          return CachedNetworkImageProvider(imageURL);
+      }    
+    return null;
+  }
+  
 }

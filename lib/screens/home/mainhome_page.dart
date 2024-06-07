@@ -116,69 +116,6 @@ Widget _tab(String text, {bool isAllow = false}) {
   }
 
 
-  Widget buildoneOnOnesList(OneOnOnesResponse? oneOnOnesResponse) {
-    return ListView.builder(
-        itemCount: oneOnOnesResponse?.oneononesList?.length ?? 0,
-        itemBuilder: (BuildContext context, int index) {
-        final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
-
-        var employeeName = oneOnOne?.getOpponentUser()?.name ?? "No Employee";
-
-          return Column(
-            children: <Widget>[
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: themeconstants.colorPrimary,
-                  maxRadius: 28.0,
-                  foregroundImage: const CachedNetworkImageProvider(""),
-                  child: Text(
-                    getInitials(employeeName, 2),
-                    style: const TextStyle(
-                        fontFamily: constants.uberMoveFont,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(255, 255, 255, 1)),
-                  ),
-                ),
-                trailing: const Icon(Icons.chevron_right),
-                title: Text(employeeName,
-                  style: const TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                      color: Color.fromRGBO(0, 0, 0, 1)),
-                ),
-                subtitle: Text(
-
-                  DateFormat.yMMMMEEEEd().format(DateTime.now()),
-
-                  // oneOnOne?.scheduledDate?.toString() ?? "",
-                  style: const TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(0, 0, 0, 1)),
-                ),
-                onTap: () {
-                   showCupertinoModalBottomSheet(
-                      context: context,
-                      builder: (context) => UpdateOneoneOneView(oneOnOneData: oneOnOne),
-                      enableDrag: false,
-                    );
-                }, 
-              ),
-              const Divider(
-                color: Color.fromRGBO(195, 195, 195, 1),
-                height: 3.0,
-                thickness: 1.0,
-                indent: 76.0,
-                endIndent: 0,
-              ),
-            ],
-          );
-        });
-  }
-
 
   Widget buildEmptyListView() {
     return Padding(
