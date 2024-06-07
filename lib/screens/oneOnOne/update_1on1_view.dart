@@ -585,7 +585,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         var yetToImprovePoint = localYetToImproveList[index];
         var isMarked = yetToImprovePoint.markAsDone ?? false;
 
-        return Flexible(
+        return Expanded(
           child: Column(
             children: <Widget>[
               if (hasAccessForUpdatePoints)
@@ -726,7 +726,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var goodAtPoint = localGoodAtList[index];
-        return Flexible(
+        return Expanded(
           child: Column(
             children: <Widget>[
               ListTile(
