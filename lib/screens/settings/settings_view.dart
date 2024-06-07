@@ -1,5 +1,6 @@
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -38,7 +39,7 @@ class _SettingsViewState extends State<SettingsView> {
     return Center(
       child: _isLoading
           // ? const LinearProgressIndicator()
-          ? const RefreshProgressIndicator(semanticsValue: 'Logout')
+          ? const RefreshProgressIndicator(semanticsValue: 'Logout',backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary))
           // CircularProgressIndicator()
           : ElevatedButton(
               onPressed: _performAction,

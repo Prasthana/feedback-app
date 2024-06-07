@@ -18,6 +18,8 @@ import 'package:oneononetalks/screens/login/login_view.dart';
 import 'package:oneononetalks/screens/oneOnOne/create_1on1_view.dart';
 import 'package:oneononetalks/screens/oneOnOne/update_1on1_view.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/date_formaters.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -217,7 +219,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                   : SizedBox(
                       height: MediaQuery.of(context).size.height / 1.3,
                       child: const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary)),
                       ),
                     );
             } else if (snapshot.hasData) {
@@ -240,7 +242,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
               return SizedBox(
                 height: MediaQuery.of(context).size.height / 1.3,
                 child: const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary)),
                 ),
               );
             } else if (snapshot.hasData) {
@@ -468,10 +470,10 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                           width: 128.0,
                           fit: BoxFit.cover,
                           placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(backgroundColor: colorPrimary),
                           ),
                           errorWidget: (context, url, error) => url == ""
-                              ? const Center(child: CircularProgressIndicator())
+                              ? const Center(child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary)))
                               : const Icon(Icons.account_circle),
                         ),
                       ),

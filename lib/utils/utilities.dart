@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:network_logger/network_logger.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
 
 String getInitials(String string, [int limitTo = 2]) {
   if (string.isEmpty) {
@@ -30,7 +31,7 @@ showLoader(BuildContext context) {
     context,
     overlayColor: Colors.black54,
     progressIndicator:
-        const CircularProgressIndicator(backgroundColor: Colors.white),
+        const CircularProgressIndicator(backgroundColor: colorPrimary),
   );
 }
 
