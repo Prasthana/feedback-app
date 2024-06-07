@@ -78,6 +78,7 @@ class _OtpViewState extends State<OtpView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
@@ -124,8 +125,8 @@ class _OtpViewState extends State<OtpView> {
                 child: OtpTextField(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   numberOfFields: 6,
-                  fieldHeight: 56.0,
-                  fieldWidth: 48.0,
+                  fieldHeight: 52.0,
+                  fieldWidth: 44.0,
                   borderColor: const Color.fromARGB(255, 18, 17, 17),
                   focusedBorderColor: const Color.fromARGB(255, 18, 17, 17),
                   disabledBorderColor: const Color.fromARGB(255, 18, 17, 17),
