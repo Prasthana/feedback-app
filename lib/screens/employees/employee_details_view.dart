@@ -831,6 +831,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   }
 
   void revokeTokenFromApp(){
+    showLoader(context);
     var sm = StorageManager();
     sm.getData(constants.loginTokenResponse).then((val) {
       if (val != constants.noDataFound) {
@@ -842,6 +843,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         loginToken: mLoginTokenResponse.accessToken ?? "NoTOKEN");
         _apiService.logoutFromApp(logoutRequest).then((value) {
           HttpResponse? response = value.data;
+          hideLoader();
           logoutUser();
         });
       }
@@ -905,6 +907,7 @@ showLogoutAlertDialog(BuildContext context, String alertText) {
 
     Widget yesButton = TextButton(
       onPressed: () {
+        Navigator.pop(context);
         revokeTokenFromApp();
       },
       style: TextButton.styleFrom(
