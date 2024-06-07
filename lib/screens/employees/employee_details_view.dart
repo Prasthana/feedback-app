@@ -825,6 +825,17 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       indent: 68.0,
                       endIndent: 0,
                     ),
+                    ListTile(
+                      leading: Image.asset('assets/icLogout.png', height: 38),
+                      trailing: const Icon(Icons.chevron_right),
+                      title: const Text(
+                        "App version (1.0.0)",
+                        style: TextStyle(
+                            fontFamily: constants.uberMoveFont,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromRGBO(0, 0, 0, 1)),
+                      )
                   ],
                 )),
           ],
