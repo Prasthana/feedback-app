@@ -342,7 +342,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             }),
         addVerticalSpace(20),
         gootAtBottomView(),
-        yetToImproveBottomView(),
+       // yetToImproveBottomView(),
         addVerticalSpace(20),
         hasAccessForUpdate1on1
             ? managerWriteRatingView(oneOnOne)
@@ -717,6 +717,38 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildGoodAtList() {
+ 
+    debugPrint("localGoodAtList2 length ------>>11> ${localGoodAtList.length}");
+    return Expanded(
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        itemCount: localGoodAtList.length,
+        itemBuilder: (context, index) {
+          var goodAtPoint = localGoodAtList[index];
+          return ListTile(
+            leading: const Icon(Icons.menu),
+            title: Text(
+              goodAtPoint.title,
+              style: const TextStyle(
+                  fontFamily: constants.uberMoveFont,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromRGBO(0, 0, 0, 1)),
+            ),
+            onTap: () {
+              if (hasAccessForUpdate1on1) {
+                  _displayTextInputDialog(false, true, "Good At point", context,
+                  poinToEdit: goodAtPoint, editIndex: index);
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildGoodAtList1() {
  
     debugPrint("localGoodAtList2 length ------>>11> ${localGoodAtList.length}");
     return ListView.separated(
