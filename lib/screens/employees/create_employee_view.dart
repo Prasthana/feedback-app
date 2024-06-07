@@ -599,7 +599,7 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 18.0,
-      foregroundImage: CachedNetworkImageProvider(selectedEmployee.avatarAttachmentUrl ?? ""),
+      foregroundImage:  selectedEmployee.getAvatarImage(),
       child: Text(
         getInitials(selectedEmployee.name ?? "", 2),
         style: const TextStyle(

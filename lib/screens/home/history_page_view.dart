@@ -98,7 +98,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
                 leading: CircleAvatar(
                   backgroundColor: themeconstants.colorPrimary,
                   maxRadius: 28.0,
-                  foregroundImage: CachedNetworkImageProvider(employee?.avatarAttachmentUrl ?? ""),
+                  foregroundImage: employee?.getAvatarImage(),
                   child: Text(
                     getInitials(employeeName, 2),
                     style: const TextStyle(

@@ -738,7 +738,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     return CircleAvatar(
       backgroundColor: colorPrimary,
       maxRadius: 58.0,
-      foregroundImage: CachedNetworkImageProvider(selectedEmployee?.avatarAttachmentUrl ?? ""),
+      foregroundImage: selectedEmployee?.getAvatarImage(),
       child: Text(
         getInitials(selectedEmployee?.name ?? "No Particiapnt", 2),
         style: const TextStyle(
