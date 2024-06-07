@@ -104,6 +104,8 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
                       validator: (name) {
                         if (name!.isNotEmpty) {
                           return null;
+                        } else if (name.isEmpty){
+                          return null;
                         } else {
                           return constants.nameValidMsg;
                         }
@@ -182,7 +184,10 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
                               validator: (role) {
                                 if (role!.isNotEmpty) {
                                   return null;
-                                } else {
+                                } else if(role.isEmpty){
+                                  return null;
+                                }
+                                else {
                                   return constants.roleValidMsg;
                                 }
                               },
@@ -258,7 +263,7 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
                                 _enteredEmpId = empId;
                               },
                               validator: (empId) {
-                                if (empId!.isNotEmpty) {
+                                if (empId!.isNotEmpty || empId.isEmpty) {
                                   return null;
                                 } else {
                                   return constants.empIdValidMsg;
@@ -366,10 +371,9 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
                             _enteredEmail = email;
                           },
                           validator: (email) {
-                            if (email != null &&
-                                EmailValidator.validate(email)) {
+                            if (email?.isEmpty == true || (email != null && EmailValidator.validate(email))) {
                               return null;
-                            }
+                            } 
                             return constants.enterValidEmailText;
                           },
                         ),
@@ -414,7 +418,7 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
                         _enteredMobile = mobile;
                       },
                       validator: (mobile) {
-                        if (mobile != null && mobile.isValidPhone) {
+                        if (mobile?.isEmpty == true ||(mobile != null && mobile.isValidPhone)) {
                           return null;
                         } else {
                           return constants.mobileValidMsg;

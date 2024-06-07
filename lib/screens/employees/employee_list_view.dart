@@ -10,6 +10,7 @@ import 'package:oneononetalks/managers/apiservice_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/employees/create_employee_view.dart';
 import 'package:oneononetalks/screens/employees/employee_details_view.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
           future: employeesFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary));
             } else if (snapshot.hasData) {
               final employeesResponse = snapshot.data;
               var listCount = employeesResponse?.employeesList?.length ?? 0;

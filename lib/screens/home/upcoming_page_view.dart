@@ -12,6 +12,8 @@ import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/employees/employee_details_view.dart';
 import 'package:oneononetalks/screens/oneOnOne/create_1on1_view.dart';
 import 'package:oneononetalks/screens/oneOnOne/update_1on1_view.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/date_formaters.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:oneononetalks/utils/local_storage_manager.dart';
@@ -99,7 +101,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           future: oneOnOnesFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const CircularProgressIndicator(backgroundColor: colorPrimary, valueColor: AlwaysStoppedAnimation<Color>(colorPrimary));
             } else if (snapshot.hasData) {
               final oneOnOnesResponse = snapshot.data;
               var listCount = oneOnOnesResponse?.oneononesList?.length ?? 0;

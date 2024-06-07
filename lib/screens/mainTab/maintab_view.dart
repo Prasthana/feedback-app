@@ -6,6 +6,7 @@ import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/employees/employee_list_view.dart';
 import 'package:oneononetalks/screens/home/mainhome_page.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/snackbar_helper.dart';
 import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
@@ -158,7 +159,7 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
             )
           : null,
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(colorPrimary)))
           : (numberOfItems >= 2 ? bottomWidgets() : const MainHomePageView()),
     );
   }
