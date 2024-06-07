@@ -55,6 +55,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
   bool hasProfileUrl = false;
   String mobileNumber = "";
   bool isNotValidMobileNumber = false;
+
   
 
   Employee? mEmployee;
@@ -325,6 +326,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     }
     hasProfileUrl = employee?.avatarAttachmentUrl?.isEmpty == false && employee?.avatarAttachmentUrl?.isNotNull == true;
     isUpdating = false;
+    mobileNumber = employee?.mobileNumber ?? "" ;
     return Container(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -545,7 +547,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
             addVerticalSpace(8),
             Visibility(
               visible: isLoginEmployee &&
-                  !(employee?.mobileNumber ?? "").isNotEmpty &&
+                  !(mobileNumber ?? "").isNotEmpty &&
                   addMobileNumber == false,
               child: Center(
                 child: TextButton(
@@ -608,6 +610,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                       updateMobileNumber(value);
                     } else {
                       setAddMobileNumber(false);
+                      mobileNumber = value;
                       employee?.mobileNumber = value;
                     }
                   },
