@@ -52,7 +52,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   //initializing the API Service class
   final ApiService _apiService = ApiService();
   final TextEditingController _textController = TextEditingController();
-  var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
+  var loggedInEmployeeId = LocalStorageManager.shared.loginUser?.employeeId ?? 0;
 
   @override
   void initState() {

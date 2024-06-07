@@ -37,7 +37,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
   bool hasAccessToCreate1On1 = false;
 
   late Future<OneOnOnesResponse> oneOnOnesFuture;
-  var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
+  var loggedInEmployeeId = LocalStorageManager.shared.loginUser?.employeeId ?? 0;
   
   @override
   void initState() {
@@ -141,13 +141,14 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
   }
 
   Widget buildoneOnOnesList(OneOnOnesResponse? oneOnOnesResponse) {
+    
     return ListView.builder(
         itemCount: oneOnOnesResponse?.oneononesList?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
           final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
           var startDateTime = oneOnOne?.startDateTime ?? "";
           String startTime = startDateTime.utcToLocalDate(fullDateWithDayName);
-          Employee? employee = oneOnOne?.getOpponentUser(loggedInUserId);
+          Employee? employee = oneOnOne?.getOpponentUser(loggedInEmployeeId);
           String employeeName =  employee?.name ?? "NA";
 
           debugPrint("---- employeeName ------>>> $employeeName");

@@ -32,7 +32,7 @@ class HistoryPageView extends StatefulWidget {
 class _HistoryPageViewState extends State<HistoryPageView> {
   // variable to call and store future list of posts
   late String systemFormateDateTime;
-  int loginUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
+  int loggedInEmployeeId = LocalStorageManager.shared.loginUser?.employeeId ?? 0;
 
   late Future<OneOnOnesResponse> oneOnOnesHistory;
 
@@ -91,7 +91,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
         final oneOnOne = oneOnOnesResponse?.oneononesList?[index];       
         var startDateTime = oneOnOne?.startDateTime ?? "";
         String startTime = startDateTime.utcToLocalDate(fullDateWithDayName);
-        Employee? employee = oneOnOne?.getOpponentUser(loginUserId);
+        Employee? employee = oneOnOne?.getOpponentUser(loggedInEmployeeId);
         var employeeName = employee?.name ?? "No Employee";
 
           return Column(
