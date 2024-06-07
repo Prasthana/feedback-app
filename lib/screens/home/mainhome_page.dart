@@ -29,9 +29,7 @@ class MainHomePageView extends StatefulWidget {
 
 class _MainHomePageViewState extends State<MainHomePageView> with SingleTickerProviderStateMixin {
   late TabController controller;
-    var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
-
-
+   
   @override
   void initState() {
     super.initState();
@@ -124,7 +122,7 @@ Widget _tab(String text, {bool isAllow = false}) {
         itemBuilder: (BuildContext context, int index) {
         final oneOnOne = oneOnOnesResponse?.oneononesList?[index];
 
-        var employeeName = oneOnOne?.getOpponentUser(loggedInUserId)?.name ?? "No Employee";
+        var employeeName = oneOnOne?.getOpponentUser()?.name ?? "No Employee";
 
           return Column(
             children: <Widget>[

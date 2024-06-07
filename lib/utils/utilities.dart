@@ -15,9 +15,12 @@ String getInitials(String string, [int limitTo = 2]) {
     return string.substring(0, 1).toUpperCase();
   }
 
-  for (var i = 0; i < (limitTo); i++) {
-    buffer.write(split[i][0]);
-  }
+ for (var i = 0; i < (limitTo); i++) {
+      var word = split[i];
+      if (word.isNotEmpty) {
+        buffer.write(word[0]);
+      }
+    }
 
   return buffer.toString().toUpperCase();
 }

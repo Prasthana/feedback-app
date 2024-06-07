@@ -2,6 +2,7 @@ import 'package:oneononetalks/api_services/models/employee.dart';
 import 'package:oneononetalks/api_services/models/one_on_one_create_request.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:oneononetalks/utils/local_storage_manager.dart';
 
 part 'oneonone.g.dart';
 
@@ -105,10 +106,11 @@ class OneOnOneParticipant {
 }
 
 extension OneOnOneExtension on OneOnOne {
-  Employee? getOpponentUser(int loginUserId) {
+  Employee? getOpponentUser() {
+    var loginEmployeeId = LocalStorageManager.shared.loginUser?.employeeId ?? 0;
     var oneOnOneParticipantsList = oneOnOneParticipants ?? [];
     OneOnOneParticipant opponentParticipant = oneOnOneParticipantsList
-        .firstWhere((item) => item.employee.id != loginUserId);
+        .firstWhere((item) => item.employee.id != loginEmployeeId);
         debugPrint("--employee name ----->>> ${opponentParticipant.employee.name}");
     return opponentParticipant.employee;
   }

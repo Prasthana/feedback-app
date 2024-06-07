@@ -52,8 +52,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   //initializing the API Service class
   final ApiService _apiService = ApiService();
   final TextEditingController _textController = TextEditingController();
-  var loggedInUserId = LocalStorageManager.shared.loginUser?.id ?? 0;
-
+  
   @override
   void initState() {
     super.initState();
@@ -152,7 +151,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 listEquals(localGoodAtList, apiGoodPoints);
             bool areEqualYetToImproveList =
                 listEquals(localYetToImproveList, apiYetToImprovePoints);
-            if (!areEqualGoodAtList || !areEqualYetToImproveList) {
+            if (hasAccessForUpdate1on1 && (!areEqualGoodAtList || !areEqualYetToImproveList)) {
               showValidationAlert(context,
                   "Good at/Yet to Improve points will not be saved");
             } else {
@@ -595,15 +594,20 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(Icons.menu),
-                      const SizedBox(width: 12.0),
-                      InkWell(
-                        onTap: () {
-                          _employeeYetToImprovePointStatuUpdate(
-                              context, !isMarked, yetToImprovePoint.id ?? 0);
-                        },
-                        child: isMarked
-                            ? const Icon(Icons.check_box_outlined)
-                            : const Icon(Icons.check_box_outline_blank),
+                      yetToImprovePoint.id != null ? const SizedBox(width:  12.0) : const Text(""),
+                      Visibility(
+                        visible: yetToImprovePoint.id != null,
+                        child: InkWell(
+                          onTap: () {
+                            if (yetToImprovePoint.id != null) {
+                              _employeeYetToImprovePointStatuUpdate(
+                                context, !isMarked, yetToImprovePoint.id ?? 0);
+                            }
+                          },
+                          child: isMarked
+                              ? const Icon(Icons.check_box_outlined)
+                              : const Icon(Icons.check_box_outline_blank),
+                        ),
                       ),
                     ],
                   ),
@@ -616,9 +620,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                         color: Color.fromRGBO(0, 0, 0, 1)),
                   ),
                   onTap: () {
+                    if (hasAccessForUpdate1on1) {
                     _displayTextInputDialog(
                         false, false, "Yet To Improve point", context,
                         poinToEdit: yetToImprovePoint, editIndex: index);
+                    }
                   },
                 )
               else
@@ -734,8 +740,10 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                       color: Color.fromRGBO(0, 0, 0, 1)),
                 ),
                 onTap: () {
-                  _displayTextInputDialog(false, true, "Good At point", context,
+                  if (hasAccessForUpdate1on1) {
+                      _displayTextInputDialog(false, true, "Good At point", context,
                       poinToEdit: goodAtPoint, editIndex: index);
+                  }
                 },
               ),
             ],
@@ -775,6 +783,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
+          backgroundColor: Colors.white,
           title: Text(text),
           content: SizedBox(
             width: 300,

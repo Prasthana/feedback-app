@@ -5,6 +5,7 @@ const String hoursMinutes12 = "hh:mm a";
 const String hoursMinutes24 = "HH:mm";
 const String dateMonthYear = "dd-MM-yyyy";
 const String yearMonthDate = "yyyy-MM-dd";
+const String fullDateWithDayName = "EEEE, dd MMM yyyy, hh:mm a";
 
 String getFormatedDateConvertion(String dateTimeString, String outputFormate) {
   DateTime dateTime = DateTime.parse(dateTimeString).toUtc();

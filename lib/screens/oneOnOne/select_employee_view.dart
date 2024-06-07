@@ -6,6 +6,7 @@ import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/utilities.dart';
 
 class SelectEmployeeView extends StatefulWidget {
   const SelectEmployeeView({super.key});
@@ -56,26 +57,6 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
             },
           ),
         ));
-  }
-
-   String getInitials(String string, [int limitTo = 2]) {
-    if (string.isEmpty) {
-      return '';
-    }
-
-    var buffer = StringBuffer();
-    var split = string.split(' ');
-
-    //For one word
-    if (split.length == 1) {
-      return string.substring(0, 1);
-    }
-
-    for (var i = 0; i < (limitTo); i++) {
-      buffer.write(split[i][0]);
-    }
-
-    return buffer.toString();
   }
 
   Widget buildEmployeesList(List<Employee>? employeeList) {
