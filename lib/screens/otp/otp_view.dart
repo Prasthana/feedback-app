@@ -127,6 +127,7 @@ class _OtpViewState extends State<OtpView> {
                   numberOfFields: 6,
                   fieldHeight: 52.0,
                   fieldWidth: 44.0,
+                  keyboardType: TextInputType.number,
                   borderColor: const Color.fromARGB(255, 18, 17, 17),
                   focusedBorderColor: const Color.fromARGB(255, 18, 17, 17),
                   disabledBorderColor: const Color.fromARGB(255, 18, 17, 17),
