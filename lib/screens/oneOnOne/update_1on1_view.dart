@@ -595,15 +595,20 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(Icons.menu),
-                      const SizedBox(width: 12.0),
-                      InkWell(
-                        onTap: () {
-                          _employeeYetToImprovePointStatuUpdate(
-                              context, !isMarked, yetToImprovePoint.id ?? 0);
-                        },
-                        child: isMarked
-                            ? const Icon(Icons.check_box_outlined)
-                            : const Icon(Icons.check_box_outline_blank),
+                      yetToImprovePoint.id != null ? const SizedBox(width:  12.0) : const Text(""),
+                      Visibility(
+                        visible: yetToImprovePoint.id != null,
+                        child: InkWell(
+                          onTap: () {
+                            if (yetToImprovePoint.id != null) {
+                              _employeeYetToImprovePointStatuUpdate(
+                                context, !isMarked, yetToImprovePoint.id ?? 0);
+                            }
+                          },
+                          child: isMarked
+                              ? const Icon(Icons.check_box_outlined)
+                              : const Icon(Icons.check_box_outline_blank),
+                        ),
                       ),
                     ],
                   ),
