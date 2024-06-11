@@ -52,6 +52,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   //initializing the API Service class
   final ApiService _apiService = ApiService();
   final TextEditingController _textController = TextEditingController();
+  bool isNewPointsAdded = false;
   
   @override
   void initState() {
@@ -151,7 +152,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 listEquals(localGoodAtList, apiGoodPoints);
             bool areEqualYetToImproveList =
                 listEquals(localYetToImproveList, apiYetToImprovePoints);
-            if (hasAccessForUpdate1on1 && (!areEqualGoodAtList || !areEqualYetToImproveList)) {
+                    
+            if (hasAccessForUpdate1on1 && (!areEqualGoodAtList || !areEqualYetToImproveList) || (localGoodAtList.isNotEmpty && apiGoodPoints.isEmpty) || (localYetToImproveList.isNotEmpty && apiYetToImprovePoints.isEmpty) ) {
               showValidationAlert(context,
                   "Good at/Yet to Improve points will not be saved");
             } else {
@@ -194,16 +196,18 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 final oneOneResponse = snapshot.data;
 
                 var oneOnOne = oneOneResponse?.oneOnOne;
+                oneOnOneData = oneOnOne;
 
-                if (apiGoodPoints.isEmpty) {
+                if (apiGoodPoints.isEmpty && isNewPointsAdded == false) {
                   apiGoodPoints.clear();
                   apiGoodPoints.addAll(oneOnOne?.goodAtPoints ?? []);
+                  isNewPointsAdded = true;
                 }
 
-                if (apiYetToImprovePoints.isEmpty) {
+                if (apiYetToImprovePoints.isEmpty && isNewPointsAdded == false) {
                   apiYetToImprovePoints.clear();
-                  apiYetToImprovePoints
-                      .addAll(oneOnOne?.yetToImprovePoints ?? []);
+                  apiYetToImprovePoints.addAll(oneOnOne?.yetToImprovePoints ?? []);
+                  isNewPointsAdded = true;
                 }
 
                 // debugPrint("apiGoodPoints length ------>>11> ${apiGoodPoints.length}");
