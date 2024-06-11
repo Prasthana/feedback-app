@@ -152,7 +152,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 listEquals(localGoodAtList, apiGoodPoints);
             bool areEqualYetToImproveList =
                 listEquals(localYetToImproveList, apiYetToImprovePoints);                   
-            if (hasAccessForUpdate1on1 && (!areEqualGoodAtList || !areEqualYetToImproveList) || (localGoodAtList.isNotEmpty && apiGoodPoints.isEmpty) || (localYetToImproveList.isNotEmpty && apiYetToImprovePoints.isEmpty) ) {
+            if (hasAccessForUpdate1on1 && (!areEqualGoodAtList || !areEqualYetToImproveList)) {
               showValidationAlert(context,
                   "Good at/Yet to Improve points will not be saved");
             } else {
@@ -195,20 +195,9 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 final oneOneResponse = snapshot.data;
 
                 var oneOnOne = oneOneResponse?.oneOnOne;
+                apiGoodPoints.addAll(oneOnOne?.goodAtPoints ?? []);
+                apiYetToImprovePoints.addAll(oneOnOne?.yetToImprovePoints ?? []);
                 
-
-                if (apiGoodPoints.isEmpty && isNewPointsAdded == false) {
-                  apiGoodPoints.clear();
-                  apiGoodPoints.addAll(oneOnOne?.goodAtPoints ?? []);
-                  isNewPointsAdded = true;
-                }
-
-                if (apiYetToImprovePoints.isEmpty && isNewPointsAdded == false) {
-                  apiYetToImprovePoints.clear();
-                  apiYetToImprovePoints.addAll(oneOnOne?.yetToImprovePoints ?? []);
-                  isNewPointsAdded = true;
-                }
-
                 // debugPrint("apiGoodPoints length ------>>11> ${apiGoodPoints.length}");
                 localGoodAtList = oneOnOne?.goodAtPoints ?? [];
                 localYetToImproveList = oneOnOne?.yetToImprovePoints ?? [];
