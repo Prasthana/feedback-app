@@ -151,8 +151,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             bool areEqualGoodAtList =
                 listEquals(localGoodAtList, apiGoodPoints);
             bool areEqualYetToImproveList =
-                listEquals(localYetToImproveList, apiYetToImprovePoints);
-                    
+                listEquals(localYetToImproveList, apiYetToImprovePoints);                   
             if (hasAccessForUpdate1on1 && (!areEqualGoodAtList || !areEqualYetToImproveList) || (localGoodAtList.isNotEmpty && apiGoodPoints.isEmpty) || (localYetToImproveList.isNotEmpty && apiYetToImprovePoints.isEmpty) ) {
               showValidationAlert(context,
                   "Good at/Yet to Improve points will not be saved");
@@ -196,7 +195,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 final oneOneResponse = snapshot.data;
 
                 var oneOnOne = oneOneResponse?.oneOnOne;
-                oneOnOneData = oneOnOne;
+                
 
                 if (apiGoodPoints.isEmpty && isNewPointsAdded == false) {
                   apiGoodPoints.clear();
