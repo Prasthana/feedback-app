@@ -13,7 +13,7 @@ class _ApiClient implements ApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://ec2-18-219-231-99.us-east-2.compute.amazonaws.com/';
+    baseUrl ??= ApiManager.baseURL;
   }
 
   final Dio _dio;
