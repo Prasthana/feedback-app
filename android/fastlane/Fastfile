@@ -18,7 +18,7 @@ default_platform(:android)
 platform :android do
 
   APP_VERSION_CODE = 6
-  APP_VERSION = "0.7"
+  APP_VERSION = "0.0"
 
   lane :increment_staging do
     staging_build_number = google_play_track_version_codes(
