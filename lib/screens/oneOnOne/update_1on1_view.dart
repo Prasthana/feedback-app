@@ -222,7 +222,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildOneOnOneDetailsView(OneOnOne? oneOnOne) {
-    var employee = oneOnOne?.oneOnOneParticipants?.first.employee ?? Employee();
+    var employee = oneOnOne?.getOpponentUser();
     var startDateTime = oneOnOne?.startDateTime ?? "";
     String meetingStartTime = startDateTime.utcToLocalDate("hh:mm a");
     String meetingDate = getFormatedDateConvertion(
@@ -239,7 +239,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(12),
         Center(
           child: Text(
-            employee.name ?? "",
+            employee?.name ?? "Invalid Employee",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 24,
@@ -250,7 +250,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         addVerticalSpace(8),
         Center(
           child: Text(
-            employee.email ?? "",
+            employee?.email ?? "",
             style: const TextStyle(
                 fontFamily: constants.uberMoveFont,
                 fontSize: 16,
@@ -732,7 +732,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       maxRadius: 58.0,
       foregroundImage: selectedEmployee?.getAvatarImage(),
       child: Text(
-        getInitials(selectedEmployee?.name ?? "No Particiapnt", 2),
+        getInitials(selectedEmployee?.name ?? "Invalid Employee", 2),
         style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 30,

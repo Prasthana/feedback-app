@@ -3,8 +3,8 @@
 ///  This is API Hard coded strings. 
 const String grantTypePassword = "password";
 const String grantTypeRefreshToken = "refresh_token";
-const String clientId = "-robyncwUzhru_bc5Vcls9WtdmUkNi70wn3IKVnTOgk";
-const String clientSecret = "Lpm0oNdKwxueiAUSx8J_PK1bq1OHEFr9Yd6hJQZNJHg";
+const String clientId = "2ENPfeT9ws2FjG3ABMw-hqCuWXpHDPh--nVlawszSyI";
+const String clientSecret = "hbCFJNQ6-lXU47NM1yf-KGMeC4tTZVaOscVMf9S40M8";
 const int resendTime = 30;
 const int nameInitLength = 2;
 
