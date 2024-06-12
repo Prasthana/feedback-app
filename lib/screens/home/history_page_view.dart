@@ -89,7 +89,7 @@ class _HistoryPageViewState extends State<HistoryPageView> {
         var startDateTime = oneOnOne?.startDateTime ?? "";
         String startTime = startDateTime.utcToLocalDate(fullDateWithDayName);
         Employee? employee = oneOnOne?.getOpponentUser();
-        var employeeName = employee?.name ?? "No Employee";
+        var employeeName = employee?.name ?? "Invalid Employee";
 
           return Column(
             children: <Widget>[

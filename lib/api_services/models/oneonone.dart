@@ -109,14 +109,16 @@ extension OneOnOneExtension on OneOnOne {
   Employee? getOpponentUser() {
     var loginEmployeeId = LocalStorageManager.shared.loginUser?.employeeId ?? 0;
     var oneOnOneParticipantsList = oneOnOneParticipants ?? [];
+
+    try {
      OneOnOneParticipant opponentParticipant = oneOnOneParticipantsList
         .firstWhere(
-          (item) => item.employee.id != loginEmployeeId,
-          orElse: () {
-            return oneOnOneParticipantsList.first;
-          }
+          (item) => item.employee.id != loginEmployeeId
         );
         debugPrint("--employee name ----->>> ${opponentParticipant.employee.name}");
     return opponentParticipant.employee;
+    } catch ( exception ) {
+       return null;
+    }
   }
 }
