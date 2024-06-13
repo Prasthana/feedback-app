@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:oneononetalks/api_services/models/emailotp.dart';
+import 'package:oneononetalks/screens/environments/environments_view.dart';
 import 'package:oneononetalks/screens/otp/otp_view.dart';
+import 'package:oneononetalks/screens/settings/settings_view.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:oneononetalks/utils/snackbar_helper.dart';
 import 'package:oneononetalks/utils/utilities.dart';
@@ -16,7 +18,6 @@ import 'package:oneononetalks/api_services/api_service.dart';
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
-  @override
   @override
   State<LoginView> createState() => _LoginViewState();
 }
@@ -37,6 +38,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -44,7 +46,15 @@ class _LoginViewState extends State<LoginView> {
       child: Scaffold(
           appBar: AppBar(
             title: const Text(constants.txtLogin),
-            // backgroundColor: Colors.white,
+                actions: <Widget>[
+             IconButton(
+               icon: const Icon(Icons.settings),
+               onPressed: () {
+                 // handle the press
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EnvironmentsView()));  
+               },
+             ),
+           ],
           ),
           backgroundColor: Colors.white,
           body: Padding(
@@ -53,26 +63,69 @@ class _LoginViewState extends State<LoginView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 addVerticalSpace(30),
-                const Text(
-                  constants.enterYourEmailText,
-                  style: TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700),
-                ),
-                const Text(
-                  constants.sendConfirmationCodeText,
-                  style: TextStyle(
-                      fontFamily: constants.uberMoveFont,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500),
-                ),
+                emailFieldTitleLabel(),
+                emailFieldHintLabel(),
                 addVerticalSpace(30),
                 Form(
                     key: _formState,
                     child: Column(
                       children: [
-                        TextFormField(
+                        emailIdField(),
+                        addVerticalSpace(45),
+                        MaterialButton(
+                          minWidth: double.infinity,
+                          height: 58.0,
+                          onPressed: () {
+                            if (_formState.currentState!.validate()) {
+                              showLoader(context);
+                              _genarateOtp(_enteredEmail, context);
+                            }
+                          },
+                          // ignore: sort_child_properties_last
+                          child: const Text(constants.txtLogin),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          color: isEmailValidated
+                              ? const Color.fromRGBO(0, 0, 0, 1)
+                              : const Color.fromRGBO(173, 173, 173, 1),
+                          //const Color.fromRGBO(173, 173, 173, 1),
+                          textColor: Colors.white,
+                        )
+                      ],
+                    )),
+              ],
+            ),
+          ),
+        ),
+      
+    );
+  }
+
+Widget emailFieldTitleLabel() {
+         return         const Text(
+                  constants.enterYourEmailText,
+                  style: TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700),
+                );
+
+}
+
+Widget emailFieldHintLabel() {
+         return                         const Text(
+                  constants.sendConfirmationCodeText,
+                  style: TextStyle(
+                      fontFamily: constants.uberMoveFont,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500),
+                );
+
+
+}
+  Widget emailIdField() {
+     return TextFormField(
                           autofocus: true,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.emailAddress,
@@ -115,38 +168,8 @@ class _LoginViewState extends State<LoginView> {
                             }
                             return constants.enterValidEmailText;
                           },
-                        ),
-                        addVerticalSpace(45),
-                        MaterialButton(
-                          minWidth: double.infinity,
-                          height: 58.0,
-                          onPressed: () {
-                            if (_formState.currentState!.validate()) {
-                              showLoader(context);
-                              _genarateOtp(_enteredEmail, context);
-                            }
-                          },
-                          // ignore: sort_child_properties_last
-                          child: const Text(constants.txtLogin),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          color: isEmailValidated
-                              ? const Color.fromRGBO(0, 0, 0, 1)
-                              : const Color.fromRGBO(173, 173, 173, 1),
-                          //const Color.fromRGBO(173, 173, 173, 1),
-                          textColor: Colors.white,
-                        )
-                      ],
-                    )),
-              ],
-            ),
-          ),
-        ),
-      
-    );
+                        );
   }
-
   _genarateOtp(String? email, BuildContext context) async {
     var request = EmailOTPRequest(
         email: email as String, deviceType: Platform.operatingSystem);
