@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:notification_center/notification_center.dart';
 import 'package:oneononetalks/api_services/models/employee.dart';
 import 'package:oneononetalks/api_services/models/employee_create_request.dart';
 import 'package:oneononetalks/main.dart';
@@ -12,6 +13,8 @@ import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:oneononetalks/utils/notification_constants.dart'
+    as notificationconstants;
 
 class CreateEmployeeView extends StatefulWidget {
   const CreateEmployeeView({super.key});
@@ -409,7 +412,7 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
                       minLines: 1,
                       maxLines: 1,
                       maxLength: 10,
-                      keyboardType: TextInputType.multiline,
+                      keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.done,
                       onChanged: (mobile) {
                         setState(() {
@@ -579,6 +582,7 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
     ApiManager.authenticated.createEmployee(request).then((val) {
       hideLoader();
       logger.e('createOneOnOne response -- ${val.toJson()}');
+      NotificationCenter().notify(notificationconstants.updatingNewEmployee);
       Navigator.pop(context);
     }).catchError((obj) {
       hideLoader();

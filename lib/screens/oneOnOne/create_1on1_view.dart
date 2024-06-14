@@ -159,7 +159,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   Future<void> _selectTime(bool isStartTime) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: isStartTime ? selectedStartTime : selectedEndTime ?? TimeOfDay.now(),
     );
 
     if (pickedTime != null) {
