@@ -38,7 +38,6 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
   Employee selectedEmployee = Employee();
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
