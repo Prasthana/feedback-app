@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:notification_center/notification_center.dart';
 import 'package:oneononetalks/api_services/models/employee.dart';
 import 'package:oneononetalks/api_services/models/employeesresponse.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
@@ -16,6 +17,9 @@ import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:oneononetalks/theme/theme_constants.dart' as themeconstants;
+import 'package:oneononetalks/utils/notification_constants.dart'
+    as notificationconstants;
+
 
 class EmployeeListView extends StatefulWidget {
   const EmployeeListView({super.key});
@@ -27,13 +31,22 @@ class EmployeeListView extends StatefulWidget {
 class _EmployeeListViewState extends State<EmployeeListView> {
   bool hasAccessToCreateEmployee = false;
 
-  Future<EmployeesResponse> employeesFuture =
-      ApiManager.authenticated.fetchEmployeesList();
+  late Future<EmployeesResponse> employeesFuture ;
 
+    
   @override
   void initState() {
     super.initState();
+    NotificationCenter().subscribe(notificationconstants.updatingNewEmployee, onRefresh);
     checkCanCreateEmployee();
+    employeesFuture = ApiManager.authenticated.fetchEmployeesList();
+  }
+
+  @override
+  void dispose() {
+    // Unsubscribe from the notification
+    NotificationCenter().unsubscribe(notificationconstants.updatingNewEmployee);
+    super.dispose();
   }
 
   FutureOr onRefresh(dynamic value) {
