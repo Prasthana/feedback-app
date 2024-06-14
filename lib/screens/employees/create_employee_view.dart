@@ -412,7 +412,7 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
                       minLines: 1,
                       maxLines: 1,
                       maxLength: 10,
-                      keyboardType: TextInputType.multiline,
+                      keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.done,
                       onChanged: (mobile) {
                         setState(() {
