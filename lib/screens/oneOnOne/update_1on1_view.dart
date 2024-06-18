@@ -14,10 +14,10 @@ import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
 import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/screens/oneOnOne/AddOrUpdate_1on1_feedback_points.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/date_formaters.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
-import 'package:oneononetalks/utils/local_storage_manager.dart';
 import 'package:oneononetalks/utils/snackbar_helper.dart';
 import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,7 +53,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   final ApiService _apiService = ApiService();
   final TextEditingController _textController = TextEditingController();
   bool isNewPointsAdded = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -151,10 +151,11 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             bool areEqualGoodAtList =
                 listEquals(localGoodAtList, apiGoodPoints);
             bool areEqualYetToImproveList =
-                listEquals(localYetToImproveList, apiYetToImprovePoints);                   
-            if (hasAccessForUpdate1on1 && (!areEqualGoodAtList || !areEqualYetToImproveList)) {
-              showValidationAlert(context,
-                  "Good at/Yet to Improve points will not be saved");
+                listEquals(localYetToImproveList, apiYetToImprovePoints);
+            if (hasAccessForUpdate1on1 &&
+                (!areEqualGoodAtList || !areEqualYetToImproveList)) {
+              showValidationAlert(
+                  context, "Good at/Yet to Improve points will not be saved");
             } else {
               Navigator.pop(context);
             }
@@ -190,14 +191,17 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             future: oneOnOneCreateResponseFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white));
+                return const CircularProgressIndicator(
+                    backgroundColor: colorPrimary,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white));
               } else if (snapshot.hasData) {
                 final oneOneResponse = snapshot.data;
 
                 var oneOnOne = oneOneResponse?.oneOnOne;
                 apiGoodPoints.addAll(oneOnOne?.goodAtPoints ?? []);
-                apiYetToImprovePoints.addAll(oneOnOne?.yetToImprovePoints ?? []);
-                
+                apiYetToImprovePoints
+                    .addAll(oneOnOne?.yetToImprovePoints ?? []);
+
                 // debugPrint("apiGoodPoints length ------>>11> ${apiGoodPoints.length}");
                 localGoodAtList = oneOnOne?.goodAtPoints ?? [];
                 localYetToImproveList = oneOnOne?.yetToImprovePoints ?? [];
@@ -513,9 +517,22 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             Visibility(
               visible: hasAccessForUpdate1on1,
               child: TextButton(
-                  onPressed: () {
-                    _displayTextInputDialog(
-                        true, false, "Yet to Improve point", context);
+                  onPressed: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const AddOrUpdateOneOnOneFeedbackPointsView(
+                          addedPointText: "",
+                          index: 0, isFromGoodAtList: false,
+                        ),
+                      ),
+                    );
+                    if (result != null && result is String) {
+                      setState(() {
+                        localYetToImproveList.add((Point(title: result)));
+                      });
+                    }
                   },
                   child: const Text(
                     "+ Add point",
@@ -584,14 +601,16 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(Icons.menu),
-                yetToImprovePoint.id != null ? const SizedBox(width:  12.0) : const Text(""),
+                yetToImprovePoint.id != null
+                    ? const SizedBox(width: 12.0)
+                    : const Text(""),
                 Visibility(
                   visible: yetToImprovePoint.id != null,
                   child: InkWell(
                     onTap: () {
                       if (yetToImprovePoint.id != null) {
                         _employeeYetToImprovePointStatuUpdate(
-                          context, !isMarked, yetToImprovePoint.id ?? 0);
+                            context, !isMarked, yetToImprovePoint.id ?? 0);
                       }
                     },
                     child: isMarked
@@ -609,11 +628,23 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                   fontWeight: FontWeight.w400,
                   color: Color.fromRGBO(0, 0, 0, 1)),
             ),
-            onTap: () {
+            onTap: () async {
               if (hasAccessForUpdate1on1) {
-              _displayTextInputDialog(
-                  false, false, "Yet To Improve point", context,
-                  poinToEdit: yetToImprovePoint, editIndex: index);
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddOrUpdateOneOnOneFeedbackPointsView(
+                        addedPointText: yetToImprovePoint.title, index: index,isFromGoodAtList: false,),
+                  ),
+                );
+                if (result != null && result is String) {
+                  setState(() {
+                    if (localYetToImproveList.length > 1) {
+                      localYetToImproveList[index] =
+                          (Point(title: result)); // Update the 2nd index
+                    }
+                  });
+                }
               }
             },
           ),
@@ -639,7 +670,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         hideLoader();
       }
       refreshScreen();
-    
     });
   }
 
@@ -666,9 +696,23 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             Visibility(
               visible: hasAccessForUpdate1on1,
               child: TextButton(
-                  onPressed: () {
-                    _displayTextInputDialog(
-                        true, true, "Good at point", context);
+                  onPressed: () async {
+                    // Navigate to Screen B and wait for the result
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const AddOrUpdateOneOnOneFeedbackPointsView(
+                          addedPointText: "",
+                          index: 0,isFromGoodAtList: true,
+                        ),
+                      ),
+                    );
+                    if (result != null && result is String) {
+                      setState(() {
+                        localGoodAtList.add((Point(title: result)));
+                      });
+                    }
                   },
                   child: const Text(
                     "+ Add point",
@@ -693,7 +737,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   }
 
   Widget buildGoodAtList() {
- 
     debugPrint("localGoodAtList2 length ------>>11> ${localGoodAtList.length}");
     return ListView.separated(
       shrinkWrap: true,
@@ -714,10 +757,23 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                   fontWeight: FontWeight.w400,
                   color: Color.fromRGBO(0, 0, 0, 1)),
             ),
-            onTap: () {
+            onTap: () async {
               if (hasAccessForUpdate1on1) {
-                  _displayTextInputDialog(false, true, "Good At point", context,
-                  poinToEdit: goodAtPoint, editIndex: index);
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddOrUpdateOneOnOneFeedbackPointsView(
+                        addedPointText: goodAtPoint.title, index: index,isFromGoodAtList: true,),
+                  ),
+                );
+                if (result != null && result is String) {
+                  setState(() {
+                    if (localGoodAtList.length > 1) {
+                      localGoodAtList[index] =
+                          (Point(title: result)); // Update the 2nd index
+                    }
+                  });
+                }
               }
             },
           ),
@@ -850,7 +906,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
 
   refreshGoodAtList() {
     setState(() {
-     // buildGoodAtList();
+      // buildGoodAtList();
     });
     Navigator.pop(context);
   }
