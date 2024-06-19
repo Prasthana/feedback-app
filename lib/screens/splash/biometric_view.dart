@@ -51,7 +51,7 @@ class _BiometricViewState extends State<BiometricView> {
       setState(() {
         if (authenticated) {
               print("authenticate sucess ----->>>>");
-             Timer(const Duration(milliseconds: 10), navigateToHomeScreen);
+             Timer(const Duration(milliseconds: 5), navigateToHomeScreen);
         } else {
               print("authenticate failed ----->>>>");
         }
