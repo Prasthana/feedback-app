@@ -69,10 +69,12 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
               Navigator.pop(context, enteredText);
             },
             child: const Text(
-              'SAVE',
+              'Save',
               style: TextStyle(
-                color: Colors.blue, // Ensure the text is visible on the AppBar
-              ),
+              fontFamily: constants.uberMoveFont,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
             ),
           ),
         ],
