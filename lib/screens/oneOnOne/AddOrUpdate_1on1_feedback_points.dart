@@ -48,7 +48,7 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
           onPressed: () {
             if (enteredText.isNotEmpty) {
               showValidationAlert(
-                  context, "Good at/Yet to Improve points will not be saved");
+                  context, constants.validationAlertText);
             } else {
               Navigator.pop(context);
             }
@@ -56,7 +56,7 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
         ),
         backgroundColor: Colors.white,
         title:  Text(
-          isFromGoodAtList ? "Good At" : "Yet to Improve",
+          isFromGoodAtList ? constants.goodAtTitleText : constants.yetToImproveTitleText,
           style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 24,
@@ -69,7 +69,7 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
               Navigator.pop(context, enteredText);
             },
             child: const Text(
-              'Save',
+              constants.saveText,
               style: TextStyle(
               fontFamily: constants.uberMoveFont,
               fontSize: 14,
@@ -109,7 +109,7 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
   showValidationAlert(BuildContext context, String alertText) {
     // set up the button
     Widget okButton = TextButton(
-      child: const Text("OK"),
+      child: const Text(constants.okButton),
       onPressed: () {
         Navigator.pop(context);
         Navigator.pop(context);
@@ -117,7 +117,7 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
     );
 
     Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
+      child: const Text(constants.cancel),
       onPressed: () {
         Navigator.pop(context);
       },
