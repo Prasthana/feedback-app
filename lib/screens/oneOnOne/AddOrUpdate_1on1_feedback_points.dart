@@ -72,15 +72,17 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
               constants.save,
               style: TextStyle(
               fontFamily: constants.uberMoveFont,
-              fontSize: 14,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
             ),
           ),
         ],
       ),
-      body: Expanded(
-        child: TextField(
+      body: Column(
+      children: [
+        Expanded(
+          child: TextField(
             keyboardType: TextInputType.multiline,
             textInputAction: TextInputAction.newline,
             maxLines: 10000,
@@ -101,8 +103,11 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
               setState(() {
                 enteredText = text;
               });
-            }),
-      ),
+            },
+          ),
+        ),
+      ],
+    ),
     );
   }
 
