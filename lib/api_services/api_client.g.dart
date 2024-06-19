@@ -14,7 +14,7 @@ class _ApiClient implements ApiClient {
     this.baseUrl,
   }) {
     baseUrl ??=
-        'http://feedback-production-alb-314267296.us-east-2.elb.amazonaws.com/';
+        'http://feedback-staging-alb-818086335.us-east-2.elb.amazonaws.com/';
   }
 
   final Dio _dio;
