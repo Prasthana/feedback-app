@@ -4,6 +4,8 @@
 <dict>
 <key>UIUserInterfaceStyle</key>
 <string>Light</string>
+<key>NSFaceIDUsageDescription</key>
+<string>The app needs face id to authenticate</string>
 
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app needs to access the Photo Library in order to be able to load images from it.</string>

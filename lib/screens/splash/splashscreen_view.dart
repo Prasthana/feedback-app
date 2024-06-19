@@ -6,6 +6,7 @@ import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/login/login_view.dart';
 import 'package:oneononetalks/screens/mainTab/maintab_view.dart';
+import 'package:oneononetalks/screens/splash/biometric_view.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:oneononetalks/utils/local_storage_manager.dart';
@@ -80,8 +81,9 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    isLogedIn ? const MainTabView() : const LoginView(),
+                builder: (context) => // BiometricView
+                isLogedIn ? const BiometricView() : const LoginView(),
+                   // isLogedIn ? const MainTabView() : const LoginView(),
                 //LoginView(),
                 fullscreenDialog: true)));
   }
