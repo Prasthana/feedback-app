@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,17 +16,12 @@ class BiometricView extends StatefulWidget {
 
 class _BiometricViewState extends State<BiometricView> {
   final LocalAuthentication auth = LocalAuthentication();
-  _SupportState supportState = _SupportState.unknown;
-  bool? canCheckBiometrics;
-  List<BiometricType>? availableBiometrics;
-  String authorized = 'Not Authorized';
-  bool isAuthenticating = false;
 
   @override
   void initState() {
     super.initState();
 
-    Timer(const Duration(seconds: 1), checkAuthenticate);    
+    Timer(const Duration(seconds: 1), biometricAuthenticate);    
   }
 
   navigateToHomeScreen() {
@@ -35,11 +31,11 @@ class _BiometricViewState extends State<BiometricView> {
             builder: (context) => const MainTabView(), fullscreenDialog: true));
   }
 
-  Future<void> checkAuthenticate() async {
+  Future<void> biometricAuthenticate() async {
     bool authenticated = false;
     try {
       authenticated = await auth.authenticate(
-        localizedReason: 'Let OS determine authentication method',
+        localizedReason: constants.biometricHintText,
         options: const AuthenticationOptions(
           stickyAuth: true,
         ),
@@ -55,7 +51,7 @@ class _BiometricViewState extends State<BiometricView> {
       setState(() {
         if (authenticated) {
               print("authenticate sucess ----->>>>");
-             Timer(const Duration(seconds: 1), navigateToHomeScreen);
+             Timer(const Duration(milliseconds: 10), navigateToHomeScreen);
         } else {
               print("authenticate failed ----->>>>");
         }
@@ -65,15 +61,16 @@ class _BiometricViewState extends State<BiometricView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: Colors.white,
       body: Center(
         child: TextButton(
             onPressed: () {
               print("faceID button -----");
-              checkAuthenticate();
+              biometricAuthenticate();
             },
-            child: const Text(
-              'Use faceID',
-              style: TextStyle(
+            child: Text(
+              Platform.isIOS ? constants.faceIDUnlock : constants.biometricUnlock,
+              style: const TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 14,
                   fontWeight: FontWeight.w700),
@@ -81,10 +78,4 @@ class _BiometricViewState extends State<BiometricView> {
       ),
     );
   }
-}
-
-enum _SupportState {
-  unknown,
-  supported,
-  unsupported,
 }

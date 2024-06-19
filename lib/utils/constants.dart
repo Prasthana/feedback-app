@@ -117,6 +117,8 @@ const String yes = "Yes";
 const String cancel = "Cancel";
 // End of Logout AlertDialog Strings
 
-
+const String faceIDUnlock = 'Use faceID to unlock';
+const String biometricUnlock = 'Use biometric to unlock';
+const String biometricHintText = 'to continue the App';
 
 
