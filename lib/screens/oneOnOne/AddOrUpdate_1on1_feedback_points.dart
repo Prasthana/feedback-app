@@ -69,7 +69,7 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
               Navigator.pop(context, enteredText);
             },
             child: const Text(
-              constants.saveText,
+              constants.save,
               style: TextStyle(
               fontFamily: constants.uberMoveFont,
               fontSize: 14,

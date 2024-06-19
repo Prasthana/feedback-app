@@ -116,7 +116,7 @@ const String cancel = "Cancel";
 
 // update oneOneOne screen strings
 const String okButton = "ok";
-const String saveText = "save";
+const String save = "save";
 const String goodAtTitleText = "Good At";
 const String yetToImproveTitleText = "Yet to Improve";
 const String validationAlertText = "Good at/Yet to Improve points will not be saved";
