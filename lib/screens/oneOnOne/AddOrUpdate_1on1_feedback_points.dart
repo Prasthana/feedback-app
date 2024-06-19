@@ -57,7 +57,7 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
         backgroundColor: Colors.white,
         title:  Text(
           isFromGoodAtList ? "Good At" : "Yet to Improve",
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 24,
             fontWeight: FontWeight.w700,

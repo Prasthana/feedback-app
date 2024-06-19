@@ -456,7 +456,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     for (Point pnt in localGoodAtList) {
       var attr = OneOnOnePointsAttribute(
           id: pnt.id, title: pnt.title, pointType: "pt_good_at");
-      _oneOnOnePointsAttributes.add(attr);
+      _oneOnOnePointsAttributes.add(attr);      
     }
 
     for (Point pnt in localYetToImproveList) {
@@ -518,21 +518,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               visible: hasAccessForUpdate1on1,
               child: TextButton(
                   onPressed: () async {
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const AddOrUpdateOneOnOneFeedbackPointsView(
-                          addedPointText: "",
-                          index: 0, isFromGoodAtList: false,
-                        ),
-                      ),
-                    );
-                    if (result != null && result is String) {
-                      setState(() {
-                        localYetToImproveList.add((Point(title: result)));
-                      });
-                    }
+                    getAddedPointsList(localYetToImproveList, "",
+                        localYetToImproveList.length, false);
                   },
                   child: const Text(
                     "+ Add point",
@@ -594,60 +581,44 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         var yetToImprovePoint = localYetToImproveList[index];
         var isMarked = yetToImprovePoint.markAsDone ?? false;
 
-        return SizedBox(
-          height: 50,
-          child: ListTile(
-            leading: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.menu),
-                yetToImprovePoint.id != null
-                    ? const SizedBox(width: 12.0)
-                    : const Text(""),
-                Visibility(
-                  visible: yetToImprovePoint.id != null,
-                  child: InkWell(
-                    onTap: () {
-                      if (yetToImprovePoint.id != null) {
-                        _employeeYetToImprovePointStatuUpdate(
-                            context, !isMarked, yetToImprovePoint.id ?? 0);
-                      }
-                    },
-                    child: isMarked
-                        ? const Icon(Icons.check_box_outlined)
-                        : const Icon(Icons.check_box_outline_blank),
-                  ),
-                ),
-              ],
-            ),
-            title: Text(
-              yetToImprovePoint.title,
-              style: const TextStyle(
-                  fontFamily: constants.uberMoveFont,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Color.fromRGBO(0, 0, 0, 1)),
-            ),
-            onTap: () async {
-              if (hasAccessForUpdate1on1) {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddOrUpdateOneOnOneFeedbackPointsView(
-                        addedPointText: yetToImprovePoint.title, index: index,isFromGoodAtList: false,),
-                  ),
-                );
-                if (result != null && result is String) {
-                  setState(() {
-                    if (localYetToImproveList.length > 1) {
-                      localYetToImproveList[index] =
-                          (Point(title: result)); // Update the 2nd index
+        return ListTile(
+          leading: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.menu),
+              yetToImprovePoint.id != null
+                  ? const SizedBox(width: 12.0)
+                  : const Text(""),
+              Visibility(
+                visible: yetToImprovePoint.id != null,
+                child: InkWell(
+                  onTap: () {
+                    if (yetToImprovePoint.id != null) {
+                      _employeeYetToImprovePointStatuUpdate(
+                          context, !isMarked, yetToImprovePoint.id ?? 0);
                     }
-                  });
-                }
-              }
-            },
+                  },
+                  child: isMarked
+                      ? const Icon(Icons.check_box_outlined)
+                      : const Icon(Icons.check_box_outline_blank),
+                ),
+              ),
+            ],
           ),
+          title: Text(
+            yetToImprovePoint.title,
+            style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: Color.fromRGBO(0, 0, 0, 1)),
+          ),
+          onTap: () async {
+            if (hasAccessForUpdate1on1) {
+              getAddedPointsList(
+                  localYetToImproveList, yetToImprovePoint.title, index, false);
+            }
+          },
         );
       },
     );
@@ -697,22 +668,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
               visible: hasAccessForUpdate1on1,
               child: TextButton(
                   onPressed: () async {
-                    // Navigate to Screen B and wait for the result
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const AddOrUpdateOneOnOneFeedbackPointsView(
-                          addedPointText: "",
-                          index: 0,isFromGoodAtList: true,
-                        ),
-                      ),
-                    );
-                    if (result != null && result is String) {
-                      setState(() {
-                        localGoodAtList.add((Point(title: result)));
-                      });
-                    }
+                    getAddedPointsList(
+                        localGoodAtList, "", localGoodAtList.length, true);
                   },
                   child: const Text(
                     "+ Add point",
@@ -745,38 +702,22 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
       separatorBuilder: (context, index) => const SizedBox(height: 0.0),
       itemBuilder: (context, index) {
         var goodAtPoint = localGoodAtList[index];
-        return SizedBox(
-          height: 50,
-          child: ListTile(
-            leading: const Icon(Icons.menu),
-            title: Text(
-              goodAtPoint.title,
-              style: const TextStyle(
-                  fontFamily: constants.uberMoveFont,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Color.fromRGBO(0, 0, 0, 1)),
-            ),
-            onTap: () async {
-              if (hasAccessForUpdate1on1) {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddOrUpdateOneOnOneFeedbackPointsView(
-                        addedPointText: goodAtPoint.title, index: index,isFromGoodAtList: true,),
-                  ),
-                );
-                if (result != null && result is String) {
-                  setState(() {
-                    if (localGoodAtList.length > 1) {
-                      localGoodAtList[index] =
-                          (Point(title: result)); // Update the 2nd index
-                    }
-                  });
-                }
-              }
-            },
+        return ListTile(
+          leading: const Icon(Icons.menu),
+          title: Text(
+            goodAtPoint.title,
+            style: const TextStyle(
+                fontFamily: constants.uberMoveFont,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: Color.fromRGBO(0, 0, 0, 1)),
           ),
+          onTap: () async {
+            if (hasAccessForUpdate1on1) {
+              getAddedPointsList(
+                  localGoodAtList, goodAtPoint.title, index, true);
+            }
+          },
         );
       },
     );
@@ -859,7 +800,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                   if (isFromAdd) {
                     if (chngedText.isNotEmpty) {
                       localGoodAtList.add(Point(title: chngedText));
-                      refreshGoodAtList();
+                      refreshList();
                     } else {
                       logger.d('add text empty1 ------');
                     }
@@ -869,7 +810,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                           chngedText.isEmpty ? pointTitle : chngedText;
                       localGoodAtList[indexToEdit] =
                           Point(id: poinToEdit?.id, title: editedText);
-                      refreshGoodAtList();
+                      refreshList();
                     } else {
                       logger.d('edit text empty1 ------');
                     }
@@ -878,7 +819,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                   if (isFromAdd) {
                     if (chngedText.isNotEmpty) {
                       localYetToImproveList.add(Point(title: chngedText));
-                      refreshYetToImproveList();
+                      refreshList();
                     } else {
                       logger.d('add text empty2 ------');
                     }
@@ -890,7 +831,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                           id: poinToEdit?.id,
                           title: editedText,
                           markAsDone: poinToEdit?.markAsDone);
-                      refreshYetToImproveList();
+                      refreshList();
                     } else {
                       logger.d('edit text empty2 ------');
                     }
@@ -904,16 +845,8 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
     );
   }
 
-  refreshGoodAtList() {
+  refreshList() {
     setState(() {
-      // buildGoodAtList();
-    });
-    Navigator.pop(context);
-  }
-
-  refreshYetToImproveList() {
-    setState(() {
-      // buildYetToImproveList();
     });
     Navigator.pop(context);
   }
@@ -979,5 +912,31 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
         return alert;
       },
     );
+  }
+
+  Future<void> getAddedPointsList(List<Point> listOfPoints, String pointTitle,
+      int index, bool isFromGoodAt) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddOrUpdateOneOnOneFeedbackPointsView(
+          addedPointText: pointTitle,
+          index: index,
+          isFromGoodAtList: isFromGoodAt,
+        ),
+      ),
+    );
+    if (result != null && result is String) {
+      setState(() {
+        if (pointTitle.isEmpty) {
+          listOfPoints.add((Point(title: result)));
+        } else {
+          if (listOfPoints.isNotEmpty) {
+            var point = listOfPoints[index];
+            listOfPoints[index] = (Point(id: point.id, title: result));
+          }
+        }
+      });
+    }
   }
 }
