@@ -78,21 +78,24 @@ class _BiometricViewState extends State<BiometricView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-       backgroundColor: Colors.white,
-      body: Center(
-        child: TextButton(
-            onPressed: () {
-              print("faceID button -----");
-              biometricAuthenticate();
-            },
-            child: Text(
-              Platform.isIOS ? constants.faceIDUnlock : constants.biometricUnlock,
-              style: const TextStyle(
-                  fontFamily: constants.uberMoveFont,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700),
-            )),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+         backgroundColor: Colors.white,
+        body: Center(
+          child: TextButton(
+              onPressed: () {
+                print("faceID button -----");
+                biometricAuthenticate();
+              },
+              child: Text(
+                Platform.isIOS ? constants.faceIDUnlock : constants.biometricUnlock,
+                style: const TextStyle(
+                    fontFamily: constants.uberMoveFont,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700),
+              )),
+        ),
       ),
     );
   }
