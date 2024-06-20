@@ -62,20 +62,12 @@ class _BiometricViewState extends State<BiometricView> {
       child: const Text(constants.okButton),
       onPressed: () {
         Navigator.pop(context);
-        Navigator.pop(context);
-      },
-    );
-
-    Widget cancelButton = TextButton(
-      child: const Text(constants.goToSettings),
-      onPressed: () {
-        Navigator.pop(context);
       },
     );
 
     CupertinoAlertDialog alert = CupertinoAlertDialog(
       content: Text(alertText),
-      actions: [okButton, cancelButton],
+      actions: [okButton],
     );
     showDialog(
       context: context,
