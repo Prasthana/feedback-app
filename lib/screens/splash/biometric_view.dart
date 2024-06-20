@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
+import 'package:oneononetalks/utils/helper_widgets.dart';
 
 class BiometricView extends StatefulWidget {
   const BiometricView({super.key});
@@ -83,18 +84,29 @@ class _BiometricViewState extends State<BiometricView> {
       child: Scaffold(
          backgroundColor: Colors.white,
         body: Center(
-          child: TextButton(
-              onPressed: () {
-                print("faceID button -----");
-                biometricAuthenticate();
-              },
-              child: Text(
-                Platform.isIOS ? constants.faceIDUnlock : constants.biometricUnlock,
-                style: const TextStyle(
-                    fontFamily: constants.uberMoveFont,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700),
-              )),
+          child: SizedBox(
+            width: Platform.isIOS ? 210 : 231,
+            child: ElevatedButton(
+                onPressed: () {
+                  print("faceID button -----");
+                  biometricAuthenticate();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      Platform.isIOS ? constants.faceIDUnlock : constants.biometricUnlock,
+                      style: const TextStyle(
+                          fontFamily: constants.uberMoveFont,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    addHorizontalSpace(5),
+                    const Icon(Icons.lock_open_outlined),
+                  ],
+                )
+                ),
+          ),
         ),
       ),
     );
