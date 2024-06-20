@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:oneononetalks/main.dart';
 import 'package:flutter/foundation.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/foundation.dart';
 /// Handling  all errors
 class ErrorHandler implements Exception {
   String _errorMessage = "";
+  int _errorResponseCode = 0;
 
   ErrorHandler(this._errorMessage);
 
@@ -20,6 +23,10 @@ class ErrorHandler implements Exception {
   //error getter
   getErrorMessage() {
     return _errorMessage;
+  }
+
+   getErrorResponseCode() {
+    return _errorResponseCode;
   }
 
   //error will be type ,cast etc..
@@ -46,6 +53,7 @@ class ErrorHandler implements Exception {
         serverError = ErrorHandler(_errorMessage);
         break;
       case DioExceptionType.badResponse:
+      _errorResponseCode = error.response?.statusCode ?? 0;
         if (error.response?.statusCode == 503) {
           _errorMessage = "Something went wrong";
           serverError = ErrorHandler(_errorMessage);

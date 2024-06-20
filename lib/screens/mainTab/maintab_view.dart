@@ -85,12 +85,18 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
         //if there is any error ,it will trigger here and shown in snack-bar
         ErrorHandler errorHandler = value.getException;
         String msg = errorHandler.getErrorMessage();
+        int errorResponseCode = errorHandler.getErrorResponseCode();
         //got the exception and disabling the loader
         setState(() {
           _isLoading = false;
         });
         // SnackBarUtils.showErrorSnackBar(context, msg);
-        displaySnackbar(context, msg);
+        if (errorResponseCode != 401) {
+          var errorCode = errorResponseCode.toString();
+          var errorMessage = msg + errorCode;
+          displaySnackbar(context, errorMessage);
+        }
+        
       } else {
         //got the response and disabling the loader
       updatePermissions(response);
