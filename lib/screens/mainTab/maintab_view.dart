@@ -1,16 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_fgbg/flutter_fgbg.dart';
 import 'package:oneononetalks/api_services/api_errohandler.dart';
 import 'package:oneononetalks/api_services/api_service.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/employees/employee_list_view.dart';
 import 'package:oneononetalks/screens/home/mainhome_page.dart';
+import 'package:oneononetalks/screens/splash/biometric_view.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/snackbar_helper.dart';
 import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
+
 
 class MainTabView extends StatefulWidget {
   const MainTabView({super.key});
@@ -24,13 +28,14 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
   bool _isLoading = false;
   // Example condition flags
   bool hasAccessForTeamTab = false;
-
+  late StreamSubscription<FGBGType> subscription;
   //initializing the API Service class
   final ApiService _apiService = ApiService();
-
+ 
   @override
   void initState() {
     super.initState();
+    Timer(const Duration(milliseconds: 200), navigateToBiometricView); 
     WidgetsBinding.instance.addObserver(this);
     showNetworkLogger(context);
 
@@ -38,7 +43,22 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
       _isLoading = true;
     });
 
+    subscription = FGBGEvents.stream.listen((event) { 
+      if (event == FGBGType.foreground) {
+         Timer(const Duration(milliseconds: 100), navigateToBiometricView); 
+      } else {
+       // print(event.name);
+      }
+    });
+
    onPrepareApiCall();
+  }
+
+  navigateToBiometricView() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const BiometricView(), fullscreenDialog: true));
   }
 
   @override
@@ -65,12 +85,18 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
         //if there is any error ,it will trigger here and shown in snack-bar
         ErrorHandler errorHandler = value.getException;
         String msg = errorHandler.getErrorMessage();
+        int errorResponseCode = errorHandler.getErrorResponseCode();
         //got the exception and disabling the loader
         setState(() {
           _isLoading = false;
         });
         // SnackBarUtils.showErrorSnackBar(context, msg);
-        displaySnackbar(context, msg);
+        if (errorResponseCode != 401) {
+          var errorCode = errorResponseCode.toString();
+          var errorMessage = msg + errorCode;
+          displaySnackbar(context, errorMessage);
+        }
+        
       } else {
         //got the response and disabling the loader
       updatePermissions(response);

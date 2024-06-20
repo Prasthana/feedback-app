@@ -81,10 +81,8 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => // BiometricView
-                isLogedIn ? const BiometricView() : const LoginView(),
-                   // isLogedIn ? const MainTabView() : const LoginView(),
-                //LoginView(),
+                builder: (context) =>
+                isLogedIn ? const MainTabView() : const LoginView(),
                 fullscreenDialog: true)));
   }
 }

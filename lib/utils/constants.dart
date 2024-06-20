@@ -116,9 +116,15 @@ const String yes = "Yes";
 const String cancel = "Cancel";
 // End of Logout AlertDialog Strings
 
+
+// Biometric View Strings
 const String faceIDUnlock = 'Use faceID to unlock';
 const String biometricUnlock = 'Use biometric to unlock';
 const String biometricHintText = 'to continue the App';
+const String biometricNotEnable = "Security credentials not available.";
+const String biometricNotEnableAlertText = "Biometric authentication is not set up on your device. Please set up the biometric authentication to continue the App";
+// Biometric View Strings
+
 
 // update oneOneOne screen strings
 const String okButton = "ok";
