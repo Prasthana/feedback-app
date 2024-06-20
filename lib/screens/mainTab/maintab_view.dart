@@ -35,7 +35,7 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
   @override
   void initState() {
     super.initState();
-   // Timer(const Duration(milliseconds: 200), navigateToBiometricView); 
+    Timer(const Duration(milliseconds: 200), navigateToBiometricView); 
     WidgetsBinding.instance.addObserver(this);
     showNetworkLogger(context);
 
