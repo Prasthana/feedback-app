@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_fgbg/flutter_fgbg.dart';
 import 'package:oneononetalks/api_services/api_errohandler.dart';
 import 'package:oneononetalks/api_services/api_service.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
@@ -14,6 +15,7 @@ import 'package:oneononetalks/utils/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 
+
 class MainTabView extends StatefulWidget {
   const MainTabView({super.key});
 
@@ -26,20 +28,27 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
   bool _isLoading = false;
   // Example condition flags
   bool hasAccessForTeamTab = false;
-
+  late StreamSubscription<FGBGType> subscription;
   //initializing the API Service class
   final ApiService _apiService = ApiService();
-
+ 
   @override
   void initState() {
     super.initState();
-   // navigateToBiometricView();
-    Timer(const Duration(milliseconds: 200), navigateToBiometricView); 
+   // Timer(const Duration(milliseconds: 200), navigateToBiometricView); 
     WidgetsBinding.instance.addObserver(this);
     showNetworkLogger(context);
 
     setState(() {
       _isLoading = true;
+    });
+
+    subscription = FGBGEvents.stream.listen((event) { 
+      if (event == FGBGType.foreground) {
+         Timer(const Duration(milliseconds: 100), navigateToBiometricView); 
+      } else {
+       // print(event.name);
+      }
     });
 
    onPrepareApiCall();
