@@ -88,7 +88,6 @@ class _BiometricViewState extends State<BiometricView> {
             width: Platform.isIOS ? 210 : 231,
             child: ElevatedButton(
                 onPressed: () {
-                  print("faceID button -----");
                   biometricAuthenticate();
                 },
                 child: Row(
