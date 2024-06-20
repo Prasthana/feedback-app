@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:oneononetalks/screens/mainTab/maintab_view.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 
 class BiometricView extends StatefulWidget {
@@ -43,11 +42,10 @@ class _BiometricViewState extends State<BiometricView> {
 
       setState(() {
         if (authenticated) {
-              print("authenticate sucess ----->>>>");
-            //  Navigator.pop(context);
+             // print("authenticate sucess ----->>>>");
               Navigator.of(context).popUntil((route) => route.isFirst);
         } else {
-              print("authenticate failed ----->>>>");
+            //  print("authenticate failed ----->>>>");
         }
       });
   }
