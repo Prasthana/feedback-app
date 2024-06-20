@@ -44,7 +44,8 @@ class _BiometricViewState extends State<BiometricView> {
       setState(() {
         if (authenticated) {
               print("authenticate sucess ----->>>>");
-              Navigator.pop(context);
+            //  Navigator.pop(context);
+              Navigator.of(context).popUntil((route) => route.isFirst);
         } else {
               print("authenticate failed ----->>>>");
         }
