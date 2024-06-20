@@ -21,14 +21,7 @@ class _BiometricViewState extends State<BiometricView> {
   void initState() {
     super.initState();
 
-    Timer(const Duration(seconds: 1), biometricAuthenticate);    
-  }
-
-  navigateToHomeScreen() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const MainTabView(), fullscreenDialog: true));
+    Timer(const Duration(milliseconds: 200), biometricAuthenticate);    
   }
 
   Future<void> biometricAuthenticate() async {
@@ -51,7 +44,7 @@ class _BiometricViewState extends State<BiometricView> {
       setState(() {
         if (authenticated) {
               print("authenticate sucess ----->>>>");
-             Timer(const Duration(milliseconds: 5), navigateToHomeScreen);
+              Navigator.pop(context);
         } else {
               print("authenticate failed ----->>>>");
         }

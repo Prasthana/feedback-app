@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:oneononetalks/api_services/api_errohandler.dart';
@@ -6,6 +7,7 @@ import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/employees/employee_list_view.dart';
 import 'package:oneononetalks/screens/home/mainhome_page.dart';
+import 'package:oneononetalks/screens/splash/biometric_view.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/snackbar_helper.dart';
 import 'package:oneononetalks/utils/utilities.dart';
@@ -31,6 +33,8 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
   @override
   void initState() {
     super.initState();
+   // navigateToBiometricView();
+    Timer(const Duration(milliseconds: 200), navigateToBiometricView); 
     WidgetsBinding.instance.addObserver(this);
     showNetworkLogger(context);
 
@@ -39,6 +43,13 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
     });
 
    onPrepareApiCall();
+  }
+
+  navigateToBiometricView() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const BiometricView(), fullscreenDialog: true));
   }
 
   @override
