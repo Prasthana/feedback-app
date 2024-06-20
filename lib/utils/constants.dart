@@ -5,13 +5,13 @@ const String grantTypePassword = "password";
 const String grantTypeRefreshToken = "refresh_token";
 
 // Staging credentials
-const String clientId = "2ENPfeT9ws2FjG3ABMw-hqCuWXpHDPh--nVlawszSyI";
-const String clientSecret = "hbCFJNQ6-lXU47NM1yf-KGMeC4tTZVaOscVMf9S40M8";
+// const String clientId = "2ENPfeT9ws2FjG3ABMw-hqCuWXpHDPh--nVlawszSyI";
+// const String clientSecret = "hbCFJNQ6-lXU47NM1yf-KGMeC4tTZVaOscVMf9S40M8";
 
 
 // Production credentials
-// const String clientId = "RkJ0cVJ6NRXd3PyxmQ3no32n3cBv2ChRfVhgMNi0dgo";
-// const String clientSecret = "g4oSCXAGbpJiJ9i-fCg2EuCpMNCbtYl1NIp1g7CtwJs";
+const String clientId = "RkJ0cVJ6NRXd3PyxmQ3no32n3cBv2ChRfVhgMNi0dgo";
+const String clientSecret = "g4oSCXAGbpJiJ9i-fCg2EuCpMNCbtYl1NIp1g7CtwJs";
 
 const int resendTime = 30;
 const int nameInitLength = 2;
