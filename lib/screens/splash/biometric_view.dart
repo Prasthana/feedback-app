@@ -34,9 +34,8 @@ class _BiometricViewState extends State<BiometricView> {
         ),
       );
     } on PlatformException catch (e) {
-      if (e.message == constants.biometricNotEnable) {
-        // ignore: use_build_context_synchronously
-        showValidationAlert(context, constants.biometricNotEnableAlertText);
+      if (e.message == constants.biometricNotEnable && Platform.isAndroid) {
+        showValidationAlert(constants.biometricNotEnableAlertText);
       }
       print("authenticate state ----->>>>${e.message}");
       return;
@@ -56,7 +55,7 @@ class _BiometricViewState extends State<BiometricView> {
       });
   }
 
-    showValidationAlert(BuildContext context, String alertText) {
+    showValidationAlert(String alertText) {
     // set up the button
     Widget okButton = TextButton(
       child: const Text(constants.okButton),
