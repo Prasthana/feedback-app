@@ -74,6 +74,7 @@ android {
       implementation 'com.google.android.play:asset-delivery:2.2.2'
       implementation 'com.google.android.play:feature-delivery:2.1.0'
     }
+    android.buildTypes.release.ndk.debugSymbolLevel = 'SYMBOL_TABLE'
 
 }
 
