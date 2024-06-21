@@ -28,7 +28,6 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
   bool _isLoading = false;
   // Example condition flags
   bool hasAccessForTeamTab = false;
-  late StreamSubscription<FGBGType> subscription;
   //initializing the API Service class
   final ApiService _apiService = ApiService();
  
@@ -43,7 +42,7 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
       _isLoading = true;
     });
 
-    subscription = FGBGEvents.stream.listen((event) { 
+   FGBGEvents.stream.listen((event) { 
       if (event == FGBGType.foreground) {
          Timer(const Duration(milliseconds: 100), navigateToBiometricView); 
       } else {
@@ -93,7 +92,7 @@ class _MainTabViewState extends State<MainTabView> with WidgetsBindingObserver{
         // SnackBarUtils.showErrorSnackBar(context, msg);
         if (errorResponseCode != 401) {
           var errorCode = errorResponseCode.toString();
-          var errorMessage = msg + errorCode;
+          var errorMessage = "$msg $errorCode";
           displaySnackbar(context, errorMessage);
         }
         
