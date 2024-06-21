@@ -185,7 +185,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
           },
         ),
         title: const Text(
-          "1-on-1",
+          constants.oneOnOneText,
           style: TextStyle(
             fontFamily: constants.uberMoveFont,
             fontSize: 24,
@@ -205,7 +205,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
               Row(
                 children: [
                   Text(
-                    !isEmployee ? constants.selectEmployeeText : "Your Manager",
+                    !isEmployee ? constants.selectEmployeeText : constants.yourmanagerText,
                     style:  const TextStyle(
                       fontFamily: constants.uberMoveFont,
                       fontSize: 21,

@@ -71,7 +71,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
               },
               // ignore: sort_child_properties_last
               child: const Text(
-                "Done",
+                constants.doneButtonText,
                 style: TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 24,
@@ -108,7 +108,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
           alignment: WrapAlignment.center,
           children: [              
             const Text(
-              '1-on-1 with ',
+              constants.oneOnOneWithText,
               style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
               ),
               Text(
@@ -116,7 +116,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
                 style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
               ),
               const Text(
-                ' for ',
+                constants.forText,
                 style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
               ),
               Text(
@@ -124,7 +124,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
                 style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
               ),
               const Text(
-                ' at ',
+                constants.atText,
                 style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
               ),
               Text(
@@ -132,7 +132,7 @@ class _OneonOneSuccessViewState extends State<OneonOneSuccessView> {
                 style: const TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w700),
               ),
               const Text(
-                ' created',
+                constants.createdText,
                 style: TextStyle(fontFamily: constants.uberMoveFont, fontSize: 20, fontWeight: FontWeight.w400),
               ),
             ],
