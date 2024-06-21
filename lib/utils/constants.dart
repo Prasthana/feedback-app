@@ -167,5 +167,16 @@ const String yourmanagerText = "Your Manager";
 // Date and time formats strings
 const String timeFormat = "hh:mm a";
 const String dateFormat = "EEEE, dd MMM yyyy";
+// End Date and time formats strings
+
+// Employee details screen strings
+const String selectEmail = "Select email app to open";
+const String noTokenText = "No TOKEN";
+const String openMail = "Open Mail App";
+const String noMailAppInstalled = "No mail apps installed";
+// End Employee details screen strings
+
+// settings screen strings
+const String logout = "Logout";
 
 

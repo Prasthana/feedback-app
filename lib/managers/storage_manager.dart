@@ -1,4 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:oneononetalks/utils/constants.dart' as constants;
+
 
 // Check this bug in iOS when using fluttersecurestorage
 // https://dev.to/isurujn/beware-of-fluttersecurestorage-on-ios-m6e
@@ -26,7 +28,7 @@ class StorageManager {
   }
 
   getData(String key) async {
-    return await _storage.read(key: key) ?? 'No data found!';
+    return await _storage.read(key: key) ?? constants.noDataFound;
   }
 
   removeData(String key) async {
