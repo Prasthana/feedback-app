@@ -366,7 +366,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             border: Border.all(color: colorText, width: 1.5),
           ),
           child: Text(
-            " $rating/$ratingCount",
+            " $rating/${constants.ratingCount}",
             style: const TextStyle(
               fontFamily: constants.uberMoveFont,
               fontSize: 21,
@@ -401,7 +401,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
                 border: Border.all(color: colorText, width: 1.2),
               ),
               child: Text(
-                "  $ratingValue/$ratingCount ",
+                "  $ratingValue/${constants.ratingCount} ",
                 style: const TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 21,
