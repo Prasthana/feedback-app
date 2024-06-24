@@ -14,6 +14,7 @@ import 'package:oneononetalks/api_services/models/oneonone.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
 import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/employees/create_employee_view.dart';
 import 'package:oneononetalks/screens/login/login_view.dart';
@@ -220,7 +221,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: EnvironmentManager.isProdEnv == true ? colorProductionHeader : colorStagingHeader,
           leading: IconButton(
             icon:
                 const Icon(Icons.arrow_back, color: Color.fromRGBO(0, 0, 0, 1)),
@@ -929,8 +930,8 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         var mLoginTokenResponse = LoginTokenResponse.fromJson(json);
         logger.d('val -- $json');
         var logoutRequest = LogoutRequest(
-            clientId: constants.clientId,
-            clientSecret: constants.clientSecret,
+            clientId: EnvironmentManager.currentEnv.clientId,
+            clientSecret: EnvironmentManager.currentEnv.clientScret,
             loginToken: mLoginTokenResponse.accessToken ?? constants.noTokenText);
         _apiService.logoutFromApp(logoutRequest).then((value) {
           HttpResponse? response = value.data;

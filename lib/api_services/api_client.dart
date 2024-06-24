@@ -20,14 +20,15 @@ import 'package:oneononetalks/api_services/models/pointResponse.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
 import 'package:oneononetalks/api_services/models/verifyotp.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'api_client.g.dart';
- 
-@RestApi(baseUrl: ApiManager.baseURL)
+
+@RestApi()
 abstract class ApiClient {
 
-  factory ApiClient(Dio dio) = _ApiClient;
+  factory ApiClient(Dio dio, {String baseUrl}) = _ApiClient;
 
 // ************************************************************************
 // *********************** API's for Login ***********************

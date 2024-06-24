@@ -13,6 +13,7 @@ import 'package:oneononetalks/api_services/models/pointResponse.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
 import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/oneOnOne/AddOrUpdate_1on1_feedback_points.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
@@ -146,6 +147,7 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: EnvironmentManager.isProdEnv == true ? colorProductionHeader : colorStagingHeader,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: colorText),
           onPressed: () {
@@ -162,7 +164,6 @@ class _UpdateOneoneOneViewState extends State<UpdateOneoneOneView> {
             }
           },
         ),
-        backgroundColor: Colors.white,
         title: const Text(
           constants.oneOnOneText,
           style: TextStyle(

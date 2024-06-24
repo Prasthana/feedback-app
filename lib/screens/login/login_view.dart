@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:oneononetalks/api_services/models/emailotp.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/screens/otp/otp_view.dart';
+import 'package:oneononetalks/screens/login/environment_setting_view.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:oneononetalks/utils/snackbar_helper.dart';
 import 'package:oneononetalks/utils/utilities.dart';
@@ -35,6 +37,10 @@ class _LoginViewState extends State<LoginView> {
     showNetworkLogger(context);
   }
 
+  navigateToEnvironmnetSetup() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const EnvironmentSettingView()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -45,6 +51,19 @@ class _LoginViewState extends State<LoginView> {
           appBar: AppBar(
             title: const Text(constants.txtLogin),
             // backgroundColor: Colors.white,
+           actions: <Widget>[
+            Visibility(
+              visible: EnvironmentManager.currentEnv.name == constants.stagingText,
+              child: IconButton(
+                icon: const Icon(Icons.settings),
+                iconSize: 32.0,
+                onPressed: () {
+                  Navigator.push(context, 
+                    MaterialPageRoute(builder: (context) => const EnvironmentSettingView()));
+                },
+              ),
+            )
+          ],
           ),
           backgroundColor: Colors.white,
           body: Padding(

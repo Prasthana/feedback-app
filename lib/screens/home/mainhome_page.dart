@@ -6,11 +6,13 @@ import 'package:oneononetalks/api_services/models/logintoken.dart';
 import 'package:oneononetalks/api_services/models/oneonone.dart';
 import 'package:oneononetalks/api_services/models/oneononesresponse.dart';
 import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/employees/employee_details_view.dart';
 import 'package:oneononetalks/screens/home/history_page_view.dart';
 import 'package:oneononetalks/screens/home/upcoming_page_view.dart';
 import 'package:oneononetalks/screens/oneOnOne/update_1on1_view.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:oneononetalks/utils/local_storage_manager.dart';
 import 'package:oneononetalks/utils/utilities.dart';
@@ -85,6 +87,7 @@ Widget _tab(String text, {bool isAllow = false}) {
       backgroundColor: Colors.white,
       appBar: AppBar(
           title: const Text(constants.oneOneOnScreenTitle),
+          backgroundColor: EnvironmentManager.isProdEnv == true ? colorProductionHeader : colorStagingHeader,
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.account_circle_outlined),

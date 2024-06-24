@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:oneononetalks/api_services/models/logintoken.dart';
 import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/login/login_view.dart';
 import 'package:flutter/material.dart';
@@ -76,8 +77,8 @@ class TokenInterceptor extends Interceptor {
   Future<bool> refreshLoginToken(String refreshToken) async {
     var request = LoginTokenRequest(
         grantType: constants.grantTypeRefreshToken,
-        clientId: constants.clientId,
-        clientSecret: constants.clientSecret,
+        clientId: EnvironmentManager.currentEnv.clientId,
+        clientSecret: EnvironmentManager.currentEnv.clientScret,
         refreshToken: refreshToken);
 
     var success =

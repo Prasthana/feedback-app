@@ -8,6 +8,7 @@ import 'package:oneononetalks/api_services/models/logintoken.dart';
 import 'package:oneononetalks/api_services/models/verifyotp.dart';
 import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/mainTab/maintab_view.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
@@ -278,8 +279,8 @@ class _OtpViewState extends State<OtpView> {
       BuildContext context) async {
     var request = LoginTokenRequest(
         grantType: constants.grantTypePassword,
-        clientId: constants.clientId,
-        clientSecret: constants.clientSecret,
+        clientId: EnvironmentManager.currentEnv.clientId,
+        clientSecret: EnvironmentManager.currentEnv.clientScret,
         loginToken: mVerifyEmailOTPResponse.userLogin?.loginToken ?? "NoTOKEN");
 
     ApiManager.public.generateLoginToken(request).then((val) {

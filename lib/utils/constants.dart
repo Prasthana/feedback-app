@@ -5,12 +5,15 @@ const String grantTypePassword = "password";
 const String grantTypeRefreshToken = "refresh_token";
 
 // Staging credentials
-// const String clientId = "2ENPfeT9ws2FjG3ABMw-hqCuWXpHDPh--nVlawszSyI";
-// const String clientSecret = "hbCFJNQ6-lXU47NM1yf-KGMeC4tTZVaOscVMf9S40M8";
+ const String stagingClientId = "2ENPfeT9ws2FjG3ABMw-hqCuWXpHDPh--nVlawszSyI";
+ const String stagingClientSecret = "hbCFJNQ6-lXU47NM1yf-KGMeC4tTZVaOscVMf9S40M8";
+ const String stagingBaseUrl = "http://feedback-staging-alb-818086335.us-east-2.elb.amazonaws.com/";
 
 // Production credentials
-const String clientId = "RkJ0cVJ6NRXd3PyxmQ3no32n3cBv2ChRfVhgMNi0dgo";
-const String clientSecret = "g4oSCXAGbpJiJ9i-fCg2EuCpMNCbtYl1NIp1g7CtwJs";
+const String productionClientId = "RkJ0cVJ6NRXd3PyxmQ3no32n3cBv2ChRfVhgMNi0dgo";
+const String productionClientSecret = "g4oSCXAGbpJiJ9i-fCg2EuCpMNCbtYl1NIp1g7CtwJs";
+const String productionBaseUrl = "http://feedback-production-alb-314267296.us-east-2.elb.amazonaws.com/";
+
 
 const int resendTime = 30;
 const int nameInitLength = 2;
@@ -44,6 +47,7 @@ const String sendConfirmationCodeText = "We'll send you a confirmation code.";
 const String enterValidEmailText = "Please enter valid email";
 const String inValidUserText =  "Invalid user credentials";
 const String uberMoveFont = "UberMove";
+const String environmentId = "environmentsData";
 const String enterEmailHintText = "Enter email";
 // End of Login Screen
 
@@ -123,6 +127,10 @@ const String biometricUnlock = 'Use biometric to unlock';
 const String biometricHintText = 'to continue the App';
 const String biometricNotEnable = "Security credentials not available.";
 const String biometricNotEnableAlertText = "Biometric authentication is not set up on your device. Please set up the biometric authentication to continue the App";
+const String environmentUpdatedHindText = "Please restrat the App, To get the updated environment changes";
+const String environmentSetup = "Environment setup";
+const String stagingText = "Staging";
+const String productionText = "Production";
 // Biometric View Strings
 
 
