@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 import 'package:oneononetalks/managers/apiservice_manager.dart';
 
@@ -17,6 +19,7 @@ class EnvironmentSettingView extends StatefulWidget {
 
 class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
   var sm = StorageManager();
+  var currentEnvId = 1;
   var selectedEnvId = 1;
 
   @override
@@ -26,24 +29,28 @@ class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
     sm.getData(constants.environmentId).then((val) async {
       if (val != constants.noDataFound) {
         setState(() {
-          selectedEnvId = int.parse(val);
+          currentEnvId = int.parse(val);
+          selectedEnvId = currentEnvId;
         });
-        print("get selectedEnvId -------->>>>> $selectedEnvId");
       }
     });
-  }
-
-  restartApp() async {
-            await SystemNavigator.pop();
-            //popUntil(context, ModalRoute.withName('/'));
-            exit(0); // Exit the app with exit code 0 (success)
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Environment setup"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: colorText),
+          onPressed: () {
+            if (selectedEnvId != currentEnvId) {
+              showValidationAlert(context, constants.environmentUpdatedHindText);
+            } else {
+              Navigator.pop(context);
+            }
+            
+          }),
+        title: const Text(constants.environmentSetup),
       ),
       body: ListView.builder(
           itemCount: EnvironmentManager.environments.length,
@@ -52,9 +59,9 @@ class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
             return Column(
               children: <Widget>[
                 ListTile(
-                    leading: env.id == selectedEnvId
-                        ? const Icon(Icons.check_box_outlined)
-                        : const Icon(Icons.check_box_outline_blank),
+                    trailing: env.id == currentEnvId
+                        ? const Icon(Icons.check, color: Colors.blue,)
+                        : const Text(""),
                     title: Text(
                       env.name ?? "",
                       style: const TextStyle(
@@ -66,7 +73,7 @@ class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
                     onTap: () {
                       Environment env = EnvironmentManager.environments[index];
                       EnvironmentManager.currentEnv = env;
-                      selectedEnvId = index + 1;
+                      currentEnvId = env.id;
                       ApiManager.baseURL = env.baseUrl;
                       print("selected baseUrl -------->>>>24> ${env.baseUrl}");
                       sm.saveData(constants.environmentId, env.id.toString());
@@ -83,6 +90,27 @@ class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
               ],
             );
           }),
+    );
+  }
+
+   showValidationAlert(BuildContext context, String alertText) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    CupertinoAlertDialog alert = CupertinoAlertDialog(
+      content: Text(alertText),
+      actions: [okButton],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
