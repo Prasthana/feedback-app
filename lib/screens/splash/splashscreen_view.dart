@@ -52,24 +52,24 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     });
   }
 
-  // getCurrentEnvironment() {
-  //       sm.getData(constants.environmentId).then((val) async {
-  //     if (val != constants.noDataFound) {
-  //       var envId = int.parse(val);
-  //       print("get selected EnvId -------->>>>24a> $envId");
+  getCurrentEnvironment() {
+        sm.getData(constants.environmentId).then((val) async {
+      if (val != constants.noDataFound) {
+        var envId = int.parse(val);
+        print("get selected EnvId -------->>>>24a> $envId");
 
-  //       Environment env = EnvironmentManager.environments.firstWhere((item) => item.id == envId);
-  //       EnvironmentManager.currentEnv = env;
-  //       print("selected Env name -------->>>>24> ${env.name}");
-  //     }
-  //   });
-  // }
+        Environment env = EnvironmentManager.environments.firstWhere((item) => item.id == envId);
+        EnvironmentManager.currentEnv = env;
+        print("selected Env name -------->>>>24> ${env.name}");
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     checkLoginstatus();
-   // getCurrentEnvironment();
+    getCurrentEnvironment();
   }
 
   @override
