@@ -111,7 +111,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
                 return buildEmptyListView();
               }
             } else {
-              return const Text("No data available");
+              return const Text(constants.noDataAvailable);
             }
           },
         ),
@@ -150,7 +150,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
           var startDateTime = oneOnOne?.startDateTime ?? "";
           String startTime = startDateTime.utcToLocalDate(fullDateWithDayName);
           Employee? employee = oneOnOne?.getOpponentUser();
-          String employeeName =  employee?.name ?? "NA";
+          String employeeName =  employee?.name ?? constants.invalidEmployee;
 
           debugPrint("---- employeeName ------>>> $employeeName");
 
@@ -222,7 +222,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
               Image.asset('assets/emptyOneOnOneList.png', height: 250),
               addVerticalSpace(20),
               const Text(
-                'No 1-on-1 Meetings scheduled',
+                constants.noOneOnOneScheduled,
                 style: TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 20,
@@ -232,7 +232,7 @@ class _UpcommingPageViewState extends State<UpcommingPageView> {
               ),
               addVerticalSpace(20),
               const Text(
-                'You can create a 1-on-1 meeting by clicking on the calendar icon below.',
+                constants.clickOnCalendarText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: constants.uberMoveFont,

@@ -100,7 +100,7 @@ class _LoginViewState extends State<LoginView> {
                             errorStyle: TextStyle(
                               fontFamily: constants.uberMoveFont,
                             ),
-                            hintText: 'Enter email',
+                            hintText: constants.enterEmailHintText,
                             border: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color.fromARGB(255, 18, 17, 17),

@@ -131,7 +131,7 @@ Widget _tab(String text, {bool isAllow = false}) {
               Image.asset('assets/emptyOneOnOneList.png', height: 250),
               addVerticalSpace(20),
               const Text(
-                'No 1-on-1 Meetings scheduled',
+                constants.noOneOnOneScheduled,
                 style: TextStyle(
                   fontFamily: constants.uberMoveFont,
                   fontSize: 20,
@@ -141,7 +141,7 @@ Widget _tab(String text, {bool isAllow = false}) {
               ),
               addVerticalSpace(20),
               const Text(
-                'You can create a 1-on-1 meeting by clicking on the calendar icon below.',
+                constants.clickOnCalendarText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: constants.uberMoveFont,

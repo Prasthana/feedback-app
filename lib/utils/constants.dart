@@ -9,7 +9,6 @@ const String grantTypeRefreshToken = "refresh_token";
  const String stagingClientSecret = "hbCFJNQ6-lXU47NM1yf-KGMeC4tTZVaOscVMf9S40M8";
  const String stagingBaseUrl = "http://feedback-staging-alb-818086335.us-east-2.elb.amazonaws.com/";
 
-
 // Production credentials
 const String productionClientId = "RkJ0cVJ6NRXd3PyxmQ3no32n3cBv2ChRfVhgMNi0dgo";
 const String productionClientSecret = "g4oSCXAGbpJiJ9i-fCg2EuCpMNCbtYl1NIp1g7CtwJs";
@@ -49,6 +48,7 @@ const String enterValidEmailText = "Please enter valid email";
 const String inValidUserText =  "Invalid user credentials";
 const String uberMoveFont = "UberMove";
 const String environmentId = "environmentsData";
+const String enterEmailHintText = "Enter email";
 // End of Login Screen
 
 // 1-on-1 Screen Strings
@@ -135,11 +135,56 @@ const String productionText = "Production";
 
 
 // update oneOneOne screen strings
-const String okButton = "ok";
-const String save = "save";
+const String okButton = "Ok";
+const String save = "Save";
 const String goodAtTitleText = "Good At";
 const String yetToImproveTitleText = "Yet to Improve";
 const String validationAlertText = "Good at/Yet to Improve points will not be saved";
+const String yourRatingText = "Your Rating : ";
+const String ratingCount = "5.0 ";
+const String ratingText = "Rating :";
+const String pointGoodAtType = "pt_good_at";
+const String pointYetToImproveType = "pt_yet_to_improve";
+const String addPoints = "+ Add point";
+const String yetToImprovePoints = "Yet To Improve points";
+const String clickToAddPoints = "Click on + to add ";
+const String notAvailableText = "not available";
+const String goodAtPointsText = "Good At points";
+const String intialRatingCount = "0.0";
 // End of update oneOneOne screen strings
+
+// Upcoming and hisory screen strings
+const String invalidEmployee = "Invalid Employee";
+const String noOneOnOneScheduled = "No 1-on-1 Meetings scheduled";
+const String clickOnCalendarText = "You can create a 1-on-1 meeting by clicking on the calendar icon below.";
+// End Upcoming and hisory screen strings
+
+// oneOnOne Success screen strings
+const String doneButtonText = "Done";
+const String oneOnOneWithText = "1-on-1 with ";
+const String forText = " for ";
+const String atText = " at ";
+const String createdText = " created";
+// End oneOnOne Success screen strings
+
+// create oneOnOne screen strings
+const String oneOnOneText = "1-on-1";
+const String yourmanagerText = "Your Manager";
+// End create oneOnOne screen strings
+
+// Date and time formats strings
+const String timeFormat = "hh:mm a";
+const String dateFormat = "EEEE, dd MMM yyyy";
+// End Date and time formats strings
+
+// Employee details screen strings
+const String selectEmail = "Select email app to open";
+const String noTokenText = "No TOKEN";
+const String openMail = "Open Mail App";
+const String noMailAppInstalled = "No mail apps installed";
+// End Employee details screen strings
+
+// settings screen strings
+const String logout = "Logout";
 
 

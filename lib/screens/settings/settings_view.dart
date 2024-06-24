@@ -1,6 +1,7 @@
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
+import 'package:oneononetalks/utils/constants.dart' as constants;
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -39,11 +40,11 @@ class _SettingsViewState extends State<SettingsView> {
     return Center(
       child: _isLoading
           // ? const LinearProgressIndicator()
-          ? const RefreshProgressIndicator(semanticsValue: 'Logout',backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
+          ? const RefreshProgressIndicator(semanticsValue: constants.logout ,backgroundColor: colorPrimary,valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
           // CircularProgressIndicator()
           : ElevatedButton(
               onPressed: _performAction,
-              child: const Text('Logout'),
+              child: const Text(constants.logOut),
             ),
     );
     /*

@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/utils/constants.dart' as constants;
+
 
 displayAlert(BuildContext context, String alertText) {
 
   // set up the button
   Widget okButton = TextButton(
-    child: const Text("OK"),
+    child: const Text(constants.okButton),
     onPressed: () {
       Navigator.pop(context);
     },
