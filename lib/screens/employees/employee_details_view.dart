@@ -727,7 +727,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
                             // Android: Will open mail app or show native picker.
                             // iOS: Will open mail app if single mail app found.
                             var result = await OpenMailApp.openMailApp(
-                              nativePickerTitle: 'Select email app to open',
+                              nativePickerTitle: constants.selectEmail,
                             );
                             if (!result.didOpen && !result.canOpen) {
                               showNoMailAppsDialog(context);
@@ -931,7 +931,7 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
         var logoutRequest = LogoutRequest(
             clientId: constants.clientId,
             clientSecret: constants.clientSecret,
-            loginToken: mLoginTokenResponse.accessToken ?? "NoTOKEN");
+            loginToken: mLoginTokenResponse.accessToken ?? constants.noTokenText);
         _apiService.logoutFromApp(logoutRequest).then((value) {
           HttpResponse? response = value.data;
           hideLoader();
@@ -961,11 +961,11 @@ class _EmployeeDetailsViewState extends State<EmployeeDetailsView> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text("Open Mail App"),
-          content: const Text("No mail apps installed"),
+          title: const Text(constants.openMail),
+          content: const Text(constants.noMailAppInstalled),
           actions: <Widget>[
             TextButton(
-              child: const Text("OK"),
+              child: const Text(constants.okButton),
               onPressed: () {
                 Navigator.pop(context);
               },
