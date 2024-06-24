@@ -48,7 +48,7 @@ const String sendConfirmationCodeText = "We'll send you a confirmation code.";
 const String enterValidEmailText = "Please enter valid email";
 const String inValidUserText =  "Invalid user credentials";
 const String uberMoveFont = "UberMove";
-const String environmentIndex = "environmentsData";
+const String environmentId = "environmentsData";
 // End of Login Screen
 
 // 1-on-1 Screen Strings

@@ -2,7 +2,7 @@ import 'package:oneononetalks/screens/login/environment_setting_view.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 
 class EnvironmentManager {
-   static Environment currentEnv = environments[0];
+  static Environment currentEnv = environments.first;
 
    static final List<Environment> environments = [
     Environment(

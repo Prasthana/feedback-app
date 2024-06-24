@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
+import 'package:oneononetalks/managers/apiservice_manager.dart';
 
 class EnvironmentSettingView extends StatefulWidget {
   const EnvironmentSettingView({super.key});
@@ -20,7 +23,7 @@ class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
   void initState() {
     super.initState();
 
-    sm.getData(constants.environmentIndex).then((val) async {
+    sm.getData(constants.environmentId).then((val) async {
       if (val != constants.noDataFound) {
         setState(() {
           selectedEnvId = int.parse(val);
@@ -28,6 +31,12 @@ class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
         print("get selectedEnvId -------->>>>> $selectedEnvId");
       }
     });
+  }
+
+  restartApp() async {
+            await SystemNavigator.pop();
+            //popUntil(context, ModalRoute.withName('/'));
+            exit(0); // Exit the app with exit code 0 (success)
   }
 
   @override
@@ -55,11 +64,14 @@ class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
                           color: Color.fromRGBO(0, 0, 0, 1)),
                     ),
                     onTap: () {
-                      EnvironmentManager.currentEnv = EnvironmentManager.environments[index];
+                      Environment env = EnvironmentManager.environments[index];
+                      EnvironmentManager.currentEnv = env;
                       selectedEnvId = index + 1;
-                      print("set selectedIndex -------->>>>> $selectedEnvId");
-                      sm.saveData(constants.environmentIndex, selectedEnvId.toString());
+                      ApiManager.baseURL = env.baseUrl;
+                      print("selected baseUrl -------->>>>24> ${env.baseUrl}");
+                      sm.saveData(constants.environmentId, env.id.toString());
                       setState(() {});
+
                     }),
                 const Divider(
                   color: Color.fromRGBO(195, 195, 195, 1),

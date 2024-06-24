@@ -3,7 +3,9 @@ import 'dart:convert';
 
 import 'package:oneononetalks/api_services/models/logintoken.dart';
 import 'package:oneononetalks/main.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
+import 'package:oneononetalks/screens/login/environment_setting_view.dart';
 import 'package:oneononetalks/screens/login/login_view.dart';
 import 'package:oneononetalks/screens/mainTab/maintab_view.dart';
 import 'package:oneononetalks/screens/splash/biometric_view.dart';
@@ -22,6 +24,7 @@ class SplashScreenView extends StatefulWidget {
 
 class _SplashScreenViewState extends State<SplashScreenView> {
   var isLogedIn = false;
+  var sm = StorageManager();
 
   void setLoginStatus(bool newValue) {
     setState(() {
@@ -31,7 +34,6 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   }
 
   checkLoginstatus() {
-    var sm = StorageManager();
     sm.getData(constants.loginTokenResponse).then((val) async {
       if (val != constants.noDataFound) {
         try {
@@ -50,10 +52,24 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     });
   }
 
+  // getCurrentEnvironment() {
+  //       sm.getData(constants.environmentId).then((val) async {
+  //     if (val != constants.noDataFound) {
+  //       var envId = int.parse(val);
+  //       print("get selected EnvId -------->>>>24a> $envId");
+
+  //       Environment env = EnvironmentManager.environments.firstWhere((item) => item.id == envId);
+  //       EnvironmentManager.currentEnv = env;
+  //       print("selected Env name -------->>>>24> ${env.name}");
+  //     }
+  //   });
+  // }
+
   @override
   void initState() {
     super.initState();
     checkLoginstatus();
+   // getCurrentEnvironment();
   }
 
   @override
