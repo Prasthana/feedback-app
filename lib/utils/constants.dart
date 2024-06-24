@@ -129,6 +129,8 @@ const String biometricNotEnable = "Security credentials not available.";
 const String biometricNotEnableAlertText = "Biometric authentication is not set up on your device. Please set up the biometric authentication to continue the App";
 const String environmentUpdatedHindText = "Please restrat the App, To get the updated environment changes";
 const String environmentSetup = "Environment setup";
+const String stagingText = "Staging";
+const String productionText = "Production";
 // Biometric View Strings
 
 

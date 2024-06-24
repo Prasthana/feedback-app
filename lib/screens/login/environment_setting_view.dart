@@ -36,6 +36,14 @@ class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
     });
   }
 
+  saveEnvChanges(Environment env) {
+            if (env.name == constants.stagingText) {
+          EnvironmentManager.isProdEnv = false;
+        } else {
+          EnvironmentManager.isProdEnv = true;
+        }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +83,7 @@ class _EnvironmentSettingViewState extends State<EnvironmentSettingView> {
                       EnvironmentManager.currentEnv = env;
                       currentEnvId = env.id;
                       ApiManager.baseURL = env.baseUrl;
+                      saveEnvChanges(env);
                       print("selected baseUrl -------->>>>24> ${env.baseUrl}");
                       sm.saveData(constants.environmentId, env.id.toString());
                       setState(() {});

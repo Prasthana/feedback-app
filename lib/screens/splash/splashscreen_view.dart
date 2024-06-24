@@ -8,7 +8,6 @@ import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/login/environment_setting_view.dart';
 import 'package:oneononetalks/screens/login/login_view.dart';
 import 'package:oneononetalks/screens/mainTab/maintab_view.dart';
-import 'package:oneononetalks/screens/splash/biometric_view.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:oneononetalks/utils/local_storage_manager.dart';
@@ -56,20 +55,36 @@ class _SplashScreenViewState extends State<SplashScreenView> {
         sm.getData(constants.environmentId).then((val) async {
       if (val != constants.noDataFound) {
         var envId = int.parse(val);
-        print("get selected EnvId -------->>>>24a> $envId");
+       // print("get selected EnvId -------->>>>24a> $envId");
 
         Environment env = EnvironmentManager.environments.firstWhere((item) => item.id == envId);
+        if (env.name == constants.stagingText) {
+          EnvironmentManager.isProdEnv = false;
+        } else {
+          EnvironmentManager.isProdEnv = true;
+        }
         EnvironmentManager.currentEnv = env;
-        print("selected Env name -------->>>>24> ${env.name}");
       }
     });
+  }
+
+  setDefaultEnvironmentAsProuduction(bool isProduction) {
+    if (isProduction) {
+      Environment proudEnv = EnvironmentManager.environments.last;
+      sm.saveData(constants.environmentId, proudEnv.id.toString());
+    } else {
+      Environment devEnv = EnvironmentManager.environments.first;
+      sm.saveData(constants.environmentId, devEnv.id.toString());
+    }
+     
   }
 
   @override
   void initState() {
     super.initState();
     checkLoginstatus();
-    getCurrentEnvironment();
+    setDefaultEnvironmentAsProuduction(true);
+    Timer(const Duration(seconds: 1), getCurrentEnvironment);  
   }
 
   @override

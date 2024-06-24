@@ -6,6 +6,7 @@ import 'package:oneononetalks/api_services/models/employee.dart';
 import 'package:oneononetalks/api_services/models/employee_create_request.dart';
 import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/screens/oneOnOne/select_employee_view.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
@@ -42,6 +43,7 @@ class _CreateEmployeeViewState extends State<CreateEmployeeView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: EnvironmentManager.isProdEnv == true ? colorProductionHeader : colorStagingHeader,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: colorText),
             onPressed: () {

@@ -9,6 +9,7 @@ import 'package:oneononetalks/api_services/models/oneonone.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
 import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/oneOnOne/1on1_success_view.dart';
 import 'package:oneononetalks/screens/oneOnOne/select_employee_view.dart';
@@ -178,6 +179,7 @@ class _CreateOneOnOneViewState extends State<CreateOneOnOneView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: EnvironmentManager.isProdEnv == true ? colorProductionHeader : colorStagingHeader,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: colorText),
           onPressed: () {

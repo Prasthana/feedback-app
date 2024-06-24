@@ -5,6 +5,8 @@ import 'package:oneononetalks/utils/constants.dart' as constants;
 const colorPrimary = Color.fromRGBO(60, 168, 216, 1);
 const colorAccent = Colors.greenAccent;
 const colorText = Color.fromRGBO(0, 0, 0, 1);
+const colorStagingHeader = Colors.blue;
+const colorProductionHeader = Colors.transparent;
 
 ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,

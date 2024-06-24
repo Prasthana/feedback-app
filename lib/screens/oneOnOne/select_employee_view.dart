@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:oneononetalks/api_services/models/employee.dart';
 import 'package:oneononetalks/api_services/models/employeesresponse.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: EnvironmentManager.isProdEnv == true ? colorProductionHeader : colorStagingHeader,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: colorText),
             onPressed: () {
@@ -35,7 +37,6 @@ class _SelectEmployeeViewState extends State<SelectEmployeeView> {
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
               )),
-          backgroundColor: Colors.transparent,
         ),
         body: Center(
           child: FutureBuilder<EmployeesResponse>(

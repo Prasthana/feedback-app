@@ -8,6 +8,7 @@ import 'package:oneononetalks/api_services/models/employeesresponse.dart';
 import 'package:oneononetalks/api_services/models/preparecallresponse.dart';
 import 'package:oneononetalks/main.dart';
 import 'package:oneononetalks/managers/apiservice_manager.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/managers/storage_manager.dart';
 import 'package:oneononetalks/screens/employees/create_employee_view.dart';
 import 'package:oneononetalks/screens/employees/employee_details_view.dart';
@@ -87,7 +88,7 @@ class _EmployeeListViewState extends State<EmployeeListView> {
     Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: EnvironmentManager.isProdEnv == true ? colorProductionHeader : colorStagingHeader,
       appBar: AppBar(title: const Text(constants.reportingTeamTitle)),
       body: Center(
         child: FutureBuilder<EmployeesResponse>(

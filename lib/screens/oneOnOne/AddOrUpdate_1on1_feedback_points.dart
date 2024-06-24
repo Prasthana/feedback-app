@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oneononetalks/api_services/models/oneonone.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
+import 'package:oneononetalks/theme/theme_constants.dart';
 import 'package:oneononetalks/utils/constants.dart' as constants;
 
 class AddOrUpdateOneOnOneFeedbackPointsView extends StatefulWidget {
@@ -43,6 +45,7 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
     var isFromGoodAtList = widget.isFromGoodAtList;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: EnvironmentManager.isProdEnv == true ? colorProductionHeader : colorStagingHeader,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
@@ -54,7 +57,6 @@ class _AddOrUpdateOneOnOneFeedbackPointsViewState extends State<AddOrUpdateOneOn
             }
           },
         ),
-        backgroundColor: Colors.white,
         title:  Text(
           isFromGoodAtList ? constants.goodAtTitleText : constants.yetToImproveTitleText,
           style: const TextStyle(

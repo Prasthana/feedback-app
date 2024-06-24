@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:oneononetalks/api_services/models/emailotp.dart';
+import 'package:oneononetalks/managers/environment_manager.dart';
 import 'package:oneononetalks/screens/otp/otp_view.dart';
 import 'package:oneononetalks/screens/login/environment_setting_view.dart';
 import 'package:oneononetalks/utils/helper_widgets.dart';
@@ -51,13 +52,16 @@ class _LoginViewState extends State<LoginView> {
             title: const Text(constants.txtLogin),
             // backgroundColor: Colors.white,
            actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.settings),
-              iconSize: 32.0,
-              onPressed: () {
-                Navigator.push(context, 
-                  MaterialPageRoute(builder: (context) => const EnvironmentSettingView()));
-              },
+            Visibility(
+              visible: EnvironmentManager.currentEnv.name == constants.stagingText,
+              child: IconButton(
+                icon: const Icon(Icons.settings),
+                iconSize: 32.0,
+                onPressed: () {
+                  Navigator.push(context, 
+                    MaterialPageRoute(builder: (context) => const EnvironmentSettingView()));
+                },
+              ),
             )
           ],
           ),
